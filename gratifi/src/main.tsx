@@ -7,6 +7,8 @@ import * as Br from './brain'
 import * as FL from './flows'
 import { ConfirmHost, setGoChat, setSendText } from './render'
 import { Home, Explore, Chat, Wallet, Me, Offers, Alerts, Tier, Bank, Card, Tab, Nav } from './screens'
+import { CardX } from './cardx'
+import { ToastHost } from './design'
 import { arabic, toEn } from './ar'
 
 const W = window as any
@@ -30,9 +32,10 @@ function App() {
   const [hist, setHist] = useState<{ t: Tab; c?: string }[]>([])
   const [wstart, setWstart] = useState<string | undefined>()
   const [cfocus, setCfocus] = useState<string | undefined>()
+  const [cx, setCx] = useState<string>(q.get('to') || '')
   const top = () => { const el = document.querySelector('.app-main .app-scroll'); if (el) el.scrollTop = 0 }
   const [dir, setDir] = useState<string>('')
-  const depth = (t: Tab) => t === 'bank' ? -1 : t === 'home' ? 0 : t === 'chat' ? 1 : 2
+  const depth = (t: Tab) => t === 'bank' ? -1 : t === 'home' ? 0 : t === 'chat' ? 1 : t === 'cardx' ? 3 : 2
   /* Screens move like a native app: deeper slides in from the side, back slides away, Gratifi itself rises from the bank app. */
   const move = (d: string, fn: () => void) => {
     const doc: any = document, reduce = W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -42,11 +45,11 @@ function App() {
     v.finished.finally(() => { if (document.documentElement.dataset.nav === d) delete document.documentElement.dataset.nav })
   }
   const go = (t: Tab, c?: string) => {
-    if (t === tab && !(t === 'explore' && c !== cat)) { if (t === 'explore') setCat(c); if (t === 'card') setCfocus(c); return }
+    if (t === tab && !(t === 'explore' && c !== cat) && !(t === 'cardx' && c !== cx)) { if (t === 'explore') setCat(c); if (t === 'card') setCfocus(c); return }
     const d = tab === 'bank' ? 'up' : t === 'bank' ? 'down' : depth(t) >= depth(tab) && t !== 'home' ? 'push' : 'pop'
-    move(d, () => { if (t !== tab) setHist(h => [...h.slice(-20), { t: tab, c: cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t === 'card') setCfocus(c); if (t !== 'chat' && !(t === 'card' && c)) setTimeout(top, 0) })
+    move(d, () => { if (t !== tab || t === 'cardx') setHist(h => [...h.slice(-20), { t: tab, c: tab === 'cardx' ? cx : cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t === 'card') setCfocus(c); if (t === 'cardx') setCx(c || ''); if (t !== 'chat' && !(t === 'card' && c)) setTimeout(top, 0) })
   }
-  const back = () => { const h = hist[hist.length - 1]; move('pop', () => { setHist(hist.slice(0, -1)); if (!h) { setTab('home'); return } setTab(h.t); if (h.t === 'explore') setCat(h.c) }) }
+  const back = () => { const h = hist[hist.length - 1]; move('pop', () => { setHist(hist.slice(0, -1)); if (!h) { setTab(tab === 'cardx' ? 'card' : 'home'); return } setTab(h.t); if (h.t === 'explore') setCat(h.c); if (h.t === 'cardx') setCx(h.c || '') }) }
   const nav: Nav = { go, back }
   W.__back = back
   useEffect(() => {
@@ -58,18 +61,19 @@ function App() {
     return () => { document.removeEventListener('touchstart', start); document.removeEventListener('touchend', end) }
   }, [])
   W.__go = go; W.__M = fmt(s.market)
+  W.__setApis = (o: Record<string, boolean>) => St.set(x => ({ seen: { ...x.seen, apisOff: o } }))
   useEffect(() => { setGoChat(() => W.__go('chat')); setSendText((t: string) => { W.__go('chat'); Br.ask(t) }) }, [])
   const unread0 = tab !== 'chat' && s.chat.length > 0 && s.chat[s.chat.length - 1].role === 'gr' && !s.seen['chat-' + s.chat[s.chat.length - 1].id]
   const unread = unread0
   useEffect(() => { const n: any = navigator; try { if (unread && n.setAppBadge) n.setAppBadge(1); else if (n.clearAppBadge) n.clearAppBadge() } catch (e) { } }, [unread])
   useEffect(() => { if (tab === 'chat' && s.chat.length) { const id = 'chat-' + s.chat[s.chat.length - 1].id; if (!s.seen[id]) St.set(x => ({ seen: { ...x.seen, [id]: true } })) } }, [tab, s.chat.length])
   const M = fmt(s.market)
-  const ph: Record<string, string> = { home: 'Ask or book anything', explore: 'Ask or book anything', chat: 'Reply or ask anything', wallet: 'Ask about your bookings', me: 'Ask or book anything', card: 'Ask about your card', offers: 'Ask about offers', alerts: 'Ask or book anything', tier: 'Ask about your tier' }
+  const ph: Record<string, string> = { home: 'Ask or book anything', explore: 'Ask or book anything', chat: 'Reply or ask anything', wallet: 'Ask about your bookings', me: 'Ask or book anything', card: 'Ask about your card', cardx: 'Ask about your card', offers: 'Ask about offers', alerts: 'Ask or book anything', tier: 'Ask about your tier' }
   return <MarketProvider market={s.market}>
     <div className={unread ? 'app gr app-unread' : 'app gr'} data-tab={tab} key={s.market}>
       {tab === 'bank' ? <main className="app-main ds-bankwrap" data-dir={dir}><Bank nav={nav} /></main> : <div className="ds-sheet">
         <div className="ds-grab"><i /></div>
-        <main className="app-main" data-dir={dir} key={tab}>
+        <main className="app-main" data-dir={dir} key={tab === 'cardx' ? 'cx' + cx : tab}>
           {tab === 'home' && <Home nav={nav} />}
           {tab === 'explore' && <Explore cat={cat} setCat={setCat} nav={nav} />}
           {tab === 'chat' && <Chat nav={nav} />}
@@ -79,7 +83,9 @@ function App() {
           {tab === 'alerts' && <Alerts nav={nav} />}
           {tab === 'tier' && <Tier nav={nav} />}
           {tab === 'card' && <Card nav={nav} focus={cfocus} />}
+          {tab === 'cardx' && <CardX nav={nav} to={cx} key={cx} />}
         </main>
+        <ToastHost />
         <div className="app-dock">
           <T.AskBar key={tab} placeholder={ph[tab]} onSend={(t: string) => { go('chat'); Br.ask(t) }} onMic={() => { go('chat'); St.pushMsg({ role: 'gr', text: 'Voice works in the phone app. Type here for now.' }) }} />
         </div>

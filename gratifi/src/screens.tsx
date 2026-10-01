@@ -10,8 +10,11 @@ import * as Cat from './catalog'
 import * as Br from './brain'
 import { Blocks, run, respond, iconFor, sendText, OfferList, OFFERS, openConfirm, ddAsk } from './render'
 import * as D from './design'
+import * as Mod from './modules'
+import * as Bk from './bank'
+import { here } from './cardx'
 
-export type Tab = 'home' | 'explore' | 'chat' | 'wallet' | 'me' | 'offers' | 'alerts' | 'tier' | 'bank' | 'card'
+export type Tab = 'home' | 'explore' | 'chat' | 'wallet' | 'me' | 'offers' | 'alerts' | 'tier' | 'bank' | 'card' | 'cardx'
 export type Nav = { go: (t: Tab, cat?: string) => void; back: () => void }
 
 /* ---------- Tier (demo programme tier, as on the approved screens) ---------- */
@@ -25,36 +28,36 @@ function addOffer(id: string, b: string, r: string, on: boolean) { St.set(s => (
 
 /* ---------- Home ---------- */
 export function Home({ nav }: { nav: Nav }) {
-  const s = St.useS(x => x); const M = useMarket(); const { go } = nav
+  const s = St.useS(x => x); const M = useMarket(); const { go } = nav; const on = Mod.useOn()
   const moment = pickMoment(s, M)
-  const stamps = ['stays', 'flights', 'experiences', 'dining', 'tickets', 'shopping', 'subs', 'rides', 'quick', 'giftcards'].map(k => Cat.CATS.find(c => c.key === k)!).map(c => { const earn = F.itemsFor(c.key).map(i => i.earn).find(e => e && /\d×/.test(e)); return { key: c.key, label: c.label, art: D.STAMP[c.key], badge: earn ? earn.match(/\d×/)![0] : undefined, onClick: () => go('explore', c.key) } })
+  const stamps = ['stays', 'flights', 'experiences', 'dining', 'tickets', 'shopping', 'subs', 'rides', 'quick', 'giftcards'].filter(on).map(k => Cat.CATS.find(c => c.key === k)!).map(c => { const earn = F.itemsFor(c.key).map(i => i.earn).find(e => e && /\d×/.test(e)); return { key: c.key, label: c.label, art: D.STAMP[c.key], badge: earn ? earn.match(/\d×/)![0] : undefined, onClick: () => go('explore', c.key) } })
   const next = s.bookings.filter(b => live(b) && (['booking', 'ticket'].includes(b.kind || '') || (b.tracker && b.tracker.current < b.tracker.steps.length - 1))).sort((a, b) => String(a.extra?.date || a.createdAt).localeCompare(String(b.extra?.date || b.createdAt)))[0]
   const seenIds = new Set<string>(); const again = s.bookings.filter(b => b.itemId && !seenIds.has(b.itemId) && seenIds.add(b.itemId)).slice(0, 4)
   const d0 = Cat.dests(M.id)[0]
-  const picks = [F.itemsFor('stays', d0.name)[0], F.findItem('SH-4')].filter((x): x is Cat.Item => !!x && !!x.img)
+  const picks = [F.itemsFor('stays', d0.name)[0], F.findItem('SH-4')].filter((x): x is Cat.Item => !!x && !!x.img && on(x.cat))
   const c = s.card
   return <div className="app-scroll">
     <div className="ds-homehd"><img src={D.ART.wordmark} alt="gratifi" /><div><D.HBtn label="You and settings" text={(s.prefs.name || 'Y').charAt(0)} onClick={() => go('me')} /><D.HBtn icon="bell" label={M.t('alerts')} dot={!!moment} onClick={() => go('alerts')} /><D.HBtn icon="close" label="Close" onClick={() => go('bank')} /></div></div>
     <div className="ds-hello"><h1>{`${hello(M)}, ${s.prefs.name}`}</h1></div>
-    <CardSummary nav={nav} open />
-    <D.Actions items={cardActions(nav, c)} />
-    <D.Sec title="Card benefits" more="See all" onMore={() => go('card', 'benefits')} />
-    <D.BenefitTiles items={benefitTiles(s, M, nav)} />
-    <D.Sec title="Earn as you spend" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
-    <div className="ds-offers">{OFFERS.map(([id, b, , , r]) => <D.OfferMini key={id} art={D.STAMP[STAMP_OFFER[id]]} title={`${r} at ${b}`} sub="Until 31 Oct" added={!!s.seen['offer:' + id]} onAdd={() => addOffer(id, b, r, !s.seen['offer:' + id])} />)}</div>
-    <D.Sec title="Earn more this month" />
-    <D.Challenges items={s.challenges.filter(x => !x.done).map(x => ({ key: x.id, title: x.id === 'CHL-3' ? `Spend ${M.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === 'money' ? `${M.money(Math.round(x.progress))} of ${M.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, onJoin: () => { St.set(st => ({ challenges: st.challenges.map(y => (y.id === x.id ? { ...y, joined: true } : y)) })); St.pushMsg({ role: 'gr', text: `You're in: ${x.title}.` }) } }))} />
-    <D.Sec title="Book with your card" more="See all" onMore={() => go('explore')} />
-    <D.Stamps items={stamps} />
+    {on('card') && <><CardSummary nav={nav} open />
+    <D.Actions items={cardActions(nav, on)} /></>}
+    {on('benefits') && <><D.Sec title="Card benefits" more="See all" onMore={() => go('card', 'benefits')} />
+    <D.BenefitTiles items={benefitTiles(s, M, nav)} /></>}
+    {on('offers') && <><D.Sec title="Earn as you spend" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
+    <div className="ds-offers">{OFFERS.map(([id, b, , , r]) => <D.OfferMini key={id} art={D.STAMP[STAMP_OFFER[id]]} title={`${r} at ${b}`} sub="Until 31 Oct" added={!!s.seen['offer:' + id]} onAdd={() => addOffer(id, b, r, !s.seen['offer:' + id])} />)}</div></>}
+    {on('moments') && <><D.Sec title="Earn more this month" />
+    <D.Challenges items={s.challenges.filter(x => !x.done).map(x => ({ key: x.id, title: x.id === 'CHL-3' ? `Spend ${M.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === 'money' ? `${M.money(Math.round(x.progress))} of ${M.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, onJoin: () => { St.set(st => ({ challenges: st.challenges.map(y => (y.id === x.id ? { ...y, joined: true } : y)) })); St.pushMsg({ role: 'gr', text: `You're in: ${x.title}.` }) } }))} /></>}
+    {stamps.length > 0 && <><D.Sec title="Book with your card" more="See all" onMore={() => go('explore')} />
+    <D.Stamps items={stamps} /></>}
     {next && <><D.Sec title="Coming up" /><D.Coming art={artOf(next)} title={next.title} sub={[next.when || next.sub, next.pts ? `${M.num(next.pts)} points` : ''].filter(Boolean).join(' · ')} status={next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? (next.tracker.eta || next.tracker.steps[next.tracker.current]) : 'Booked'} tone={next.tracker?.tone === 'warn' ? 'warn' : 'good'} onClick={() => go('wallet')} /></>}
     {again.length > 0 && <><D.Sec title="Book again" /><D.Again items={again.map(b => ({ key: b.id, label: b.title, art: D.STAMP[b.cat], onClick: () => { go('chat'); run({ f: 'showItem', a: { id: b.itemId } }, b.title) } }))} /></>}
-    <D.Sec title="Your points" more={`${M.num(toNext())} to ${TIER.next}`} onMore={() => go('tier')} />
-    <D.PointsCard tier={TIER.name} value={<D.CountUp id={"bal-" + s.market} value={s.balance} format={M.num} />} onUse={() => go('explore')} />
+    {on('points') && <><D.Sec title="Your points" more={`${M.num(toNext())} to ${TIER.next}`} onMore={() => go('tier')} />
+    <D.PointsCard tier={TIER.name} value={<D.CountUp id={"bal-" + s.market} value={s.balance} format={M.num} />} onUse={() => go('explore')} /></>}
     {moment && <D.Note title={moment.title} action={moment.action} onAction={moment.go} secondary="Not now" onSecondary={() => St.set(x => ({ seen: { ...x.seen, [moment.key]: true } }))}>{moment.body}</D.Note>}
-    <D.Sec title="Picked for you" more="See all" onMore={() => go('explore')} />
+    {picks.length > 0 && <D.Sec title="Picked for you" more="See all" onMore={() => go('explore')} />}
     <D.Picks items={picks.map(i => { const price = i.cat === 'stays' ? F.stayPrice(i, '', 2) : F.IP(i); return { key: i.id, art: Cat.img(i.img)!, title: i.cat === 'stays' ? `Stay in ${d0.name}` : i.title, sub: i.cat === 'stays' ? `${i.title}, two nights` : `From ${i.sub}`, price: `${M.num(F.ptsOf(price))} points`, onUse: () => { go('chat'); run({ f: 'showItem', a: { id: i.id } }, i.title) } } })} />
-    <D.Sec title="Recent activity" more="See all" onMore={() => go('wallet', 'Points')} />
-    <D.List>{s.ledger.slice(0, 3).map(l => <D.Row key={l.id} icon={l.pts >= 0 ? 'plus' : 'arrow'} title={l.label} sub={M.date(new Date(l.at))} value={`${l.pts >= 0 ? '+' : '−'}${M.num(Math.abs(l.pts))}`} tone={l.pts >= 0 ? 'good' : undefined} />)}</D.List>
+    {on('points') && <><D.Sec title="Recent activity" more="See all" onMore={() => go('wallet', 'Points')} />
+    <D.List>{s.ledger.slice(0, 3).map(l => <D.Row key={l.id} icon={l.pts >= 0 ? 'plus' : 'arrow'} title={l.label} sub={M.date(new Date(l.at))} value={`${l.pts >= 0 ? '+' : '−'}${M.num(Math.abs(l.pts))}`} tone={l.pts >= 0 ? 'good' : undefined} />)}</D.List></>}
   </div>
 }
 function pickMoment(s: St.State, M: any): { key: string; title: string; body: string; action: string; go: () => void } | null {
@@ -71,16 +74,16 @@ function moments(s: St.State, M: any) { const out: any[] = []; const seen = { ..
 
 
 /* ---------- Card: summary, actions, benefits (used on Home and My card) ---------- */
+/** Freeze straight away; unfreezing checks it's you first. Both stay on the screen. */
+function freezeToggle() { const c = St.get().card; if (c.frozen) { here(F.unfreezeAsk({})); return } St.set(x => ({ card: { ...x.card, frozen: true } })); St.pushMsg({ role: 'gr', text: 'Card frozen. New payments are blocked; direct debits and refunds still work.' }); D.toast('Card frozen. New payments are blocked.') }
 function CardSummary({ nav, open, noDue }: { nav: Nav; open?: boolean; noDue?: boolean }) {
-  const c = St.useS(x => x.card); const M = useMarket(); const market = St.useS(x => x.market)
-  const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
+  const c = St.useS(x => x.card); const M = useMarket(); const market = St.useS(x => x.market); const on = Mod.useOn()
   const due = c.due > 0 ? `Due ${M.date(c.dueDate)} · ${M.money(c.due, 2)}` : 'Nothing to pay now'
-  return <D.CardFace last4={c.last4} balance={<D.CountUp id={'card-' + market} value={Math.round(c.balance)} format={(n: number) => M.money(n === Math.round(c.balance) ? c.balance : n, 2)} />} available={M.money(Math.max(0, c.limit - c.balance))} limit={M.money(c.limit)} used={c.limit ? c.balance / c.limit : 0} frozen={c.frozen} dueLine={due}
-    freezeLabel={c.frozen ? 'Unfreeze' : 'Freeze'} onFreeze={() => ask(c.frozen ? 'Unfreeze my card' : 'Freeze my card')} onPay={() => ask('What do I owe?')} onOpen={open ? () => nav.go('card') : undefined} noDue={noDue} />
+  return <D.CardFace last4={c.last4} balLabel={c.balance < 0 ? 'In credit' : 'Balance'} balance={<D.CountUp id={'card-' + market} value={Math.round(Math.abs(c.balance))} format={(n: number) => M.money(n === Math.round(Math.abs(c.balance)) ? Math.abs(c.balance) : n, 2)} />} available={M.money(Math.max(0, c.limit - c.balance))} limit={M.money(c.limit)} used={c.limit ? c.balance / c.limit : 0} frozen={c.frozen} dueLine={due}
+    freezeLabel={c.frozen ? 'Unfreeze' : 'Freeze'} onFreeze={on('card.controls') ? freezeToggle : undefined} onPay={on('card.pay') && c.due > 0 ? () => nav.go('cardx', 'pay') : undefined} onOpen={open ? () => nav.go('card') : undefined} noDue={noDue} />
 }
-function cardActions(nav: Nav, c: St.State['card']) {
-  const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
-  return [{ icon: 'doc', label: 'Statement', onClick: () => ask('Show my statement') }, { icon: 'split', label: 'Spending', onClick: () => nav.go('card', 'spending') }, { icon: 'shield', label: 'Benefits', onClick: () => nav.go('card', 'benefits') }, { icon: 'card', label: 'My card', onClick: () => nav.go('card') }]
+function cardActions(nav: Nav, on: (m: string) => boolean) {
+  return [on('card.statements') && { icon: 'doc', label: 'Statement', onClick: () => nav.go('cardx', 'statements') }, on('card.transactions') && { icon: 'split', label: 'Spending', onClick: () => nav.go('card', 'spending') }, on('benefits') && { icon: 'shield', label: 'Benefits', onClick: () => nav.go('card', 'benefits') }, { icon: 'card', label: 'My card', onClick: () => nav.go('card') }].filter(Boolean) as { icon: string; label: string; onClick: () => void }[]
 }
 function benefitRun(b: typeof Cat.BENEFITS[number]): { f: string; a: any } { return b.key === 'lounge' ? { f: 'search', a: { cat: 'airport' } } : b.id === 'BE-8' ? { f: 'myStuff', a: {} } : b.id === 'BE-4' ? { f: 'docs', a: { topic: 'insurance' } } : b.id === 'BE-6' ? { f: 'search', a: { cat: 'dining' } } : b.id === 'BE-7' ? { f: 'search', a: { cat: 'tickets' } } : b.id === 'BE-5' ? { f: 'docs', a: { topic: 'abroad' } } : { f: 'myStuff', a: {} } }
 const BENEFIT_SHORT: Record<string, string> = { 'BE-1': 'Free visits this year', 'BE-2': '120 days on what you buy', 'BE-3': 'An extra year', 'BE-4': 'When the trip is on the card', 'BE-5': 'On card purchases abroad', 'BE-6': '15% off at partners', 'BE-7': '48 hours before general sale', 'BE-8': 'If an order goes wrong' }
@@ -88,46 +91,66 @@ function benefitTiles(s: St.State, M: any, nav: Nav) {
   return Cat.BENEFITS.map(b => ({ key: b.id, icon: b.icon, title: b.name, sub: BENEFIT_SHORT[b.id] || b.sub, value: b.key === 'lounge' ? `${s.loungeLeft} left` : undefined, onClick: () => { nav.go('chat'); run(benefitRun(b), b.name) } }))
 }
 
-/* ---------- My card: everything about the card, in the order people need it ---------- */
+/* ---------- My card: everything about the card, in the order people need it. Each part shows only if the bank offers it. ---------- */
 export function Card({ nav, focus }: { nav: Nav; focus?: string }) {
-  const s = St.useS(x => x); const M = useMarket(); const c = s.card as any
+  const s = St.useS(x => x); const M = useMarket(); const c = s.card as any; const on = Mod.useOn()
   const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
+  const x = (to: string) => () => nav.go('cardx', to)
   const since = Date.now() - 30 * 864e5, by: Record<string, number> = {}
   s.txns.filter(t => t.at >= since && t.cat !== 'Payment').forEach(t => { by[t.cat] = (by[t.cat] || 0) + (t.refund ? -t.amount : t.amount) })
   const spend = Object.entries(by).filter(([, v]) => v >= 0.5).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, amount]) => ({ label, amount }))
   const ddName = M.directDebit.charAt(0).toUpperCase() + M.directDebit.slice(1)
   const at = c.gamblingLiftAt ? new Date(c.gamblingLiftAt) : null
-  const control = (k: string, v: boolean) => { if (k === 'frozen' && !v) { respond(F.unfreezeAsk({})); nav.go('chat'); return } if (k !== 'frozen' && v) { respond(F.cardControl({ control: k, on: true })); nav.go('chat'); return } St.set(x => ({ card: { ...x.card, [k]: v } })); if (k === 'frozen') St.pushMsg({ role: 'gr', text: 'Frozen. New payments are blocked; direct debits and refunds still work.' }) }
+  const control = (k: string, v: boolean) => { if (k === 'frozen') { if (v !== c.frozen) freezeToggle(); return } if (v) { here(F.cardControl({ control: k, on: true })); return } const r = F.cardControl({ control: k, on: false }); respond(r); D.toast(r.say || '') }
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => { if (focus) setTimeout(() => ref.current?.querySelector(`[data-sec="${focus}"]`)?.scrollIntoView({ block: 'start', behavior: 'smooth' }), 120) }, [focus])
   const alerts = Object.keys(s.seen).filter(k => k.startsWith('alert:') && s.seen[k])
+  const arrived = on('card.activate') ? Bk.arrived() : undefined
+  const cases = s.bookings.filter(b => (b.extra?.case || b.title === 'Replacement card') && !['done', 'cancelled', 'refunded'].includes(b.status) && !b.extra?.closed)
+  const lim = on('card.limits') ? Bk.limits() : {}, nLim = Object.keys(lim).length
+  const notices = on('card.travel') ? Bk.notices() : []
+  const wallets = Object.keys(s.seen.wallets || {})
+  if (!on('card')) return <div className="app-scroll"><D.Head title="My card" onBack={nav.back} /><D.Empty title="Card services aren't available in this app" body="Your bank's app has everything about your card." /></div>
   return <div className="app-scroll" ref={ref}>
     <D.Head title="My card" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
     <CardSummary nav={nav} noDue />
-    <D.Label>Payment</D.Label>
-    <D.DueCard amount={M.money(c.due, 2)} date={M.date(c.dueDate)} min={M.money(c.min, 2)} paid={c.due <= 0} onFull={() => ask('Pay my bill in full')} onMin={() => ask('Pay the minimum')} />
-    <D.List><D.ActionRow icon="refresh" title={ddName} sub={!c.autopay ? 'Off. You pay each bill yourself.' : c.autopayMode === 'min' ? 'Pays the minimum each month' : 'Pays the full balance each month'} action={!c.autopay ? 'Set up' : 'Change'} primary={!c.autopay} onAction={() => openConfirm(ddAsk(!c.autopay ? 'full' : c.autopayMode === 'min' ? 'full' : 'min') as any)} />{c.autopay && <D.ActionRow icon="close" title={`Cancel ${M.directDebit}`} sub="You go back to paying each bill yourself" action="Cancel" onAction={() => openConfirm(ddAsk('off') as any)} />}</D.List>
-    <div data-sec="spending" className="ds-anchor"><D.Label>Where it went</D.Label></div>
-    <D.SpendBars period="Last 30 days, after refunds" items={spend} total={spend.reduce((a, x) => a + x.amount, 0)} format={(n: number) => M.money(n, 2)} />
-    <D.List>{s.txns.slice(0, 5).map(t => <D.Txn key={t.id} name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} points={t.points || undefined} refund={t.refund} format={(n: number) => M.money(n, 2)} />)}<D.Row icon="doc" title="Statement" sub="Balance, minimum and due date" chev onClick={() => ask('Show my statement')} /></D.List>
-    <div data-sec="benefits" className="ds-anchor"><D.Label>Card benefits</D.Label></div>
-    <D.List>{Cat.BENEFITS.map(b => <D.Row key={b.id} icon={b.icon} title={b.name} sub={b.key === 'lounge' ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? '' : 's'} left this year` : b.id === 'BE-8' ? Cat.moneyBackRule(M.id).split('. ')[0].replace(/\.$/, '') + '.' : b.sub} value={b.key === 'lounge' ? `${s.loungeLeft} left` : undefined} chev onClick={() => { nav.go('chat'); run(benefitRun(b), b.name) }} />)}</D.List>
-    <D.Label>Controls</D.Label>
-    <D.List>
-      <D.ControlRow icon="lock" title="Freeze card" sub={c.frozen ? 'New payments are blocked' : 'Blocks new payments. Direct debits and refunds still work.'} on={c.frozen} onChange={(v: boolean) => control('frozen', v)} />
-      <D.ControlRow icon="globe" title="Online payments" sub={c.frozen ? 'Paused while the card is frozen' : c.online ? 'On' : 'Off'} on={c.online && !c.frozen} onChange={(v: boolean) => control('online', v)} />
-      <D.ControlRow icon="plane" title="Payments abroad" sub={c.frozen ? 'Paused while the card is frozen' : c.abroad ? 'On' : 'Off'} on={c.abroad && !c.frozen} onChange={(v: boolean) => control('abroad', v)} />
-      <D.ControlRow icon="wifi" title="Contactless" sub={c.frozen ? 'Paused while the card is frozen' : c.contactless ? 'On' : 'Off'} on={c.contactless && !c.frozen} onChange={(v: boolean) => control('contactless', v)} />
-      <D.ControlRow icon="cash" title="Cash withdrawals" sub={c.frozen ? 'Paused while the card is frozen' : c.atm ? 'On' : 'Off'} on={c.atm && !c.frozen} onChange={(v: boolean) => control('atm', v)} />
-      <D.ActionRow icon="shield" title="Gambling block" sub={!c.gambling ? 'Off. Blocks betting sites, casinos and lotteries when on.' : at ? `On until ${M.date(F.iso(at))} at ${M.clock(at.toTimeString().slice(0, 5))}, then it lifts` : 'On. Betting sites, casinos and lotteries are blocked.'} action={!c.gambling ? 'Turn on' : at ? 'Keep the block' : 'Lift'} primary={!c.gambling || !!at} onAction={() => { if (!c.gambling) { nav.go('chat'); run({ f: 'gamblingOn', a: {} }, 'Block gambling payments') } else if (at) { nav.go('chat'); run({ f: 'gamblingKeep', a: {} }, 'Keep the block') } else { nav.go('chat'); respond(F.gamblingLiftAsk()) } }} />
-    </D.List>
+    <D.Actions items={[on('card.pay') && { icon: 'cash', label: 'Pay', onClick: x('pay') }, on('card.details') && { icon: 'eye', label: 'Details', onClick: x('details') }, on('card.controls') && { icon: 'lock', label: c.frozen ? 'Unfreeze' : 'Freeze', onClick: freezeToggle, on: c.frozen }, on('card.statements') && { icon: 'doc', label: 'Statements', onClick: x('statements') }].filter(Boolean) as any} />
+    {arrived && <D.Note title="Your new card is here" action="Activate it" onAction={x('activate')}>Activate it to start using it. Anything set up on your old card moves across by itself.</D.Note>}
+    {cases.length > 0 && <><D.Label>Your cases</D.Label><D.List>{cases.slice(0, 3).map(b => <D.Row key={b.id} icon={b.extra?.case === 'dispute' ? 'refresh' : b.extra?.case === 'limit' ? 'swap' : 'card'} title={b.title} sub={b.status === 'delivered' ? 'Arrived · ready to activate' : b.tracker ? `${b.tracker.steps[b.tracker.current]} · ${b.tracker.eta || ''}`.replace(/ · $/, '') : b.sub} chev onClick={x('cases')} />)}</D.List></>}
+    {on('card.pay') && <><D.Label>Payment</D.Label>
+      <D.DueCard amount={M.money(c.due, 2)} date={M.date(c.dueDate)} min={M.money(c.min, 2)} paid={c.due <= 0} onFull={x('pay')} onMin={x('pay:min')} /></>}
+    {on('card.directdebit') && <D.List><D.ActionRow icon="refresh" title={ddName} sub={!c.autopay ? 'Off. You pay each bill yourself.' : c.autopayMode === 'min' ? 'Pays the minimum each month' : 'Pays the full balance each month'} action={!c.autopay ? 'Set up' : 'Change'} primary={!c.autopay} onAction={() => openConfirm(ddAsk(!c.autopay ? 'full' : c.autopayMode === 'min' ? 'full' : 'min') as any)} />{c.autopay && <D.ActionRow icon="close" title={`Cancel ${M.directDebit}`} sub="You go back to paying each bill yourself" action="Cancel" onAction={() => openConfirm(ddAsk('off') as any)} />}</D.List>}
+    {on('card.transactions') && <><div data-sec="spending" className="ds-anchor"><D.Label>Where it went</D.Label></div>
+      <D.SpendBars period="Last 30 days, after refunds" items={spend} total={spend.reduce((a, x) => a + x.amount, 0)} format={(n: number) => M.money(n, 2)} />
+      <D.List>{s.txns.slice(0, 5).map(t => <D.Txn key={t.id} name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} points={t.points || undefined} refund={t.refund} format={(n: number) => M.money(n, 2)} onClick={x('txn:' + t.id)} />)}<D.Row icon="search" title="All transactions" sub="Search and filter" chev onClick={x('txns')} />{on('card.statements') && <D.Row icon="doc" title="Statements" sub="Every month, ready to download" chev onClick={x('statements')} />}</D.List></>}
+    {on('benefits') && <><div data-sec="benefits" className="ds-anchor"><D.Label>Card benefits</D.Label></div>
+      <D.List>{Cat.BENEFITS.map(b => <D.Row key={b.id} icon={b.icon} title={b.name} sub={b.key === 'lounge' ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? '' : 's'} left this year` : b.id === 'BE-8' ? Cat.moneyBackRule(M.id).split('. ')[0].replace(/\.$/, '') + '.' : b.sub} value={b.key === 'lounge' ? `${s.loungeLeft} left` : undefined} chev onClick={() => { nav.go('chat'); run(benefitRun(b), b.name) }} />)}</D.List></>}
+    {(on('card.controls') || on('card.limits') || on('card.travel') || on('card.gambling')) && <D.Label>Controls</D.Label>}
+    {(on('card.controls') || on('card.limits') || on('card.travel') || on('card.gambling')) && <D.List>
+      {on('card.controls') && <>
+        <D.ControlRow icon="lock" title="Freeze card" sub={c.frozen ? 'New payments are blocked' : 'Blocks new payments. Direct debits and refunds still work.'} on={c.frozen} onChange={(v: boolean) => control('frozen', v)} />
+        <D.ControlRow icon="globe" title="Online payments" sub={c.frozen ? 'Paused while the card is frozen' : c.online ? 'On' : 'Off'} on={c.online && !c.frozen} onChange={(v: boolean) => control('online', v)} />
+        <D.ControlRow icon="plane" title="Payments abroad" sub={c.frozen ? 'Paused while the card is frozen' : c.abroad ? 'On' : 'Off'} on={c.abroad && !c.frozen} onChange={(v: boolean) => control('abroad', v)} />
+        <D.ControlRow icon="wifi" title="Contactless" sub={c.frozen ? 'Paused while the card is frozen' : c.contactless ? 'On' : 'Off'} on={c.contactless && !c.frozen} onChange={(v: boolean) => control('contactless', v)} />
+        <D.ControlRow icon="cash" title="Cash withdrawals" sub={c.frozen ? 'Paused while the card is frozen' : c.atm ? 'On' : 'Off'} on={c.atm && !c.frozen} onChange={(v: boolean) => control('atm', v)} />
+      </>}
+      {on('card.limits') && <D.Row icon="split" title="Spending limits" sub={nLim ? `${nLim} monthly limit${nLim > 1 ? 's' : ''} set` : 'Cap dining, shopping and more each month'} chev onClick={x('limits')} />}
+      {on('card.travel') && <D.Row icon="globe" title="Travel notice" sub={notices.length ? `${notices[0].where}, ${M.date(notices[0].from, 'day')} to ${M.date(notices[0].to, 'day')}` : 'Tell the bank before you go abroad'} chev onClick={x('travel')} />}
+      {on('card.gambling') && <D.ActionRow icon="shield" title="Gambling block" sub={!c.gambling ? 'Off. Blocks betting sites, casinos and lotteries when on.' : at ? `On until ${M.date(F.iso(at))} at ${M.clock(at.toTimeString().slice(0, 5))}, then it lifts` : 'On. Betting sites, casinos and lotteries are blocked.'} action={!c.gambling ? 'Turn on' : at ? 'Keep the block' : 'Lift'} primary={!c.gambling || !!at} onAction={() => here(!c.gambling ? F.gamblingOn() : at ? F.gamblingKeep() : F.gamblingLiftAsk())} />}
+    </D.List>}
+    {(on('card.details') || on('card.pin') || on('card.wallet') || on('card.limit')) && <><D.Label>Your card</D.Label><D.List>
+      {on('card.details') && <D.Row icon="eye" title="Card number and security code" sub="Shown after you confirm it's you" chev onClick={x('details')} />}
+      {on('card.pin') && <D.Row icon="lock" title="PIN" chev onClick={x('pin')} />}
+      {on('card.wallet') && <D.Row icon="phone" title="Phone wallet" sub={wallets.length ? `In ${wallets.map(w => ({ apple: 'Apple Wallet', google: 'Google Wallet', samsung: 'Samsung Wallet' } as any)[w]).join(' and ')}` : 'Add to Apple Wallet or Google Wallet'} chev onClick={x('wallet')} />}
+      {on('card.limit') && <D.Row icon="swap" title="Credit limit" sub={M.money(c.limit)} chev onClick={x('limit')} />}
+    </D.List></>}
     {alerts.length > 0 && <><D.Label>Alerts</D.Label><D.List>{alerts.map(k => <D.Row key={k} icon="bell" title={k.slice(6).charAt(0).toUpperCase() + k.slice(7)} value={<button className="ds-textbtn" onClick={() => St.set(x => ({ seen: { ...x.seen, [k]: false } }))}>Remove</button>} />)}</D.List></>}
     <D.Label>Help with your card</D.Label>
     <D.List>
-      <D.Row icon="alert" title="Lost or stolen card" chev onClick={() => ask('I lost my card')} />
+      {on('card.replace') && <D.Row icon="alert" title="Lost, stolen or damaged card" chev onClick={x('lost')} />}
       <D.Row icon="eye" title="A payment I don't recognise" chev onClick={() => ask("Someone took money I don't recognise")} />
-      <D.Row icon="refresh" title="Dispute a payment" chev onClick={() => ask('I want to dispute a payment')} />
-      <D.Row icon="swap" title="Change my credit limit" chev onClick={() => ask('Change my credit limit')} />
+      {on('card.disputes') && <D.Row icon="refresh" title="Dispute a payment" chev onClick={x('dispute')} />}
+      {cases.length === 0 && s.bookings.some(b => b.extra?.case) && <D.Row icon="doc" title="Your cases" chev onClick={x('cases')} />}
       <D.Row icon="headset" title="Talk to a person" chev onClick={() => ask('I want to talk to a person')} />
     </D.List>
   </div>
@@ -141,16 +164,17 @@ export function Explore({ cat, setCat, nav }: { cat?: string; setCat: (c?: strin
   const priceOf = (i: Cat.Item) => i.cat === 'stays' ? F.stayPrice(i, '', 2) : F.IP(i)
   const card = (i: Cat.Item) => { const p = priceOf(i), pts = F.ptsOf(p), link = i.mode === 'link' || i.cat === 'giftcards'; return <D.RewardCard key={i.id} art={Cat.img(i.img) || D.STAMP[i.cat]} icon={i.icon} title={i.title} price={link ? (i.cat === 'giftcards' ? `From ${M.money(+F.giftAmounts()[0])}` : i.sub || '') : i.included && i.cat === 'subs' ? 'Included' : M.pts(pts)} short={!link && !(i.included && i.cat === 'subs') && pts > s.balance ? `${M.num(pts - s.balance)} more` : undefined} onUse={() => showItem(i)} onOpen={() => showItem(i)} /> }
   const keep = (i: Cat.Item) => !afford || F.ptsOf(priceOf(i)) <= s.balance
-  const picked = [...F.itemsFor('stays').slice(0, 2), ...F.itemsFor('experiences').slice(0, 2), ...F.itemsFor('tickets').slice(0, 2), ...F.itemsFor('shopping').slice(0, 2)].filter(i => i && i.img).filter(keep)
+  const picked = [...F.itemsFor('stays').slice(0, 2), ...F.itemsFor('experiences').slice(0, 2), ...F.itemsFor('tickets').slice(0, 2), ...F.itemsFor('shopping').slice(0, 2)].filter(i => i && i.img && Mod.on(i.cat)).filter(keep)
   const c = cat ? Cat.CATS.find(x => x.key === cat) : undefined
   const items = cat ? F.itemsFor(cat).filter(keep).slice(0, 8) : []
   const sub = cat ? SUBCATS(M.id)[cat]?.filter(([l]) => l !== 'Trains' || Cat.rides(M.id).some(r => /^Train to /.test(r.title))) : undefined
   return <div className="app-scroll">
     <D.Head title="Rewards" onBack={nav.back} right={<D.HBtn icon="search" label="Search rewards" onClick={() => { go('chat'); setTimeout(() => (document.querySelector('.gr-ask input') as HTMLInputElement | null)?.focus(), 50) }} />} />
     <div className="ds-balrow"><span className="ds-balpill"><i /><span>{M.pts(s.balance)}</span></span><label className="ds-afford">Only what I can afford<button role="switch" aria-checked={afford} aria-label="Only what I can afford" className="ds-toggle" onClick={() => setAfford(!afford)} /></label></div>
-    <div className="ds-chiprow" role="group" aria-label="Categories"><button className="ds-chip" aria-pressed={!cat} onClick={() => setCat(undefined)}>All</button>{Cat.CATS.map(x => <button key={x.key} className="ds-chip" aria-pressed={cat === x.key} onClick={() => setCat(x.key)}>{x.label}</button>)}</div>
+    <div className="ds-chiprow" role="group" aria-label="Categories"><button className="ds-chip" aria-pressed={!cat} onClick={() => setCat(undefined)}>All</button>{Cat.CATS.filter(x => Mod.on(x.key)).map(x => <button key={x.key} className="ds-chip" aria-pressed={cat === x.key} onClick={() => setCat(x.key)}>{x.label}</button>)}</div>
     {!cat && <><D.Sec title="Picked for you" /><div className="ds-grid">{picked.map(card)}</div></>}
-    {c && <>
+    {c && !Mod.on(c.key) && <D.Empty title={Mod.unavailable(c.key)} body="Your bank doesn't offer it yet." />}
+    {c && Mod.on(c.key) && <>
       {sub && sub.length > 0 && <div className="ds-chiprow" role="list" aria-label={`${c.label} types`}>{sub.map(([label, act]) => <button key={label} role="listitem" className="ds-chip" onClick={() => { go('chat'); run(act, label) }}>{label}</button>)}</div>}
       {cat === 'flights' && <D.List>{Cat.dests(M.id).map(d => { const from = Math.min(...Cat.searchFlights(M.id, d, F.iso(F.nextFriday())).map(o => o.price)); return <D.Row key={d.code} icon="plane" title={d.name} sub={`${d.country} · ${Cat.durTxt(d.dur)} from ${Cat.home(M.id).code}`} value={M.pts(F.ptsOf(from))} chev onClick={() => { go('chat'); run({ f: 'flightSearch', a: { city: d.name } }, `Flights to ${d.name}`) }} /> })}</D.List>}
       {items.length > 0 && !['quick', 'bank', 'benefits', 'points', 'invest', 'charity', 'docs', 'concierge', 'moments'].includes(cat!) && <div className="ds-grid">{items.map(card)}</div>}
@@ -259,7 +283,7 @@ export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme
   return <div className="app-scroll">
     <D.Head title="You" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
     <button className="ds-profile" onClick={() => nav.go('tier')}><span className="ds-av">{(s.prefs.name || 'Y').charAt(0)}</span><span className="ds-row-b"><span style={{ fontSize: '1.125rem', fontWeight: 700 }}>{s.prefs.full || s.prefs.name}</span><span className="ds-row-s">{`${TIER.name} member · ${M.num(toNext())} points to ${TIER.next}`}</span></span><Icon name="chev" size={18} stroke={2.2} /></button>
-    <D.List><D.Row icon="card" title="My card" sub={`Gratifi Card •••• ${s.card.last4}`} chev onClick={() => nav.go('card')} /><D.Row icon="wallet" title="Wallet" sub="Bookings, orders and points" chev onClick={() => nav.go('wallet')} /></D.List>
+    <D.List>{Mod.on('card') && <D.Row icon="card" title="My card" sub={`Gratifi Card •••• ${s.card.last4}`} chev onClick={() => nav.go('card')} />}<D.Row icon="wallet" title="Wallet" sub="Bookings, orders and points" chev onClick={() => nav.go('wallet')} /></D.List>
     <D.Label>Your assistant</D.Label>
     <D.List>{alerts.map(([k, t, d]) => <D.ToggleRow key={k} title={t} sub={d} on={!!s.alerts[k]} onChange={(v: boolean) => St.set(x => ({ alerts: { ...x.alerts, [k]: v } }))} />)}<D.ToggleRow title="Always ask before spending" sub="Every booking and payment needs your OK." on lock onChange={() => { }} /></D.List>
     <D.Label>What I remember</D.Label>
@@ -275,13 +299,34 @@ export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme
       <div className="gr-actions"><K.Button size="sm" onClick={() => { St.addPoints(5000, 'Points adjustment (demo)'); St.pushMsg({ role: 'gr', text: `Demo: ${M.pts(5000)} came in from the bank. Your balance is now ${M.pts(St.get().balance)}.` }) }}>Points come in (+{M.num(5000)})</K.Button><K.Button size="sm" variant="secondary" onClick={() => cardPayment(M)}>A card payment</K.Button></div>
       {([['priceRise', 'Price rises at the next checkout'], ['supplierDown', 'Supplier is down'], ['decline', 'Card is declined']] as [keyof St.State['sim'], string][]).map(([k, l]) => <div key={k} className="gr-row" style={{ justifyContent: 'space-between' }}><span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{l}</span><K.Toggle label={l} on={s.sim[k]} onChange={(v: boolean) => sim(k, v)} /></div>)}
       <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('cancel')}>Cancel my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('late')}>Delay my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('deliver')}>Deliver my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.settlePending()); (window as any).__go?.('chat') }}>Return window ends</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('fraud')}>Suspicious payment</K.Button></div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('card')}>New card arrives</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('cases')}>Bank decides cases</K.Button></div>
+      <Connections />
       <ResetButton /></div>
+  </div>
+}
+/* The bank's APIs, switchable here to show how the app looks for a bank that offers fewer of them. */
+function Connections() {
+  const off = (St.useS(s => s.seen.apisOff) || {}) as Record<string, boolean>; const [open, setOpen] = useState(false)
+  const set = (o: Record<string, boolean>) => St.set(s => ({ seen: { ...s.seen, apisOff: o } }))
+  const nOn = Mod.APIS.filter(a => !off[a.id]).length, mods = Mod.MODULES.filter(m => Mod.on(m.id)).length
+  const only = (groups: string[]) => set(Object.fromEntries(Mod.APIS.filter(a => !groups.includes(a.group)).map(a => [a.id, true])))
+  const groups = Array.from(new Set(Mod.APIS.map(a => a.group)))
+  return <div className="gr-col" style={{ gap: 10 }}>
+    <div className="gr-row" style={{ justifyContent: 'space-between', gap: 8 }}><span><b style={{ fontSize: '0.875rem' }}>Bank connections</b><span className="gr-meta" style={{ display: 'block' }}>{`${nOn} of ${Mod.APIS.length} APIs · ${mods} of ${Mod.MODULES.length} services on`}</span></span><K.Button size="sm" variant="secondary" onClick={() => setOpen(!open)}>{open ? 'Hide' : 'Show'}</K.Button></div>
+    {open && <>
+      <div className="gr-meta">Each service needs the bank APIs listed. Switch one off and every screen, button and answer that needs it disappears.</div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => set({})}>Everything</K.Button><K.Button size="sm" variant="secondary" onClick={() => only(['Card', 'Payments', 'Credit'])}>Card only</K.Button><K.Button size="sm" variant="secondary" onClick={() => only(['Card', 'Payments', 'Credit', 'Rewards'])}>Card and points</K.Button><K.Button size="sm" variant="secondary" onClick={() => only(['Rewards', 'Partners', 'Service'])}>Rewards only</K.Button></div>
+      {groups.map(g => <div key={g}><div className="gr-meta" style={{ fontWeight: 700, marginTop: 6 }}>{g}</div>{Mod.APIS.filter(a => a.group === g).map(a => <div key={a.id} className="ds-api"><span>{a.name}<br /><code data-notr>{a.id}</code></span><K.Toggle label={a.name} on={!off[a.id]} onChange={(v: boolean) => { const o = { ...off }; if (v) delete o[a.id]; else o[a.id] = true; set(o) }} /></div>)}</div>)}
+      <div className="gr-meta" style={{ fontWeight: 700, marginTop: 6 }}>Services</div>
+      <div className="ds-mods">{Mod.MODULES.map(m => <span key={m.id} className={Mod.on(m.id) ? '' : 'off'}>{m.name}</span>)}</div>
+    </>}
   </div>
 }
 function cardPayment(M: any) {
   const s = St.get(), amt = Cat.px(42, s.market)
   if (s.card.frozen) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined because your card is frozen. Nothing was charged.` }); return }
   if (s.sim.decline) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined by the bank. Nothing was charged.` }); return }
+  { const cap = Mod.on('card.limits') ? (s.seen.catLimits || {}).Dining : 0; if (cap && Bk.spentThisMonth('Dining') + amt > cap) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined because it would take dining over your monthly limit of ${M.money(cap)}. Nothing was charged. You can change the limit on My card.` }); return } }
   const ep = Math.round(amt / St.rate() * 0.01)
   St.set(x => ({ txns: [{ id: St.uidx(), at: Date.now(), merchant: 'Café Lune', cat: 'Dining', amount: amt, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + amt }, balance: x.balance + ep, ledger: [{ id: St.uidx(), at: Date.now(), label: 'Points on card spend: Café Lune', pts: ep }, ...x.ledger] })); St.recordSpend('Dining', amt)
   St.pushMsg({ role: 'gr', text: St.get().alerts.spend ? `Card used at Café Lune for ${M.money(amt, 2)}. You earned ${M.num(ep)} points.` : `Demo: a card payment of ${M.money(amt, 2)} at Café Lune came in and earned ${M.num(ep)} points. Turn on Every card payment under Your assistant in your settings to get a note each time.` })
@@ -357,6 +402,21 @@ function simulate(k: string) {
     const quick = o.cat === 'quick', newDay = F.addDays(F.iso(new Date()), 3)
     St.updateBooking(o.id, { tracker: { ...o.tracker!, current: Math.max(o.tracker!.current, quick ? 2 : 1), tone: 'warn', eta: quick ? 'Running late' : M.date(newDay) } })
     St.pushMsg({ role: 'gr', text: quick ? `Your grocery order is running late: the courier is stuck in traffic. New estimate in 20 minutes. You can wait, or cancel now for a full refund.` : `Your ${o.title} order is running a day late: the courier has a backlog. It should now arrive on ${M.date(newDay)}. You can wait, or cancel now for a full refund.`, blocks: [{ kind: 'tracker', id: o.id }, { kind: 'state', state: 'price', title: 'Delivery is late', body: 'Nothing more is charged if you cancel.', actions: [{ label: 'Cancel for a full refund', act: { f: 'manage', a: { id: o.id, action: 'cancel' } } }, { label: 'Keep waiting', act: { f: 'alertSet', a: { what: 'when it\'s moving again' } } }] }] })
+  }
+  if (k === 'card') {
+    const o = s.bookings.find(b => (b.extra?.case === 'replacement' || b.title === 'Replacement card') && b.status !== 'delivered' && !['cancelled', 'refunded', 'done'].includes(b.status))
+    if (!o) { St.pushMsg({ role: 'gr', text: 'No new card is on its way. Order one from My card, under Lost, stolen or damaged card.' }); (window as any).__go?.('chat'); return }
+    St.updateBooking(o.id, { status: 'delivered', extra: { ...o.extra, case: 'replacement' }, tracker: { ...o.tracker!, current: o.tracker!.steps.length - 1, tone: undefined, eta: 'Delivered' } })
+    St.pushMsg({ role: 'gr', text: 'Your new card has been delivered. Activate it on My card to start using it.' }); (window as any).__go?.('cardx', 'activate'); return
+  }
+  if (k === 'cases') {
+    const open = s.bookings.filter(b => ['dispute', 'limit'].includes(b.extra?.case) && !b.extra?.closed)
+    if (!open.length) { St.pushMsg({ role: 'gr', text: 'There are no disputes or limit requests waiting. Start one from My card.' }); (window as any).__go?.('chat'); return }
+    open.forEach(b => {
+      if (b.extra.case === 'dispute') { St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, closed: true, outcome: 'Decided in your favour' }, tracker: { ...b.tracker!, current: b.tracker!.steps.length - 1, eta: 'Decided in your favour' } }); St.pushMsg({ role: 'gr', text: `Good news: the bank decided the ${b.title.replace(/^Dispute: /, '')} dispute in your favour. The ${M.money(b.extra.amount, 2)} credited back to your card is yours to keep.` }) }
+      else { St.set(x => ({ card: { ...x.card, limit: b.extra.to } })); St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, closed: true, outcome: 'Approved' }, tracker: { ...b.tracker!, current: b.tracker!.steps.length - 1, eta: 'Approved' } }); St.pushMsg({ role: 'gr', text: `The bank approved your new credit limit of ${M.money(b.extra.to)}. It applies straight away.` }) }
+    })
+    ;(window as any).__go?.('cardx', 'cases'); return
   }
   if (k === 'fraud') {
     St.set(x => ({ card: { ...x.card, frozen: true } }))

@@ -2,6 +2,7 @@
    Without it, a built-in router does the same job. Either way, tools can show things and prepare checkouts, but only the
    customer's own button press moves money. */
 import * as St from './store'
+import * as Mod from './modules'
 import * as F from './flows'
 import * as Cat from './catalog'
 import { respond, openConfirm } from './render'
@@ -134,6 +135,7 @@ const CATS = ['stays', 'airport', 'rides', 'experiences', 'dining', 'shopping', 
 function tools(id: string) {
   const steps: string[] = []
   const show = (r: F.R) => {
+    r = Mod.guard(r)
     if (r.confirm?.kind === 'pay') { const pc = F.precheck(r.confirm.draft, r.confirm.choice); if (pc) r = pc }
     const blocks = [...r.blocks, ...(r.suggest?.length ? [{ kind: 'suggest', items: r.suggest }] : [])]
     const cf = r.confirm; if (cf) turnConfirm = true

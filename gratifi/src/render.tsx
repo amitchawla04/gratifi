@@ -9,14 +9,17 @@ import { Icon } from '../../kit/src/icons'
 import { useMarket } from '../../kit/src/market'
 import * as St from './store'
 import * as D from './design'
+import * as Mod from './modules'
 import * as F from './flows'
 import * as Cat from './catalog'
+import * as Bk from './bank'
 
 const W = window as any
 const dead = (b?: St.Booking) => !b || ['cancelled', 'refunded'].includes(b.status)
 
 /* ---------- responding ---------- */
 export function respond(r: F.R, into?: string) {
+  r = Mod.guard(r)
   if (r.confirm?.kind === 'pay') { const pc = F.precheck(r.confirm.draft, r.confirm.choice); if (pc) r = { ...pc, say: [r.say, pc.say].filter(Boolean).join(' ') } }
   const sug = (r.suggest || []).filter(x => !(St.get().card.frozen && /^Freeze my card$/i.test(x)))
   const blocks = [...r.blocks, ...(sug.length ? [{ kind: 'suggest', items: sug }] : [])]
@@ -42,15 +45,22 @@ export const FLOWS: Record<string, (a: any) => F.R> = {
   ddOff: () => { const M = W.__M; St.set(s => ({ card: { ...s.card, autopay: false } as any })); return { say: `${M.directDebit.charAt(0).toUpperCase() + M.directDebit.slice(1)} is cancelled. Nothing will be taken automatically; pay the bill here or in the bank's app before the due date.`, blocks: [{ kind: 'directdebit' }] } },
   unfreeze: () => { St.set(s => ({ card: { ...s.card, frozen: false } })); return { say: 'Unfrozen. Your card works again.', blocks: [{ kind: 'controls' }] } },
   replaceCard: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; return { say: 'Confirm it\'s you to order the new card.', blocks: [], confirm: { kind: 'action', title: 'Order a replacement card', summary: St.get().card.frozen ? `To your home address · card ending ${St.get().card.last4} stays frozen and is cancelled` : `To your home address · card ending ${St.get().card.last4} works until you activate the new one`, lines: [['New card', St.get().card.frozen ? 'New number, 3 to 5 working days' : 'Same number, 3 to 5 working days']], total: ['To pay', 'Free'], act: { f: 'replaceCardDo', a: {} } } } },
-  replaceCardDo: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; const r = St.pay({ id: 'x', cat: 'bank', title: 'Replacement card', sub: 'To your home address', qty: 1, unit: 0, total: 0, kind: 'order', tracker: { steps: ['Ordered', 'Printed', 'Posted', 'Delivered'], current: 1, eta: '3 to 5 days' } } as any, 0, 0); return { say: St.get().card.frozen ? 'A new card with a new number is on its way to your home address. Your old card stays frozen, so nobody can use it.' : 'A new card with the same number is on its way to your home address. Your current card works until you activate the new one.', blocks: r.ok ? [{ kind: 'tracker', id: r.booking.id }] : [] } },
+  replaceCardDo: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; const r = St.pay({ id: 'x', cat: 'bank', title: 'Replacement card', sub: 'To your home address', qty: 1, unit: 0, total: 0, kind: 'order', extra: { case: 'replacement', newNumber: St.get().card.frozen }, tracker: { steps: ['Ordered', 'Printed', 'Posted', 'Delivered'], current: 1, eta: '3 to 5 days' } } as any, 0, 0); return { say: St.get().card.frozen ? 'A new card with a new number is on its way to your home address. Your old card stays frozen, so nobody can use it.' : 'A new card with the same number is on its way to your home address. Your current card works until you activate the new one.', blocks: r.ok ? [{ kind: 'tracker', id: r.booking.id }] : [] } },
+  /* Card servicing through the bank connection layer. A missing API answers plainly instead of failing. */
+  ...Object.fromEntries((['replaceAsk', 'replaceDo', 'activate', 'disputeAsk', 'disputeDo', 'limitRequestAsk', 'limitRequestDo', 'walletAsk', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin'] as const).map(k => [k, (a: any) => bankCall(() => (Bk as any)[k](a))])),
+  open: (a: any) => { W.__go?.('cardx', a.to); return { say: '', blocks: [] } },
 }
+function bankCall(f: () => F.R): F.R { try { return f() } catch (e: any) { if (e?.code === 'unavailable') { const m = Mod.MODULES.find(x => x.apis.includes(e.api)); return { say: `${m ? Mod.unavailable(m.id) : 'That isn\'t available in this app'}. Your bank's app or a person at the bank can help with it.`, blocks: [], suggest: ['Talk to a person'] } } throw e } }
 export function run(act: { f: string; a?: any }, label?: string) {
+  if (act.f === 'open') { FLOWS.open(act.a || {}); return }
   if (label) St.pushMsg({ role: 'user', text: St.get().market === 'AR' ? W.__tr(label) : label })
   const fn = FLOWS[act.f]; if (!fn) return
   const r = fn(act.a || {}); respond(r)
-  if (!(W.__tab === 'me' && STAY.includes(act.f) && !r.confirm)) goChat()
+  if (!(onScreen() && STAY.includes(act.f) && !r.confirm)) goChat()
 }
-const STAY = ['gamblingOn', 'gamblingKeep', 'gamblingLift', 'ddSet', 'ddOff', 'cardSet', 'limitSet', 'unfreeze']
+/* Actions started from a settings or card screen finish there; the answer still goes into the chat as a record. */
+export const STAY = ['gamblingOn', 'gamblingKeep', 'gamblingLift', 'ddSet', 'ddOff', 'cardSet', 'limitSet', 'unfreeze', 'payBill', 'replaceCardDo', 'replaceDo', 'activate', 'disputeDo', 'limitRequestDo', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin']
+const onScreen = () => ['me', 'card', 'cardx'].includes(W.__tab)
 let goChatFn = () => { }
 export const setGoChat = (f: () => void) => { goChatFn = f }
 export const goChat = () => goChatFn()
@@ -102,8 +112,8 @@ export function ConfirmHost() {
     { const dup = ['shopping', 'giftcards', 'quick'].includes(d.cat) ? St.get().bookings.find(b => b.title === d.title && !['cancelled', 'refunded'].includes(b.status) && Date.now() - b.createdAt < 7 * 864e5) : undefined; if (dup) note = `You already ordered this on ${M.date(new Date(dup.createdAt).toISOString().slice(0, 10))} (${dup.ref}). Carry on only if you want another.` }
     doneTitle = d.kind === 'transfer' ? 'Transfer sent' : d.kind === 'donation' ? 'Thank you' : d.kind === 'investment' ? 'Sent to the partner' : d.extra?.changeFor ? 'Changed' : d.cat === 'giftcards' ? 'Paid and sent' : d.kind === 'order' ? 'Paid' : d.kind === 'sub' ? 'Subscribed' : M.t('booked')
   } else {
-    title = c.title; summary = c.summary || ''; lines = c.lines || []; total = c.total || ['', '']; doneTitle = 'Done'
-    cta = c.cta || (c.act.f === 'payBill' ? (M.auth === 'otp' ? M.t('confirmWithCode', { amt: total[1] }) : undefined) : confirmCta); note = c.act.f === 'payBill' ? undefined : ['unfreeze', 'cardSet', 'ddSet', 'ddOff', 'limitSet', 'gamblingLift'].includes(c.act.f) ? 'This checks it\'s you before anything changes' : c.act.f === 'manage' ? 'Nothing is charged until you confirm' : undefined
+    title = c.title; summary = c.summary || ''; lines = c.lines || []; total = c.total || ['', '']; doneTitle = (c as any).doneTitle || 'Done'
+    cta = c.cta || (c.act.f === 'payBill' ? (M.auth === 'otp' ? M.t('confirmWithCode', { amt: total[1] }) : undefined) : confirmCta); note = c.act.f === 'payBill' ? undefined : ['unfreeze', 'cardSet', 'ddSet', 'ddOff', 'limitSet', 'gamblingLift', 'replaceDo', 'replaceCardDo', 'walletDo', 'limitRequestDo'].includes(c.act.f) ? 'This checks it\'s you before anything changes' : ['revealDetails', 'revealPin'].includes(c.act.f) ? 'Make sure nobody can see your screen' : c.act.f === 'manage' ? 'Nothing is charged until you confirm' : undefined
   }
   return <div className="app-sheet" onClick={e => { if (e.target === e.currentTarget) close() }}>
     <div className="app-sheet-in">
@@ -112,7 +122,7 @@ export function ConfirmHost() {
           const r = c.kind === 'pay' ? F.confirmPay({ draft: c.draft, choice: c.choice }) : FLOWS[c.act.f](c.act.a || {})
           const failed = c.kind === 'pay' && (r.blocks[0]?.kind === 'state' || !r.blocks.length)
           if (failed) { close(); respond(r); goChat(); return false }
-          respond(r); setTimeout(() => { if (liveKey === key) { close(); if (!(W.__tab === 'me' && c.kind !== 'pay' && STAY.includes(c.act?.f))) goChat() } }, 2200); return true
+          respond(r); setTimeout(() => { if (liveKey === key) { close(); if (!(onScreen() && c.kind !== 'pay' && STAY.includes(c.act?.f))) goChat() } }, 2200); return true
         }} />
       {M.auth === 'otp' && <div className="app-hint">Demo: the one-time code is 482193</div>}
       {M.auth === 'app' && <div className="app-hint">Demo: tapping the button approves as if in the bank app</div>}
@@ -226,7 +236,7 @@ const BLOCKS: Record<string, (p: any) => any> = {
 function StateWrap({ state, title, body, was, now, actions = [], bk }: any) {
   const [used0, setUsed0] = useState(''); const u = St.useS(s => (bk ? s.seen['usedv:' + bk] : '')) as any; const used = used0 || u || ''; const setUsed = (v: string) => { setUsed0(v); if (bk) St.set(s => ({ seen: { ...s.seen, ['usedv:' + bk]: v as any } })) }
   const refId = actions.map((a: any) => a.act?.a?.id).find(Boolean); const gone = St.useS(s => { const x = refId && s.bookings.find(y => y.id === refId); return !!x && (dead(x) || x.status === 'delivered' || !!x.extra?.rebooked) })
-  return <div className="gr-state-host"><T.StateCard kind={state} title={title} body={body} was={was} now={now} actions={[]} />{actions.length > 0 && <div className="gr-actions" style={{ marginTop: 10 }}>{actions.map((a: any, i: number) => <K.Button key={a.label} size="sm" variant={used ? (used === a.label ? 'primary' : 'secondary') : i ? 'secondary' : 'primary'} disabled={!!used || gone} icon={used === a.label ? 'check' : undefined} onClick={() => { setUsed(a.label); run(a.act, a.label) }}>{a.label}</K.Button>)}</div>}</div>
+  return <div className="gr-state-host"><T.StateCard kind={state} title={title} body={body} was={was} now={now} actions={[]} />{actions.length > 0 && <div className="gr-actions" style={{ marginTop: 10 }}>{actions.map((a: any, i: number) => <K.Button key={a.label} size="sm" variant={used ? (used === a.label ? 'primary' : 'secondary') : i ? 'secondary' : 'primary'} disabled={!!used || gone} icon={used === a.label ? 'check' : undefined} onClick={() => { if (a.act?.f !== 'open') setUsed(a.label); run(a.act, a.label) }}>{a.label}</K.Button>)}</div>}</div>
 }
 function VisaBlock({ city }: { city: string }) {
   const M = useMarket(); const c = Cat.dests(M.id).find(x => x.name === city)!; const dom = c.country === Cat.home(M.id).country; const [set, setSet] = useState(false)
