@@ -8,70 +8,225 @@ import * as St from './store'
 import * as F from './flows'
 import * as Cat from './catalog'
 import * as Br from './brain'
-import { Blocks, run, respond, iconFor, sendText, OfferList } from './render'
+import { Blocks, run, respond, iconFor, sendText, OfferList, OFFERS } from './render'
+import * as D from './design'
 
-export type Tab = 'home' | 'explore' | 'chat' | 'wallet' | 'me'
+export type Tab = 'home' | 'explore' | 'chat' | 'wallet' | 'me' | 'offers' | 'alerts' | 'tier' | 'bank'
+export type Nav = { go: (t: Tab, cat?: string) => void; back: () => void }
+
+/* ---------- Tier (demo programme tier, as on the approved screens) ---------- */
+const TIER = { name: 'Gold', next: 'Platinum', have: 16480, need: 20000, adds: ['Double points on travel', 'Two airport lounge visits a year', 'A named contact when you need help'] }
+const toNext = () => TIER.need - TIER.have
+const STAMP_OFFER: Record<string, string> = { 'OF-1': 'dining', 'OF-2': 'flights', 'OF-3': 'quick', 'OF-4': 'shopping' }
+const live = (b: St.Booking) => !['cancelled', 'refunded'].includes(b.status)
+const hello = (M: any) => M.t(new Date().getHours() >= 5 && new Date().getHours() < 12 ? 'goodMorning' : new Date().getHours() >= 12 && new Date().getHours() < 18 ? 'goodAfternoon' : 'goodEvening')
+const artOf = (b: { img?: string; cat: string }) => (b.img && Cat.img(b.img)) || D.STAMP[b.cat]
+function addOffer(id: string, b: string, r: string, on: boolean) { St.set(s => ({ seen: { ...s.seen, ['offer:' + id]: on } })); if (on) St.pushMsg({ role: 'gr', text: `Added: ${r} at ${b} until 31 Oct, when you pay with your card.` }) }
 
 /* ---------- Home ---------- */
-export function Home({ go }: { go: (t: Tab, cat?: string) => void }) {
-  const s = St.useS(x => x); const M = useMarket()
-  const active = s.bookings.filter(b => b.tracker && !['cancelled', 'refunded', 'delivered', 'done'].includes(b.status) && b.tracker.current < b.tracker.steps.length - 1)
+export function Home({ nav }: { nav: Nav }) {
+  const s = St.useS(x => x); const M = useMarket(); const { go } = nav
   const moment = pickMoment(s, M)
+  const stamps = ['stays', 'flights', 'experiences', 'dining', 'tickets', 'shopping', 'subs', 'rides', 'quick', 'giftcards'].map(k => Cat.CATS.find(c => c.key === k)!).map(c => { const earn = F.itemsFor(c.key).map(i => i.earn).find(e => e && /\d×/.test(e)); return { key: c.key, label: c.label, art: D.STAMP[c.key], badge: earn ? earn.match(/\d×/)![0] : undefined, onClick: () => go('explore', c.key) } })
+  const next = s.bookings.filter(b => live(b) && (['booking', 'ticket'].includes(b.kind || '') || (b.tracker && b.tracker.current < b.tracker.steps.length - 1))).sort((a, b) => String(a.extra?.date || a.createdAt).localeCompare(String(b.extra?.date || b.createdAt)))[0]
+  const seenIds = new Set<string>(); const again = s.bookings.filter(b => b.itemId && !seenIds.has(b.itemId) && seenIds.add(b.itemId)).slice(0, 4)
+  const d0 = Cat.dests(M.id)[0]
+  const picks = [F.itemsFor('stays', d0.name)[0], F.findItem('SH-4')].filter((x): x is Cat.Item => !!x && !!x.img)
   return <div className="app-scroll">
-    <div className="gr-row" style={{ justifyContent: 'space-between', paddingTop: 6 }}><div><div className="gr-meta">{M.t(new Date().getHours() >= 5 && new Date().getHours() < 12 ? 'goodMorning' : new Date().getHours() >= 12 && new Date().getHours() < 18 ? 'goodAfternoon' : 'goodEvening')}</div><h1 className="gr-display">{s.prefs.name}</h1></div><div className="gr-row" style={{ gap: 8 }}><button className="app-mk" onClick={() => go('me')}>{s.market === 'AR' ? 'AE · ع' : s.market}</button><K.IconButton icon="bell" label={M.t('alerts')} dot={!!moment} onClick={() => run({ f: 'feed', a: {} }, 'What\'s new?')} /></div></div>
-    <div className="gr-card gr-xl" style={{ alignItems: 'center', gap: 4, paddingBottom: 18 }}><K.Dial value={s.balance} progress={Math.min(1, s.balance / 100000)} size={180} goal={`Worth about ${M.money(s.balance * St.rate())}`} />
-      <div className="gr-row" style={{ gap: 8, marginTop: 30 }}><K.Button size="sm" onClick={() => run({ f: 'usePoints', a: {} }, 'What can I do with my points?')}>Use points</K.Button><K.Button size="sm" variant="secondary" onClick={() => run({ f: 'programmes', a: {} }, 'Transfer points')}>Transfer</K.Button></div></div>
-    {moment && <K.StickyNote title={moment.title} action={moment.action} secondary="Not now" onAction={moment.go} onSecondary={() => St.set(x => ({ seen: { ...x.seen, [moment.key]: true } }))} width={400}>{moment.body}</K.StickyNote>}
-    {active.slice(0, 2).map(b => <X.Tracker key={b.id} title={b.title} sub={b.sub} steps={b.tracker!.steps} current={b.tracker!.current} eta={b.tracker!.eta} tone={b.tracker!.tone} icon={iconFor(b.cat)} />)}
-    <T.Suggestions items={[`Flights to ${Cat.dests(M.id)[0].name} this weekend`, 'A table tonight', 'Groceries now', 'Gift for a friend']} onPick={(t: string) => { go('chat'); Br.ask(t) }} />
-    <Promos go={go} />
-    <div className="gr-railhead"><h2 className="gr-heading">Everything on your card</h2><button className="gr-link" onClick={() => go('explore')}>See all</button></div>
-    <div className="app-catgrid">{Cat.CATS.slice(0, 8).map(c => <X.CategoryTile key={c.key} icon={c.icon} label={c.label} sub={c.sub} onClick={() => go('explore', c.key)} />)}</div>
-    <Featured go={go} />
-    <OfferList rail />
+    <div className="ds-homehd"><img src={D.ART.wordmark} alt="gratifi" /><div><D.HBtn label="You and settings" text={(s.prefs.name || 'Y').charAt(0)} onClick={() => go('me')} /><D.HBtn icon="bell" label={M.t('alerts')} dot={!!moment} onClick={() => go('alerts')} /><D.HBtn icon="close" label="Close" onClick={() => go('bank')} /></div></div>
+    <div className="ds-hello"><h1>{`${hello(M)}, ${s.prefs.name}`}</h1><button onClick={() => go('tier')}>{`You’re ${M.num(toNext())} points from ${TIER.next}.`}</button></div>
+    <D.PointsCard tier={TIER.name} value={M.num(s.balance)} onUse={() => go('explore')} />
+    {moment && <D.Note title={moment.title} action={moment.action} onAction={moment.go} secondary="Not now" onSecondary={() => St.set(x => ({ seen: { ...x.seen, [moment.key]: true } }))}>{moment.body}</D.Note>}
+    <D.Sec title="Spend your points" more="See all" onMore={() => go('explore')} />
+    <D.Stamps items={stamps} />
+    <D.Sec title="Your offers" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
+    <div className="ds-offers">{OFFERS.map(([id, b, , , r]) => <D.OfferMini key={id} art={D.STAMP[STAMP_OFFER[id]]} title={`${r} at ${b}`} sub="Until 31 Oct" added={!!s.seen['offer:' + id]} onAdd={() => addOffer(id, b, r, !s.seen['offer:' + id])} />)}</div>
+    {next && <><D.Sec title="Coming up" /><D.Coming art={artOf(next)} title={next.title} sub={[next.when || next.sub, next.pts ? `${M.num(next.pts)} points` : ''].filter(Boolean).join(' · ')} status={next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? (next.tracker.eta || next.tracker.steps[next.tracker.current]) : 'Booked'} tone={next.tracker?.tone === 'warn' ? 'warn' : 'good'} onClick={() => go('wallet')} /></>}
+    {again.length > 0 && <><D.Sec title="Book again" /><D.Again items={again.map(b => ({ key: b.id, label: b.title, art: D.STAMP[b.cat], onClick: () => { go('chat'); run({ f: 'showItem', a: { id: b.itemId } }, b.title) } }))} /></>}
+    <D.Sec title="Picked for you" more="See all" onMore={() => go('explore')} />
+    <D.Picks items={picks.map(i => { const price = i.cat === 'stays' ? F.stayPrice(i, '', 2) : F.IP(i); return { key: i.id, art: Cat.img(i.img)!, title: i.cat === 'stays' ? `Stay in ${d0.name}` : i.title, sub: i.cat === 'stays' ? `${i.title}, two nights` : `From ${i.sub}`, price: `${M.num(F.ptsOf(price))} points`, onUse: () => { go('chat'); run({ f: 'showItem', a: { id: i.id } }, i.title) } } })} />
+    <D.Sec title="Recent activity" more="See all" onMore={() => go('wallet', 'Points')} />
+    <D.List>{s.ledger.slice(0, 3).map(l => <D.Row key={l.id} icon={l.pts >= 0 ? 'plus' : 'arrow'} title={l.label} sub={M.date(new Date(l.at))} value={`${l.pts >= 0 ? '+' : '−'}${M.num(Math.abs(l.pts))}`} tone={l.pts >= 0 ? 'good' : undefined} />)}</D.List>
   </div>
-}
-/* Marketing banners and featured picks: the browse layer gives a flavour; every tap hands the task to the assistant. */
-function Promos({ go }: { go: (t: Tab, cat?: string) => void }) {
-  const M = useMarket(), d0 = Cat.dests(M.id)[0], h = Cat.home(M.id)
-  const fri = F.iso(F.nextFriday()), from = Math.min(...Cat.searchFlights(M.id, d0, fri).map(o => o.price))
-  const ev = Cat.events(M.id)[0], rest = Cat.restaurants(M.id, h.city).find(r => r.earn) || Cat.restaurants(M.id, h.city)[0]
-  const ask = (label: string, act: () => void) => { go('chat'); act() }
-  const P = [
-    { key: 'trip', img: d0.img, sticker: '3× points on stays', title: `${d0.name} from ${M.money(from)}`, body: `One way per person on ${M.date(fri)}, and triple points on hotels there.`, cta: 'See flights', go: () => ask('', () => run({ f: 'flightSearch', a: { city: d0.name, date: fri, back: F.addDays(fri, 2), pax: 1 } }, `Flights to ${d0.name} this weekend`)) },
-    { key: 'event', img: ev.img, sticker: 'Presale', title: ev.title, body: `${ev.sub?.split(' · ')[1] || ''}. Tickets for cardholders before general sale.`.replace(/^\. /, ''), cta: 'Get tickets', go: () => ask('', () => run({ f: 'showItem', a: { id: ev.id } }, ev.title)) },
-    { key: 'dine', img: rest.img, sticker: '15% off', title: rest.title, body: `${rest.sub?.split(' · ')[0] || ''} in ${h.city}. 15% off the bill when you pay with your card.`, cta: 'Book a table', go: () => ask('', () => run({ f: 'showItem', a: { id: rest.id } }, rest.title)) },
-  ]
-  return <div className="gr-col" style={{ gap: 12 }}><h2 className="gr-heading">This week</h2><div className="gr-rail app-promos" role="list">{P.map(p => <div key={p.key} role="listitem" className="gr-card app-promo">
-    <div className="app-promo-ph"><img src={Cat.img(p.img)} alt="" /><span className="app-promo-st"><K.Sticker tilt={-5}>{p.sticker}</K.Sticker></span></div>
-    <div className="gr-col" style={{ gap: 4 }}><div className="gr-title" style={{ fontSize: '1.125rem' }}>{p.title}</div><div className="gr-meta">{p.body}</div></div>
-    <K.Button size="sm" onClick={p.go}>{p.cta}</K.Button></div>)}</div></div>
-}
-function Featured({ go }: { go: (t: Tab, cat?: string) => void }) {
-  const M = useMarket(), d0 = Cat.dests(M.id)[0], h = Cat.home(M.id)
-  const picks = [F.itemsFor('stays', d0.name)[0], F.itemsFor('experiences', d0.name)[2], Cat.events(M.id)[1], F.findItem('SH-4'), F.itemsFor('experiences', h.city)[0], F.findItem('SH-10')].filter((x): x is Cat.Item => !!x && !!x.img)
-  return <T.Rail title="Featured" more="See all" onMore={() => go('explore')}>{picks.map(i => { const price = i.cat === 'stays' ? F.stayPrice(i, '', 2) : F.IP(i); return <T.ProductCard key={i.id} src={Cat.img(i.img)} name={i.title} meta={[i.cat === 'stays' ? `${i.sub?.split(', ')[1] || ''}, 2 nights` : i.cat === 'tickets' ? i.sub?.split(' · ')[1] : i.cat === 'shopping' ? i.sub : i.sub, i.cat === 'experiences' ? i.unit : undefined].filter(Boolean)} price={price} points={F.ptsOf(price)} badge={i.earn || (i.meta || []).find(x => /card|presale/i.test(x))} onClick={() => { go('chat'); run({ f: 'showItem', a: { id: i.id } }, i.title) }} /> })}</T.Rail>
 }
 function pickMoment(s: St.State, M: any): { key: string; title: string; body: string; action: string; go: () => void } | null {
   const c: any[] = []
   const fl = s.bookings.find(b => b.cat === 'flights' && b.status === 'confirmed')
-  if (fl && s.loungeLeft && !s.bookings.some(b => b.cat === 'airport' && b.status === 'confirmed')) c.push({ key: 'lounge-' + fl.id, title: 'Use a free lounge visit', body: `Your flight to ${fl.title.split(' to ')[1]} leaves from ${Cat.home(s.market).airport}. You have ${s.loungeLeft} free visit${s.loungeLeft > 1 ? 's' : ''} left this year.`, action: 'Book the lounge', go: () => run({ f: 'search', a: { cat: 'airport', query: 'lounge' } }, 'Book the lounge') })
-  if (s.expiring && !s.seen['expiring']) c.push({ key: 'expiring', title: `${M.num(s.expiring)} points expire on 31 Oct`, body: `That's about ${M.money(s.expiring * St.rate())}. A gift card or a lounge visit would use them.`, action: 'Show ideas', go: () => run({ f: 'search', a: { cat: 'giftcards' } }, 'Ways to use expiring points') })
-  if (!s.bookings.some(b => b.title === 'Tunewave') && !s.seen['tunewave']) c.push({ key: 'tunewave', title: 'Music is included with your card', body: 'Tunewave comes free with this card and you haven\'t turned it on yet.', action: 'Turn it on', go: () => run({ f: 'showItem', a: { id: 'SB-2' } }, 'Turn on Tunewave') })
+  if (fl && s.loungeLeft && !s.bookings.some(b => b.cat === 'airport' && b.status === 'confirmed')) c.push({ key: 'lounge-' + fl.id, title: 'A free lounge visit', body: `Your flight to ${fl.title.split(' to ')[1]} leaves from ${Cat.home(s.market).airport}. You have ${s.loungeLeft} free visit${s.loungeLeft > 1 ? 's' : ''} left this year.`, action: 'Book the lounge', go: () => run({ f: 'search', a: { cat: 'airport', query: 'lounge' } }, 'Book the lounge') })
+  if (s.expiring && !s.seen['expiring']) c.push({ key: 'expiring', title: 'Expires 31 Oct', body: `${M.num(s.expiring)} points run out on 31 Oct. That's about ${M.money(s.expiring * St.rate())}: enough for a gift card or a lounge visit.`, action: 'Show ideas', go: () => run({ f: 'search', a: { cat: 'giftcards' } }, 'Ways to use expiring points') })
+  if (!s.bookings.some(b => b.title === 'Tunewave') && !s.seen['tunewave']) c.push({ key: 'tunewave', title: 'Music is included', body: 'Tunewave comes free with this card and you haven\'t turned it on yet.', action: 'Turn it on', go: () => run({ f: 'showItem', a: { id: 'SB-2' } }, 'Turn on Tunewave') })
   const ch = s.challenges.find(x => x.joined && !x.done && x.target - x.progress === 1)
   if (ch) c.push({ key: 'ch-' + ch.id, title: `One more for ${ch.reward}`, body: `${ch.title}: you're at ${ch.progress} of ${ch.target}.`, action: 'Find a table', go: () => run({ f: 'search', a: { cat: 'dining' } }, 'Find a table') })
   return c.find(x => !s.seen[x.key]) || null
 }
+function moments(s: St.State, M: any) { const out: any[] = []; const seen = { ...s.seen }; for (let i = 0; i < 4; i++) { const m = pickMoment({ ...s, seen } as St.State, M); if (!m) break; out.push(m); seen[m.key] = true } return out }
 
-/* ---------- Explore ---------- */
-const ASKS: Record<string, string[]> = {
-  flights: ['Flights to {d0} next weekend for two', 'Cheapest flights to {d1}', 'One way to {d2} on Friday'], stays: ['A hotel in {d0} with a pool', 'Somewhere central in {d1}'], airport: ['A lounge for two on Friday', 'Fast track security for 3 people'],
-  rides: ['A taxi to the airport tomorrow at 6:30am', 'A cab home at 11pm tonight', 'Hire a car for 3 days'], experiences: ['Things to do in {d0}', 'A food tour in {home}'], dining: ['A table tonight for two', 'Vegetarian dinner in {home}'], quick: ['Milk, eggs and bread', 'Nappies now', 'Can I order food delivery?'],
-  shopping: ['Noise-cancelling headphones', 'A cabin suitcase', 'Earn extra points shopping'], giftcards: ['A gift card for a friend', 'Use my expiring points on a gift card'], subs: ['Which subscriptions are included?', 'Start a streaming subscription'],
-  tickets: ['Concerts this month', 'Theatre on Friday'], points: ['Transfer points to miles', 'How many points do I have?'], invest: ['Put points into gold', 'Grow my points'], charity: ['Donate points to charity'],
-  docs: ['Do I need a visa for {d0}?', 'Travel insurance', 'eSIM for data abroad'], concierge: ['A sold-out restaurant', 'Find a special gift'], benefits: ['What does my card cover?', 'Money back on a purchase'],
-  bank: ['What do I owe?', 'Freeze my card', 'Where did my money go?', 'I lost my card'], moments: ['Ways to earn more'],
+/* ---------- Rewards (Explore): every category, by chip ---------- */
+export function Explore({ cat, setCat, nav }: { cat?: string; setCat: (c?: string) => void; nav: Nav }) {
+  const s = St.useS(x => x); const M = useMarket(); const { go } = nav
+  const [afford, setAfford] = useState(false)
+  const showItem = (i: Cat.Item) => { go('chat'); run({ f: 'showItem', a: { id: i.id } }, i.title) }
+  const priceOf = (i: Cat.Item) => i.cat === 'stays' ? F.stayPrice(i, '', 2) : F.IP(i)
+  const card = (i: Cat.Item) => { const p = priceOf(i), pts = F.ptsOf(p), link = i.mode === 'link' || i.cat === 'giftcards'; return <D.RewardCard key={i.id} art={Cat.img(i.img) || D.STAMP[i.cat]} icon={i.icon} title={i.title} price={link ? (i.cat === 'giftcards' ? `From ${M.money(+F.giftAmounts()[0])}` : i.sub || '') : i.included && i.cat === 'subs' ? 'Included' : M.pts(pts)} short={!link && !(i.included && i.cat === 'subs') && pts > s.balance ? `${M.num(pts - s.balance)} more` : undefined} onUse={() => showItem(i)} onOpen={() => showItem(i)} /> }
+  const keep = (i: Cat.Item) => !afford || F.ptsOf(priceOf(i)) <= s.balance
+  const picked = [...F.itemsFor('stays').slice(0, 2), ...F.itemsFor('experiences').slice(0, 2), ...F.itemsFor('tickets').slice(0, 2), ...F.itemsFor('shopping').slice(0, 2)].filter(i => i && i.img).filter(keep)
+  const c = cat ? Cat.CATS.find(x => x.key === cat) : undefined
+  const items = cat ? F.itemsFor(cat).filter(keep).slice(0, 8) : []
+  const sub = cat ? SUBCATS(M.id)[cat]?.filter(([l]) => l !== 'Trains' || Cat.rides(M.id).some(r => /^Train to /.test(r.title))) : undefined
+  return <div className="app-scroll">
+    <D.Head title="Rewards" onBack={nav.back} right={<D.HBtn icon="search" label="Search rewards" onClick={() => { go('chat'); setTimeout(() => (document.querySelector('.gr-ask input') as HTMLInputElement | null)?.focus(), 50) }} />} />
+    <div className="ds-balrow"><span className="ds-balpill"><i /><span>{M.pts(s.balance)}</span></span><label className="ds-afford">Only what I can afford<button role="switch" aria-checked={afford} aria-label="Only what I can afford" className="ds-toggle" onClick={() => setAfford(!afford)} /></label></div>
+    <div className="ds-chiprow" role="group" aria-label="Categories"><button className="ds-chip" aria-pressed={!cat} onClick={() => setCat(undefined)}>All</button>{Cat.CATS.map(x => <button key={x.key} className="ds-chip" aria-pressed={cat === x.key} onClick={() => setCat(x.key)}>{x.label}</button>)}</div>
+    {!cat && <><D.Sec title="Picked for you" /><div className="ds-grid">{picked.map(card)}</div></>}
+    {c && <>
+      {sub && sub.length > 0 && <div className="ds-chiprow" role="list" aria-label={`${c.label} types`}>{sub.map(([label, act]) => <button key={label} role="listitem" className="ds-chip" onClick={() => { go('chat'); run(act, label) }}>{label}</button>)}</div>}
+      {cat === 'flights' && <D.List>{Cat.dests(M.id).map(d => { const from = Math.min(...Cat.searchFlights(M.id, d, F.iso(F.nextFriday())).map(o => o.price)); return <D.Row key={d.code} icon="plane" title={d.name} sub={`${d.country} · ${Cat.durTxt(d.dur)} from ${Cat.home(M.id).code}`} value={M.pts(F.ptsOf(from))} chev onClick={() => { go('chat'); run({ f: 'flightSearch', a: { city: d.name } }, `Flights to ${d.name}`) }} /> })}</D.List>}
+      {items.length > 0 && !['quick', 'bank', 'benefits', 'points', 'invest', 'charity', 'docs', 'concierge', 'moments'].includes(cat!) && <div className="ds-grid">{items.map(card)}</div>}
+      {cat === 'quick' && <Blocks blocks={[{ kind: 'grocery' }]} />}
+      {cat === 'bank' && <Blocks blocks={[{ kind: 'balance' }, { kind: 'controls' }]} />}
+      {cat === 'benefits' && <Blocks blocks={[{ kind: 'benefits' }]} />}
+      {cat === 'points' && <Blocks blocks={[{ kind: 'points' }, { kind: 'programmes' }]} />}
+      {cat === 'invest' && <Blocks blocks={[{ kind: 'invest' }]} />}
+      {cat === 'charity' && <Blocks blocks={[{ kind: 'charities' }]} />}
+      {cat === 'docs' && <Blocks blocks={[{ kind: 'insurance' }, { kind: 'esim' }]} />}
+      {cat === 'concierge' && <Blocks blocks={[{ kind: 'conciergeform' }]} />}
+      {cat === 'moments' && <Blocks blocks={[{ kind: 'challenges' }]} />}
+    </>}
+  </div>
 }
+
+/* ---------- Your offers ---------- */
+export function Offers({ nav }: { nav: Nav }) {
+  const seen = St.useS(s => s.seen); const [tab, setTab] = useState('For you')
+  const list = OFFERS.filter(([id]) => tab === 'Added' ? seen['offer:' + id] : true)
+  return <div className="app-scroll">
+    <D.Head title="Your offers" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
+    <D.Seg items={['For you', `All ${OFFERS.length}`, 'Added']} value={tab} onChange={setTab} />
+    <div className="ds-offers-col">{list.length ? list.map(([id, b, , , r]) => <D.OfferMini key={id} art={D.STAMP[STAMP_OFFER[id]]} title={`${r} at ${b}`} sub="Until 31 Oct · when you pay with your card" added={!!seen['offer:' + id]} onAdd={() => addOffer(id, b, r, !seen['offer:' + id])} />) : <p className="ds-row-s">Offers you add show up here.</p>}</div>
+  </div>
+}
+
+/* ---------- Activity (Wallet): bookings, orders and points ---------- */
+export function Wallet({ nav, start }: { nav: Nav; start?: string }) {
+  const s = St.useS(x => x); const M = useMarket(); const bs = s.bookings
+  const [tabS, setTab] = useState(start === 'Points' ? 'Points' : '')
+  const dead = (b: St.Booking) => ['cancelled', 'refunded'].includes(b.status)
+  const groups: [string, St.Booking[]][] = [
+    ['Coming up', bs.filter(b => !dead(b) && ['ticket', 'booking'].includes(b.kind || '')).sort((x, y) => String(x.extra?.date || '9999').localeCompare(String(y.extra?.date || '9999')))],
+    ['Subscriptions', bs.filter(b => b.kind === 'sub')],
+    ['Requests', bs.filter(b => ['request', 'claim', 'transfer', 'investment'].includes(b.kind || ''))],
+    ['Past', bs.filter(b => (dead(b) && b.kind !== 'order') || b.kind === 'donation')],
+  ]
+  const orders = bs.filter(b => b.kind === 'order')
+  const tab = tabS || (groups.some(([, l]) => l.length) ? 'Bookings' : orders.length ? 'Orders' : 'Bookings')
+  const block = (b: St.Booking) => <Blocks key={b.id} blocks={[b.tracker && !dead(b) && b.tracker.current < b.tracker.steps.length - 1 ? { kind: 'tracker', id: b.id } : { kind: 'booking', id: b.id, inline: true }]} />
+  const month = new Date().getMonth(), mName = M.date(new Date(), 'long').split(' ').pop() || ''
+  const inMonth = s.ledger.filter(l => new Date(l.at).getMonth() === month)
+  const earned = inMonth.filter(l => l.pts > 0).reduce((a, l) => a + l.pts, 0), spent = inMonth.filter(l => l.pts < 0).reduce((a, l) => a + l.pts, 0)
+  const days: [string, St.Ledger[]][] = []; s.ledger.forEach(l => { const d = M.date(new Date(l.at), 'long'); const g = days.find(x => x[0] === d); g ? g[1].push(l) : days.push([d, [l]]) })
+  return <div className="app-scroll">
+    <D.Head title="Wallet" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
+    <D.Seg items={['Bookings', 'Orders', 'Points']} value={tab} onChange={setTab} />
+    {tab === 'Bookings' && (groups.every(([, l]) => !l.length) ? <p className="ds-row-s">Trips, tables, tickets and subscriptions show up here.</p> : groups.filter(([, l]) => l.length).map(([g, l]) => <React.Fragment key={g}><D.Label>{g}</D.Label>{l.map(block)}</React.Fragment>))}
+    {tab === 'Orders' && (orders.length ? orders.map(block) : <p className="ds-row-s">Shopping, groceries and gift cards show up here.</p>)}
+    {tab === 'Points' && <>
+      <div className="ds-stats"><div className="ds-stat"><p>{`Earned in ${mName}`}</p><b className="ds-good">{`+${M.num(earned)}`}</b></div><div className="ds-stat"><p>{`Spent in ${mName}`}</p><b>{`${spent ? '−' : ''}${M.num(Math.abs(spent))}`}</b></div></div>
+      {days.map(([d, l]) => <React.Fragment key={d}><D.Label>{d}</D.Label><D.List>{l.map(x => <D.Row key={x.id} icon={x.pts >= 0 ? 'plus' : 'arrow'} title={x.label} value={`${x.pts >= 0 ? '+' : '−'}${M.num(Math.abs(x.pts))}`} tone={x.pts >= 0 ? 'good' : undefined} />)}</D.List></React.Fragment>)}
+      {(s.pending || []).length > 0 && <><D.Label>Pending points</D.Label><D.List>{(s.pending || []).map(p => <D.Row key={p.id} icon="clock" title={p.label} sub={p.pts ? `Land ${M.date(p.lands!)}` : 'Waiting for a purchase'} value={p.pts ? `+${M.num(p.pts)}` : undefined} />)}</D.List></>}
+    </>}
+  </div>
+}
+
+/* ---------- Alerts (the bell) ---------- */
+export function Alerts({ nav }: { nav: Nav }) {
+  const s = St.useS(x => x); const M = useMarket(); const ms = moments(s, M)
+  const done = s.bookings.filter(b => ['claim', 'request', 'transfer', 'donation'].includes(b.kind || '') || ['done', 'delivered'].includes(b.status)).slice(0, 5)
+  const act = (f: () => void) => { nav.go('chat'); f() }
+  return <div className="app-scroll">
+    <D.Head title="Alerts" onBack={nav.back} right={ms.length ? <button className="ds-textbtn" onClick={() => St.set(x => ({ seen: { ...x.seen, ...Object.fromEntries(ms.map(m => [m.key, true])) } }))}>Clear</button> : undefined} />
+    <D.Sec title="For you" />
+    {ms.length ? <>{ms[0] && <D.Note title={ms[0].title} action={ms[0].action} onAction={() => act(ms[0].go)} secondary="Not now" onSecondary={() => St.set(x => ({ seen: { ...x.seen, [ms[0].key]: true } }))}>{ms[0].body}</D.Note>}{ms.length > 1 && <D.List>{ms.slice(1).map(m => <D.Row key={m.key} title={m.title} sub={m.body} chev onClick={() => act(m.go)} />)}</D.List>}</> : <p className="ds-row-s">Nothing new right now.</p>}
+    {done.length > 0 && <><D.Sec title="Done for you" /><D.List>{done.map(b => <D.Row key={b.id} icon="check" title={b.title} sub={M.date(new Date(b.createdAt))} chev onClick={() => nav.go('wallet')} />)}</D.List></>}
+  </div>
+}
+
+/* ---------- Your tier ---------- */
+export function Tier({ nav }: { nav: Nav }) {
+  const M = useMarket()
+  return <div className="app-scroll">
+    <D.Head title="Your tier" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, paddingTop: 4 }}><div className="ds-ring" style={{ width: 168, height: 168 }}><img src={D.ART.ring} alt="" style={{ width: 168, height: 168 }} /><div className="ds-core" style={{ left: 35, top: 35, width: 97, height: 97, borderRadius: 48 }}><span>{TIER.name.toUpperCase()}</span></div></div><h1 style={{ margin: 0, fontSize: '1.625rem', fontWeight: 800, letterSpacing: '-0.5px', textAlign: 'center' }}>{`${M.num(toNext())} points to ${TIER.next}`}</h1></div>
+    <div className="ds-card"><div className="gr-row" style={{ justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}><span className="ds-row-s" style={{ fontWeight: 600, fontSize: '0.875rem' }}>Tier points this year</span><b style={{ fontSize: '0.875rem' }}>{`${M.num(TIER.have)} of ${M.num(TIER.need)}`}</b></div><div className="ds-progress"><i style={{ width: `${Math.round(TIER.have / TIER.need * 100)}%` }} /></div></div>
+    <D.Note title="Nearly there">{`${M.num(toNext())} more tier points and you move up to ${TIER.next}.`}</D.Note>
+    <div className="ds-card"><b style={{ fontSize: '0.9375rem' }}>{`What ${TIER.next} adds`}</b>{TIER.adds.map(a => <div key={a} className="ds-benefit"><Icon name="check" size={18} stroke={2.6} />{a}</div>)}</div>
+  </div>
+}
+
+/* ---------- Your bank's app, with the way into Gratifi ---------- */
+export function Bank({ nav }: { nav: Nav }) {
+  const s = St.useS(x => x); const M = useMarket()
+  return <div className="app-scroll ds-bank">
+    <div className="ds-homehd"><span className="ds-bankmark">YOUR BANK</span><span className="ds-av" style={{ width: 40, height: 40, fontSize: '0.9375rem', background: '#E3E3E7', color: '#141416' }}>{(s.prefs.name || 'Y').charAt(0)}</span></div>
+    <p style={{ margin: 0, fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.4px' }}>{`${hello(M)}, ${s.prefs.name}`}</p>
+    <button className="ds-entry" onClick={() => nav.go('home')}>
+      <span className="ds-entry-top"><span className="ds-ring" style={{ width: 60, height: 60 }}><img src={D.ART.ring} alt="" style={{ width: 60, height: 60 }} /><span className="ds-core" style={{ left: 13, top: 13, width: 34, height: 34, borderRadius: 17 }} /></span><span className="ds-pts-b"><span className="ds-pts-l">Your points</span><span style={{ fontSize: '1.5rem', fontWeight: 800, lineHeight: 1.1 }}>{M.num(s.balance)}</span></span><Icon name="chev" size={18} stroke={2.2} /></span>
+      {s.expiring > 0 && <span className="ds-entry-note"><i /><span>{`${M.num(s.expiring)} expire on 31 Oct.`}</span></span>}
+      <span className="ds-entry-ask"><Spark size={18} />Ask about your points</span>
+    </button>
+    <D.List>{s.txns.slice(0, 3).map(t => <D.Row key={t.id} icon="card" title={t.merchant} sub={M.date(new Date(t.at))} value={`${t.amount < 0 ? '+' : '−'}${M.money(Math.abs(t.amount), 2)}`} tone={t.amount < 0 ? 'good' : undefined} />)}</D.List>
+  </div>
+}
+
+/* ---------- You (settings, card and demo controls) ---------- */
+export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme: (t: string) => void }) {
+  const s = St.useS(x => x); const M = useMarket()
+  const sim = (k: keyof St.State['sim'], v: boolean) => St.set(x => ({ sim: { ...x.sim, [k]: v } }))
+  const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
+  const alerts: [string, string, string][] = [['moments', 'Moments from Gratifi', 'Useful things worth doing now, at most 3 a week'], ['offers', 'Offers', 'Card offers that match what you buy'], ['trips', 'Trip updates', 'Delays, gates, check-in'], ['orders', 'Order updates', 'Dispatch and delivery'], ['spend', 'Every card payment', 'A note each time the card is used']]
+  const addr = s.addresses.find(a => a.id === s.addr), other = s.addresses.find(a => a.id !== s.addr)
+  return <div className="app-scroll">
+    <D.Head title="My card" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
+    <button className="ds-profile" onClick={() => nav.go('tier')}><span className="ds-av">{(s.prefs.name || 'Y').charAt(0)}</span><span className="ds-row-b"><span style={{ fontSize: '1.125rem', fontWeight: 700 }}>{s.prefs.full || s.prefs.name}</span><span className="ds-row-s">{`${TIER.name} member · ${M.num(toNext())} points to ${TIER.next}`}</span></span><Icon name="chev" size={18} stroke={2.2} /></button>
+    <D.Label>Your card</D.Label>
+    <Blocks blocks={[{ kind: 'balance' }]} />
+    <D.List>
+      <D.Row icon="cash" title="Pay bill" chev onClick={() => ask('What do I owe?')} />
+      <D.Row icon="lock" title={s.card.frozen ? 'Unfreeze card' : 'Freeze card'} chev onClick={() => ask(s.card.frozen ? 'Unfreeze my card' : 'Freeze my card')} />
+      <D.Row icon="doc" title="Statement" chev onClick={() => ask('Show my statement')} />
+      <D.Row icon="shield" title="Card benefits" chev onClick={() => ask('What does my card cover?')} />
+    </D.List>
+    <Blocks blocks={[{ kind: 'gambling' }, { kind: 'directdebit' }]} />
+    <D.Label>Points</D.Label>
+    <Blocks blocks={[{ kind: 'points', noPending: true }]} />
+    {(s.pending || []).length > 0 && <D.List>{(s.pending || []).map(p => <D.Row key={p.id} icon="clock" title={p.label} sub={p.pts ? `Land ${M.date(p.lands!)}` : 'Waiting for a purchase'} value={p.pts ? `+${M.num(p.pts)}` : undefined} />)}</D.List>}
+    <D.Label>Your assistant</D.Label>
+    <D.List>{alerts.map(([k, t, d]) => <D.ToggleRow key={k} title={t} sub={d} on={!!s.alerts[k]} onChange={(v: boolean) => St.set(x => ({ alerts: { ...x.alerts, [k]: v } }))} />)}<D.ToggleRow title="Always ask before spending" sub="Every booking and payment needs your OK." on lock onChange={() => { }} /></D.List>
+    <D.Label>What I remember</D.Label>
+    <D.List>
+      <D.Row title={s.prefs.aisle ? 'Aisle seat' : 'Seats: no preference'} value={s.prefs.aisle ? <button className="ds-x" aria-label="Forget aisle seat" onClick={() => St.set(x => ({ prefs: { ...x.prefs, aisle: false } }))}><Icon name="close" size={12} stroke={2.4} /></button> : <button className="ds-textbtn" onClick={() => St.set(x => ({ prefs: { ...x.prefs, aisle: true } }))}>Prefer the aisle</button>} />
+      <D.Row title="Delivery address" sub={`${addr?.label}, ${addr?.line}`} value={<button className="ds-textbtn" onClick={() => St.set(x => ({ addr: x.addr === 'a1' ? 'a2' : 'a1' }))}>{`Use ${other?.label}`}</button>} />
+    </D.List>
+    {Object.keys(s.seen).some(k => k.startsWith('alert:') && s.seen[k]) && <><D.Label>Alerts</D.Label><D.List>{Object.keys(s.seen).filter(k => k.startsWith('alert:') && s.seen[k]).map(k => <D.Row key={k} icon="bell" title={k.slice(6).charAt(0).toUpperCase() + k.slice(7)} value={<button className="ds-textbtn" onClick={() => St.set(x => ({ seen: { ...x.seen, [k]: false } }))}>Remove</button>} />)}</D.List></>}
+    <D.Label>Market and language</D.Label>
+    <div className="ds-chiprow" style={{ flexWrap: 'wrap', marginRight: 0 }} role="group">{Object.keys(MARKETS).map(k => <button key={k} className="ds-chip" aria-pressed={s.market === k} onClick={() => s.market !== k && St.switchMarket(k)}>{MARKETS[k].name}</button>)}</div>
+    <D.List><D.ToggleRow title="Dark mode" sub="Follows your phone unless you change it" on={theme === 'dark'} onChange={(v: boolean) => setTheme(v ? 'dark' : 'light')} /></D.List>
+    <p className="ds-foot"><Icon name="info" size={14} stroke={2} />Gratifi is an AI assistant. It can make mistakes, so it always asks before spending your points or money. Your name and card details come from the bank.</p>
+    <div className="app-demo"><div className="gr-row" style={{ gap: 8 }}><Icon name="bolt" size={18} /><b>Demo controls</b></div><div className="gr-meta">This stands in for the bank. Use it to test what happens when things change.</div>
+      <div className="gr-actions"><K.Button size="sm" onClick={() => { St.addPoints(5000, 'Points adjustment (demo)'); St.pushMsg({ role: 'gr', text: `Demo: ${M.pts(5000)} came in from the bank. Your balance is now ${M.pts(St.get().balance)}.` }) }}>Points come in (+{M.num(5000)})</K.Button><K.Button size="sm" variant="secondary" onClick={() => cardPayment(M)}>A card payment</K.Button></div>
+      {([['priceRise', 'Price rises at the next checkout'], ['supplierDown', 'Supplier is down'], ['decline', 'Card is declined']] as [keyof St.State['sim'], string][]).map(([k, l]) => <div key={k} className="gr-row" style={{ justifyContent: 'space-between' }}><span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{l}</span><K.Toggle label={l} on={s.sim[k]} onChange={(v: boolean) => sim(k, v)} /></div>)}
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('cancel')}>Cancel my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('late')}>Delay my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('deliver')}>Deliver my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.settlePending()); (window as any).__go?.('chat') }}>Return window ends</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('fraud')}>Suspicious payment</K.Button></div>
+      <ResetButton /></div>
+  </div>
+}
+function cardPayment(M: any) {
+  const s = St.get(), amt = Cat.px(42, s.market)
+  if (s.card.frozen) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined because your card is frozen. Nothing was charged.` }); return }
+  if (s.sim.decline) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined by the bank. Nothing was charged.` }); return }
+  const ep = Math.round(amt / St.rate() * 0.01)
+  St.set(x => ({ txns: [{ id: St.uidx(), at: Date.now(), merchant: 'Café Lune', cat: 'Dining', amount: amt, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + amt }, balance: x.balance + ep, ledger: [{ id: St.uidx(), at: Date.now(), label: 'Points on card spend: Café Lune', pts: ep }, ...x.ledger] })); St.recordSpend('Dining', amt)
+  St.pushMsg({ role: 'gr', text: St.get().alerts.spend ? `Card used at Café Lune for ${M.money(amt, 2)}. You earned ${M.num(ep)} points.` : `Demo: a card payment of ${M.money(amt, 2)} at Café Lune came in and earned ${M.num(ep)} points. Turn on Every card payment under Your assistant on My card to get a note each time.` })
+}
+
 /* Subcategories: a way into each category. Each runs a fixed action, so it works the same in every market and mode. */
 type Act = { f: string; a: any }
 const SUBCATS = (m: string): Record<string, [string, Act][]> => {
@@ -90,44 +245,18 @@ const SUBCATS = (m: string): Record<string, [string, Act][]> => {
     subs: [['Films and series', { f: 'search', a: { cat: 'subs', query: 'films' } }], ['Music', { f: 'search', a: { cat: 'subs', query: 'music' } }], ['All subscriptions', { f: 'search', a: { cat: 'subs' } }]],
   }
 }
-export function Explore({ cat, setCat, go }: { cat?: string; setCat: (c?: string) => void; go: (t: Tab) => void }) {
-  const M = useMarket()
-  const fill = (q: string) => q.replace(/\{d(\d)\}/g, (_, i) => Cat.dests(M.id)[+i].name).replace('{home}', Cat.home(M.id).city)
-  if (!cat) return <div className="app-scroll"><h1 className="gr-display" style={{ paddingTop: 6 }}>Explore</h1><div className="gr-meta">Everything your card can do. Tap one, or just ask.</div><div className="app-catgrid">{Cat.CATS.map(c => <X.CategoryTile key={c.key} icon={c.icon} label={c.label} sub={c.sub} onClick={() => setCat(c.key)} />)}</div></div>
-  const c = Cat.CATS.find(x => x.key === cat)!
-  const items = F.itemsFor(cat).slice(0, 6), sub = SUBCATS(M.id)[cat]?.filter(([l]) => l !== 'Trains' || Cat.rides(M.id).some(r => /^Train to /.test(r.title)))
-  return <div className="app-scroll">
-    <div className="gr-row" style={{ gap: 10, paddingTop: 4 }}><K.IconButton icon="back" label={M.t('back')} small onClick={() => setCat(undefined)} /><div className="gr-title">{c.label}</div></div>
-    {sub && <div className="gr-label">Browse</div>}
-    {sub && <div className="app-subcats" role="list" aria-label={`${c.label} types`}>{sub.map(([label, act]) => <button key={label} role="listitem" className="gr-chip" onClick={() => { go('chat'); run(act, label) }}>{label}</button>)}</div>}
-    {(ASKS[cat] || []).length > 0 && <div className="gr-label" style={{ marginTop: 4 }}>Or ask</div>}
-    <T.Suggestions items={(ASKS[cat] || []).map(fill)} onPick={(t: string) => { go('chat'); Br.ask(t) }} />
-    {cat === 'flights' && <div className="gr-col" style={{ gap: 10 }}>{Cat.dests(M.id).map(d => { const from = Math.min(...Cat.searchFlights(M.id, d, F.iso(F.nextFriday())).map(o => o.price)); return <X.ItemRow key={d.code} src={Cat.img(d.img)} title={d.name} sub={`${d.country} · ${Cat.durTxt(d.dur)} from ${Cat.home(M.id).code}`} price={from} unit={`from, one way, ${M.date(F.nextFriday())}`} points={F.ptsOf(from)} onClick={() => { go('chat'); run({ f: 'flightSearch', a: { city: d.name } }, `Flights to ${d.name}`) }} /> })}</div>}
-    {items.length > 0 && cat !== 'quick' && <div className="gr-col" style={{ gap: 10 }}>{items.map(i => <X.ItemRow key={i.id} src={Cat.img(i.img)} icon={i.icon} title={i.title} sub={i.sub} meta={i.meta} rating={i.rating} price={i.cat === 'giftcards' || i.mode === 'link' ? undefined : i.included && i.cat === 'airport' && St.get().loungeLeft ? 0 : F.IP(i)} unit={i.unit} points={i.gbp && i.mode !== 'link' ? Math.round(F.IP(i) / St.rate()) : undefined} badge={i.cat !== 'dining' && i.mode !== 'link' ? i.earn : (i.included && i.cat === 'subs' ? 'Included' : undefined)} trailing={i.cat === 'giftcards' ? <span className="gr-meta">From {M.money(+F.giftAmounts()[0])}</span> : undefined} onClick={() => { go('chat'); run({ f: 'showItem', a: { id: i.id } }, i.title) }} />)}</div>}
-    {cat === 'quick' && <Blocks blocks={[{ kind: 'grocery' }]} />}
-    {cat === 'bank' && <Blocks blocks={[{ kind: 'balance' }, { kind: 'controls' }]} />}
-    {cat === 'benefits' && <Blocks blocks={[{ kind: 'benefits' }]} />}
-    {cat === 'points' && <Blocks blocks={[{ kind: 'points' }, { kind: 'programmes' }]} />}
-    {cat === 'invest' && <Blocks blocks={[{ kind: 'invest' }]} />}
-    {cat === 'charity' && <Blocks blocks={[{ kind: 'charities' }]} />}
-    {cat === 'docs' && <Blocks blocks={[{ kind: 'insurance' }, { kind: 'esim' }]} />}
-    {cat === 'concierge' && <Blocks blocks={[{ kind: 'conciergeform' }]} />}
-    {cat === 'moments' && <Blocks blocks={[{ kind: 'challenges' }]} />}
-  </div>
-}
-
 /* ---------- Chat ---------- */
-export function Chat() {
+export function Chat({ nav }: { nav: Nav }) {
   const chat = St.useS(s => s.chat); const M = useMarket(); const [mode, setMode] = useState(Br.getMode())
   useEffect(() => Br.onMode(() => setMode(Br.getMode())) as any, [])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => { const el = ref.current; if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }) }, [chat.length, chat[chat.length - 1]?.blocks?.length, chat[chat.length - 1]?.text])
   const busy = chat.some(m => m.thinking)
   return <div className="app-chat">
-    <div className="app-chat-hd"><h1 className="gr-heading">Gratifi</h1><span className="app-mode" title={mode === 'claude' ? 'Answers come from Claude, using the app\'s own tools' : 'Answers come from the built-in engine'}><i className={mode === 'claude' ? 'on' : ''} />{mode === 'claude' ? 'Live AI' : mode === 'checking' ? 'Starting' : 'Built-in engine'}</span>{busy && mode === 'claude' && <button className="gr-link" onClick={Br.stop}>Stop</button>}{chat.length > 0 && !busy && <ClearChat />}</div>
+    <div className="app-chat-hd"><D.Head title="Gratifi" onBack={nav.back} right={busy && mode === 'claude' ? <button className="ds-textbtn" onClick={Br.stop}>Stop</button> : chat.length > 0 && !busy ? <ClearChat /> : <D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} /><span className="app-mode" title={mode === 'claude' ? 'Answers come from Claude, using the app\'s own tools' : 'Answers come from the built-in engine'}><i className={mode === 'claude' ? 'on' : ''} />{mode === 'claude' ? 'Live AI' : mode === 'checking' ? 'Starting' : 'Built-in engine'}</span></div>
     <div className="app-sr" aria-live="polite" aria-atomic="true">{(() => { const l = [...chat].reverse().find(m => m.role === 'gr' && !m.thinking); return l ? (l.text || (l.blocks?.length ? 'New options below.' : '')) : '' })()}</div>
     <div className="app-scroll gr-thread" ref={ref}>
-      {chat.length === 0 && <div className="gr-col" style={{ gap: 14, paddingTop: 10 }}><div className="gr-title">What can I do for you?</div><div className="gr-meta">Ask for anything on your card. I show the options; you decide with a button.</div><Blocks blocks={[{ kind: 'cats' }]} /><T.Suggestions items={['Flights to ' + Cat.dests(M.id)[0].name + ' next weekend for two', 'A table tonight for two', 'Milk, eggs and bread', 'Freeze my card', 'Transfer points to miles', 'What does my card cover?']} onPick={(t: string) => Br.ask(t)} /></div>}
+      {chat.length === 0 && <div className="gr-col" style={{ gap: 14, paddingTop: 10 }}><div className="gr-title">What can I do for you?</div><div className="gr-meta">Ask for anything on your card. I show the options; you decide with a button.</div><Blocks blocks={[{ kind: 'cats' }]} /><div className="ds-again" style={{ flexWrap: 'wrap', marginRight: 0 }}>{['Flights to ' + Cat.dests(M.id)[0].name + ' next weekend for two', 'A table tonight for two', 'Milk, eggs and bread', 'Freeze my card', 'Transfer points to miles', 'What does my card cover?'].map(t => <button key={t} style={{ paddingInlineStart: 14 }} onClick={() => Br.ask(t)}>{t}</button>)}</div></div>}
       {chat.map(m => m.role === 'user' ? <T.YouSaid key={m.id}>{m.text}</T.YouSaid> : <div key={m.id} className="gr-answer">
         {m.steps && m.steps.length > 0 && <T.Steps steps={m.steps} running={m.thinking} />}
         {m.thinking && !m.text && !(m.blocks || []).length && <T.Typing />}
@@ -142,58 +271,7 @@ export function Chat() {
 function ClearChat() {
   const [sure, setSure] = useState(false)
   React.useEffect(() => { if (sure) { const t = setTimeout(() => setSure(false), 4000); return () => clearTimeout(t) } }, [sure])
-  return <button className="gr-link" onClick={() => { if (sure) { St.set(() => ({ chat: [] })); setSure(false) } else setSure(true) }}>{sure ? 'Tap again to clear' : 'Clear'}</button>
-}
-/* ---------- Wallet ---------- */
-export function Wallet() {
-  const bs = St.useS(s => s.bookings); const [tabS, setTab] = useState('')
-  const dead = (b: St.Booking) => ['cancelled', 'refunded'].includes(b.status)
-  const sets: Record<string, St.Booking[]> = {
-    Upcoming: bs.filter(b => !dead(b) && ['ticket', 'booking'].includes(b.kind || '')).sort((x, y) => String(x.extra?.date || '9999').localeCompare(String(y.extra?.date || '9999'))),
-    Orders: bs.filter(b => !dead(b) && b.kind === 'order'),
-    Subscriptions: bs.filter(b => b.kind === 'sub'),
-    Requests: bs.filter(b => ['request', 'claim', 'transfer', 'investment'].includes(b.kind || '')),
-    Past: bs.filter(b => dead(b) || b.kind === 'donation'),
-  }
-  const tab = tabS || Object.keys(sets).find(k => sets[k].length) || 'Upcoming'
-  const strip = useRef<HTMLDivElement>(null)
-  useEffect(() => { (strip.current?.querySelector('[aria-pressed="true"]') as HTMLElement | null)?.scrollIntoView({ inline: 'nearest', block: 'nearest' }) }, [tab])
-  const list = sets[tab]
-  return <div className="app-scroll"><h1 className="gr-display" style={{ paddingTop: 6 }}>Wallet</h1>
-    <div className="app-days" role="tablist" ref={strip} style={{ flexWrap: 'wrap', overflowX: 'visible' }}>{Object.keys(sets).map(k => <button key={k} role="tab" className="gr-chip" aria-pressed={tab === k} aria-selected={tab === k} onClick={() => setTab(k)}>{k}{sets[k].length ? ` · ${sets[k].length}` : ''}</button>)}</div>
-    {list.length === 0 ? <div className="gr-card" style={{ alignItems: 'flex-start' }}><div className="gr-heading">Nothing here yet</div><div className="gr-meta">{tab === 'Upcoming' ? 'Trips, tables, tickets and bookings show up here.' : tab === 'Orders' ? 'Shopping, groceries and gift cards show up here.' : tab === 'Subscriptions' ? 'Subscriptions you start or activate show up here.' : tab === 'Requests' ? 'Concierge requests, claims, transfers and gifts show up here.' : 'Cancelled and refunded things show up here.'}</div></div>
-      : list.map(b => <Blocks key={b.id} blocks={[b.tracker && !dead(b) && b.tracker.current < b.tracker.steps.length - 1 ? { kind: 'tracker', id: b.id } : { kind: 'booking', id: b.id, inline: true }]} />)}
-  </div>
-}
-
-/* ---------- Me ---------- */
-export function Me({ theme, setTheme }: { theme: string; setTheme: (t: string) => void }) {
-  const s = St.useS(x => x); const M = useMarket()
-  const sim = (k: keyof St.State['sim'], v: boolean) => St.set(x => ({ sim: { ...x.sim, [k]: v } }))
-  return <div className="app-scroll"><h1 className="gr-display" style={{ paddingTop: 6 }}>My card</h1>
-    <Blocks blocks={[{ kind: 'balance' }]} />
-    <div className="app-quick">{[['cash', 'Pay bill', 'What do I owe?'], ['lock', s.card.frozen ? 'Unfreeze' : 'Freeze', s.card.frozen ? 'Unfreeze my card' : 'Freeze my card'], ['doc', 'Statement', 'Show my statement'], ['shield', 'Benefits', 'What does my card cover?']].map(([ic, l, q]) => <button key={l} onClick={() => { (window as any).__go?.('chat'); Br.ask(q) }}><span className="gr-ct-ic"><Icon name={ic} size={20} /></span>{l}</button>)}</div>
-    <Blocks blocks={[{ kind: 'gambling' }, { kind: 'directdebit' }]} />
-    <h2 className="gr-heading">Points</h2>
-    <Blocks blocks={[{ kind: 'points', noPending: true }]} />
-    {(s.pending || []).length > 0 && <div className="gr-card" style={{ gap: 8 }}><div className="gr-label">Pending points</div>{(s.pending || []).map(p => <div key={p.id} className="gr-row" style={{ justifyContent: 'space-between', gap: 10 }}><span>{p.label}</span><span className="gr-meta">{p.pts ? `${M.pts(p.pts)} · land ${M.date(p.lands!)}` : 'Waiting for a purchase'}</span></div>)}</div>}
-    <h2 className="gr-heading">Market and language</h2>
-    <K.Chips items={Object.keys(MARKETS).map(k => ({ id: k, label: MARKETS[k].name }))} value={s.market} wrap onChange={(v: any) => v && St.switchMarket(v)} />
-    <div className="gr-row" style={{ justifyContent: 'space-between' }}><div><div style={{ fontWeight: 650 }}>Dark mode</div><div className="gr-meta">Follows your phone unless you change it</div></div><K.Toggle label="Dark mode" on={theme === 'dark'} onChange={(v: boolean) => setTheme(v ? 'dark' : 'light')} /></div>
-    {Object.keys(s.seen).some(k => k.startsWith('alert:') && s.seen[k]) && <><h2 className="gr-heading">Alerts</h2><div className="gr-card" style={{ gap: 0, paddingTop: 4, paddingBottom: 4 }}>{Object.keys(s.seen).filter(k => k.startsWith('alert:') && s.seen[k]).map(k => <div key={k} className="gr-benefit" style={{ cursor: 'default' }}><div className="gr-grow"><div style={{ fontWeight: 650 }}>{k.slice(6).charAt(0).toUpperCase() + k.slice(7)}</div></div><K.Button size="sm" variant="secondary" onClick={() => St.set(x => ({ seen: { ...x.seen, [k]: false } }))}>Remove</K.Button></div>)}</div></>}
-    <h2 className="gr-heading">Messages</h2>
-    <X.AlertSettings state={s.alerts} onChange={(k: string, v: boolean) => St.set(x => ({ alerts: { ...x.alerts, [k]: v } }))} />
-    <h2 className="gr-heading">What Gratifi remembers</h2>
-    <div className="gr-card" style={{ gap: 0, paddingTop: 4, paddingBottom: 4 }}>
-      <div className="gr-benefit" style={{ cursor: 'default' }}><div className="gr-grow"><div style={{ fontWeight: 650 }}>Seats</div><div className="gr-meta">{s.prefs.aisle ? 'Prefers the aisle' : 'No preference'}</div></div>{s.prefs.aisle ? <K.Button size="sm" variant="quiet" onClick={() => St.set(x => ({ prefs: { ...x.prefs, aisle: false } }))}>Forget</K.Button> : <K.Button size="sm" variant="quiet" onClick={() => St.set(x => ({ prefs: { ...x.prefs, aisle: true } }))}>Prefer the aisle</K.Button>}</div>
-      <div className="gr-benefit" style={{ cursor: 'default' }}><div className="gr-grow"><div style={{ fontWeight: 650 }}>Delivery address</div><div className="gr-meta">{s.addresses.find(a => a.id === s.addr)?.label}, {s.addresses.find(a => a.id === s.addr)?.line}</div></div><K.Button size="sm" variant="quiet" onClick={() => St.set(x => ({ addr: x.addr === 'a1' ? 'a2' : 'a1' }))}>Use {s.addresses.find(a => a.id !== s.addr)?.label}</K.Button></div>
-      <div className="gr-meta" style={{ padding: '10px 0 6px' }}>Your name and card details come from the bank.</div></div>
-    <div className="app-demo"><div className="gr-row" style={{ gap: 8 }}><Icon name="bolt" size={18} /><b>Demo controls</b></div><div className="gr-meta">This stands in for the bank. Use it to test what happens when things change.</div>
-      <div className="gr-actions"><K.Button size="sm" onClick={() => { St.addPoints(5000, 'Points adjustment (demo)'); St.pushMsg({ role: 'gr', text: `Demo: ${M.pts(5000)} came in from the bank. Your balance is now ${M.pts(St.get().balance)}.` }) }}>Points come in (+{M.num(5000)})</K.Button><K.Button size="sm" variant="secondary" onClick={() => { const amt = Cat.px(42, s.market); if (St.get().card.frozen) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined because your card is frozen. Nothing was charged.` }); return } if (St.get().sim.decline) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined by the bank. Nothing was charged.` }); return } const ep = Math.round(amt / St.rate() * 0.01); St.set(x => ({ txns: [{ id: St.uidx(), at: Date.now(), merchant: 'Café Lune', cat: 'Dining', amount: amt, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + amt }, balance: x.balance + ep, ledger: [{ id: St.uidx(), at: Date.now(), label: 'Points on card spend: Café Lune', pts: ep }, ...x.ledger] })); St.recordSpend('Dining', amt); St.pushMsg({ role: 'gr', text: St.get().alerts.spend ? `Card used at Café Lune for ${M.money(amt, 2)}. You earned ${M.num(Math.round(amt / St.rate() * 0.01))} points.` : `Demo: a card payment of ${M.money(amt, 2)} at Café Lune came in and earned ${M.num(Math.round(amt / St.rate() * 0.01))} points. Turn on Every card payment under Messages to get a note each time.` }) }}>A card payment</K.Button></div>
-      {([['priceRise', 'Price rises at the next checkout'], ['supplierDown', 'Supplier is down'], ['decline', 'Card is declined']] as [keyof St.State['sim'], string][]).map(([k, l]) => <div key={k} className="gr-row" style={{ justifyContent: 'space-between' }}><span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{l}</span><K.Toggle label={l} on={s.sim[k]} onChange={(v: boolean) => sim(k, v)} /></div>)}
-      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('cancel')}>Cancel my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('late')}>Delay my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('deliver')}>Deliver my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.settlePending()); (window as any).__go?.('chat') }}>Return window ends</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('fraud')}>Suspicious payment</K.Button></div>
-      <ResetButton /></div>
-  </div>
+  return <button className="ds-textbtn" onClick={() => { if (sure) { St.set(() => ({ chat: [] })); setSure(false) } else setSure(true) }}>{sure ? 'Tap again to clear' : 'Clear'}</button>
 }
 function ResetButton() {
   const [sure, setSure] = useState(false)

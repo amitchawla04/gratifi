@@ -6,7 +6,7 @@ import * as St from './store'
 import * as Br from './brain'
 import * as FL from './flows'
 import { ConfirmHost, setGoChat, setSendText } from './render'
-import { Home, Explore, Chat, Wallet, Me, Tab } from './screens'
+import { Home, Explore, Chat, Wallet, Me, Offers, Alerts, Tier, Bank, Tab, Nav } from './screens'
 import { arabic, toEn } from './ar'
 
 const W = window as any
@@ -27,26 +27,36 @@ function App() {
   useEffect(() => { document.documentElement.dataset.theme = theme }, [theme])
   useEffect(() => { const f = fmt(s.market); document.documentElement.lang = f.locale; document.documentElement.dir = f.dir; W.__phoneEnd = ({ UK: '21', EU: '48', IN: '45', AE: '09', AR: '09', SG: '63', MY: '17' } as any)[s.market] }, [s.market])
   ;(window as any).__tab = tab
-  const go = (t: Tab, c?: string) => { setTab(t); if (t === 'explore') setCat(c); const el = document.querySelector('.app-main .app-scroll'); if (el && t !== 'chat') el.scrollTop = 0 }
+  const [hist, setHist] = useState<{ t: Tab; c?: string }[]>([])
+  const [wstart, setWstart] = useState<string | undefined>()
+  const top = () => { const el = document.querySelector('.app-main .app-scroll'); if (el) el.scrollTop = 0 }
+  const go = (t: Tab, c?: string) => { if (t !== tab) setHist(h => [...h.slice(-20), { t: tab, c: cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t !== 'chat') setTimeout(top, 0) }
+  const back = () => { const h = hist[hist.length - 1]; setHist(hist.slice(0, -1)); if (!h) { setTab('home'); return } setTab(h.t); if (h.t === 'explore') setCat(h.c) }
+  const nav: Nav = { go, back }
   W.__go = go; W.__M = fmt(s.market)
-  useEffect(() => { setGoChat(() => setTab('chat')); setSendText((t: string) => { setTab('chat'); Br.ask(t) }) }, [])
+  useEffect(() => { setGoChat(() => W.__go('chat')); setSendText((t: string) => { W.__go('chat'); Br.ask(t) }) }, [])
   const unread = tab !== 'chat' && s.chat.length > 0 && s.chat[s.chat.length - 1].role === 'gr' && !s.seen['chat-' + s.chat[s.chat.length - 1].id]
   useEffect(() => { if (tab === 'chat' && s.chat.length) { const id = 'chat-' + s.chat[s.chat.length - 1].id; if (!s.seen[id]) St.set(x => ({ seen: { ...x.seen, [id]: true } })) } }, [tab, s.chat.length])
   const M = fmt(s.market)
-  const nav = [{ id: 'home', icon: 'home', label: M.t('home') }, { id: 'explore', icon: 'grid', label: s.market === 'AR' ? 'استكشف' : 'Explore' }, { id: 'chat', icon: 'sparkle', label: 'Gratifi' }, { id: 'wallet', icon: 'wallet', label: s.market === 'AR' ? 'المحفظة' : 'Wallet' }, { id: 'me', icon: 'card', label: s.market === 'AR' ? 'بطاقتي' : 'My card' }]
+  const ph: Record<string, string> = { home: 'Ask or book anything', explore: 'Ask or book anything', chat: 'Reply or ask anything', wallet: 'Ask about your bookings', me: 'Ask about your card', offers: 'Ask about offers', alerts: 'Ask or book anything', tier: 'Ask about your tier' }
   return <MarketProvider market={s.market}>
-    <div className="app gr" data-tab={tab} key={s.market}>
-      <main className="app-main">
-        {tab === 'home' && <Home go={go} />}
-        {tab === 'explore' && <Explore cat={cat} setCat={setCat} go={go} />}
-        {tab === 'chat' && <Chat />}
-        {tab === 'wallet' && <Wallet />}
-        {tab === 'me' && <Me theme={theme} setTheme={setTheme} />}
-      </main>
-      <div className="app-dock">
-        {<T.AskBar placeholder={tab === 'chat' ? undefined : 'Ask Gratifi for anything'} onSend={(t: string) => { setTab('chat'); Br.ask(t) }} onMic={() => { setTab('chat'); St.pushMsg({ role: 'gr', text: 'Voice works in the phone app. Type here for now.' }) }} />}
-        <div className={unread ? 'app-navwrap app-unread' : 'app-navwrap'}><K.NavBar items={nav} current={tab} onChange={(t: Tab) => go(t)} /></div>
-      </div>
+    <div className={unread ? 'app gr app-unread' : 'app gr'} data-tab={tab} key={s.market}>
+      {tab === 'bank' ? <main className="app-main ds-bankwrap"><Bank nav={nav} /></main> : <div className="ds-sheet">
+        <div className="ds-grab"><i /></div>
+        <main className="app-main">
+          {tab === 'home' && <Home nav={nav} />}
+          {tab === 'explore' && <Explore cat={cat} setCat={setCat} nav={nav} />}
+          {tab === 'chat' && <Chat nav={nav} />}
+          {tab === 'wallet' && <Wallet nav={nav} start={wstart} key={wstart || 'w'} />}
+          {tab === 'me' && <Me nav={nav} theme={theme} setTheme={setTheme} />}
+          {tab === 'offers' && <Offers nav={nav} />}
+          {tab === 'alerts' && <Alerts nav={nav} />}
+          {tab === 'tier' && <Tier nav={nav} />}
+        </main>
+        <div className="app-dock">
+          <T.AskBar key={tab} placeholder={ph[tab]} onSend={(t: string) => { go('chat'); Br.ask(t) }} onMic={() => { go('chat'); St.pushMsg({ role: 'gr', text: 'Voice works in the phone app. Type here for now.' }) }} />
+        </div>
+      </div>}
       <ConfirmHost />
     </div>
   </MarketProvider>

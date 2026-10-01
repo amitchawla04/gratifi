@@ -12,7 +12,7 @@ async function payOrFree(h, tag) {
 async function buyFirst(h, q, tag, nth = 0, pre) {
   const { p, ask, full } = h
   await ask(q); await full(tag + '-list')
-  await p.locator('.gr-answer').last().locator('.gr-itemrow').nth(nth).click(); await p.waitForTimeout(400)
+  await p.locator('.gr-answer').last().locator('.ds-best-ph, .ds-irow, .gr-itemrow').nth(nth).click(); await p.waitForTimeout(400)
   if (pre) await pre()
   { const b = p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last(); if (/Pick a size|اختر المقاس/.test(await b.innerText().catch(() => ''))) { await p.locator('.gr-answer').last().locator('.gr-chip').nth(1).click(); await p.waitForTimeout(150) } }
   await full(tag + '-detail')
@@ -69,7 +69,7 @@ module.exports = {
   async docs(h) {
     const { ask, full, nav, p } = h
     await nav(3); await ask(`Do I need a visa for ${CITY[mk()]}?`); await ask('Travel insurance'); await full('ins')
-    await ask('eSIM for data abroad'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400); await full('esim')
+    await ask('eSIM for data abroad'); await p.locator('.gr-answer').last().locator('.ds-best-ph, .ds-irow, .gr-itemrow').first().click(); await p.waitForTimeout(400); await full('esim')
     await payOrFree(h, 'esim')
   },
   async concierge(h) {
@@ -85,7 +85,7 @@ module.exports = {
     await buyFirst(h, 'Noise-cancelling headphones', 'rise').catch(() => {}); await full('price-rise')
     await click(/^Continue at/); await full('reopened'); await click(/^Pay /); await h.confirm(); await full('rise-paid')
     await nav(5); await p.locator('.app-demo [role=switch]').nth(2).click(); await nav(3)
-    await ask('Noise-cancelling headphones'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(300)
+    await ask('Noise-cancelling headphones'); await p.locator('.gr-answer').last().locator('.ds-best-ph, .ds-irow, .gr-itemrow').first().click(); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(300)
     await p.locator('.gr-answer').last().locator('.gr-opt,[role=radio]').last().click().catch(() => {}); await click(/^Pay /); await h.confirm(); await full('declined')
     await nav(5); await click('Suspicious payment'); await full('fraud')
     await ask('Can I order food delivery?'); await full('food')

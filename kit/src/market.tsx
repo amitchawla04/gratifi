@@ -62,7 +62,7 @@ export function fmt(m: Market | string = 'UK'): Fmt {
       const x = typeof d === 'string' ? new Date(d + 'T12:00:00') : d
       const o: any = style === 'long' ? { weekday: 'long', day: 'numeric', month: 'long' } : style === 'day' ? { day: 'numeric', month: 'short' } : { weekday: 'short', day: 'numeric', month: 'short' }
       if (Math.abs(x.getTime() - Date.now()) > 300 * 864e5) o.year = 'numeric' /* far-off or past dates carry the year so nobody books the wrong one */
-      return new Intl.DateTimeFormat(mk.locale, o).format(x).replace(',', '').replace('Sept', 'Sep')
+      return new Intl.DateTimeFormat(mk.locale, o).format(x).replace(',', '').replace(/\bSept\b/, 'Sep')
     },
     monthLabel: (y, m) => new Intl.DateTimeFormat(mk.locale, { month: 'long', year: 'numeric' }).format(new Date(y, m, 15)),
     dows: () => Array.from({ length: 7 }, (_, i) => new Intl.DateTimeFormat(mk.locale, { weekday: 'narrow' }).format(new Date(2026, 5, 7 + ((mk.firstDay % 7) + i)))),

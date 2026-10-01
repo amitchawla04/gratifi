@@ -13,8 +13,9 @@ export function AskBar({ placeholder, value, listening, onSend, onMic }: { place
     <Spark size={18} />
     {listening ? <span className="gr-wave" role="status" aria-label={M.t('listening')}><span className="gr-meta" style={{ marginInlineEnd: 8, color: 'var(--ink)' }}>{M.t('listening')}</span>{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => <i key={i} style={{ animationDelay: `${(i % 5) * 0.12}s`, height: [8, 14, 20, 12, 18, 10, 22, 14, 9, 16, 12, 7][i] }} />)}</span>
       : <input aria-label={M.t('askLabel')} placeholder={placeholder ?? M.t('ask')} value={t} onChange={(e: any) => setT(e.target.value)} />}
-    {t && !listening ? <button type="submit" className="gr-send" aria-label={M.t('send')}><Icon name="up" size={20} stroke={2.4} /></button>
-      : <button type="button" className="gr-mic" aria-label={listening ? M.t('stopListening') : M.t('speak')} onClick={onMic}><Icon name="mic" size={20} stroke={2.1} /></button>}
+    {!listening && <button type="button" className="gr-mic" aria-label={M.t('speak')} onClick={onMic}><Icon name="mic" size={20} stroke={2.1} /></button>}
+    {listening ? <button type="button" className="gr-mic" aria-label={M.t('stopListening')} onClick={onMic}><Icon name="mic" size={20} stroke={2.1} /></button>
+      : <button type="submit" className="gr-send" aria-label={M.t('send')}><Icon name="up" size={20} stroke={2.4} /></button>}
   </form>
 }
 
@@ -23,6 +24,7 @@ export function YouSaid({ children }: any) { return <div className="gr-you" dir=
 
 /** The quiet line that says where an answer came from, step by step. Steps appear as they finish. */
 export function Steps({ steps, running }: { steps: string[]; running?: boolean }) {
+  if (!running && steps.length > 1) return <div className="gr-steps" aria-live="polite"><div className="gr-step"><span className="gr-tick"><Icon name="check" size={12} stroke={3} /></span>{steps.join(' · ')}</div></div>
   return <div className="gr-steps" aria-live="polite">{steps.map((s, i) => { const now = running && i === steps.length - 1; return <div key={s} className={cx('gr-step', now && 'gr-now')} style={{ animationDelay: `${i * 0.12}s` }}><span className="gr-tick">{!now && <Icon name="check" size={12} stroke={3} />}</span>{s}</div> })}</div>
 }
 

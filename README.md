@@ -19,7 +19,9 @@ This writes `gratifi/build/gratifi.html` (the published page), `test.html` (loca
 | Path | What it holds |
 | --- | --- |
 | `gratifi/src/main.tsx` | App start and tab layout |
-| `gratifi/src/screens.tsx` | Home, Explore, chat, Wallet, My card, demo controls |
+| `gratifi/src/screens.tsx` | Home, Rewards, chat, Wallet, My card, Offers, Alerts, Tier, bank entry, demo controls |
+| `gratifi/src/design.tsx` | Components taken from the approved 27 Sep screens (header buttons, points card, note, stamps, offers, polaroids, lists, segmented, switches) |
+| `gratifi/src/art/` | Artwork from the approved screens |
 | `gratifi/src/brain.ts` | Live AI mode: Claude rules, 16 tools, second safety check, reply filters |
 | `gratifi/src/flows.ts` | Built-in engine and flow logic: fixed safety check, search, checkout, bookings, card servicing |
 | `gratifi/src/render.tsx` | Answer cards, confirm sheet, receipts |

@@ -8,6 +8,7 @@ import * as X from '../../kit/src/more'
 import { Icon } from '../../kit/src/icons'
 import { useMarket } from '../../kit/src/market'
 import * as St from './store'
+import * as D from './design'
 import * as F from './flows'
 import * as Cat from './catalog'
 
@@ -134,7 +135,7 @@ function useOnce(bk?: string): [boolean, () => void] { const used = St.useS(s =>
 const img = (k?: string) => Cat.img(k)
 export const iconFor = (c: string) => (Cat.CATS.find(x => x.key === c)?.icon) || 'bag'
 function Sug({ items }: { items: string[] }) { return <T.Suggestions items={items} onPick={(s: string) => sendText(s)} /> }
-const OFFERS = [['OF-1', 'Table Collective', 'T', '#9A3B2E', '15% off dining'], ['OF-2', 'Northway Air', 'N', '#1F3A5F', '5% back on flights'], ['OF-3', 'Pantry Market', 'P', '#3D6B35', '10% back on groceries'], ['OF-4', 'Byte Store', 'B', '#5B3FA8', '8% back on tech']]
+export const OFFERS = [['OF-1', 'Table Collective', 'T', '#9A3B2E', '15% off dining'], ['OF-2', 'Northway Air', 'N', '#1F3A5F', '5% back on flights'], ['OF-3', 'Pantry Market', 'P', '#3D6B35', '10% back on groceries'], ['OF-4', 'Byte Store', 'B', '#5B3FA8', '8% back on tech']]
 export function OfferList({ rail }: { rail?: boolean }) {
   const seen = St.useS(s => s.seen)
   const cards = OFFERS.map(([id, b, m, c, r]) => <div key={id} style={rail ? { width: 300 } : undefined}><T.OfferCard brand={b} mono={m} color={c} rate={r} sub="Until 31 Oct" added={!!seen['offer:' + id]} onAdd={(on: boolean) => { St.set(s => ({ seen: { ...s.seen, ['offer:' + id]: on } })); if (on) St.pushMsg({ role: 'gr', text: `Added: ${r} at ${b} until 31 Oct, when you pay with your card.` }) }} /></div>)
@@ -143,7 +144,7 @@ export function OfferList({ rail }: { rail?: boolean }) {
 
 const BLOCKS: Record<string, (p: any) => any> = {
   suggest: ({ items }) => <Sug items={items} />,
-  cats: () => <div className="app-catgrid">{Cat.CATS.slice(0, 8).map(c => <X.CategoryTile key={c.key} icon={c.icon} label={c.label} sub={c.sub} onClick={() => run({ f: 'route', a: { text: c.key } }, c.label)} />)}</div>,
+  cats: () => <D.Stamps items={['stays', 'flights', 'experiences', 'dining', 'tickets', 'shopping', 'subs', 'rides', 'quick', 'giftcards'].map(k => Cat.CATS.find(c => c.key === k)!).map(c => ({ key: c.key, label: c.label, art: D.STAMP[c.key], onClick: () => run({ f: 'route', a: { text: c.key } }, c.label) }))} />,
   places: ({ mode }) => { const M = useMarket(); return <T.Suggestions items={Cat.dests(M.id).map(c => c.name)} onPick={(s: string) => sendText(mode === 'visa' ? `Do I need a visa for ${s}?` : 'Flights to ' + s)} /> },
   state: (p) => <StateWrap {...p} />,
   handoff: ({ reason, team, bk }: any) => { const fraud = team === 'fraud', care = team === 'care'; const name = fraud ? 'Maya' : care ? 'Leila' : 'Priya'; const [used, setUsed] = useDone(bk); return <T.Handoff initial={St.get().market === 'AR' ? ({ Maya: 'م', Leila: 'ل', Priya: 'ب' } as any)[name] : undefined} name={name} role={fraud ? 'fraud team' : care ? 'specialist care team' : 'customer team'} wait={used ? 'Asked for' : 'Usually joins within 2 minutes'} used={used} onChat={() => { setUsed(true); St.pushMsg({ role: 'gr', text: `I've asked ${name} to join. She can see our conversation, so you won't need to repeat anything.` }); setTimeout(() => St.pushMsg({ role: 'gr', text: `${name} has joined. (Demo: in the live app ${name} is a real person who replies here; in this demo, Gratifi carries on.)` }), 6000) }} onCall={() => { setUsed(true); St.pushMsg({ role: 'gr', text: `${name} will call you in the next few minutes on your registered number.` }) }} /> },
@@ -159,7 +160,17 @@ const BLOCKS: Record<string, (p: any) => any> = {
   calendar: ({ city, pax }) => <CalendarBlock city={city} pax={pax} />,
 
   /* items */
-  items: ({ ids, pax, time, date, nights, rooms, room }) => { const M = useMarket(); const stayP = (i: Cat.Item) => F.stayPrice(i, room || '', nights || 2) * (rooms || 1); const items = ids.map((i: string) => F.findItem(i)).filter(Boolean) as Cat.Item[]; return <div className="gr-col" style={{ gap: 10 }}>{items.map(i => <X.ItemRow key={i.id} src={img(i.img)} icon={i.icon} title={i.title} sub={i.sub} meta={i.meta} rating={i.rating} price={i.cat === 'giftcards' || i.mode === 'link' ? undefined : i.included && i.cat === 'airport' && St.get().loungeLeft ? 0 : i.cat === 'stays' ? stayP(i) : F.IP(i)} unit={i.cat === 'stays' && (nights || rooms || room) ? `${nights || 2} night${(nights || 2) > 1 ? 's' : ''}${room ? `, ${rooms > 1 ? rooms + ' ' : ''}${room.replace(/ \(.*\)/, '').toLowerCase()}${rooms > 1 ? 's' : ''}` : rooms > 1 ? `, ${rooms} rooms` : ''}, taxes in` : i.unit} points={i.gbp && i.mode !== 'link' ? F.ptsOf(i.cat === 'stays' ? stayP(i) : F.IP(i)) : undefined} badge={(i.cat !== 'dining' && i.mode !== 'link' && i.earn) || (i.included && i.cat === 'subs' ? 'Included' : undefined)} trailing={i.cat === 'giftcards' ? <span className="gr-meta">From {M.money(+F.giftAmounts()[0])}</span> : i.mode === 'link' ? <K.Badge tone="accent">{i.earn}</K.Badge> : undefined} onClick={() => run({ f: 'showItem', a: { id: i.id, pax, time, date, nights, rooms } }, i.title)} />)}</div> },
+  items: ({ ids, pax, time, date, nights, rooms, room }) => { const M = useMarket(); const stayP = (i: Cat.Item) => F.stayPrice(i, room || '', nights || 2) * (rooms || 1); const items = ids.map((i: string) => F.findItem(i)).filter(Boolean) as Cat.Item[]
+    const open = (i: Cat.Item) => run({ f: 'showItem', a: { id: i.id, pax, time, date, nights, rooms } }, i.title)
+    const cash = (i: Cat.Item) => i.cat === 'giftcards' || i.mode === 'link' ? undefined : i.included && i.cat === 'airport' && St.get().loungeLeft ? 0 : i.cat === 'stays' ? stayP(i) : F.IP(i)
+    const unit = (i: Cat.Item) => i.cat === 'stays' ? `${nights || 2} night${(nights || 2) > 1 ? 's' : ''}${room ? `, ${rooms > 1 ? rooms + ' ' : ''}${room.replace(/ \(.*\)/, '').toLowerCase()}${rooms > 1 ? 's' : ''}` : rooms > 1 ? `, ${rooms} rooms` : ''}, taxes in` : i.unit
+    const price = (i: Cat.Item) => { const c = cash(i); if (i.cat === 'giftcards') return <span className="ds-ip-m">From {M.money(+F.giftAmounts()[0])}</span>; if (i.mode === 'link') return <span className="ds-ip-m">{i.earn}</span>; if (i.included && i.cat === 'subs') return <span>Included</span>; if (c === 0) return <span>{M.t('free')}</span>; if (c == null) return null; return <><span>{`${M.num(F.ptsOf(c))} points`}</span><span className="ds-ip-m ds-ip-or">{`or ${M.money(c, c % 1 ? 2 : 0)}`}</span>{unit(i) && <span className="ds-ip-m ds-ip-u">{unit(i)}</span>}</> }
+    const meta = (i: Cat.Item) => [i.rating ? `★ ${i.rating}` : '', i.sub, ...((i.meta || []).slice(0, 1)), i.cat !== 'dining' && i.mode !== 'link' ? i.earn : ''].filter(Boolean).map((x, k) => <span key={k} className={k ? 'ds-ip-u' : undefined}>{x}</span>)
+    const best = items.length > 1 && items[0].img ? items[0] : undefined
+    return <div className="gr-col" style={{ gap: 12 }}>
+      {best && <div className="ds-best"><button className="ds-best-ph" onClick={() => open(best)} aria-label={best.title}><img src={img(best.img)} alt="" /><span className="ds-best-tag">Best match</span></button><div className="ds-best-f"><div className="ds-best-b"><p className="ds-ip-t">{best.title}</p><p className="ds-ip-s">{meta(best)}</p><p className="ds-ip-p">{price(best)}</p></div><button className="ds-btn40" onClick={() => open(best)}>{best.cat === 'shopping' ? 'View' : 'Book'}</button></div></div>}
+      {items.filter(i => i !== best).map(i => <button key={i.id} className="ds-irow" onClick={() => open(i)}><span className="ds-irow-ph">{i.img ? <img src={img(i.img)} alt="" /> : D.STAMP[i.cat] ? <img src={D.STAMP[i.cat]} alt="" style={{ objectFit: 'contain' }} /> : <Icon name={i.icon || 'grid'} size={24} />}</span><span className="ds-irow-b"><span className="ds-ip-t">{i.title}</span><span className="ds-ip-s">{meta(i)}</span><span className="ds-ip-p">{price(i)}</span></span><Icon name="chev" size={18} stroke={2.2} /></button>)}
+    </div> },
   detail: (p: any) => <DetailBlock {...p} />,
   grocery: () => <GroceryBlock />,
   checkout: (p: any) => <CheckoutBlock {...p} />,
