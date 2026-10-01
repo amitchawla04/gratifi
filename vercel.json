@@ -1,1 +1,1 @@
-{ "buildCommand": "", "outputDirectory": "site", "framework": null, "cleanUrls": true }
+{ "installCommand": "npm ci --prefix kit", "buildCommand": "python3 gratifi/build.py", "outputDirectory": "site", "framework": null, "cleanUrls": true }

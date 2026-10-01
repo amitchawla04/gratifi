@@ -12,7 +12,11 @@ cd kit && npm install && cd ..
 python3 gratifi/build.py
 ```
 
-This writes `gratifi/build/gratifi.html` (the published page), `test.html` (local testing) and `test-ai.html` (a pretend Claude for testing the AI plumbing). Open `test.html?m=UK` in a phone-sized window. The `m` parameter takes UK, EU, IN, AE, AR, SG or MY.
+This writes `gratifi/build/gratifi.html` (the published page), `site/index.html` (the page Vercel serves), `test.html` (local testing) and `test-ai.html` (a pretend Claude for testing the AI plumbing). Open `test.html?m=UK` in a phone-sized window. The `m` parameter takes UK, EU, IN, AE, AR, SG or MY.
+
+## Deploy
+
+The Vercel project `gratifi` is linked to this repository. Every push builds the page from source using `vercel.json` (`npm ci --prefix kit`, then `python3 gratifi/build.py`) and serves `site/`. Pushes to `main` go to production. Other branches get preview URLs.
 
 ## Layout
 

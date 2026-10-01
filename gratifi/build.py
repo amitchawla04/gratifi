@@ -25,6 +25,9 @@ html=f"""<title>Gratifi</title>
 <script>{js('build/app.js')}</script>
 """
 open('build/gratifi.html','w').write(html)
+# the page Vercel serves (vercel.json outputDirectory)
+os.makedirs('../site',exist_ok=True)
+open('../site/index.html','w').write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'+html+'</head></html>')
 # local test page with a full doc
 open('build/test.html','w').write('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>window.__errs=[];addEventListener("error",e=>__errs.push(e.message));</script>'+html.replace('<title>','<title>',1)+'</head></html>')
 fake = '''<script>
