@@ -8,6 +8,7 @@ import * as Cat from './catalog'
 import { respond, openConfirm } from './render'
 import { fmt } from '../../kit/src/market'
 import { toEn } from './ar'
+import * as LLM from './llm'
 
 export type Mode = 'checking' | 'claude' | 'local'
 let mode: Mode = 'checking'; let sample: any = null; let maxTools = 16
@@ -17,10 +18,10 @@ export function onMode(f: () => void) { mSubs.add(f); return () => mSubs.delete(
 function setMode(m: Mode) { mode = m; mSubs.forEach(f => f()) }
 export async function initBrain() {
   try {
+    /* Inside Claude, the page's own Claude tool; on the web, the Claude API line (if the key is set); otherwise the built-in engine. */
     const c = (window as any).claude
-    if (!c?.use) { setMode('local'); return }
-    const s = await c.use('sample')
-    if (!s) { setMode('local'); return }
+    const s = c?.use ? await c.use('sample') : null
+    if (!s) { if (await LLM.available()) { sample = LLM.makeSample(); maxTools = 24; setMode('claude'); return } setMode('local'); return }
     const lim = await s.limits().catch(() => null)
     if (!lim?.tools) { setMode('local'); return }
     maxTools = lim.tools.maxCount || 16; sample = s; setMode('claude')
@@ -221,7 +222,9 @@ function safetyCard(v: { risk: string; who: string }, text: string): F.R | null 
 }
 async function askClaude(text: string, id: string) {
   const hist = St.get().chat.filter(m => m.id !== id && (m.text || m.role === 'user' || m.blocks?.length)).slice(-12).map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.role === 'user' ? m.text : [m.text || '', m.blocks?.length ? `[showed the customer: ${[...new Set(m.blocks.map(b => b.kind))].join(', ')}${(() => { const ids = [...new Set(m.blocks.flatMap((b: any) => [...(b.id ? [b.id] : []), ...(b.draft ? [b.draft] : []), ...(Array.isArray(b.ids) ? b.ids.slice(0, 8) : [])]))]; return ids.length ? `; ids: ${ids.map((x: any) => { const f = /^FL-/.test(x) ? F.flightById(x) : undefined; return f ? `${x} (${f.dep}, ${f.price} each)` : x }).join(', ')}` : '' })()}]` : ''].filter(Boolean).join(' ') })).filter(x => x.content) as any[]
-  const turns = [{ role: 'user', content: rules() }, ...hist.slice(0, -1), { role: 'user', content: text }]
+  /* On the API line the rules go in the system prompt, where instructions belong; customer text stays in the conversation. */
+  const viaApi = !!sample?.__api
+  const turns = viaApi ? [...hist.slice(0, -1), { role: 'user', content: text }] : [{ role: 'user', content: rules() }, ...hist.slice(0, -1), { role: 'user', content: text }]
   ctl = new AbortController()
   turnText = toEn(text).toLowerCase() + ' ' + text; turnConfirm = false
   const before = snap(), card0 = snapCard(), st0 = statuses(), frozen0 = St.get().card.frozen, card0o = { ...St.get().card, alerts: Object.keys(St.get().seen).filter(k => k.startsWith('alert:') && St.get().seen[k]).join('|') }; turnTools = []
@@ -232,7 +235,7 @@ async function askClaude(text: string, id: string) {
   const safeP = safetyCheck(text, prevUser, ctl.signal).then(v => { verdict = v; clearTimeout(relT); const card = safetyCard(v, text); if (card) { risky = true; hold.dead = true; hold.q = []; ctl?.abort(); openConfirm(null); respond(card, id) } else { release(); if (pending) St.patchMsg(id, { text: pending }) } return v })
   gate = safeP.then(() => !risky)
   try {
-    const res = await sample(turns, { modelTier: text.trim().split(/\s+/).length > 12 || /\b(and|then|also|plus|but)\b|,/.test(text) ? 'default' : 'quick', tools: tools(id), signal: ctl.signal, onText: ({ text: tx }: any) => { if (risky) return; const g = guard(clean(tx), { money: snapMoney() !== before, frozen: St.get().card.frozen !== frozen0, cardSet: snapCard() !== card0, st0, card0: card0o, listing: !turnConfirm && turnTools.some(n => /my_bookings|manage_booking|card_and_account/.test(n)), card: hasCard() }); if (verdict) St.patchMsg(id, { text: g, live: true }); else pending = g } })
+    const res = await sample(turns, { ...(viaApi ? { system: rules() } : {}), modelTier: text.trim().split(/\s+/).length > 12 || /\b(and|then|also|plus|but)\b|,/.test(text) ? 'default' : 'quick', tools: tools(id), signal: ctl.signal, onText: ({ text: tx }: any) => { if (risky) return; const g = guard(clean(tx), { money: snapMoney() !== before, frozen: St.get().card.frozen !== frozen0, cardSet: snapCard() !== card0, st0, card0: card0o, listing: !turnConfirm && turnTools.some(n => /my_bookings|manage_booking|card_and_account/.test(n)), card: hasCard() }); if (verdict) St.patchMsg(id, { text: g, live: true }); else pending = g } })
     await safeP; if (risky) return
     const cleaned = clean(res.text); St.patchMsg(id, { text: (!cleaned && res.text.trim() && !St.get().chat.find(m => m.id === id)?.blocks?.length ? (St.get().market === 'AR' ? 'هل تريد شيئًا آخر؟' : 'Anything else?') : '') || guard(cleaned, { money: snapMoney() !== before, frozen: St.get().card.frozen !== frozen0, cardSet: snapCard() !== card0, st0, card0: card0o, listing: !turnConfirm && turnTools.some(n => /my_bookings|manage_booking|card_and_account/.test(n)), card: hasCard() }), live: true })
     const msg = St.get().chat.find(m => m.id === id)

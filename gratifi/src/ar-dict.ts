@@ -29,6 +29,24 @@ const LAB: Record<string, string[]> = { restaurants: ['مطعم واحد', 'مط
 
 export const D: Record<string, string> = {
   /* card modules */
+  "Current account •••• 7781": "الحساب الجاري •••• 7781",
+  "Hide now": "أخفِ الآن",
+  "Monthly limit": "الحد الشهري",
+  "Included": "مشمولة",
+  "Join": "انضم",
+  "Joined": "منضم",
+  "All statements": "كل الكشوف",
+  "Statement balance": "رصيد الكشف",
+  "Or the minimum": "أو الحد الأدنى",
+  "Minimum paid": "تم دفع الحد الأدنى",
+  "Remove limit": "أزل الحد",
+  "Where it is": "أين وصل",
+  "Minimum payment": "الحد الأدنى للدفع",
+  "Payment due": "موعد الدفع",
+  "Current balance": "الرصيد الحالي",
+  "Enter an amount": "أدخل مبلغًا",
+  "Amount to pay": "المبلغ المراد دفعه",
+  "Blocks new payments. Direct debits and refunds still work.": "يحظر المدفوعات الجديدة. تستمر الخصومات المباشرة والمبالغ المستردة.",
   "Your card number, expiry date and security code are on My card, after you confirm it's you. Only type them into a shop's own checkout.": "رقم بطاقتك وتاريخ انتهائها ورمز الأمان في بطاقتي، بعد تأكيد هويتك. أدخلها فقط في صفحة الدفع الخاصة بالمتجر.",
   "PINs are changed at a cash machine, not here. A person can help if you're locked out.": "يُغيَّر الرمز السري من الصراف الآلي، لا من هنا. يمكن لموظف مساعدتك إن قُفل.",
   "You can see your PIN on My card after you confirm it's you. Nobody from the bank will ever ask you for it.": "يمكنك رؤية رمزك السري في بطاقتي بعد تأكيد هويتك. لن يطلبه منك أحد من البنك أبدًا.",
@@ -1089,6 +1107,11 @@ const moneyBack = (x: string) => x.replace(/(.+?) are back in your balance/, 'ع
 const alertAr = (w: string): string => w.replace(/^(?:when|if) (?:the )?(?:fares?|prices?|flights?) (?:to |for )?([a-z][a-z ]+?) (?:fares? |prices? )?(?:drop|go down|fall|get cheaper)$/i, (_: string, x: string) => `when prices drop for flights to ${x}`).replace(/^(?:when|if) ([a-z][a-z ]+?) (?:fares?|prices?|flights?) (?:drop|go down|fall|get cheaper)$/i, (_: string, x: string) => `when prices drop for flights to ${x}`).replace('when food delivery is live', 'عند توفر توصيل الطعام').replace("when it's moving again", 'عندما يتحرك مجددًا').replace('if your passport needs renewing, 60 days before any trip', 'إن احتاج جوازك إلى تجديد، قبل أي رحلة بـ 60 يومًا').replace(/^when prices to (.+) drop$/, (_: string, c1: string) => `عند انخفاض الأسعار إلى ${c(c1)}`).replace(/^when your points are (about to|going to) expire$/, 'قبل انتهاء صلاحية نقاطك').replace(/^when tickets go on sale$/, 'عند طرح التذاكر للبيع').replace(/^when (.+) tickets go on sale$/, (_: string, c1: string) => `عند طرح تذاكر ${c1} للبيع`).replace(/^when (the )?prices? (drops?|go(es)? down)$/, 'عند انخفاض السعر').replace(/^before your card bill is due$/, 'قبل موعد استحقاق فاتورة البطاقة').replace(/^on (.+), to pay your card bill$/, (_: string, x: string) => `يوم ${d(x)}، لدفع فاتورة البطاقة`).replace(/^when (.+?) (is|are) (live|back|available)$/, (_: string, x: string) => `عند توفر ${x}`).replace(/^(when|before) your (card )?bill is due$/, 'عند اقتراب موعد استحقاق الفاتورة').replace(/^when your (card )?(bill|statement) is ready$/, 'عند صدور كشف الحساب').replace(/^when (the )?check-?in opens( for your flight)?$/, 'عند فتح تسجيل الوصول').replace(/^when your (order|parcel|delivery) (arrives|is delivered)$/, 'عند وصول طلبك').replace(/^when your refund (arrives|comes through|lands)$/, 'عند وصول المبلغ المسترد').replace(/^when your points (expire|are expiring|are about to expire|will expire)$/, 'قبل انتهاء صلاحية نقاطك').replace(/^when (your )?points (land|arrive|come in)$/, 'عند وصول النقاط').replace(/^when prices drop for flights to (.+)$/, (_: string, x: string) => `عند انخفاض أسعار الرحلات إلى ${c(x.replace(/^\w/, (ch: string) => ch.toUpperCase()))}`).replace(/^when flights (?:to )?(.+)$/, (_: string, x: string) => `بخصوص الرحلات إلى ${c(x.replace(/^\w/, (ch: string) => ch.toUpperCase()))}`)
 export const P: [RegExp, (m: RegExpMatchArray) => string | null][] = [
   /* card modules */
+  [/^Hides by itself in (\d+) s$/, m => `تُخفى تلقائيًا خلال ${m[1]} ث`],
+  [/^(.+) available of (.+)$/, m => /\d/.test(m[1]) ? `${m[1]} متاح من ${m[2]}` : null],
+  [/^(Pay in full|Pay the minimum|Full balance|Minimum) · (.+)$/, m => `${t1(m[1])} · ${m[2]}`],
+  [/^Statement (\d+ [؀-ۿ]+) to (\d+ [؀-ۿ]+)$/, m => `كشف ${m[1]} إلى ${m[2]}`],
+  [/^Up to (.+)$/, m => /\d/.test(m[1]) && !/[A-Za-z]{2}/.test(m[1]) ? `حتى ${m[1]}` : null],
   [/^To (Home|Office) · ((?:GR|[A-Z]{2})-\d+)$/, m => `إلى ${t1(m[1])} · ${m[2]}`],
   [/^(.+) (?:isn't|aren't) available in this app(\. Your bank's app or a person at the bank can help with it\.)?$/, m => `${t1(m[1])} غير متاحة في هذا التطبيق${m[2] ? '. يمكن لتطبيق البنك أو أحد موظفي البنك مساعدتك.' : ''}`],
   [/^(\d+) of (\d+) APIs · (\d+) of (\d+) services on$/, m => `${m[1]} من ${m[2]} واجهة · ${m[3]} من ${m[4]} خدمة مفعّلة`],
@@ -1697,6 +1720,7 @@ export function tr1(s: string): string | null {
   return null
 }
 export const KEEP: RegExp[] = [
+  /^eSIM\)$/, /^(Apple|Google|Samsung) (Pay|Wallet)\)$/,
   /^(Apple|Google|Samsung) (Pay|Wallet)$/,
   /^Hush$/,
   /^Hush 700$/,

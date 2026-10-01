@@ -47,9 +47,9 @@ import hashlib, shutil
 os.makedirs('build/site', exist_ok=True)
 head = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
   '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-  '<meta name="theme-color" content="#2A2A2E"><meta name="color-scheme" content="light dark">'
+  '<meta name="theme-color" content="#F4F4F3" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#232326" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">'
   '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">'
-  '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Gratifi">'
+  '<meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Gratifi">'
   '<meta name="description" content="Your points and card assistant.">'
   '<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" href="/icon.svg" type="image/svg+xml">')
 reg = '<script>if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("/sw.js"))</script>'

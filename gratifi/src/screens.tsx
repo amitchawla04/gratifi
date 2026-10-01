@@ -39,14 +39,13 @@ export function Home({ nav }: { nav: Nav }) {
   return <div className="app-scroll">
     <div className="ds-homehd"><img src={D.ART.wordmark} alt="gratifi" /><div><D.HBtn label="You and settings" text={(s.prefs.name || 'Y').charAt(0)} onClick={() => go('me')} /><D.HBtn icon="bell" label={M.t('alerts')} dot={!!moment} onClick={() => go('alerts')} /><D.HBtn icon="close" label="Close" onClick={() => go('bank')} /></div></div>
     <div className="ds-hello"><h1>{`${hello(M)}, ${s.prefs.name}`}</h1></div>
-    {on('card') && <><CardSummary nav={nav} open />
-    <D.Actions items={cardActions(nav, on)} /></>}
+    {on('card') && <CardSummary nav={nav} open extra={on('card.statements') ? [{ label: 'Statement', onClick: () => go('cardx', 'statements') }] : []} />}
     {on('benefits') && <><D.Sec title="Card benefits" more="See all" onMore={() => go('card', 'benefits')} />
-    <D.BenefitTiles items={benefitTiles(s, M, nav)} /></>}
+    <D.Included items={benefitTiles(s, M, nav).slice(0, 3)} /></>}
     {on('offers') && <><D.Sec title="Earn as you spend" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
     <div className="ds-offers">{OFFERS.map(([id, b, , , r]) => <D.OfferMini key={id} art={D.STAMP[STAMP_OFFER[id]]} title={`${r} at ${b}`} sub="Until 31 Oct" added={!!s.seen['offer:' + id]} onAdd={() => addOffer(id, b, r, !s.seen['offer:' + id])} />)}</div></>}
-    {on('moments') && <><D.Sec title="Earn more this month" />
-    <D.Challenges items={s.challenges.filter(x => !x.done).map(x => ({ key: x.id, title: x.id === 'CHL-3' ? `Spend ${M.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === 'money' ? `${M.money(Math.round(x.progress))} of ${M.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, onJoin: () => { St.set(st => ({ challenges: st.challenges.map(y => (y.id === x.id ? { ...y, joined: true } : y)) })); St.pushMsg({ role: 'gr', text: `You're in: ${x.title}.` }) } }))} /></>}
+    {on('moments') && <>
+    <D.Challenges items={s.challenges.filter(x => !x.done).map(x => ({ key: x.id, title: x.id === 'CHL-3' ? `Spend ${M.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === 'money' ? `${M.money(Math.round(x.progress))} of ${M.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, icon: ({ 'CHL-1': 'fork', 'CHL-2': 'target', 'CHL-3': 'plane' } as any)[x.id], onJoin: () => { St.set(st => ({ challenges: st.challenges.map(y => (y.id === x.id ? { ...y, joined: true } : y)) })); St.pushMsg({ role: 'gr', text: `You're in: ${x.title}.` }) } }))} /></>}
     {stamps.length > 0 && <><D.Sec title="Book with your card" more="See all" onMore={() => go('explore')} />
     <D.Stamps items={stamps} /></>}
     {next && <><D.Sec title="Coming up" /><D.Coming art={artOf(next)} title={next.title} sub={[next.when || next.sub, next.pts ? `${M.num(next.pts)} points` : ''].filter(Boolean).join(' · ')} status={next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? (next.tracker.eta || next.tracker.steps[next.tracker.current]) : 'Booked'} tone={next.tracker?.tone === 'warn' ? 'warn' : 'good'} onClick={() => go('wallet')} /></>}
@@ -76,11 +75,11 @@ function moments(s: St.State, M: any) { const out: any[] = []; const seen = { ..
 /* ---------- Card: summary, actions, benefits (used on Home and My card) ---------- */
 /** Freeze straight away; unfreezing checks it's you first. Both stay on the screen. */
 function freezeToggle() { const c = St.get().card; if (c.frozen) { here(F.unfreezeAsk({})); return } St.set(x => ({ card: { ...x.card, frozen: true } })); St.pushMsg({ role: 'gr', text: 'Card frozen. New payments are blocked; direct debits and refunds still work.' }); D.toast('Card frozen. New payments are blocked.') }
-function CardSummary({ nav, open, noDue }: { nav: Nav; open?: boolean; noDue?: boolean }) {
+function CardSummary({ nav, open, noDue, extra }: { nav: Nav; open?: boolean; noDue?: boolean; extra?: { label: string; onClick: () => void }[] }) {
   const c = St.useS(x => x.card); const M = useMarket(); const market = St.useS(x => x.market); const on = Mod.useOn()
   const due = c.due > 0 ? `Due ${M.date(c.dueDate)} · ${M.money(c.due, 2)}` : 'Nothing to pay now'
   return <D.CardFace last4={c.last4} balLabel={c.balance < 0 ? 'In credit' : 'Balance'} balance={<D.CountUp id={'card-' + market} value={Math.round(Math.abs(c.balance))} format={(n: number) => M.money(n === Math.round(Math.abs(c.balance)) ? Math.abs(c.balance) : n, 2)} />} available={M.money(Math.max(0, c.limit - c.balance))} limit={M.money(c.limit)} used={c.limit ? c.balance / c.limit : 0} frozen={c.frozen} dueLine={due}
-    freezeLabel={c.frozen ? 'Unfreeze' : 'Freeze'} onFreeze={on('card.controls') ? freezeToggle : undefined} onPay={on('card.pay') && c.due > 0 ? () => nav.go('cardx', 'pay') : undefined} onOpen={open ? () => nav.go('card') : undefined} noDue={noDue} />
+    freezeLabel={c.frozen ? 'Unfreeze' : 'Freeze'} onFreeze={on('card.controls') ? freezeToggle : undefined} onPay={on('card.pay') && c.due > 0 && !noDue ? () => nav.go('cardx', 'pay') : undefined} onOpen={open ? () => nav.go('card') : undefined} noDue={noDue} extra={extra} />
 }
 function cardActions(nav: Nav, on: (m: string) => boolean) {
   return [on('card.statements') && { icon: 'doc', label: 'Statement', onClick: () => nav.go('cardx', 'statements') }, on('card.transactions') && { icon: 'split', label: 'Spending', onClick: () => nav.go('card', 'spending') }, on('benefits') && { icon: 'shield', label: 'Benefits', onClick: () => nav.go('card', 'benefits') }, { icon: 'card', label: 'My card', onClick: () => nav.go('card') }].filter(Boolean) as { icon: string; label: string; onClick: () => void }[]
@@ -88,7 +87,7 @@ function cardActions(nav: Nav, on: (m: string) => boolean) {
 function benefitRun(b: typeof Cat.BENEFITS[number]): { f: string; a: any } { return b.key === 'lounge' ? { f: 'search', a: { cat: 'airport' } } : b.id === 'BE-8' ? { f: 'myStuff', a: {} } : b.id === 'BE-4' ? { f: 'docs', a: { topic: 'insurance' } } : b.id === 'BE-6' ? { f: 'search', a: { cat: 'dining' } } : b.id === 'BE-7' ? { f: 'search', a: { cat: 'tickets' } } : b.id === 'BE-5' ? { f: 'docs', a: { topic: 'abroad' } } : { f: 'myStuff', a: {} } }
 const BENEFIT_SHORT: Record<string, string> = { 'BE-1': 'Free visits this year', 'BE-2': '120 days on what you buy', 'BE-3': 'An extra year', 'BE-4': 'When the trip is on the card', 'BE-5': 'On card purchases abroad', 'BE-6': '15% off at partners', 'BE-7': '48 hours before general sale', 'BE-8': 'If an order goes wrong' }
 function benefitTiles(s: St.State, M: any, nav: Nav) {
-  return Cat.BENEFITS.map(b => ({ key: b.id, icon: b.icon, title: b.name, sub: BENEFIT_SHORT[b.id] || b.sub, value: b.key === 'lounge' ? `${s.loungeLeft} left` : undefined, onClick: () => { nav.go('chat'); run(benefitRun(b), b.name) } }))
+  return Cat.BENEFITS.map(b => ({ key: b.id, icon: b.icon, title: b.name, sub: BENEFIT_SHORT[b.id] || b.sub, meta: b.key === 'lounge' ? `${s.loungeLeft} left` : 'Included', onClick: () => { nav.go('chat'); run(benefitRun(b), b.name) } }))
 }
 
 /* ---------- My card: everything about the card, in the order people need it. Each part shows only if the bank offers it. ---------- */
@@ -113,8 +112,7 @@ export function Card({ nav, focus }: { nav: Nav; focus?: string }) {
   if (!on('card')) return <div className="app-scroll"><D.Head title="My card" onBack={nav.back} /><D.Empty title="Card services aren't available in this app" body="Your bank's app has everything about your card." /></div>
   return <div className="app-scroll" ref={ref}>
     <D.Head title="My card" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
-    <CardSummary nav={nav} noDue />
-    <D.Actions items={[on('card.pay') && { icon: 'cash', label: 'Pay', onClick: x('pay') }, on('card.details') && { icon: 'eye', label: 'Details', onClick: x('details') }, on('card.controls') && { icon: 'lock', label: c.frozen ? 'Unfreeze' : 'Freeze', onClick: freezeToggle, on: c.frozen }, on('card.statements') && { icon: 'doc', label: 'Statements', onClick: x('statements') }].filter(Boolean) as any} />
+    <CardSummary nav={nav} noDue extra={on('card.details') ? [{ label: 'Card details', onClick: x('details') }] : []} />
     {arrived && <D.Note title="Your new card is here" action="Activate it" onAction={x('activate')}>Activate it to start using it. Anything set up on your old card moves across by itself.</D.Note>}
     {cases.length > 0 && <><D.Label>Your cases</D.Label><D.List>{cases.slice(0, 3).map(b => <D.Row key={b.id} icon={b.extra?.case === 'dispute' ? 'refresh' : b.extra?.case === 'limit' ? 'swap' : 'card'} title={b.title} sub={b.status === 'delivered' ? 'Arrived · ready to activate' : b.tracker ? `${b.tracker.steps[b.tracker.current]} · ${b.tracker.eta || ''}`.replace(/ · $/, '') : b.sub} chev onClick={x('cases')} />)}</D.List></>}
     {on('card.pay') && <><D.Label>Payment</D.Label>
@@ -124,7 +122,7 @@ export function Card({ nav, focus }: { nav: Nav; focus?: string }) {
       <D.SpendBars period="Last 30 days, after refunds" items={spend} total={spend.reduce((a, x) => a + x.amount, 0)} format={(n: number) => M.money(n, 2)} />
       <D.List>{s.txns.slice(0, 5).map(t => <D.Txn key={t.id} name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} points={t.points || undefined} refund={t.refund} format={(n: number) => M.money(n, 2)} onClick={x('txn:' + t.id)} />)}<D.Row icon="search" title="All transactions" sub="Search and filter" chev onClick={x('txns')} />{on('card.statements') && <D.Row icon="doc" title="Statements" sub="Every month, ready to download" chev onClick={x('statements')} />}</D.List></>}
     {on('benefits') && <><div data-sec="benefits" className="ds-anchor"><D.Label>Card benefits</D.Label></div>
-      <D.List>{Cat.BENEFITS.map(b => <D.Row key={b.id} icon={b.icon} title={b.name} sub={b.key === 'lounge' ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? '' : 's'} left this year` : b.id === 'BE-8' ? Cat.moneyBackRule(M.id).split('. ')[0].replace(/\.$/, '') + '.' : b.sub} value={b.key === 'lounge' ? `${s.loungeLeft} left` : undefined} chev onClick={() => { nav.go('chat'); run(benefitRun(b), b.name) }} />)}</D.List></>}
+      <D.Included items={Cat.BENEFITS.map(b => ({ key: b.id, icon: b.icon, title: b.name, sub: b.key === 'lounge' ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? '' : 's'} left this year` : b.id === 'BE-8' ? Cat.moneyBackRule(M.id).split('. ')[0].replace(/\.$/, '') + '.' : b.sub, meta: b.key === 'lounge' ? `${s.loungeLeft} left` : 'Included', onClick: () => { nav.go('chat'); run(benefitRun(b), b.name) } }))} /></>}
     {(on('card.controls') || on('card.limits') || on('card.travel') || on('card.gambling')) && <D.Label>Controls</D.Label>}
     {(on('card.controls') || on('card.limits') || on('card.travel') || on('card.gambling')) && <D.List>
       {on('card.controls') && <>

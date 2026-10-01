@@ -119,11 +119,12 @@ body { overscroll-behavior: none; }
 .app .gr-slots { grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr)); } /* slot chips reflow at large text sizes */
 
 /* ===== Approved screens (27 Sep canvas): sheet, header, home pieces, lists ===== */
-.app { background: #2A2A2E; }
-.ds-sheet { flex: 1; min-height: 0; margin-top: 14px; background: var(--screen); border-radius: 32px 32px 0 0; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-.ds-grab { display: flex; justify-content: center; padding-top: 8px; flex-shrink: 0; }
+.app { background: var(--screen); }
+/* Full screen: the sheet fills the phone, with the status bar area in the screen colour */
+.ds-sheet { flex: 1; min-height: 0; margin-top: 0; padding-top: env(safe-area-inset-top); background: var(--screen); border-radius: 0; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.ds-grab { display: none; }
 .ds-grab i { width: 38px; height: 5px; border-radius: 3px; background: #C9C7C2; }
-[data-theme="dark"] .app { background: #111113; }
+[data-theme="dark"] .app { background: var(--screen); }
 [data-theme="dark"] .ds-grab i { background: var(--ink-faint); }
 .app-scroll { padding: 10px 20px 150px; gap: 18px; }
 .ds-hb { width: 44px; height: 44px; border-radius: 22px; background: var(--card); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 6px 16px rgba(20,20,22,0.06); position: relative; }
@@ -344,7 +345,7 @@ body { overscroll-behavior: none; }
 /* ===== Installed app: safe areas and touch ===== */
 html, body { -webkit-tap-highlight-color: transparent; }
 .app button, .app a, .app [role=switch] { touch-action: manipulation; }
-.ds-sheet { margin-top: max(14px, env(safe-area-inset-top)); }
+.ds-sheet { margin-top: 0; }
 .app-dock { bottom: calc(26px + env(safe-area-inset-bottom)); }
 .app-scroll { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
 .ds-bank { padding-top: max(22px, calc(env(safe-area-inset-top) + 8px)); }
@@ -502,56 +503,122 @@ html[data-nav="down"]::view-transition-old(root) { animation: vt-to-below .4s cu
 .ds-btiles, .ds-offers { padding-bottom: 26px; margin-bottom: -18px; }
 .ds-btiles, .ds-offers, .ds-picks, .ds-again, .ds-stamps { margin-inline-start: -20px; padding-inline-start: 20px; margin-inline-end: -20px; padding-inline-end: 20px; scroll-padding-inline: 20px; }
 .ds-picks { padding-inline-start: 22px; }
-/* ---------- card servicing elements ---------- */
-.ds-choice { min-height: 56px; }
-.ds-choice[disabled] { opacity: .45; }
-.ds-radio { width: 22px; height: 22px; border-radius: 11px; box-shadow: inset 0 0 0 2px #D6D4CF; flex-shrink: 0; position: relative; transition: box-shadow .2s; }
-.ds-choice[aria-checked="true"] .ds-radio { box-shadow: inset 0 0 0 7px #17171A; }
-[data-theme="dark"] .ds-radio { box-shadow: inset 0 0 0 2px var(--line); }
-[data-theme="dark"] .ds-choice[aria-checked="true"] .ds-radio { box-shadow: inset 0 0 0 7px var(--accent); }
+/* ---------- card and servicing elements, all from the approved screens ---------- */
+/* progress bar (Your tier, goal screen) */
+.ds-bar { height: 10px; border-radius: 5px; background: #E4E2DE; overflow: hidden; flex-shrink: 0; }
+.ds-bar.thin { height: 6px; border-radius: 3px; margin-top: 6px; }
+.ds-bar i { display: block; height: 100%; border-radius: inherit; background: #FF6A1F; transition: width .5s cubic-bezier(.2,.8,.2,1); }
+.ds-bar i.black { background: #141416; }
+[data-theme="dark"] .ds-bar { background: var(--card-sunk); }
+[data-theme="dark"] .ds-bar i.black { background: var(--ink); }
+/* outline pill (bank screen: Pay, Move money; goal screen: Set goal) */
+.ds-opill { position: relative; height: 36px; padding: 0 16px; border-radius: 18px; background: #FFFFFF; color: #141416; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; box-shadow: inset 0 0 0 1px #E4E2DE; white-space: nowrap; }
+.ds-opill.primary { background: #17171A; color: #F4F4F3; box-shadow: none; }
+.ds-opill::after { content: ''; position: absolute; inset: -4px -2px; }
+.ds-row .ds-opill, .ds-ways-r .ds-opill { height: 34px; padding: 0 12px; font-size: 13px; border-radius: 17px; }
+[data-theme="dark"] .ds-opill { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+[data-theme="dark"] .ds-opill.primary { background: var(--accent); color: #141416; box-shadow: none; }
+/* account card (bank screen) */
+.ds-account { background: var(--card); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 6px; }
+.ds-ac-open { display: flex; flex-direction: column; gap: 2px; text-align: start; width: 100%; color: var(--ink); padding: 0; }
+.ds-ac-top { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; line-height: 1.4; color: #6E6E76; }
+.ds-ac-top > span:first-child { font-weight: 600; }
+.ds-ac-v { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.ds-ac-m { font-size: 13px; color: #6E6E76; line-height: 1.4; }
+.ds-ac-pills { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.ds-ac-frozen { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+.ds-ac-frozen i { width: 8px; height: 8px; border-radius: 4px; background: #E4540E; }
+[data-theme="dark"] .ds-ac-top, [data-theme="dark"] .ds-ac-m { color: var(--ink-soft); }
+/* trailing grey word (Already included: Free) */
+.ds-row-meta { font-size: 13px; font-weight: 600; color: #6E6E76; flex-shrink: 0; }
+[data-theme="dark"] .ds-row-meta { color: var(--ink-soft); }
+/* Three ways to get there */
+.ds-ways { background: var(--card); border-radius: 24px; padding: 16px 16px 4px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-ways-h { display: flex; gap: 8px; align-items: center; }
+.ds-ways-h p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
+.ds-ways-r { display: flex; gap: 12px; align-items: center; padding: 14px 0; }
+.ds-ways-r + .ds-ways-r { border-top: 1px solid #F0EFEC; }
+[data-theme="dark"] .ds-ways-r + .ds-ways-r { border-top-color: var(--line); }
+/* status with a dot (Your Lisbon trip: Booked) */
+.ds-dot-status { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #1E7A4F; flex-shrink: 0; }
+.ds-dot-status i { width: 8px; height: 8px; border-radius: 4px; background: currentColor; }
+/* label and value line (Your tier: Tier points this year 16,480 of 20,000) */
+.ds-kvh { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.ds-kvh span { font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+.ds-kvh b { font-size: 14px; font-variant-numeric: tabular-nums; }
+.ds-spend { gap: 14px; }
+.ds-spend-row { display: flex; flex-direction: column; gap: 8px; }
+/* chips you pick from (Where can I reach you) */
+.ds-choice-w { display: flex; flex-direction: column; gap: 8px; }
+.ds-pickrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-pick { height: 36px; padding: 0 14px; border-radius: 18px; background: #FFFFFF; color: #141416; box-shadow: inset 0 0 0 1px #E4E2DE; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.ds-pick[aria-checked="true"] { background: #17171A; color: #F4F4F3; box-shadow: none; }
+.ds-pick[disabled] { opacity: .45; }
+[data-theme="dark"] .ds-pick { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+[data-theme="dark"] .ds-pick[aria-checked="true"] { background: var(--accent); color: #141416; box-shadow: none; }
+/* What happened timeline */
+.ds-timeline { background: var(--card); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-tl-h { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
+.ds-timeline ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ds-timeline li { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 0 0 14px 30px; min-height: 20px; }
+.ds-timeline li:last-child { padding-bottom: 0; }
+.ds-timeline li > i { position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 8px; background: #141416; box-shadow: 0 0 0 4px var(--card); z-index: 1; }
+.ds-timeline li:not(:last-child)::before { content: ''; position: absolute; left: 7px; top: 20px; bottom: 0; width: 2px; background: #E4E2DE; }
+.ds-timeline li.now > i { background: #FF6A1F; }
+.ds-timeline li.next > i { background: #E4E2DE; }
+.ds-tl-d { font-size: 13px; font-weight: 600; color: #6E6E76; line-height: 1.4; }
+.ds-tl-d.warn { color: #E4540E; }
+.ds-tl-t { font-size: 15px; line-height: 1.4; }
+.ds-timeline li.next .ds-tl-t { color: #6E6E76; }
+[data-theme="dark"] .ds-timeline li > i { background: var(--ink); }
+[data-theme="dark"] .ds-timeline li.now > i { background: var(--accent); }
+[data-theme="dark"] .ds-timeline li.next > i, [data-theme="dark"] .ds-timeline li:not(:last-child)::before { background: var(--line); }
+/* label and value table (booking screen) */
+.ds-kv-card { background: var(--card); border-radius: 24px; padding: 4px 18px; display: flex; flex-direction: column; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-kv-r { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; min-height: 30px; }
+.ds-kv-r + .ds-kv-r { border-top: 1px solid #F0EFEC; }
+.ds-kv-r span { font-size: 15px; color: #6E6E76; }
+.ds-kv-r b { font-size: 15px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; text-align: end; }
+.ds-num { font-variant-numeric: tabular-nums; letter-spacing: .02em; direction: ltr; unicode-bidi: isolate; }
+.ds-copy { width: 28px; height: 28px; }
+[data-theme="dark"] .ds-kv-r + .ds-kv-r { border-top-color: var(--line); }
+[data-theme="dark"] .ds-kv-r span { color: var(--ink-soft); }
+/* big number (Details: +640) */
+.ds-hero { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0; text-align: center; }
+.ds-hero p { margin: 0; }
+.ds-hero-v { font-size: 48px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.2; font-variant-numeric: tabular-nums; direction: ltr; }
+.ds-hero-v.good { color: #1E7A4F; }
+.ds-hero-t { font-size: 18px; font-weight: 700; line-height: 1.4; }
+.ds-hero-s { font-size: 14px; color: #6E6E76; line-height: 1.4; }
+/* assistant strip (Done by your assistant) */
+.ds-anote { display: flex; gap: 10px; align-items: center; background: #FFF4D6; border-radius: 16px; padding: 12px 14px; }
+.ds-anote p { margin: 0; font-size: 14px; line-height: 1.4; color: #141416; }
+[data-theme="dark"] .ds-anote { background: #3A3320; }
+[data-theme="dark"] .ds-anote p { color: var(--ink); }
+.ds-centre-s { margin: -6px 0 0; text-align: center; font-size: 13px; color: #6E6E76; }
+/* fields and search (the ask bar's white pill, made still) */
 .ds-field { display: flex; flex-direction: column; gap: 6px; }
-.ds-field-l { font-size: 0.8125rem; font-weight: 600; color: var(--ink-soft); }
-.ds-field-w { display: flex; align-items: center; gap: 6px; height: 52px; border-radius: 18px; background: var(--card); padding: 0 16px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-field-l { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.ds-field-w { display: flex; align-items: center; gap: 6px; height: 52px; border-radius: 26px; background: var(--card); padding: 0 18px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
 .ds-field-w:focus-within { box-shadow: 0 0 0 2px var(--ink); }
 .ds-field-p { font-size: 1.0625rem; font-weight: 700; color: var(--ink-soft); }
 .ds-field input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; font: inherit; font-size: 1.0625rem; font-weight: 600; color: var(--ink); outline: 0; font-variant-numeric: tabular-nums; }
-.ds-search { display: flex; align-items: center; gap: 10px; height: 48px; border-radius: 24px; background: var(--card); padding: 0 8px 0 16px; color: var(--ink-soft); box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-search { display: flex; align-items: center; gap: 10px; height: 52px; border-radius: 26px; background: var(--card); padding: 0 8px 0 18px; color: var(--ink-soft); box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
 .ds-search:focus-within { box-shadow: 0 0 0 2px var(--ink); }
 .ds-search input { flex: 1; min-width: 0; border: 0; background: none; font: inherit; font-size: 0.9375rem; color: var(--ink); outline: 0; height: 100%; }
 .ds-search input::-webkit-search-cancel-button { display: none; }
-.ds-track { background: var(--card); border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
-.ds-track ol { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; position: relative; gap: 4px; }
-.ds-track ol::before { content: ''; position: absolute; top: 6px; left: 7px; right: 7px; height: 2px; background: #E2E0DC; }
-.ds-track li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); text-align: center; flex: 1; min-width: 0; }
-.ds-track li:first-child { align-items: flex-start; text-align: start; }
-.ds-track li:last-child { align-items: flex-end; text-align: end; }
-.ds-track li i { width: 14px; height: 14px; border-radius: 7px; background: var(--card); box-shadow: inset 0 0 0 2px #D6D4CF; z-index: 1; }
-.ds-track li.done i { background: var(--accent); box-shadow: none; }
-.ds-track li.now i { background: var(--card); box-shadow: inset 0 0 0 4px var(--accent); }
-.ds-track li.done, .ds-track li.now { color: var(--ink); }
-[data-theme="dark"] .ds-track ol::before { background: var(--line); }
-.ds-cd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin: 4px 0 2px; }
-.ds-cd-f { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.ds-cd-f.wide { grid-column: 1 / -1; }
-.ds-cd-v { display: flex; align-items: center; gap: 6px; font-size: 1.125rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .02em; direction: ltr; justify-content: flex-start; }
-[dir="rtl"] .ds-cd-v { justify-content: flex-end; }
-.ds-cd-f.wide .ds-cd-v:not(.ds-cd-name) { font-size: 1.3125rem; letter-spacing: .06em; }
-.ds-cd-name { font-size: 0.9375rem; letter-spacing: .04em; }
-.ds-cd-copy { position: relative; width: 30px; height: 30px; border-radius: 15px; background: var(--screen); color: var(--ink-soft); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.ds-cd-copy::after { content: ''; position: absolute; inset: -7px; }
-.ds-cf-due .ds-btn40 svg { margin-inline-end: 6px; }
-.ds-pin { display: flex; gap: 10px; justify-content: center; direction: ltr; }
-.ds-pin span { width: 56px; height: 64px; border-radius: 18px; background: var(--card); box-shadow: 0 12px 24px rgba(20,20,22,0.06); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-.ds-pin span i { width: 12px; height: 12px; border-radius: 6px; background: var(--ink); }
-.ds-limit .ds-ticks { height: 12px; margin-top: 6px; }
-.ds-toast-w { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center; pointer-events: none; z-index: 6; padding: 0 16px; }
-.ds-toast { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; background: #17171A; color: #F4F4F3; border-radius: 20px; padding: 10px 16px; font-size: 0.875rem; font-weight: 600; box-shadow: 0 12px 24px rgba(20,20,22,0.18); animation: ds-toast .28s cubic-bezier(.2,.8,.2,1); }
-.ds-toast svg { color: var(--accent); flex-shrink: 0; }
+/* short confirmation, in the assistant strip */
+.ds-toast-w { position: absolute; left: 0; right: 0; bottom: calc(100px + env(safe-area-inset-bottom)); display: flex; justify-content: center; pointer-events: none; z-index: 6; padding: 0 16px; }
+.ds-toast { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; background: #FFF4D6; color: #141416; border-radius: 16px; padding: 12px 14px; font-size: 14px; line-height: 1.4; box-shadow: 0 12px 24px rgba(20,20,22,0.12); animation: ds-toast .28s cubic-bezier(.2,.8,.2,1); }
+[data-theme="dark"] .ds-toast { background: #3A3320; color: var(--ink); }
 @keyframes ds-toast { from { transform: translateY(12px); opacity: 0 } }
 @media (prefers-reduced-motion: reduce) { .ds-toast { animation: none; } }
-.ds-btn48 { width: 100%; min-height: 52px; border-radius: 26px; background: #17171A; color: #F4F4F3; font-size: 1rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+/* big buttons (View your trip, Back to home) */
+.ds-btn48 { width: 100%; height: 56px; flex-shrink: 0; border-radius: 28px; background: #17171A; color: #F4F4F3; font-size: 16px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+.ds-btn48-w { background: #FFFFFF; color: #141416; box-shadow: inset 0 0 0 1px #E4E2DE; }
 .ds-btn48[disabled] { background: #D3D1CC; color: #FFFFFF; cursor: not-allowed; }
 [data-theme="dark"] .ds-btn48 { background: var(--accent); color: #141416; }
+[data-theme="dark"] .ds-btn48-w { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
 [data-theme="dark"] .ds-btn48[disabled] { background: var(--card-sunk); color: var(--ink-faint); }
 .ds-btn40[disabled] { background: #D3D1CC; color: #FFFFFF; }
 .ds-empty { align-items: flex-start; }
@@ -559,7 +626,7 @@ html[data-nav="down"]::view-transition-old(root) { animation: vt-to-below .4s cu
 .ds-kv { display: flex; justify-content: space-between; gap: 12px; font-size: 0.875rem; padding: 4px 0; }
 .ds-kv span { color: var(--ink-soft); }
 .ds-kv b { text-align: end; font-variant-numeric: tabular-nums; }
-.ds-btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-btnrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .ds-api { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 0.8125rem; }
 .ds-api + .ds-api { border-top: 1px solid var(--line); }
 .ds-api span { flex: 1; min-width: 0; }

@@ -121,140 +121,169 @@ export function RewardCard({ art, icon, title, price, short, onUse, onOpen }: { 
 /** Orange check in a circle, for done states. */
 export function DoneCheck() { return <div className="ds-done"><img src={check} alt="" /></div> }
 
-/* ---------- Card elements, extrapolated from the approved library ---------- */
+/* ---------- Card and servicing elements. Each one is an element from the approved screens, used for card data. ---------- */
 
-/** Ticks in a line, the points dial unrolled: orange for what is used, grey for what is left. */
-export function TickMeter({ used, ticks = 36, label }: { used: number; ticks?: number; label: string }) {
-  const on = Math.round(Math.max(0, Math.min(1, used)) * ticks)
-  return <div className="ds-ticks" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(used * 100)} aria-label={label}>{Array.from({ length: ticks }, (_, i) => <i key={i} className={i < on ? 'on' : ''} />)}</div>
+/** The orange-spark mark the assistant signs its lines with. */
+export function SparkMark({ size = 18 }: { size?: number }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="#FF6A1F" aria-hidden="true" style={{ flexShrink: 0 }}><path d="M11 2.5c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z" /><path d="M18.5 14.5c.3 2.2 1.1 3 3.3 3.3-2.2.3-3 1.1-3.3 3.3-.3-2.2-1.1-3-3.3-3.3 2.2-.3 3-1.1 3.3-3.3z" /></svg> }
+
+/** The progress bar from Your tier and the goal screen: a 10px grey track, filled orange (or black for a goal). */
+export function Bar({ used, label, tone = 'orange', thin }: { used: number; label: string; tone?: 'orange' | 'black'; thin?: boolean }) {
+  const pct = Math.round(Math.max(0, Math.min(1, used)) * 100)
+  return <div className={'ds-bar' + (thin ? ' thin' : '')} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={label}><i className={tone} style={{ width: `${pct}%` }} /></div>
 }
+/** Kept for older callers: now the approved bar. */
+export function TickMeter({ used, label }: { used: number; ticks?: number; label: string }) { return <Bar used={used} label={label} /> }
 
-/** The card itself: name, last four digits, balance, how much of the limit is used, and when the bill is due. */
-export function CardFace({ balLabel = 'Balance', last4, balance, available, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue }: { balLabel?: string; last4: string; balance: any; available: string; limit: string; frozen?: boolean; dueLine: string; onPay?: () => void; onFreeze?: () => void; onOpen?: () => void; freezeLabel: string; used: number; noDue?: boolean }) {
-  const body = <>
-    <span className="ds-cf-top"><span className="ds-cf-chip" aria-hidden="true"><i /></span><span className="ds-cf-name">Gratifi Card</span><span className="ds-cf-num">{`•••• ${last4}`}</span>{frozen && <span className="ds-cf-frozen"><Icon name="lock" size={12} stroke={2.4} />Frozen</span>}</span>
-    <span className="ds-cf-l">{balLabel}</span>
-    <span className="ds-cf-v">{balance}</span>
+/** White outline pill from the bank screen (Pay, Move money). Black when it is the one thing to do. */
+export function Pill({ children, onClick, primary, icon }: { children: any; onClick: () => void; primary?: boolean; icon?: string }) { return <button className={'ds-opill' + (primary ? ' primary' : '')} onClick={onClick}>{icon && <Icon name={icon} size={15} stroke={2.2} />}{children}</button> }
+
+/** The account card from the bank screen: label and last four digits, the balance, then pills. Credit use shows on the approved bar. */
+export function CardFace({ balLabel = 'Balance', last4, balance, available, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue, extra }: { balLabel?: string; last4: string; balance: any; available: string; limit: string; frozen?: boolean; dueLine: string; onPay?: () => void; onFreeze?: () => void; onOpen?: () => void; freezeLabel: string; used: number; noDue?: boolean; extra?: { label: string; onClick: () => void }[] }) {
+  const top = <>
+    <span className="ds-ac-top"><span>{frozen ? <span className="ds-ac-frozen"><i />Frozen</span> : 'Gratifi Card'}</span><span>{`•••• ${last4}`}</span></span>
+    <span className="ds-ac-v">{balance}</span>
+    {noDue ? (balLabel !== 'Balance' && <span className="ds-ac-m">{balLabel}</span>) : <span className="ds-ac-m">{dueLine}</span>}
   </>
-  return <div className={'ds-cardface' + (frozen ? ' ds-is-frozen' : '')}>
-    {onOpen ? <button className="ds-cf-open" onClick={onOpen} aria-label="Open My card">{body}</button> : <div className="ds-cf-open">{body}</div>}
-    <TickMeter used={used} label="Credit used" />
-    <div className="ds-cf-lim"><span>{`${available} available`}</span><span>{`of ${limit}`}</span></div>
-    {!noDue && <div className="ds-cf-due"><span>{dueLine}</span><div className="ds-cf-btns">{onFreeze && <button className="ds-btn40 ds-white ds-outline" onClick={onFreeze}>{freezeLabel}</button>}{onPay && <button className="ds-btn40" onClick={onPay}>Pay</button>}</div></div>}
+  return <div className={'ds-account' + (frozen ? ' ds-is-frozen' : '')}>
+    {onOpen ? <button className="ds-ac-open" onClick={onOpen} aria-label="Open My card">{top}</button> : <div className="ds-ac-open">{top}</div>}
+    <Bar used={used} label="Credit used" tone="black" thin />
+    <span className="ds-ac-m">{`${available} available of ${limit}`}</span>
+    {(onPay || onFreeze || extra?.length) && <div className="ds-ac-pills">{onPay && <Pill onClick={onPay}>Pay</Pill>}{onFreeze && <Pill onClick={onFreeze}>{freezeLabel}</Pill>}{extra?.map(x => <Pill key={x.label} onClick={x.onClick}>{x.label}</Pill>)}</div>}
   </div>
 }
 
-/** Round actions with a word underneath, the header buttons grown into a row. */
-export function Actions({ items }: { items: { icon: string; label: string; onClick: () => void; on?: boolean }[] }) {
-  return <div className="ds-actions">{items.map(x => <button key={x.label} className="ds-act" onClick={x.onClick}><span className={'ds-act-ic' + (x.on ? ' on' : '')}><Icon name={x.icon} size={22} stroke={2} /></span><span className="ds-act-l">{x.label}</span></button>)}</div>
+/** Rows with a trailing grey word, as in Already included (Heathrow lounge · Free). */
+export function Included({ items }: { items: { key: string; icon: string; title: string; sub: string; meta?: string; onClick: () => void }[] }) {
+  return <div className="ds-list">{items.map(x => <button key={x.key} className="ds-row" onClick={x.onClick}><span className="ds-row-ic"><Icon name={x.icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{x.title}</span><span className="ds-row-s">{x.sub}</span></span>{x.meta && <span className="ds-row-meta">{x.meta}</span>}</button>)}</div>
+}
+/** Kept for older callers. */
+export function BenefitTiles({ items }: { items: { key: string; icon: string; title: string; sub: string; value?: string; onClick: () => void }[] }) { return <Included items={items.map(x => ({ ...x, meta: x.value || 'Included' }))} /> }
+
+/** The Three ways to get there card: a sparked heading, then rows with a circle icon and an outline pill. */
+export function Ways({ title, items }: { title: string; items: { key: string; icon: string; title: string; sub: string; action?: string; onAction?: () => void; done?: string }[] }) {
+  return <div className="ds-ways"><div className="ds-ways-h"><SparkMark /><p>{title}</p></div>
+    {items.map(x => <div key={x.key} className="ds-ways-r"><span className="ds-row-ic"><Icon name={x.icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{x.title}</span><span className="ds-row-s">{x.sub}</span></span>{x.done ? <span className="ds-dot-status"><i />{x.done}</span> : x.action && <Pill onClick={x.onAction!}>{x.action}</Pill>}</div>)}</div>
+}
+/** Challenges as the Three ways card. */
+export function Challenges({ items, title = 'Earn more this month' }: { title?: string; items: { key: string; title: string; reward: string; progress: number; target: number; progressText: string; joined: boolean; onJoin: () => void; icon?: string }[] }) {
+  return <Ways title={title} items={items.map(x => ({ key: x.key, icon: x.icon || 'star', title: x.title, sub: `${x.progressText} · ${x.reward}`, action: x.joined ? undefined : 'Join', onAction: x.onJoin, done: x.joined ? 'Joined' : undefined }))} />
 }
 
-/** A card benefit as a tile in a rail: what it is, and what is left of it. */
-export function BenefitTiles({ items }: { items: { key: string; icon: string; title: string; sub: string; value?: string; onClick: () => void }[] }) {
-  return <div className="ds-btiles" role="list">{items.map(x => <button key={x.key} role="listitem" className="ds-btile" onClick={x.onClick}><span className="ds-row-ic"><Icon name={x.icon} size={18} stroke={2} /></span>{x.value && <b className="ds-btile-v">{x.value}</b>}<span className="ds-btile-t">{x.title}</span><span className="ds-btile-s">{x.sub}</span></button>)}</div>
-}
+/** Kept for older callers; the round action row is gone from the design. */
+export function Actions(_: { items: any[] }) { return null }
 
-/** Where the money went: one bar per category, longest first, the top one in orange. */
+/** Where the money went, in the Your tier card style: a label and amount over an orange bar, per category. */
 export function SpendBars({ period, items, total, format }: { period: string; items: { label: string; amount: number }[]; total: number; format: (n: number) => string }) {
   const max = Math.max(1, ...items.map(i => i.amount))
-  return <div className="ds-card ds-spend"><div className="ds-spend-hd"><span>{period}</span><b>{format(total)}</b></div>
-    {items.length ? items.map((x, i) => <div key={x.label} className="ds-spend-row"><span className="ds-spend-l">{x.label}</span><span className="ds-spend-a">{format(x.amount)}</span><span className="ds-spend-bar"><i className={i ? '' : 'top'} style={{ width: `${Math.max(4, Math.round(x.amount / max * 100))}%` }} /></span></div>) : <p className="ds-row-s">No card spending in this period.</p>}
+  return <div className="ds-card ds-spend"><div className="ds-kvh"><span>{period}</span><b>{format(total)}</b></div>
+    {items.length ? items.map(x => <div key={x.label} className="ds-spend-row"><div className="ds-kvh"><span>{x.label}</span><b>{format(x.amount)}</b></div><Bar used={x.amount / max} label={`${x.label}, ${format(x.amount)}`} /></div>) : <p className="ds-row-s">No card spending in this period.</p>}
   </div>
 }
 
-/** A card payment: merchant initial, where and when, amount, and the points it earned. */
+/** A card payment, as on the bank screen: card icon in a grey circle, where and when, amount. */
 export function Txn({ name, meta, amount, points, refund, format, onClick }: { name: string; meta: string; amount: number; points?: number; refund?: boolean; format: (n: number) => string; onClick?: () => void }) {
   const El: any = onClick ? 'button' : 'div'
-  return <El className="ds-row ds-txn" onClick={onClick}><span className="ds-row-ic ds-mono">{name.charAt(0)}</span><span className="ds-row-b"><span className="ds-row-t">{name}</span><span className="ds-row-s">{meta}</span></span><span className="ds-txn-r"><span className={'ds-row-v' + (refund || amount < 0 ? ' ds-good' : '')}>{`${refund || amount < 0 ? '+' : '−'}${format(Math.abs(amount))}`}</span>{points ? <span className="ds-txn-p">{`+${points} pts`}</span> : null}</span></El>
+  return <El className="ds-row ds-txn" onClick={onClick}><span className="ds-row-ic"><Icon name={refund ? 'arrow' : 'card'} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{name}</span><span className="ds-row-s">{points ? `${meta} · +${points} pts` : meta}</span></span><span className={'ds-row-v' + (refund || amount < 0 ? ' ds-good' : '')}>{`${refund || amount < 0 ? '+' : '−'}${format(Math.abs(amount))}`}</span></El>
 }
 
-/** The bill: what is due, by when, the minimum, and the two ways to pay it. */
+/** The bill, in the account card format: when it is due, the amount, the minimum, two pills. */
 export function DueCard({ amount, date, min, onFull, onMin, paid }: { amount: string; date: string; min: string; onFull: () => void; onMin: () => void; paid?: boolean }) {
-  return <div className="ds-card ds-due"><div className="ds-due-top"><span className="ds-row-s">{paid ? 'Nothing to pay now' : `Due ${date}`}</span></div><b className="ds-due-v">{amount}</b>{!paid && <span className="ds-row-s">{`Minimum ${min}`}</span>}
-    {!paid && <div className="ds-cf-btns"><button className="ds-btn40" onClick={onFull}>Pay in full</button><button className="ds-btn40 ds-white ds-outline" onClick={onMin}>Pay the minimum</button></div>}</div>
+  return <div className="ds-account"><span className="ds-ac-top"><span>{paid ? 'Nothing to pay now' : `Due ${date}`}</span><span /></span><span className="ds-ac-v">{amount}</span>{!paid && <span className="ds-ac-m">{`Minimum ${min}`}</span>}
+    {!paid && <div className="ds-ac-pills"><Pill primary onClick={onFull}>Pay in full</Pill><Pill onClick={onMin}>Pay the minimum</Pill></div>}</div>
 }
 
-/** A row with a small action pill on the trailing side, for settings that open a step. */
+/** A row with a pill on the trailing side, as in Three ways to get there and Your Lisbon trip (Find flights). */
 export function ActionRow({ icon, title, sub, action, onAction, primary }: { icon: string; title: string; sub: string; action: string; onAction: () => void; primary?: boolean }) {
-  return <div className="ds-row"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{sub}</span></span><button className={primary ? 'ds-pill30' : 'ds-pill30 ds-ghostpill'} onClick={onAction}>{action}</button></div>
+  return <div className="ds-row"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{sub}</span></span><Pill primary={primary} onClick={onAction}>{action}</Pill></div>
 }
 
-/** Toggle row with an icon, for card controls. */
-export function ControlRow({ icon, title, sub, on, onChange }: { icon: string; title: string; sub: string; on: boolean; onChange: (v: boolean) => void }) {
-  return <div className="ds-trow"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{sub}</span></span><button role="switch" aria-checked={on} aria-label={title} className="ds-toggle" onClick={() => onChange(!on)} /></div>
+/** A switch row, exactly as in How should I help: title, one line, the switch. */
+export function ControlRow({ title, sub, on, onChange }: { icon?: string; title: string; sub: string; on: boolean; onChange: (v: boolean) => void }) {
+  return <ToggleRow title={title} sub={sub} on={on} onChange={onChange} />
 }
 
-/** A challenge as a tile: what to do, how far along, what it pays, and Join. */
-export function Challenges({ items }: { items: { key: string; title: string; reward: string; progress: number; target: number; progressText: string; joined: boolean; onJoin: () => void }[] }) {
-  return <div className="ds-btiles" role="list">{items.map(x => <div key={x.key} role="listitem" className="ds-btile ds-chal"><span className="ds-btile-t">{x.title}</span><TickMeter used={x.target ? x.progress / x.target : 0} ticks={20} label={x.progressText} /><span className="ds-btile-s">{x.progressText}</span><span className="ds-chal-f"><b>{x.reward}</b>{x.joined ? <span className="ds-added ds-static"><Icon name="check" size={13} stroke={2.6} />Joined</span> : <button className="ds-add" onClick={x.onJoin}>Join</button>}</span></div>)}</div>
-}
-
-/* ---------- Card servicing elements, extrapolated from the same library ---------- */
-
-/** One choice from a short list, as rows with a round marker on the trailing side. */
+/** One choice from a few, as the Where can I reach you chips: black with a tick when picked. */
 export function Choice({ items, value, onChange, label }: { items: { key: string; title: string; sub?: string; value?: string; disabled?: boolean }[]; value: string; onChange: (k: string) => void; label: string }) {
-  return <div className="ds-list" role="radiogroup" aria-label={label}>{items.map(x => <button key={x.key} role="radio" aria-checked={value === x.key} disabled={x.disabled} className="ds-row ds-choice" onClick={() => onChange(x.key)}><span className="ds-row-b"><span className="ds-row-t">{x.title}</span>{x.sub && <span className="ds-row-s">{x.sub}</span>}</span>{x.value && <span className="ds-row-v">{x.value}</span>}<i className="ds-radio" aria-hidden="true" /></button>)}</div>
+  const cur = items.find(x => x.key === value)
+  return <div className="ds-choice-w"><div className="ds-pickrow" role="radiogroup" aria-label={label}>{items.map(x => <button key={x.key} role="radio" aria-checked={value === x.key} disabled={x.disabled} className="ds-pick" onClick={() => onChange(x.key)}>{value === x.key && <Icon name="check" size={14} stroke={2.6} />}{x.value ? `${x.title} · ${x.value}` : x.title}</button>)}</div>{cur?.sub && <span className="ds-row-s">{cur.sub}</span>}</div>
 }
 
-/** A labelled field on a grey well, the ask bar's input made still. */
+/** A labelled field on a white card, the ask bar's input made still. */
 export function Field({ label, value, onChange, prefix, type = 'text', inputMode, placeholder, max, hint, id, autoFocus }: { label: string; value: string; onChange: (v: string) => void; prefix?: string; type?: string; inputMode?: any; placeholder?: string; max?: number; hint?: string; id?: string; autoFocus?: boolean }) {
   return <label className="ds-field"><span className="ds-field-l">{label}</span><span className="ds-field-w">{prefix && <span className="ds-field-p">{prefix}</span>}<input id={id} type={type} inputMode={inputMode} value={value} placeholder={placeholder} maxLength={max} autoFocus={autoFocus} onChange={e => onChange((e.target as HTMLInputElement).value)} /></span>{hint && <span className="ds-row-s">{hint}</span>}</label>
 }
 
-/** Search on a white pill, with a clear button once something is typed. */
+/** Search in the ask bar's white pill. */
 export function Search({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
   return <label className="ds-search"><Icon name="search" size={18} stroke={2.2} /><input type="search" value={value} placeholder={placeholder} aria-label={placeholder} onChange={e => onChange((e.target as HTMLInputElement).value)} />{value && <button className="ds-x" aria-label="Clear search" onClick={e => { e.preventDefault(); onChange('') }}><Icon name="close" size={12} stroke={2.4} /></button>}</label>
 }
 
-/** A row of filter chips. */
+/** Filter chips, as on Rewards. */
 export function Chips({ items, value, onChange, label }: { items: { key: string; label: string }[]; value: string; onChange: (k: string) => void; label: string }) {
   return <div className="ds-chiprow" role="group" aria-label={label}>{items.map(x => <button key={x.key} className="ds-chip" aria-pressed={value === x.key} onClick={() => onChange(x.key)}>{x.label}</button>)}</div>
 }
 
-/** Where something has got to: a line of stops, done ones in orange. */
-export function Track({ steps, current, eta, tone }: { steps: string[]; current: number; eta?: string; tone?: 'warn' | 'good' }) {
-  return <div className="ds-track"><ol>{steps.map((s, i) => <li key={s} className={i < current ? 'done' : i === current ? 'now' : ''} aria-current={i === current ? 'step' : undefined}><i />{s}</li>)}</ol>{eta && <span className={'ds-status' + (tone === 'warn' ? ' ds-warn' : '')}><i />{eta}</span>}</div>
+/** Where something has got to, as the What happened card: black dots for done, orange for now, grey for still to come. */
+export function Track({ steps, current, eta, tone, title = 'Where it is', sub, children }: { steps: string[]; current: number; eta?: string; tone?: 'warn' | 'good'; title?: string; sub?: string; children?: any }) {
+  return <div className="ds-timeline"><div><p className="ds-tl-h">{title}</p>{sub && <p className="ds-row-s" style={{ margin: 0 }}>{sub}</p>}</div><ol>{steps.map((s, i) => { const state = i < current ? 'done' : i === current ? 'now' : 'next'; return <li key={s} className={state} aria-current={state === 'now' ? 'step' : undefined}><i />{state === 'now' && eta && <span className={'ds-tl-d' + (tone === 'warn' ? ' warn' : '')}>{eta}</span>}<span className="ds-tl-t">{s}</span></li> })}</ol>{children}</div>
 }
 
-/** The card's details, shown after the customer has confirmed it's them, with a copy button for each. */
-export function CardDetails({ name, number, expiry, cvv, shown, left, onShow, onHide, onCopy, frozen }: { name: string; number: string; expiry: string; cvv: string; shown: boolean; left: number; onShow: () => void; onHide: () => void; onCopy: (what: string, v: string) => void; frozen?: boolean }) {
-  const mask = (s: string) => s.replace(/\d(?=.*\d{4})/g, '•')
-  const Line = ({ l, v, copy, wide }: { l: string; v: string; copy: string; wide?: boolean }) => <span className={'ds-cd-f' + (wide ? ' wide' : '')}><span className="ds-cf-l">{l}</span><span className="ds-cd-v">{v}{shown && <button className="ds-cd-copy" aria-label={`Copy ${l.toLowerCase()}`} onClick={() => onCopy(l, copy)}><Icon name="copy" size={15} stroke={2} /></button>}</span></span>
-  return <div className={'ds-cardface ds-cd' + (frozen ? ' ds-is-frozen' : '')}>
-    <span className="ds-cf-top"><span className="ds-cf-chip" aria-hidden="true"><i /></span><span className="ds-cf-name">Gratifi Card</span>{frozen && <span className="ds-cf-frozen"><Icon name="lock" size={12} stroke={2.4} />Frozen</span>}</span>
-    <div className="ds-cd-grid" aria-live="polite">
-      <Line l="Card number" v={shown ? number : mask(number)} copy={number.replace(/\s/g, '')} wide />
-      <Line l="Expires" v={shown ? expiry : '••/••'} copy={expiry} />
-      <Line l="Security code" v={shown ? cvv : '•••'} copy={cvv} />
-      <span className="ds-cd-f wide"><span className="ds-cf-l">Name on card</span><span className="ds-cd-v ds-cd-name">{name}</span></span>
-    </div>
-    <div className="ds-cf-due"><span>{shown ? `Hides in ${left} s` : 'Hidden until you confirm it\'s you'}</span>{shown ? <button className="ds-btn40 ds-white ds-outline" onClick={onHide}><Icon name="eyeoff" size={16} stroke={2} />Hide</button> : <button className="ds-btn40" onClick={onShow}><Icon name="eye" size={16} stroke={2} />Show details</button>}</div>
-  </div>
+/** A label and value table, as on the booking screen (Points spent · 8,200). */
+export function KV({ rows }: { rows: { label: string; value: any; copy?: () => void; copyLabel?: string }[] }) {
+  return <div className="ds-kv-card">{rows.map(r => <div key={r.label} className="ds-kv-r"><span>{r.label}</span><b>{r.value}{r.copy && <button className="ds-x ds-copy" aria-label={r.copyLabel || `Copy ${r.label.toLowerCase()}`} onClick={r.copy}><Icon name="copy" size={13} stroke={2.2} /></button>}</b></div>)}</div>
 }
 
-/** Four boxes for a PIN: dots until it is shown. */
+/** The card's details in the booking-table format, then the Confirm with Face ID button to show them. */
+export function CardDetails({ name, number, expiry, cvv, shown, left, onShow, onHide, onCopy, frozen, showLabel = 'Show card details' }: { name: string; number: string; expiry: string; cvv: string; shown: boolean; left: number; onShow: () => void; onHide: () => void; onCopy: (what: string, v: string) => void; frozen?: boolean; showLabel?: string }) {
+  const mask = (x: string) => x.replace(/\d(?=.*\d{4})/g, '•')
+  return <>
+    <KV rows={[
+      { label: 'Card number', value: <span className="ds-num">{shown ? number : mask(number)}</span>, copy: shown ? () => onCopy('Card number', number.replace(/\s/g, '')) : undefined },
+      { label: 'Expires', value: <span className="ds-num">{shown ? expiry : '••/••'}</span>, copy: shown ? () => onCopy('Expires', expiry) : undefined },
+      { label: 'Security code', value: <span className="ds-num">{shown ? cvv : '•••'}</span>, copy: shown ? () => onCopy('Security code', cvv) : undefined },
+      { label: 'Name on card', value: name },
+    ]} />
+    {frozen && <AssistantNote>Your card is frozen. The details still show, but payments won't go through until you unfreeze it.</AssistantNote>}
+    {shown ? <><Secondary onClick={onHide}>Hide now</Secondary><p className="ds-centre-s">{`Hides by itself in ${left} s`}</p></> : <Primary onClick={onShow}><Icon name="faceid" size={18} stroke={2} />{showLabel}</Primary>}
+  </>
+}
+
+/** The big number from the Details screen (+640), used for the PIN. */
+export function Hero({ value, title, sub, tone }: { value?: string; title?: string; sub?: string; tone?: 'good' }) {
+  return <div className="ds-hero">{value && <p className={'ds-hero-v' + (tone === 'good' ? ' good' : '')}>{value}</p>}{title && <p className="ds-hero-t">{title}</p>}{sub && <p className="ds-hero-s">{sub}</p>}</div>
+}
 export function PinBox({ pin, shown }: { pin: string; shown: boolean }) {
-  return <div className="ds-pin" aria-label={shown ? `PIN ${pin.split('').join(' ')}` : 'PIN hidden'} role="img">{pin.split('').map((d, i) => <span key={i}>{shown ? d : <i />}</span>)}</div>
+  return <div role="img" aria-label={shown ? `PIN ${pin.split('').join(' ')}` : 'PIN hidden'}><Hero value={shown ? pin.split('').join(' ') : '• • • •'} /></div>
 }
 
-/** A monthly limit for one kind of spending: how much is used, and a way to change it. */
+/** A monthly limit: a row with the approved bar under the line, and an outline pill. */
 export function LimitRow({ icon, title, spent, limit, used, action, onAction }: { icon: string; title: string; spent: string; limit?: string; used: number; action: string; onAction: () => void }) {
-  return <div className="ds-row ds-limit"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{limit ? `${spent} of ${limit} this month` : `${spent} this month · no limit`}</span>{limit && <TickMeter used={used} ticks={24} label={`${title}: ${spent} of ${limit}`} />}</span><button className="ds-pill30 ds-ghostpill" onClick={onAction}>{action}</button></div>
+  return <div className="ds-row ds-limit"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{limit ? `${spent} of ${limit} this month` : `${spent} this month · no limit`}</span>{limit && <Bar used={used} thin label={`${title}: ${spent} of ${limit}`} />}</span><Pill onClick={onAction}>{action}</Pill></div>
 }
 
-/** A short note that something happened, above the ask bar. */
+/** The pale-yellow assistant strip from the Details screen (Done by your assistant). */
+export function AssistantNote({ children }: { children: any }) { return <div className="ds-anote"><SparkMark /><p>{children}</p></div> }
+
+/** A short confirmation, in the same pale-yellow assistant strip, above the ask bar. */
 let toastSet: (t: string) => void = () => { }
 export function toast(t: string) { toastSet(t) }
 export function ToastHost() {
   const [t, setT] = useState(''); const timer = useRef<any>(0)
-  toastSet = (x: string) => { setT(x); clearTimeout(timer.current); timer.current = setTimeout(() => setT(''), 2600) }
-  return <div className="ds-toast-w" aria-live="polite">{t && <div className="ds-toast" key={t}><Icon name="check" size={15} stroke={2.6} />{t}</div>}</div>
+  toastSet = (x: string) => { setT(x); clearTimeout(timer.current); timer.current = setTimeout(() => setT(''), 2800) }
+  return <div className="ds-toast-w" aria-live="polite">{t && <div className="ds-toast" key={t}><SparkMark size={16} />{t}</div>}</div>
 }
 
-/** A wide black button for the one thing a screen is for. */
+/** The big black button (View your trip, Confirm with Face ID). */
 export function Primary({ children, onClick, disabled }: { children: any; onClick: () => void; disabled?: boolean }) { return <button className="ds-btn48" disabled={disabled} onClick={onClick}>{children}</button> }
+/** The big white button (Back to home). */
+export function Secondary({ children, onClick }: { children: any; onClick: () => void }) { return <button className="ds-btn48 ds-btn48-w" onClick={onClick}>{children}</button> }
 
 /** An empty or unavailable state: one plain line, and a way forward if there is one. */
 export function Empty({ title, body, action, onAction }: { title: string; body?: string; action?: string; onAction?: () => void }) {
-  return <div className="ds-card ds-empty"><b>{title}</b>{body && <span className="ds-row-s">{body}</span>}{action && <button className="ds-btn40" onClick={onAction}>{action}</button>}</div>
+  return <div className="ds-card ds-empty"><b>{title}</b>{body && <span className="ds-row-s">{body}</span>}{action && <Pill primary onClick={onAction!}>{action}</Pill>}</div>
+}
+
+/** The account card format for a single amount: a grey label line, the number, a grey meta line, and pills. */
+export function Amount({ label, right, value, meta, tone, children }: { label: string; right?: string; value: string; meta?: string; tone?: 'good'; children?: any }) {
+  return <div className="ds-account"><span className="ds-ac-top"><span>{label}</span><span>{right || ''}</span></span><span className={'ds-ac-v' + (tone === 'good' ? ' ds-good' : '')}>{value}</span>{meta && <span className="ds-ac-m">{meta}</span>}{children}</div>
 }

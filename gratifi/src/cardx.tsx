@@ -41,11 +41,11 @@ function Pay({ nav, arg }: { nav: Nav; arg: string }) {
   if (c.due <= 0) return <><D.Empty title="Nothing to pay now" body={c.balance > 0 ? `Your statement is paid. ${M.money(c.balance, 2)} of new spending goes on your next statement.` : 'Your statement is paid.'} />{Mod.on('card.statements') && <D.List><D.Row icon="doc" title="Statements" chev onClick={() => nav.go('cardx', 'statements')} /></D.List>}</>
   const amt = pick === 'full' ? c.due : pick === 'min' ? c.min : Math.round(num(other) * 100) / 100
   return <>
-    <div className="ds-card ds-due"><span className="ds-row-s">{`Statement balance, due ${M.date(c.dueDate)}`}</span><b className="ds-due-v">{M.money(c.due, 2)}</b>{c.balance - c.due >= 0.01 && <span className="ds-row-s">{`Spending since the statement, ${M.money(Math.round((c.balance - c.due) * 100) / 100, 2)}, goes on your next one.`}</span>}</div>
+    <D.Amount label={`Due ${M.date(c.dueDate)}`} right={`•••• ${c.last4}`} value={M.money(c.due, 2)} meta={c.balance - c.due >= 0.01 ? `Spending since the statement, ${M.money(Math.round((c.balance - c.due) * 100) / 100, 2)}, goes on your next one.` : 'Statement balance'} />
     <D.Label>How much</D.Label>
     <D.Choice label="How much to pay" value={pick} onChange={setPick} items={[{ key: 'full', title: 'Pay in full', sub: 'No interest on this statement', value: M.money(c.due, 2) }, { key: 'min', title: 'Pay the minimum', sub: c.min > 0 ? 'Interest is charged on the rest' : 'Already paid this month', value: M.money(c.min, 2), disabled: c.min <= 0 }, { key: 'other', title: 'Another amount' }]} />
     {pick === 'other' && <D.Field label="Amount" prefix={sym(M)} inputMode="decimal" value={other} onChange={setOther} placeholder="0.00" autoFocus hint={num(other) > c.due ? `That's more than you owe; it will be set to ${M.money(c.due, 2)}.` : num(other) > 0 && num(other) < c.min ? `Below the minimum of ${M.money(c.min, 2)}. Pay at least that by ${M.date(c.dueDate)} to avoid a late fee.` : undefined} />}
-    <div className="ds-card"><div className="ds-kv"><span>From</span><b>Current account ending 7781</b></div><div className="ds-kv"><span>Arrives</span><b>Straight away</b></div></div>
+    <D.KV rows={[{ label: 'From', value: 'Current account •••• 7781' }, { label: 'Arrives', value: 'Straight away' }]} />
     <D.Primary disabled={!(amt > 0)} onClick={() => here(F.payBillAsk({ amount: amt }))}>{amt > 0 ? `Pay ${M.money(Math.min(amt, c.due), 2)}` : 'Pay'}</D.Primary>
   </>
 }
@@ -74,8 +74,7 @@ function Statement({ nav, arg }: { nav: Nav; arg: string }) {
   const bars = Object.entries(by).filter(([, v]) => v > 0.5).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, amount]) => ({ label, amount }))
   const owe = st.current && c.due > 0
   return <>
-    <div className="ds-card ds-due"><span className="ds-row-s">{`${M.date(st.start, 'day')} to ${M.date(st.end, 'day')}`}</span><b className="ds-due-v">{M.money(st.balance, 2)}</b><span className="ds-row-s">{owe ? `Due ${M.date(st.due)} · minimum ${M.money(c.min, 2)}` : 'Paid in full'}</span>
-      <div className="ds-cf-btns">{owe && Mod.on('card.pay') && <button className="ds-btn40" onClick={() => nav.go('cardx', 'pay')}>Pay this bill</button>}<button className="ds-btn40 ds-white ds-outline" onClick={save}><Icon name="download" size={16} stroke={2} />Download</button></div></div>
+    <D.Amount label={`${M.date(st.start, 'day')} to ${M.date(st.end, 'day')}`} value={M.money(st.balance, 2)} meta={owe ? `Due ${M.date(st.due)} · minimum ${M.money(c.min, 2)}` : 'Paid in full'}><div className="ds-ac-pills">{owe && Mod.on('card.pay') && <D.Pill primary onClick={() => nav.go('cardx', 'pay')}>Pay this bill</D.Pill>}<D.Pill icon="download" onClick={save}>Download</D.Pill></div></D.Amount>
     {bars.length > 0 && <D.SpendBars period="Spent this statement" items={bars} total={bars.reduce((a, x) => a + x.amount, 0)} format={(n: number) => M.money(n, 2)} />}
     <D.Label>{`${st.txns.length} line${st.txns.length === 1 ? '' : 's'}`}</D.Label>
     {st.txns.length ? <D.List>{st.txns.map(t => <D.Txn key={t.id} name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} points={t.points || undefined} refund={t.refund} format={(n: number) => M.money(n, 2)} onClick={st.current ? () => nav.go('cardx', 'txn:' + t.id) : undefined} />)}</D.List> : <p className="ds-row-s">No card payments in this period.</p>}
@@ -101,9 +100,9 @@ function TxnDetail({ nav, arg }: { nav: Nav; arg: string }) {
   const canDispute = !t.refund && t.cat !== 'Payment' && Mod.on('card.disputes') && !kase
   const d = new Date(t.at)
   return <>
-    <div className="ds-card ds-due"><span className="ds-row-s">{t.merchant}</span><b className={'ds-due-v' + (t.refund ? ' ds-good' : '')}>{`${t.refund ? '+' : '−'}${M.money(t.amount, 2)}`}</b><span className="ds-row-s">{`${M.date(d, 'long')} · ${M.clock(d.toTimeString().slice(0, 5))}`}</span></div>
-    <div className="ds-card"><div className="ds-kv"><span>Status</span><b>{t.pending ? 'Pending' : t.refund ? 'Money back' : 'Completed'}</b></div><div className="ds-kv"><span>Category</span><b>{t.cat}</b></div><div className="ds-kv"><span>Card</span><b>{`Ending ${s.card.last4}`}</b></div>{t.points ? <div className="ds-kv"><span>Points earned</span><b className="ds-good">{`+${M.num(t.points)}`}</b></div> : null}</div>
-    {kase && <><D.Label>Your dispute</D.Label>{kase.tracker && <D.Track steps={kase.tracker.steps} current={kase.tracker.current} eta={kase.tracker.eta} />}</>}
+    <D.Hero value={`${t.refund ? '+' : '−'}${M.money(t.amount, 2)}`} tone={t.refund ? 'good' : undefined} title={t.merchant} sub={`${M.date(d, 'long')} · ${M.clock(d.toTimeString().slice(0, 5))}`} />
+    <D.KV rows={[{ label: 'Status', value: t.pending ? 'Pending' : t.refund ? 'Money back' : 'Completed' }, { label: 'Category', value: t.cat }, { label: 'Card', value: `•••• ${s.card.last4}` }, ...(t.points ? [{ label: 'Points earned', value: <span className="ds-good">{`+${M.num(t.points)}`}</span> }] : [])]} />
+    {kase && kase.tracker && <D.Track title="Your dispute" steps={kase.tracker.steps} current={kase.tracker.current} eta={kase.extra?.outcome || kase.tracker.eta} />}
     <D.Label>Something wrong?</D.Label>
     <D.List>
       {canDispute && <D.Row icon="refresh" title="Dispute this payment" sub="Not received, not as described, charged twice" chev onClick={() => nav.go('cardx', 'dispute:' + t.id)} />}
@@ -127,7 +126,6 @@ function Details({ nav }: { nav: Nav }) {
   const copy = (l: string, v: string) => { try { navigator.clipboard?.writeText(v) } catch (e) { } D.toast(`${l} copied`) }
   return <>
     <D.CardDetails name={d.name} number={d.number} expiry={d.expiry} cvv={d.cvv} shown={left > 0} left={left} frozen={c.frozen} onShow={() => reveal('revealDetails', 'Show card details')} onHide={() => St.set(s => ({ seen: { ...s.seen, revealUntil: 0 } }))} onCopy={copy} />
-    {c.frozen && <p className="ds-row-s">Your card is frozen. The details still show, but payments won't go through until you unfreeze it.</p>}
     <D.List>
       {Mod.on('card.pin') && <D.Row icon="lock" title="PIN" sub="See your PIN" chev onClick={() => nav.go('cardx', 'pin')} />}
       {Mod.on('card.wallet') && <D.Row icon="phone" title="Add to phone wallet" sub="Pay with your phone instead" chev onClick={() => nav.go('cardx', 'wallet')} />}
@@ -139,7 +137,9 @@ function Pin({ nav }: { nav: Nav }) {
   const left = useLeft('pinUntil'); const pin = Bk.pin()
   useEffect(() => () => { St.set(s => ({ seen: { ...s.seen, pinUntil: 0 } })) }, [])
   return <>
-    <div className="ds-card" style={{ alignItems: 'center', gap: 14, padding: '22px 16px' }}><D.PinBox pin={pin} shown={left > 0} /><span className="ds-row-s">{left > 0 ? `Hides in ${left} s` : 'Hidden until you confirm it\'s you'}</span>{left > 0 ? <button className="ds-btn40 ds-white ds-outline" onClick={() => St.set(s => ({ seen: { ...s.seen, pinUntil: 0 } }))}><Icon name="eyeoff" size={16} stroke={2} />Hide</button> : <button className="ds-btn40" onClick={() => reveal('revealPin', 'Show your PIN')}><Icon name="eye" size={16} stroke={2} />Show PIN</button>}</div>
+    <D.PinBox pin={pin} shown={left > 0} />
+    <p className="ds-centre-s" style={{ marginTop: -10 }}>{left > 0 ? `Hides by itself in ${left} s` : 'Hidden until you confirm it\'s you'}</p>
+    {left > 0 ? <D.Secondary onClick={() => St.set(s => ({ seen: { ...s.seen, pinUntil: 0 } }))}>Hide now</D.Secondary> : <D.Primary onClick={() => reveal('revealPin', 'Show your PIN')}><Icon name="faceid" size={18} stroke={2} />Show PIN</D.Primary>}
     <D.List>
       <D.Row icon="cash" title="Change your PIN" sub="At any of the bank's cash machines, under PIN services" />
       <D.Row icon="headset" title="Locked out after wrong tries?" sub="A person can unlock it" chev onClick={() => { nav.go('chat'); Br.ask('My PIN is locked') }} />
@@ -157,9 +157,9 @@ function Limits() {
   return <>
     <p className="ds-row-s">Set a monthly cap for any kind of spending. Card payments over it are declined until the 1st, and you get a note when you're close.</p>
     <D.List>{Bk.LIMIT_CATS.map(cat => { const spent = Bk.spentThisMonth(cat), l = lim[cat]; return <D.LimitRow key={cat} icon={LIMIT_ICON[cat]} title={cat} spent={M.money(spent, 2)} limit={l ? M.money(l) : undefined} used={l ? spent / l : 0} action={l ? 'Change' : 'Set'} onAction={() => { setEdit(cat); setV(l ? String(l) : '') }} /> })}</D.List>
-    {edit && <div className="ds-card"><b style={{ fontSize: '0.9375rem' }}>{`${edit} each month`}</b>
-      <D.Field label="Limit" prefix={sym(M)} inputMode="numeric" value={v} onChange={setV} autoFocus hint={num(v) > 0 && num(v) < Bk.spentThisMonth(edit) ? `You've already spent ${M.money(Bk.spentThisMonth(edit), 2)} this month, so new ${edit.toLowerCase()} payments are declined until the 1st.` : undefined} />
-      <div className="ds-btnrow"><button className="ds-btn40" disabled={!(num(v) > 0)} onClick={() => save(num(v))}>Save</button>{lim[edit] && <button className="ds-btn40 ds-white ds-outline" onClick={() => save(null)}>Remove limit</button>}<button className="ds-textbtn" onClick={() => setEdit('')}>Cancel</button></div></div>}
+    {edit && <><D.Label>{`${edit} each month`}</D.Label>
+      <D.Field label="Monthly limit" prefix={sym(M)} inputMode="numeric" value={v} onChange={setV} autoFocus hint={num(v) > 0 && num(v) < Bk.spentThisMonth(edit) ? `You've already spent ${M.money(Bk.spentThisMonth(edit), 2)} this month, so new ${edit.toLowerCase()} payments are declined until the 1st.` : undefined} />
+      <div className="ds-btnrow"><D.Pill primary onClick={() => num(v) > 0 && save(num(v))}>Save</D.Pill>{lim[edit] && <D.Pill onClick={() => save(null)}>Remove limit</D.Pill>}<button className="ds-textbtn" onClick={() => setEdit('')}>Cancel</button></div></>}
   </>
 }
 
@@ -172,7 +172,7 @@ function Lost({ nav }: { nav: Nav }) {
   const newNumber = why === 'lost' || why === 'stolen'
   return <>
     {!c.frozen && Mod.on('card.controls') && <D.Note title="Freeze it first" action="Freeze my card" onAction={() => { St.set(x => ({ card: { ...x.card, frozen: true } })); D.toast('Card frozen. New payments are blocked.') }}>Nobody can use it while it's frozen. If it turns up, unfreeze it and carry on.</D.Note>}
-    {c.frozen && <div className="ds-card"><span className="ds-status"><i />{`Card ending ${c.last4} is frozen`}</span><span className="ds-row-s">Direct debits and refunds still work.</span></div>}
+    {c.frozen && <D.AssistantNote>{`Card ending ${c.last4} is frozen. Direct debits and refunds still work.`}</D.AssistantNote>}
     <D.Label>What happened?</D.Label>
     <D.Choice label="What happened" value={why} onChange={k => setWhy(k as any)} items={[{ key: 'lost', title: "I've lost it" }, { key: 'stolen', title: 'It was stolen' }, { key: 'damaged', title: "It's damaged or not working" }, { key: 'missing', title: 'A new card never arrived' }]} />
     <p className="ds-row-s">{newNumber ? 'Your card is cancelled for good and the new one has a new number. Direct debits and subscriptions move across by themselves.' : why === 'missing' ? 'The missing card is cancelled and a new one is sent with a new number, in case it went astray.' : 'The new card keeps the same number, so nothing needs updating. Your current card works until you activate the new one.'}</p>
@@ -186,8 +186,7 @@ function Lost({ nav }: { nav: Nav }) {
 function ReplacementStatus({ nav, b }: { nav: Nav; b: St.Booking }) {
   const delivered = b.status === 'delivered'
   return <>
-    <div className="ds-card"><b style={{ fontSize: '0.9375rem' }}>{delivered ? 'Your new card has arrived' : 'Your new card is on its way'}</b><span className="ds-row-s">{`${b.sub || ''} · ${b.ref}`}</span></div>
-    {b.tracker && <D.Track steps={b.tracker.steps} current={delivered ? b.tracker.steps.length : b.tracker.current} eta={delivered ? 'Ready to activate' : b.tracker.eta} />}
+    {b.tracker && <D.Track title={delivered ? 'Your new card has arrived' : 'Your new card is on its way'} sub={`${b.sub || ''} · ${b.ref}`} steps={b.tracker.steps} current={delivered ? b.tracker.steps.length : b.tracker.current} eta={delivered ? 'Ready to activate' : b.tracker.eta} />}
     {delivered && Mod.on('card.activate') ? <D.Primary onClick={() => nav.go('cardx', 'activate')}>Activate it now</D.Primary> : <p className="ds-row-s">You can activate it here as soon as it arrives.</p>}
     <D.List><D.Row icon="headset" title="It hasn't arrived after 7 days" chev onClick={() => { nav.go('chat'); Br.ask("My new card hasn't arrived") }} /></D.List>
   </>
@@ -219,7 +218,7 @@ function Dispute({ nav, arg }: { nav: Nav; arg: string }) {
     </>
   }
   const kase = s.bookings.find(b => b.extra?.case === 'dispute' && b.extra?.txn === t.id)
-  if (kase) return <><div className="ds-card"><b style={{ fontSize: '0.9375rem' }}>{`Disputed: ${t.merchant}`}</b><span className="ds-row-s">{`${M.money(kase.extra.amount, 2)} · ${kase.sub} · ${kase.ref}`}</span></div>{kase.tracker && <D.Track steps={kase.tracker.steps} current={kase.tracker.current} eta={kase.tracker.eta} tone={kase.tracker.tone === 'warn' ? 'warn' : undefined} />}<D.List><D.Row icon="doc" title="All your cases" chev onClick={() => nav.go('cardx', 'cases')} /></D.List></>
+  if (kase) return <>{kase.tracker && <D.Track title={`Disputed: ${t.merchant}`} sub={`${M.money(kase.extra.amount, 2)} · ${kase.sub} · ${kase.ref}`} steps={kase.tracker.steps} current={kase.tracker.current} eta={kase.extra?.outcome || kase.tracker.eta} tone={kase.tracker.tone === 'warn' ? 'warn' : undefined} />}<D.List><D.Row icon="doc" title="All your cases" chev onClick={() => nav.go('cardx', 'cases')} /></D.List></>
   const a = Math.round(num(amt) * 100) / 100
   return <>
     <D.List><D.Txn name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} format={(n: number) => M.money(n, 2)} /></D.List>
@@ -229,7 +228,7 @@ function Dispute({ nav, arg }: { nav: Nav; arg: string }) {
     {reason === "I don't recognise it" ? <D.List><D.Row icon="alert" title="Report it as fraud instead" sub="Your card is frozen and the fraud team takes it from here" chev onClick={() => { nav.go('chat'); run({ f: 'bank', a: { topic: 'fraud' } }, "I don't recognise this payment") }} /></D.List> : <>
       <D.Field label="Amount you're disputing" prefix={sym(M)} inputMode="decimal" value={amt} onChange={setAmt} hint={a > t.amount ? `The most is the payment itself, ${M.money(t.amount, 2)}.` : undefined} />
       <label className="ds-field"><span className="ds-field-l">What happened (optional)</span><textarea className="app-ta" value={note} maxLength={600} onChange={e => setNote((e.target as HTMLTextAreaElement).value)} placeholder="Dates, what you were told, what you've tried" /></label>
-      <D.List><label className="ds-row" style={{ cursor: 'pointer' }}><span className="ds-row-ic"><Icon name="doc" size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{file ? file : 'Add a receipt or photo'}</span><span className="ds-row-s">{file ? 'Attached' : 'Optional. Emails, receipts or a photo of the item'}</span></span><input type="file" accept="image/*,application/pdf" style={{ position: 'absolute', opacity: 0, width: 1, height: 1 }} onChange={e => setFile((e.target as HTMLInputElement).files?.[0]?.name || '')} /><span className="ds-pill30 ds-ghostpill">{file ? 'Change' : 'Add'}</span></label></D.List>
+      <D.List><label className="ds-row" style={{ cursor: 'pointer' }}><span className="ds-row-ic"><Icon name="doc" size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{file ? file : 'Add a receipt or photo'}</span><span className="ds-row-s">{file ? 'Attached' : 'Optional. Emails, receipts or a photo of the item'}</span></span><input type="file" accept="image/*,application/pdf" style={{ position: 'absolute', opacity: 0, width: 1, height: 1 }} onChange={e => setFile((e.target as HTMLInputElement).files?.[0]?.name || '')} /><span className="ds-opill">{file ? 'Change' : 'Add'}</span></label></D.List>
       <D.Primary disabled={!(a > 0)} onClick={() => here(FLOWS.disputeAsk({ txn: t.id, reason, amount: Math.min(a, t.amount), note: note.trim() || undefined, photo: !!file }))}>Review and send</D.Primary>
     </>}
   </>
@@ -240,10 +239,7 @@ function Cases({ nav }: { nav: Nav }) {
   const bs = St.useS(s => s.bookings); const M = useMarket()
   const list = bs.filter(b => b.extra?.case || b.title === 'Replacement card')
   if (!list.length) return <D.Empty title="No cases" body="New cards, disputes and limit requests show here while the bank works on them." />
-  return <>{list.map(b => <div key={b.id} className="ds-card"><b style={{ fontSize: '0.9375rem' }}>{b.title}</b><span className="ds-row-s">{[b.sub, b.extra?.case === 'dispute' ? M.money(b.extra.amount, 2) : '', b.ref].filter(Boolean).join(' · ')}</span>
-    {b.tracker && <D.Track steps={b.tracker.steps} current={b.status === 'delivered' && !b.extra?.activated ? b.tracker.steps.length : b.tracker.current} eta={b.extra?.outcome || (b.status === 'delivered' && !b.extra?.activated ? 'Ready to activate' : b.extra?.activated ? 'Activated' : b.tracker.eta)} tone={b.tracker.tone === 'warn' ? 'warn' : undefined} />}
-    {b.status === 'delivered' && !b.extra?.activated && Mod.on('card.activate') && <div><button className="ds-btn40" onClick={() => nav.go('cardx', 'activate')}>Activate</button></div>}
-  </div>)}</>
+  return <>{list.map(b => b.tracker ? <D.Track key={b.id} title={b.title} sub={[b.sub, b.extra?.case === 'dispute' ? M.money(b.extra.amount, 2) : '', b.ref].filter(Boolean).join(' · ')} steps={b.tracker.steps} current={b.status === 'delivered' && !b.extra?.activated ? b.tracker.steps.length : b.tracker.current} eta={b.extra?.outcome || (b.status === 'delivered' && !b.extra?.activated ? 'Ready to activate' : b.extra?.activated ? 'Activated' : b.tracker.eta)} tone={b.tracker.tone === 'warn' ? 'warn' : undefined}>{b.status === 'delivered' && !b.extra?.activated && Mod.on('card.activate') && <div><D.Pill primary onClick={() => nav.go('cardx', 'activate')}>Activate</D.Pill></div>}</D.Track> : null)}</>
 }
 
 /* ---------- Credit limit ---------- */
@@ -256,14 +252,14 @@ function Limit() {
   const req = Bk.openCase('limit')[0]
   const to = pick === 'other' ? Math.round(num(other)) : +pick
   return <>
-    <div className="ds-card ds-due"><span className="ds-row-s">Your credit limit</span><b className="ds-due-v">{M.money(c.limit)}</b><D.TickMeter used={c.limit ? c.balance / c.limit : 0} label="Credit used" /><span className="ds-row-s">{`${M.money(c.balance, 2)} used · ${M.money(Math.max(0, c.limit - c.balance), 2)} available`}</span></div>
+    <D.Amount label="Your credit limit" right={`•••• ${c.last4}`} value={M.money(c.limit)}><D.Bar used={c.limit ? c.balance / c.limit : 0} label="Credit used" tone="black" thin /><span className="ds-ac-m">{`${M.money(c.balance, 2)} used · ${M.money(Math.max(0, c.limit - c.balance), 2)} available`}</span></D.Amount>
     <D.Seg items={['Lower it', 'Ask for more']} value={mode} onChange={x => { setMode(x); setPick(''); setOther('') }} />
     {mode === 'Lower it' ? <>
       <p className="ds-row-s">Lowering it happens straight away. Raising it again later needs a check by the bank.</p>
       <D.Choice label="New limit" value={pick} onChange={setPick} items={[...lower.map(v => ({ key: String(v), title: M.money(v) })), { key: 'other', title: 'Another amount' }]} />
       {pick === 'other' && <D.Field label="New limit" prefix={sym(M)} inputMode="numeric" value={other} onChange={setOther} autoFocus hint={to && to < c.balance ? `It has to be at least your balance, ${M.money(c.balance, 2)}.` : to >= c.limit ? `Pick an amount below ${M.money(c.limit)}.` : undefined} />}
       <D.Primary disabled={!(to > 0 && to < c.limit && to >= c.balance)} onClick={() => here(F.limitAsk({ to }))}>{to > 0 ? `Lower to ${M.money(to)}` : 'Lower my limit'}</D.Primary>
-    </> : req ? <><div className="ds-card"><b style={{ fontSize: '0.9375rem' }}>{req.title}</b><span className="ds-row-s">{`${req.sub} · ${req.ref}`}</span></div>{req.tracker && <D.Track steps={req.tracker.steps} current={req.tracker.current} eta={req.extra?.outcome || req.tracker.eta} />}</> : <>
+    </> : req ? <>{req.tracker && <D.Track title={req.title} sub={`${req.sub} · ${req.ref}`} steps={req.tracker.steps} current={req.tracker.current} eta={req.extra?.outcome || req.tracker.eta} />}</> : <>
       <p className="ds-row-s">The bank checks what you can afford before saying yes. It won't affect your credit score unless you go ahead.</p>
       <D.Choice label="Limit you'd like" value={pick} onChange={setPick} items={[...higher.map(v => ({ key: String(v), title: M.money(v) })), { key: 'other', title: 'Another amount' }]} />
       {pick === 'other' && <D.Field label="Limit you'd like" prefix={sym(M)} inputMode="numeric" value={other} onChange={setOther} autoFocus />}

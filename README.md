@@ -9,6 +9,17 @@ Gratifi is a working prototype of an AI-first rewards and shopping assistant ins
 
 Gratifi is a progressive web app. Open the Vercel link on a phone: on iPhone tap Share, then Add to Home Screen; on Android tap Install app. It opens full screen, works offline, has long-press shortcuts (My card, Ask Gratifi, Rewards, Wallet) and shows a badge when Gratifi has news. `python3 gratifi/build.py` writes the installable site to `gratifi/build/site/` (copied to `site/` for Vercel).
 
+## Live AI (Claude)
+
+Gratifi has two answer engines behind the same tools and safety layers:
+
+- **Built-in engine**: fixed rules and flows, no model. Always available; it answers if Live AI is off or fails.
+- **Live AI**: Claude reads the conversation and calls the app's tools. Inside Claude it uses the page's own Claude access. On the web (Vercel) it uses the Claude API through `api/claude.js`, a server function that holds the key and picks the model: a fast model for short messages, a stronger one for longer requests (`GRATIFI_MODEL_QUICK`, `GRATIFI_MODEL_DEFAULT` override them).
+
+To switch Live AI on for the Vercel link, add `ANTHROPIC_API_KEY` under the project's Settings, Environment Variables, then redeploy. Set a monthly spend limit on the key in the Anthropic Console: the endpoint has a per-IP rate limit but no customer sign-in yet.
+
+Every message passes the fixed safety check first, then a second Claude safety check runs alongside the answer and can replace it. Claude can only show things and prepare confirm sheets; any sentence claiming something was booked, paid or changed is removed unless it really happened.
+
 ## Modules and the bank connection
 
 Every service is a module that needs one or more bank APIs (`gratifi/src/modules.ts`). A bank that offers the APIs gets the module; a bank that doesn't never sees it: no screen, no button, no chat answer. The chat filters every answer the same way, in both the built-in engine and Live AI, so it can't offer a service the bank doesn't have.
@@ -44,6 +55,8 @@ This writes `gratifi/build/gratifi.html` (the published page), `test.html` (loca
 | `gratifi/src/design.tsx` | Components taken from the approved 27 Sep screens (header buttons, points card, note, stamps, offers, polaroids, lists, segmented, switches), and card elements extrapolated from them (card face, tick meter, choice rows, fields, search, status track, card details, PIN boxes, limit rows, notes) |
 | `gratifi/src/art/` | Artwork from the approved screens |
 | `gratifi/src/brain.ts` | Live AI mode: Claude rules, 16 tools, second safety check, reply filters |
+| `gratifi/src/llm.ts` | The Claude API line for the web: same interface as the page's own Claude access, runs the tool loop |
+| `api/claude.js` | Vercel server function: holds the API key, pins models per tier, caches the rules and tools, rate limits |
 | `gratifi/src/flows.ts` | Built-in engine and flow logic: fixed safety check, search, checkout, bookings, card servicing |
 | `gratifi/src/render.tsx` | Answer cards, confirm sheet, receipts |
 | `gratifi/src/store.tsx` | Demo bank and app state, kept per market in local storage |

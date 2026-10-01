@@ -141,13 +141,13 @@ module.exports.cards = async function (h) {
   await go('cardx', 'txns'); await p.fill('.ds-search input', 'Pantry'); await p.waitForTimeout(300); check(await p.locator('.ds-txn').count() >= 1, 'search finds Pantry'); await shot('txns')
   await p.locator('.ds-txn').first().click(); await p.waitForTimeout(500); await shot('txn')
   // card details behind a check
-  await go('cardx', 'details'); await click('Show details'); await confirm(); await p.waitForTimeout(2400)
-  const num = (await p.locator('.ds-cd-v').first().innerText()).replace(/\D/g, '')
+  await go('cardx', 'details'); await click('Show card details'); await confirm(); await p.waitForTimeout(2400)
+  const num = (await p.locator('.ds-num').first().innerText()).replace(/\D/g, '')
   const luhn = n => n.split('').reverse().reduce((a, d, i) => { let x = +d; if (i % 2) { x *= 2; if (x > 9) x -= 9 } return a + x }, 0) % 10 === 0
   check(num.length === 16 && luhn(num), 'card number shown and valid'); await shot('details')
-  await go('cardx', 'pin'); await click('Show PIN'); await confirm(); await p.waitForTimeout(2400); check(/\d/.test(await p.locator('.ds-pin').innerText()), 'PIN shown'); await shot('pin')
+  await go('cardx', 'pin'); await click('Show PIN'); await confirm(); await p.waitForTimeout(2400); check(/\d/.test(await p.locator('.ds-hero-v').first().innerText()), 'PIN shown'); await shot('pin')
   // a dining limit that blocks a payment
-  await go('cardx', 'limits'); await p.locator('.ds-limit .ds-pill30').first().click(); await p.fill('.ds-field input', '20'); await click('Save'); await p.waitForTimeout(300)
+  await go('cardx', 'limits'); await p.locator('.ds-limit .ds-opill').first().click(); await p.fill('.ds-field input', '20'); await click('Save'); await p.waitForTimeout(300)
   check((await S()).seen.catLimits?.Dining === 20, 'dining limit saved'); await shot('limits')
   await go('me'); await click('A card payment'); check(/monthly limit/.test(JSON.stringify((await S()).chat.slice(-1))), 'limit declines a payment')
   // lost card: freeze, order, deliver, activate
@@ -165,7 +165,7 @@ module.exports.cards = async function (h) {
   await go('cardx', 'limit'); await p.getByRole('tab').nth(1).click(); await p.waitForTimeout(300); await p.getByRole('radio').first().click(); await click('Send to the bank'); await confirm(); await p.waitForTimeout(2400)
   const lim0 = (await S()).card.limit; await go('me'); await click('Bank decides cases'); await p.waitForTimeout(500); check((await S()).card.limit > lim0, 'limit approved'); await shot('cases')
   // phone wallet and travel notice
-  await go('cardx', 'wallet'); await p.locator('.ds-row .ds-pill30').first().click(); await confirm(); await p.waitForTimeout(2400); check(Object.keys((await S()).seen.wallets || {}).length === 1, 'wallet added'); await shot('wallet')
+  await go('cardx', 'wallet'); await p.locator('.ds-row .ds-opill').first().click(); await confirm(); await p.waitForTimeout(2400); check(Object.keys((await S()).seen.wallets || {}).length === 1, 'wallet added'); await shot('wallet')
   await go('cardx', 'travel'); await p.locator('.ds-field input').first().fill('Lisbon'); await click('Add travel notice'); await p.waitForTimeout(300); check(((await S()).seen.notices || []).length === 1, 'travel notice'); await shot('travel')
   // switch APIs off: screens, Home and answers follow
   await go('me')

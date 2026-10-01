@@ -26,7 +26,7 @@ function App() {
   const sysDark = W.matchMedia && W.matchMedia('(prefers-color-scheme: dark)').matches
   const [theme, setThemeS] = useState(q.get('theme') || readLS('gratifi-theme') || (sysDark ? 'dark' : 'light'))
   const setTheme = (t: string) => { setThemeS(t); writeLS('gratifi-theme', t) }
-  useEffect(() => { document.documentElement.dataset.theme = theme }, [theme])
+  useEffect(() => { document.documentElement.dataset.theme = theme; document.querySelectorAll('meta[name=theme-color]').forEach(m => m.setAttribute('content', theme === 'dark' ? '#232326' : '#F4F4F3')) }, [theme])
   useEffect(() => { const f = fmt(s.market); document.documentElement.lang = f.locale; document.documentElement.dir = f.dir; W.__phoneEnd = ({ UK: '21', EU: '48', IN: '45', AE: '09', AR: '09', SG: '63', MY: '17' } as any)[s.market] }, [s.market])
   ;(window as any).__tab = tab
   const [hist, setHist] = useState<{ t: Tab; c?: string }[]>([])

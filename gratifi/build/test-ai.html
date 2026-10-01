@@ -750,11 +750,12 @@ body { overscroll-behavior: none; }
 .app .gr-slots { grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr)); } /* slot chips reflow at large text sizes */
 
 /* ===== Approved screens (27 Sep canvas): sheet, header, home pieces, lists ===== */
-.app { background: #2A2A2E; }
-.ds-sheet { flex: 1; min-height: 0; margin-top: 14px; background: var(--screen); border-radius: 32px 32px 0 0; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-.ds-grab { display: flex; justify-content: center; padding-top: 8px; flex-shrink: 0; }
+.app { background: var(--screen); }
+/* Full screen: the sheet fills the phone, with the status bar area in the screen colour */
+.ds-sheet { flex: 1; min-height: 0; margin-top: 0; padding-top: env(safe-area-inset-top); background: var(--screen); border-radius: 0; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.ds-grab { display: none; }
 .ds-grab i { width: 38px; height: 5px; border-radius: 3px; background: #C9C7C2; }
-[data-theme="dark"] .app { background: #111113; }
+[data-theme="dark"] .app { background: var(--screen); }
 [data-theme="dark"] .ds-grab i { background: var(--ink-faint); }
 .app-scroll { padding: 10px 20px 150px; gap: 18px; }
 .ds-hb { width: 44px; height: 44px; border-radius: 22px; background: var(--card); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 6px 16px rgba(20,20,22,0.06); position: relative; }
@@ -975,7 +976,7 @@ body { overscroll-behavior: none; }
 /* ===== Installed app: safe areas and touch ===== */
 html, body { -webkit-tap-highlight-color: transparent; }
 .app button, .app a, .app [role=switch] { touch-action: manipulation; }
-.ds-sheet { margin-top: max(14px, env(safe-area-inset-top)); }
+.ds-sheet { margin-top: 0; }
 .app-dock { bottom: calc(26px + env(safe-area-inset-bottom)); }
 .app-scroll { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
 .ds-bank { padding-top: max(22px, calc(env(safe-area-inset-top) + 8px)); }
@@ -1133,56 +1134,122 @@ html[data-nav="down"]::view-transition-old(root) { animation: vt-to-below .4s cu
 .ds-btiles, .ds-offers { padding-bottom: 26px; margin-bottom: -18px; }
 .ds-btiles, .ds-offers, .ds-picks, .ds-again, .ds-stamps { margin-inline-start: -20px; padding-inline-start: 20px; margin-inline-end: -20px; padding-inline-end: 20px; scroll-padding-inline: 20px; }
 .ds-picks { padding-inline-start: 22px; }
-/* ---------- card servicing elements ---------- */
-.ds-choice { min-height: 56px; }
-.ds-choice[disabled] { opacity: .45; }
-.ds-radio { width: 22px; height: 22px; border-radius: 11px; box-shadow: inset 0 0 0 2px #D6D4CF; flex-shrink: 0; position: relative; transition: box-shadow .2s; }
-.ds-choice[aria-checked="true"] .ds-radio { box-shadow: inset 0 0 0 7px #17171A; }
-[data-theme="dark"] .ds-radio { box-shadow: inset 0 0 0 2px var(--line); }
-[data-theme="dark"] .ds-choice[aria-checked="true"] .ds-radio { box-shadow: inset 0 0 0 7px var(--accent); }
+/* ---------- card and servicing elements, all from the approved screens ---------- */
+/* progress bar (Your tier, goal screen) */
+.ds-bar { height: 10px; border-radius: 5px; background: #E4E2DE; overflow: hidden; flex-shrink: 0; }
+.ds-bar.thin { height: 6px; border-radius: 3px; margin-top: 6px; }
+.ds-bar i { display: block; height: 100%; border-radius: inherit; background: #FF6A1F; transition: width .5s cubic-bezier(.2,.8,.2,1); }
+.ds-bar i.black { background: #141416; }
+[data-theme="dark"] .ds-bar { background: var(--card-sunk); }
+[data-theme="dark"] .ds-bar i.black { background: var(--ink); }
+/* outline pill (bank screen: Pay, Move money; goal screen: Set goal) */
+.ds-opill { position: relative; height: 36px; padding: 0 16px; border-radius: 18px; background: #FFFFFF; color: #141416; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; box-shadow: inset 0 0 0 1px #E4E2DE; white-space: nowrap; }
+.ds-opill.primary { background: #17171A; color: #F4F4F3; box-shadow: none; }
+.ds-opill::after { content: ''; position: absolute; inset: -4px -2px; }
+.ds-row .ds-opill, .ds-ways-r .ds-opill { height: 34px; padding: 0 12px; font-size: 13px; border-radius: 17px; }
+[data-theme="dark"] .ds-opill { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+[data-theme="dark"] .ds-opill.primary { background: var(--accent); color: #141416; box-shadow: none; }
+/* account card (bank screen) */
+.ds-account { background: var(--card); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 6px; }
+.ds-ac-open { display: flex; flex-direction: column; gap: 2px; text-align: start; width: 100%; color: var(--ink); padding: 0; }
+.ds-ac-top { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; line-height: 1.4; color: #6E6E76; }
+.ds-ac-top > span:first-child { font-weight: 600; }
+.ds-ac-v { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.ds-ac-m { font-size: 13px; color: #6E6E76; line-height: 1.4; }
+.ds-ac-pills { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.ds-ac-frozen { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+.ds-ac-frozen i { width: 8px; height: 8px; border-radius: 4px; background: #E4540E; }
+[data-theme="dark"] .ds-ac-top, [data-theme="dark"] .ds-ac-m { color: var(--ink-soft); }
+/* trailing grey word (Already included: Free) */
+.ds-row-meta { font-size: 13px; font-weight: 600; color: #6E6E76; flex-shrink: 0; }
+[data-theme="dark"] .ds-row-meta { color: var(--ink-soft); }
+/* Three ways to get there */
+.ds-ways { background: var(--card); border-radius: 24px; padding: 16px 16px 4px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-ways-h { display: flex; gap: 8px; align-items: center; }
+.ds-ways-h p { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
+.ds-ways-r { display: flex; gap: 12px; align-items: center; padding: 14px 0; }
+.ds-ways-r + .ds-ways-r { border-top: 1px solid #F0EFEC; }
+[data-theme="dark"] .ds-ways-r + .ds-ways-r { border-top-color: var(--line); }
+/* status with a dot (Your Lisbon trip: Booked) */
+.ds-dot-status { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #1E7A4F; flex-shrink: 0; }
+.ds-dot-status i { width: 8px; height: 8px; border-radius: 4px; background: currentColor; }
+/* label and value line (Your tier: Tier points this year 16,480 of 20,000) */
+.ds-kvh { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.ds-kvh span { font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+.ds-kvh b { font-size: 14px; font-variant-numeric: tabular-nums; }
+.ds-spend { gap: 14px; }
+.ds-spend-row { display: flex; flex-direction: column; gap: 8px; }
+/* chips you pick from (Where can I reach you) */
+.ds-choice-w { display: flex; flex-direction: column; gap: 8px; }
+.ds-pickrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-pick { height: 36px; padding: 0 14px; border-radius: 18px; background: #FFFFFF; color: #141416; box-shadow: inset 0 0 0 1px #E4E2DE; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.ds-pick[aria-checked="true"] { background: #17171A; color: #F4F4F3; box-shadow: none; }
+.ds-pick[disabled] { opacity: .45; }
+[data-theme="dark"] .ds-pick { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+[data-theme="dark"] .ds-pick[aria-checked="true"] { background: var(--accent); color: #141416; box-shadow: none; }
+/* What happened timeline */
+.ds-timeline { background: var(--card); border-radius: 24px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-tl-h { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
+.ds-timeline ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ds-timeline li { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 0 0 14px 30px; min-height: 20px; }
+.ds-timeline li:last-child { padding-bottom: 0; }
+.ds-timeline li > i { position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 8px; background: #141416; box-shadow: 0 0 0 4px var(--card); z-index: 1; }
+.ds-timeline li:not(:last-child)::before { content: ''; position: absolute; left: 7px; top: 20px; bottom: 0; width: 2px; background: #E4E2DE; }
+.ds-timeline li.now > i { background: #FF6A1F; }
+.ds-timeline li.next > i { background: #E4E2DE; }
+.ds-tl-d { font-size: 13px; font-weight: 600; color: #6E6E76; line-height: 1.4; }
+.ds-tl-d.warn { color: #E4540E; }
+.ds-tl-t { font-size: 15px; line-height: 1.4; }
+.ds-timeline li.next .ds-tl-t { color: #6E6E76; }
+[data-theme="dark"] .ds-timeline li > i { background: var(--ink); }
+[data-theme="dark"] .ds-timeline li.now > i { background: var(--accent); }
+[data-theme="dark"] .ds-timeline li.next > i, [data-theme="dark"] .ds-timeline li:not(:last-child)::before { background: var(--line); }
+/* label and value table (booking screen) */
+.ds-kv-card { background: var(--card); border-radius: 24px; padding: 4px 18px; display: flex; flex-direction: column; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-kv-r { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; min-height: 30px; }
+.ds-kv-r + .ds-kv-r { border-top: 1px solid #F0EFEC; }
+.ds-kv-r span { font-size: 15px; color: #6E6E76; }
+.ds-kv-r b { font-size: 15px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; text-align: end; }
+.ds-num { font-variant-numeric: tabular-nums; letter-spacing: .02em; direction: ltr; unicode-bidi: isolate; }
+.ds-copy { width: 28px; height: 28px; }
+[data-theme="dark"] .ds-kv-r + .ds-kv-r { border-top-color: var(--line); }
+[data-theme="dark"] .ds-kv-r span { color: var(--ink-soft); }
+/* big number (Details: +640) */
+.ds-hero { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0; text-align: center; }
+.ds-hero p { margin: 0; }
+.ds-hero-v { font-size: 48px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.2; font-variant-numeric: tabular-nums; direction: ltr; }
+.ds-hero-v.good { color: #1E7A4F; }
+.ds-hero-t { font-size: 18px; font-weight: 700; line-height: 1.4; }
+.ds-hero-s { font-size: 14px; color: #6E6E76; line-height: 1.4; }
+/* assistant strip (Done by your assistant) */
+.ds-anote { display: flex; gap: 10px; align-items: center; background: #FFF4D6; border-radius: 16px; padding: 12px 14px; }
+.ds-anote p { margin: 0; font-size: 14px; line-height: 1.4; color: #141416; }
+[data-theme="dark"] .ds-anote { background: #3A3320; }
+[data-theme="dark"] .ds-anote p { color: var(--ink); }
+.ds-centre-s { margin: -6px 0 0; text-align: center; font-size: 13px; color: #6E6E76; }
+/* fields and search (the ask bar's white pill, made still) */
 .ds-field { display: flex; flex-direction: column; gap: 6px; }
-.ds-field-l { font-size: 0.8125rem; font-weight: 600; color: var(--ink-soft); }
-.ds-field-w { display: flex; align-items: center; gap: 6px; height: 52px; border-radius: 18px; background: var(--card); padding: 0 16px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-field-l { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.ds-field-w { display: flex; align-items: center; gap: 6px; height: 52px; border-radius: 26px; background: var(--card); padding: 0 18px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
 .ds-field-w:focus-within { box-shadow: 0 0 0 2px var(--ink); }
 .ds-field-p { font-size: 1.0625rem; font-weight: 700; color: var(--ink-soft); }
 .ds-field input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; font: inherit; font-size: 1.0625rem; font-weight: 600; color: var(--ink); outline: 0; font-variant-numeric: tabular-nums; }
-.ds-search { display: flex; align-items: center; gap: 10px; height: 48px; border-radius: 24px; background: var(--card); padding: 0 8px 0 16px; color: var(--ink-soft); box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
+.ds-search { display: flex; align-items: center; gap: 10px; height: 52px; border-radius: 26px; background: var(--card); padding: 0 8px 0 18px; color: var(--ink-soft); box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
 .ds-search:focus-within { box-shadow: 0 0 0 2px var(--ink); }
 .ds-search input { flex: 1; min-width: 0; border: 0; background: none; font: inherit; font-size: 0.9375rem; color: var(--ink); outline: 0; height: 100%; }
 .ds-search input::-webkit-search-cancel-button { display: none; }
-.ds-track { background: var(--card); border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 12px 24px rgba(20,20,22,0.06); }
-.ds-track ol { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; position: relative; gap: 4px; }
-.ds-track ol::before { content: ''; position: absolute; top: 6px; left: 7px; right: 7px; height: 2px; background: #E2E0DC; }
-.ds-track li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); text-align: center; flex: 1; min-width: 0; }
-.ds-track li:first-child { align-items: flex-start; text-align: start; }
-.ds-track li:last-child { align-items: flex-end; text-align: end; }
-.ds-track li i { width: 14px; height: 14px; border-radius: 7px; background: var(--card); box-shadow: inset 0 0 0 2px #D6D4CF; z-index: 1; }
-.ds-track li.done i { background: var(--accent); box-shadow: none; }
-.ds-track li.now i { background: var(--card); box-shadow: inset 0 0 0 4px var(--accent); }
-.ds-track li.done, .ds-track li.now { color: var(--ink); }
-[data-theme="dark"] .ds-track ol::before { background: var(--line); }
-.ds-cd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin: 4px 0 2px; }
-.ds-cd-f { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.ds-cd-f.wide { grid-column: 1 / -1; }
-.ds-cd-v { display: flex; align-items: center; gap: 6px; font-size: 1.125rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .02em; direction: ltr; justify-content: flex-start; }
-[dir="rtl"] .ds-cd-v { justify-content: flex-end; }
-.ds-cd-f.wide .ds-cd-v:not(.ds-cd-name) { font-size: 1.3125rem; letter-spacing: .06em; }
-.ds-cd-name { font-size: 0.9375rem; letter-spacing: .04em; }
-.ds-cd-copy { position: relative; width: 30px; height: 30px; border-radius: 15px; background: var(--screen); color: var(--ink-soft); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.ds-cd-copy::after { content: ''; position: absolute; inset: -7px; }
-.ds-cf-due .ds-btn40 svg { margin-inline-end: 6px; }
-.ds-pin { display: flex; gap: 10px; justify-content: center; direction: ltr; }
-.ds-pin span { width: 56px; height: 64px; border-radius: 18px; background: var(--card); box-shadow: 0 12px 24px rgba(20,20,22,0.06); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-.ds-pin span i { width: 12px; height: 12px; border-radius: 6px; background: var(--ink); }
-.ds-limit .ds-ticks { height: 12px; margin-top: 6px; }
-.ds-toast-w { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center; pointer-events: none; z-index: 6; padding: 0 16px; }
-.ds-toast { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; background: #17171A; color: #F4F4F3; border-radius: 20px; padding: 10px 16px; font-size: 0.875rem; font-weight: 600; box-shadow: 0 12px 24px rgba(20,20,22,0.18); animation: ds-toast .28s cubic-bezier(.2,.8,.2,1); }
-.ds-toast svg { color: var(--accent); flex-shrink: 0; }
+/* short confirmation, in the assistant strip */
+.ds-toast-w { position: absolute; left: 0; right: 0; bottom: calc(100px + env(safe-area-inset-bottom)); display: flex; justify-content: center; pointer-events: none; z-index: 6; padding: 0 16px; }
+.ds-toast { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; background: #FFF4D6; color: #141416; border-radius: 16px; padding: 12px 14px; font-size: 14px; line-height: 1.4; box-shadow: 0 12px 24px rgba(20,20,22,0.12); animation: ds-toast .28s cubic-bezier(.2,.8,.2,1); }
+[data-theme="dark"] .ds-toast { background: #3A3320; color: var(--ink); }
 @keyframes ds-toast { from { transform: translateY(12px); opacity: 0 } }
 @media (prefers-reduced-motion: reduce) { .ds-toast { animation: none; } }
-.ds-btn48 { width: 100%; min-height: 52px; border-radius: 26px; background: #17171A; color: #F4F4F3; font-size: 1rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+/* big buttons (View your trip, Back to home) */
+.ds-btn48 { width: 100%; height: 56px; flex-shrink: 0; border-radius: 28px; background: #17171A; color: #F4F4F3; font-size: 16px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+.ds-btn48-w { background: #FFFFFF; color: #141416; box-shadow: inset 0 0 0 1px #E4E2DE; }
 .ds-btn48[disabled] { background: #D3D1CC; color: #FFFFFF; cursor: not-allowed; }
 [data-theme="dark"] .ds-btn48 { background: var(--accent); color: #141416; }
+[data-theme="dark"] .ds-btn48-w { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
 [data-theme="dark"] .ds-btn48[disabled] { background: var(--card-sunk); color: var(--ink-faint); }
 .ds-btn40[disabled] { background: #D3D1CC; color: #FFFFFF; }
 .ds-empty { align-items: flex-start; }
@@ -1190,7 +1257,7 @@ html[data-nav="down"]::view-transition-old(root) { animation: vt-to-below .4s cu
 .ds-kv { display: flex; justify-content: space-between; gap: 12px; font-size: 0.875rem; padding: 4px 0; }
 .ds-kv span { color: var(--ink-soft); }
 .ds-kv b { text-align: end; font-variant-numeric: tabular-nums; }
-.ds-btnrow { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-btnrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .ds-api { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 0.8125rem; }
 .ds-api + .ds-api { border-top: 1px solid var(--line); }
 .ds-api span { flex: 1; min-width: 0; }
@@ -1588,6 +1655,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     copy: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("rect", { x: "8.5", y: "8.5", width: "11", height: "11", rx: "2.5" }), /* @__PURE__ */ React.createElement("path", { d: "M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5" })),
     download: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M12 3.5V15M7.5 10.5 12 15l4.5-4.5" }), /* @__PURE__ */ React.createElement("path", { d: "M5 17.5v1A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-1" })),
     eyeoff: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M4 4l16 16M9.9 5.8A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-2.7 3.5M6.4 7.4C3.9 9.1 2.5 12 2.5 12S6 18.5 12 18.5c1.5 0 2.9-.4 4.1-1" }), /* @__PURE__ */ React.createElement("path", { d: "M9.9 9.9a3 3 0 0 0 4.2 4.2" })),
+    target: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "12", r: "8.5" }), /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "12", r: "4.5" }), /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "12", r: "0.8" })),
     eye: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" }), /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "12", r: "3" })),
     flag: /* @__PURE__ */ React.createElement("path", { d: "M5 21V4M5 4h12l-2 4 2 4H5" }),
     headset: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M4 14v-2a8 8 0 0 1 16 0v2" }), /* @__PURE__ */ React.createElement("rect", { x: "3.5", y: "13.5", width: "4", height: "6", rx: "2" }), /* @__PURE__ */ React.createElement("rect", { x: "16.5", y: "13.5", width: "4", height: "6", rx: "2" }), /* @__PURE__ */ React.createElement("path", { d: "M18.5 19.5c0 1.5-1.5 2-4 2" }))
@@ -2233,7 +2301,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const how = auth || M3.auth;
     const [s, setS] = useState(state);
     const [code, setCode] = useState(state === "code" ? "482193" : "");
-    const [err, setErr] = useState(attempts);
+    const [err2, setErr] = useState(attempts);
     const [resent, setResent] = useState(false);
     const boxes = React.useRef(null);
     const focusBox = (i) => setTimeout(() => {
@@ -2242,7 +2310,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     }, 0);
     const [, tick] = useState(0);
     useEffect(() => {
-      if (err < 3 || !lockedUntil) return;
+      if (err2 < 3 || !lockedUntil) return;
       const t = setInterval(() => {
         if (Date.now() >= lockedUntil) {
           setErr(0);
@@ -2251,7 +2319,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         tick((x) => x + 1);
       }, 5e3);
       return () => clearInterval(t);
-    }, [err, lockedUntil]);
+    }, [err2, lockedUntil]);
     const mins = lockedUntil ? Math.max(1, Math.ceil((lockedUntil - Date.now()) / 6e4)) : 15;
     useEffect(() => {
       if (s === "scanning") {
@@ -2271,7 +2339,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         inputMode: "numeric",
         pattern: "[0-9]*",
         autoComplete: i === 0 ? "one-time-code" : "off",
-        disabled: err >= 3,
+        disabled: err2 >= 3,
         "aria-label": M3.t("otpDigit", { n: i + 1 }),
         value: code[i] || "",
         onFocus: (e) => e.target.select(),
@@ -2321,16 +2389,16 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           if (i < 5) focusBox(i + 1);
         }
       }
-    ))), err > 0 && /* @__PURE__ */ React.createElement("div", { className: "gr-banner gr-danger", role: "alert" }, /* @__PURE__ */ React.createElement(Icon, { name: "alert", size: 18 }), /* @__PURE__ */ React.createElement("span", null, err >= 3 ? M3.t("codeLocked", { n: mins }) : err === 2 ? M3.t("wrongCodeLast") : M3.t("wrongCode"))), err < 3 && /* @__PURE__ */ React.createElement("button", { className: "gr-link", style: { alignSelf: "flex-start" }, onClick: () => {
+    ))), err2 > 0 && /* @__PURE__ */ React.createElement("div", { className: "gr-banner gr-danger", role: "alert" }, /* @__PURE__ */ React.createElement(Icon, { name: "alert", size: 18 }), /* @__PURE__ */ React.createElement("span", null, err2 >= 3 ? M3.t("codeLocked", { n: mins }) : err2 === 2 ? M3.t("wrongCodeLast") : M3.t("wrongCode"))), err2 < 3 && /* @__PURE__ */ React.createElement("button", { className: "gr-link", style: { alignSelf: "flex-start" }, onClick: () => {
       setResent(true);
       setCode("");
       onResend == null ? void 0 : onResend();
-    } }, M3.t("otpResend")), resent && err < 3 && /* @__PURE__ */ React.createElement("div", { className: "gr-meta", role: "status" }, M3.t("otpResent"))) : how === "app" ? /* @__PURE__ */ React.createElement("div", { className: "gr-faceid" }, /* @__PURE__ */ React.createElement("div", { className: "gr-ring" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 36, stroke: 1.6 })), /* @__PURE__ */ React.createElement("div", { className: "gr-meta", style: { textAlign: "center" } }, s === "scanning" ? M3.t("appWaiting") : M3.t("appReady"))) : /* @__PURE__ */ React.createElement("div", { className: cx("gr-faceid", s === "scanning" && "gr-scanning") }, /* @__PURE__ */ React.createElement("div", { className: "gr-ring" }, /* @__PURE__ */ React.createElement(Icon, { name: "faceid", size: 40, stroke: 1.6 })), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, s === "scanning" ? M3.t("checking") : note || M3.t("nothingPaid"))), /* @__PURE__ */ React.createElement(Button, { size: "lg", block: true, icon: how === "faceid" ? "faceid" : how === "app" ? "phone" : "lock", disabled: how === "otp" && code.length < 6 || err >= 3, onClick: () => {
+    } }, M3.t("otpResend")), resent && err2 < 3 && /* @__PURE__ */ React.createElement("div", { className: "gr-meta", role: "status" }, M3.t("otpResent"))) : how === "app" ? /* @__PURE__ */ React.createElement("div", { className: "gr-faceid" }, /* @__PURE__ */ React.createElement("div", { className: "gr-ring" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 36, stroke: 1.6 })), /* @__PURE__ */ React.createElement("div", { className: "gr-meta", style: { textAlign: "center" } }, s === "scanning" ? M3.t("appWaiting") : M3.t("appReady"))) : /* @__PURE__ */ React.createElement("div", { className: cx("gr-faceid", s === "scanning" && "gr-scanning") }, /* @__PURE__ */ React.createElement("div", { className: "gr-ring" }, /* @__PURE__ */ React.createElement(Icon, { name: "faceid", size: 40, stroke: 1.6 })), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, s === "scanning" ? M3.t("checking") : note || M3.t("nothingPaid"))), /* @__PURE__ */ React.createElement(Button, { size: "lg", block: true, icon: how === "faceid" ? "faceid" : how === "app" ? "phone" : "lock", disabled: how === "otp" && code.length < 6 || err2 >= 3, onClick: () => {
       if (how === "otp" && validCode && code !== validCode) {
-        setErr(err + 1);
-        onWrong == null ? void 0 : onWrong(err + 1);
+        setErr(err2 + 1);
+        onWrong == null ? void 0 : onWrong(err2 + 1);
         setCode("");
-        if (err + 1 < 3) focusBox(0);
+        if (err2 + 1 < 3) focusBox(0);
         return;
       }
       setErr(0);
@@ -6026,17 +6094,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const M3 = useMarket();
     return /* @__PURE__ */ React.createElement("div", { className: "gr-lounge" }, /* @__PURE__ */ React.createElement("div", { className: "gr-lt" }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, M3.t("loungePass")), /* @__PURE__ */ React.createElement(Icon, { name: "sofa", size: 20 })), /* @__PURE__ */ React.createElement("div", { className: "gr-title", style: { color: "inherit" } }, name), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "0.8125rem", opacity: 0.8, fontWeight: 550 } }, where)), /* @__PURE__ */ React.createElement("div", { className: "gr-lb" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650, fontSize: "0.875rem" } }, M3.t("youPlus", { n: M3.num(guests) })), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, valid2)), /* @__PURE__ */ React.createElement(QR, { seed: 3 })));
   }
-  function PaymentDue({ amount = 642.18, min = 25, date = "4\xA0Nov", days = 9, autopay = false, onPay, onSetup, actions = true }) {
-    const M3 = useMarket();
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-due" }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, M3.t("paymentDue")), days <= 3 ? /* @__PURE__ */ React.createElement(Badge, { tone: "warn" }, M3.t("inDays", { n: M3.num(days) })) : /* @__PURE__ */ React.createElement(Badge, null, date)), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { alignItems: "flex-end", justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "gr-time" }, M3.money(amount, 2)), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, min > 0 ? M3.t("minBy", { amt: M3.money(min, 2), date }) : M3.t("minPaid", { date })))), autopay ? /* @__PURE__ */ React.createElement("div", { className: "gr-banner gr-good" }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 18 }), /* @__PURE__ */ React.createElement("span", null, M3.t("ddPays", { dd: M3.directDebit.charAt(0).toUpperCase() + M3.directDebit.slice(1), date }))) : actions ? /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: onPay }, M3.t("payNow")), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: onSetup }, M3.t("setUp", { dd: M3.directDebit }))) : null);
-  }
-  function TransactionRow({ mono, color = "var(--card-sunk)", ink = "var(--ink)", name, meta, amount, points, refund: refund2 }) {
-    const M3 = useMarket();
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-txn" }, /* @__PURE__ */ React.createElement("span", { className: "gr-mono", style: { background: color, color: ink } }, mono), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650 } }, name), /* @__PURE__ */ React.createElement(Meta, { items: meta })), /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 0, alignItems: "flex-end" } }, /* @__PURE__ */ React.createElement("span", { className: cx("gr-amt", refund2 && "gr-in") }, refund2 ? "+" : "", M3.money(amount, 2)), points && /* @__PURE__ */ React.createElement("span", { className: "gr-back", style: { fontSize: "0.75rem" } }, "+", M3.pts(points))));
-  }
-  function BenefitRow({ icon = "shield", name, sub, value, onClick }) {
-    return /* @__PURE__ */ React.createElement("button", { className: "gr-benefit", style: { width: "100%", textAlign: "start" }, onClick }, /* @__PURE__ */ React.createElement("span", { className: "gr-bi" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 19 })), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650, fontSize: "0.9375rem" } }, name), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, sub)), value && /* @__PURE__ */ React.createElement("span", { style: { fontWeight: 650, fontSize: "0.875rem" } }, value), /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18, color: "var(--ink-faint)", className: "gr-flipx" }));
-  }
 
   // ../kit/src/more.tsx
   function ItemRow({ src, icon, title, sub, meta = [], price, points, unit, badge, rating, onClick, trailing }) {
@@ -6065,20 +6122,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     });
     return /* @__PURE__ */ React.createElement("div", { className: "gr-tpass", style: { ["--tp"]: color } }, /* @__PURE__ */ React.createElement("div", { className: "gr-tp-top" }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label", style: { color: "inherit", opacity: 0.7 } }, kind), /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 20 })), /* @__PURE__ */ React.createElement("div", { className: "gr-title", style: { color: "inherit" } }, title), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "0.8125rem", opacity: 0.8, fontWeight: 550 } }, when)), /* @__PURE__ */ React.createElement("div", { className: "gr-tp-bot" }, /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 4 } }, where && /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650, fontSize: "0.875rem" } }, where), seat && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, seat), holder && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, holder), /* @__PURE__ */ React.createElement("span", { className: "gr-code gr-meta" }, code)), /* @__PURE__ */ React.createElement("div", { className: "gr-qr", role: "img", "aria-label": "Code to scan" }, cells.map((on3, i) => /* @__PURE__ */ React.createElement("i", { key: i, className: on3 ? void 0 : "gr-o" })))));
   }
-  function BalanceCard({ last4 = "4821", name = "Gratifi Card", balance, available, limit, due, dueDate, frozen }) {
-    const M3 = useMarket();
-    const used = limit ? Math.min(1, balance / limit) : 0;
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-bal" }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: 650 } }, name), /* @__PURE__ */ React.createElement("span", { className: "gr-code", dir: "ltr", style: { opacity: 0.8 } }, "\u2022\u2022\u2022\u2022 ", last4)), frozen && /* @__PURE__ */ React.createElement("div", { className: "gr-frozen" }, /* @__PURE__ */ React.createElement(Icon, { name: "lock", size: 14 }), "Frozen: new payments are blocked"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "0.75rem", opacity: 0.7, fontWeight: 600 } }, "Balance"), /* @__PURE__ */ React.createElement("div", { className: "gr-time", style: { color: "inherit" } }, M3.money(balance, 2))), /* @__PURE__ */ React.createElement("div", { className: "gr-bal-bar" }, /* @__PURE__ */ React.createElement("i", { style: { width: used * 100 + "%" } })), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between", fontSize: "0.8125rem" } }, /* @__PURE__ */ React.createElement("span", null, "Available ", /* @__PURE__ */ React.createElement("b", null, M3.money(available, 0))), /* @__PURE__ */ React.createElement("span", null, "Due ", /* @__PURE__ */ React.createElement("b", null, M3.money(due, 2)), " \xB7 ", dueDate)));
-  }
-  function CardControls({ state, onChange: onChange2 }) {
-    const rows = [["frozen", "Freeze card", "Blocks new payments. Direct debits and refunds still work."], ["online", "Online payments", "Shopping on websites and apps"], ["abroad", "Payments abroad", "Using the card in other countries"], ["contactless", "Contactless", "Tap to pay in shops"], ["atm", "Cash withdrawals", "Taking cash from machines"]];
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 0, paddingTop: 6, paddingBottom: 6 } }, rows.map(([k, t, s]) => /* @__PURE__ */ React.createElement("div", { key: k, className: "gr-benefit", style: { cursor: "default" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-bi" }, /* @__PURE__ */ React.createElement(Icon, { name: k === "frozen" ? "lock" : k === "online" ? "globe" : k === "abroad" ? "plane" : k === "contactless" ? "wifi" : "wallet", size: 18 })), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650, fontSize: "0.9375rem" } }, t), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, k !== "frozen" && state.frozen ? "Paused while the card is frozen" : s)), /* @__PURE__ */ React.createElement(Toggle, { label: t, on: !!state[k], disabled: k !== "frozen" && !!state.frozen, onChange: (v) => onChange2 == null ? void 0 : onChange2(k, v) }))));
-  }
-  function SpendBreakdown({ items, total, period = "This month" }) {
-    const M3 = useMarket();
-    const max = Math.max(...items.map((i) => i.amount), 1);
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 10 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("div", { className: "gr-heading" }, period), /* @__PURE__ */ React.createElement("b", null, M3.money(total, 0))), items.map((i) => /* @__PURE__ */ React.createElement("div", { key: i.label, className: "gr-col", style: { gap: 4 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between", fontSize: "0.8125rem" } }, /* @__PURE__ */ React.createElement("span", null, i.label), /* @__PURE__ */ React.createElement("b", { className: "gr-num" }, M3.money(i.amount, 0))), /* @__PURE__ */ React.createElement("div", { className: "gr-bar" }, /* @__PURE__ */ React.createElement("i", { style: { width: i.amount / max * 100 + "%", background: i.color || "var(--ink)" } })))));
-  }
   function TransferCard({ programme, rate: rate2, points, balance, eta = "Usually within 2 days", onConfirm }) {
     const M3 = useMarket();
     const [pts2, setPts] = useState(points);
@@ -6096,11 +6139,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   }
   function PolicyCard({ name, covered = [], notCovered = [], excess, price, points, onBuy, cta = "Get this cover", included }) {
     return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 10 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-row" }, /* @__PURE__ */ React.createElement("span", { className: "gr-ibtn gr-flat" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 20 })), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { className: "gr-heading" }, name), excess && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "Excess ", excess)), included && /* @__PURE__ */ React.createElement(Badge, { tone: "good" }, "With your card")), /* @__PURE__ */ React.createElement("ul", { className: "gr-incl" }, covered.map((x) => /* @__PURE__ */ React.createElement("li", { key: x }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6, color: "var(--good)" }), x)), notCovered.map((x) => /* @__PURE__ */ React.createElement("li", { key: x, style: { color: "var(--ink-soft)" } }, /* @__PURE__ */ React.createElement(Icon, { name: "minus", size: 14 }), x))), onBuy && /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, price != null ? /* @__PURE__ */ React.createElement(Price, { amount: price, points, align: "left" }) : /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: onBuy }, cta)));
-  }
-  function ChallengeCard({ title, reward, progress, target, unit = "", ends, onJoin, joined, money }) {
-    const M3 = useMarket();
-    const p = Math.min(1, progress / target);
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 10 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-row" }, /* @__PURE__ */ React.createElement("span", { className: "gr-ibtn gr-flat" }, /* @__PURE__ */ React.createElement(Icon, { name: "flag", size: 20 })), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { className: "gr-heading" }, title), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "Reward: ", reward, ends ? " \xB7 ends " + ends : "")), p >= 1 && /* @__PURE__ */ React.createElement(CheckPop, { size: 30, animate: false })), /* @__PURE__ */ React.createElement("div", { className: "gr-bar" }, /* @__PURE__ */ React.createElement("i", { style: { width: p * 100 + "%", background: "var(--accent)" } })), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-meta" }, money ? `${M3.money(progress)} of ${M3.money(target)}` : `${M3.num(progress)}${unit} of ${M3.num(target)}${unit}`), onJoin && !joined && /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: onJoin }, "Join"), joined && p < 1 && /* @__PURE__ */ React.createElement(Badge, { tone: "accent" }, "Joined")));
   }
   function AddressPicker({ addresses, value, onChange: onChange2 }) {
     return /* @__PURE__ */ React.createElement("div", { className: "gr-opts", role: "radiogroup", "aria-label": "Delivery address" }, addresses.map((a) => /* @__PURE__ */ React.createElement("button", { key: a.id, className: "gr-opt", role: "radio", "aria-checked": value === a.id, onClick: () => onChange2 == null ? void 0 : onChange2(a.id) }, /* @__PURE__ */ React.createElement("span", { className: "gr-radio" }), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650 } }, a.label), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, a.line)))));
@@ -6227,42 +6265,49 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   function RewardCard({ art, icon, title, price, short, onUse, onOpen }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-rcard" }, /* @__PURE__ */ React.createElement("button", { className: "ds-rcard-ph", onClick: onOpen, "aria-label": title }, art ? /* @__PURE__ */ React.createElement("img", { src: art, alt: "" }) : /* @__PURE__ */ React.createElement("span", { className: "ds-rcard-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon || "gift", size: 28, stroke: 1.8 }))), /* @__PURE__ */ React.createElement("div", { className: "ds-rcard-b" }, /* @__PURE__ */ React.createElement("p", { className: "ds-rcard-t" }, title), /* @__PURE__ */ React.createElement("div", { className: "ds-rcard-f" }, /* @__PURE__ */ React.createElement("span", null, price), short ? /* @__PURE__ */ React.createElement("span", { className: "ds-rcard-short" }, short) : /* @__PURE__ */ React.createElement("button", { className: "ds-pill30", onClick: onUse }, "Use now"))));
   }
-  function TickMeter({ used, ticks = 36, label }) {
-    const on3 = Math.round(Math.max(0, Math.min(1, used)) * ticks);
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-ticks", role: "meter", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(used * 100), "aria-label": label }, Array.from({ length: ticks }, (_, i) => /* @__PURE__ */ React.createElement("i", { key: i, className: i < on3 ? "on" : "" })));
+  function SparkMark({ size = 18 }) {
+    return /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "#FF6A1F", "aria-hidden": "true", style: { flexShrink: 0 } }, /* @__PURE__ */ React.createElement("path", { d: "M11 2.5c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z" }), /* @__PURE__ */ React.createElement("path", { d: "M18.5 14.5c.3 2.2 1.1 3 3.3 3.3-2.2.3-3 1.1-3.3 3.3-.3-2.2-1.1-3-3.3-3.3 2.2-.3 3-1.1 3.3-3.3z" }));
   }
-  function CardFace({ balLabel = "Balance", last4, balance, available, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue }) {
-    const body = /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-top" }, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-chip", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-name" }, "Gratifi Card"), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-num" }, `\u2022\u2022\u2022\u2022 ${last4}`), frozen && /* @__PURE__ */ React.createElement("span", { className: "ds-cf-frozen" }, /* @__PURE__ */ React.createElement(Icon, { name: "lock", size: 12, stroke: 2.4 }), "Frozen")), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-l" }, balLabel), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-v" }, balance));
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-cardface" + (frozen ? " ds-is-frozen" : "") }, onOpen ? /* @__PURE__ */ React.createElement("button", { className: "ds-cf-open", onClick: onOpen, "aria-label": "Open My card" }, body) : /* @__PURE__ */ React.createElement("div", { className: "ds-cf-open" }, body), /* @__PURE__ */ React.createElement(TickMeter, { used, label: "Credit used" }), /* @__PURE__ */ React.createElement("div", { className: "ds-cf-lim" }, /* @__PURE__ */ React.createElement("span", null, `${available} available`), /* @__PURE__ */ React.createElement("span", null, `of ${limit}`)), !noDue && /* @__PURE__ */ React.createElement("div", { className: "ds-cf-due" }, /* @__PURE__ */ React.createElement("span", null, dueLine), /* @__PURE__ */ React.createElement("div", { className: "ds-cf-btns" }, onFreeze && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: onFreeze }, freezeLabel), onPay && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: onPay }, "Pay"))));
+  function Bar({ used, label, tone = "orange", thin }) {
+    const pct = Math.round(Math.max(0, Math.min(1, used)) * 100);
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-bar" + (thin ? " thin" : ""), role: "meter", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct, "aria-label": label }, /* @__PURE__ */ React.createElement("i", { className: tone, style: { width: `${pct}%` } }));
   }
-  function Actions({ items }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-actions" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.label, className: "ds-act", onClick: x.onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-act-ic" + (x.on ? " on" : "") }, /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 22, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-act-l" }, x.label))));
+  function Pill({ children, onClick, primary, icon }) {
+    return /* @__PURE__ */ React.createElement("button", { className: "ds-opill" + (primary ? " primary" : ""), onClick }, icon && /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 15, stroke: 2.2 }), children);
   }
-  function BenefitTiles({ items }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-btiles", role: "list" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, role: "listitem", className: "ds-btile", onClick: x.onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 18, stroke: 2 })), x.value && /* @__PURE__ */ React.createElement("b", { className: "ds-btile-v" }, x.value), /* @__PURE__ */ React.createElement("span", { className: "ds-btile-t" }, x.title), /* @__PURE__ */ React.createElement("span", { className: "ds-btile-s" }, x.sub))));
+  function CardFace({ balLabel = "Balance", last4, balance, available: available2, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue, extra }) {
+    const top = /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "ds-ac-top" }, /* @__PURE__ */ React.createElement("span", null, frozen ? /* @__PURE__ */ React.createElement("span", { className: "ds-ac-frozen" }, /* @__PURE__ */ React.createElement("i", null), "Frozen") : "Gratifi Card"), /* @__PURE__ */ React.createElement("span", null, `\u2022\u2022\u2022\u2022 ${last4}`)), /* @__PURE__ */ React.createElement("span", { className: "ds-ac-v" }, balance), noDue ? balLabel !== "Balance" && /* @__PURE__ */ React.createElement("span", { className: "ds-ac-m" }, balLabel) : /* @__PURE__ */ React.createElement("span", { className: "ds-ac-m" }, dueLine));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-account" + (frozen ? " ds-is-frozen" : "") }, onOpen ? /* @__PURE__ */ React.createElement("button", { className: "ds-ac-open", onClick: onOpen, "aria-label": "Open My card" }, top) : /* @__PURE__ */ React.createElement("div", { className: "ds-ac-open" }, top), /* @__PURE__ */ React.createElement(Bar, { used, label: "Credit used", tone: "black", thin: true }), /* @__PURE__ */ React.createElement("span", { className: "ds-ac-m" }, `${available2} available of ${limit}`), (onPay || onFreeze || (extra == null ? void 0 : extra.length)) && /* @__PURE__ */ React.createElement("div", { className: "ds-ac-pills" }, onPay && /* @__PURE__ */ React.createElement(Pill, { onClick: onPay }, "Pay"), onFreeze && /* @__PURE__ */ React.createElement(Pill, { onClick: onFreeze }, freezeLabel), extra == null ? void 0 : extra.map((x) => /* @__PURE__ */ React.createElement(Pill, { key: x.label, onClick: x.onClick }, x.label))));
+  }
+  function Included({ items }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-list" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, className: "ds-row", onClick: x.onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, x.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, x.sub)), x.meta && /* @__PURE__ */ React.createElement("span", { className: "ds-row-meta" }, x.meta))));
+  }
+  function Ways({ title, items }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-ways" }, /* @__PURE__ */ React.createElement("div", { className: "ds-ways-h" }, /* @__PURE__ */ React.createElement(SparkMark, null), /* @__PURE__ */ React.createElement("p", null, title)), items.map((x) => /* @__PURE__ */ React.createElement("div", { key: x.key, className: "ds-ways-r" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, x.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, x.sub)), x.done ? /* @__PURE__ */ React.createElement("span", { className: "ds-dot-status" }, /* @__PURE__ */ React.createElement("i", null), x.done) : x.action && /* @__PURE__ */ React.createElement(Pill, { onClick: x.onAction }, x.action))));
+  }
+  function Challenges({ items, title = "Earn more this month" }) {
+    return /* @__PURE__ */ React.createElement(Ways, { title, items: items.map((x) => ({ key: x.key, icon: x.icon || "star", title: x.title, sub: `${x.progressText} \xB7 ${x.reward}`, action: x.joined ? void 0 : "Join", onAction: x.onJoin, done: x.joined ? "Joined" : void 0 })) });
   }
   function SpendBars({ period, items, total, format }) {
     const max = Math.max(1, ...items.map((i) => i.amount));
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-spend" }, /* @__PURE__ */ React.createElement("div", { className: "ds-spend-hd" }, /* @__PURE__ */ React.createElement("span", null, period), /* @__PURE__ */ React.createElement("b", null, format(total))), items.length ? items.map((x, i) => /* @__PURE__ */ React.createElement("div", { key: x.label, className: "ds-spend-row" }, /* @__PURE__ */ React.createElement("span", { className: "ds-spend-l" }, x.label), /* @__PURE__ */ React.createElement("span", { className: "ds-spend-a" }, format(x.amount)), /* @__PURE__ */ React.createElement("span", { className: "ds-spend-bar" }, /* @__PURE__ */ React.createElement("i", { className: i ? "" : "top", style: { width: `${Math.max(4, Math.round(x.amount / max * 100))}%` } })))) : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "No card spending in this period."));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-spend" }, /* @__PURE__ */ React.createElement("div", { className: "ds-kvh" }, /* @__PURE__ */ React.createElement("span", null, period), /* @__PURE__ */ React.createElement("b", null, format(total))), items.length ? items.map((x) => /* @__PURE__ */ React.createElement("div", { key: x.label, className: "ds-spend-row" }, /* @__PURE__ */ React.createElement("div", { className: "ds-kvh" }, /* @__PURE__ */ React.createElement("span", null, x.label), /* @__PURE__ */ React.createElement("b", null, format(x.amount))), /* @__PURE__ */ React.createElement(Bar, { used: x.amount / max, label: `${x.label}, ${format(x.amount)}` }))) : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "No card spending in this period."));
   }
   function Txn({ name, meta, amount, points, refund: refund2, format, onClick }) {
     const El = onClick ? "button" : "div";
-    return /* @__PURE__ */ React.createElement(El, { className: "ds-row ds-txn", onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic ds-mono" }, name.charAt(0)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, name), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, meta)), /* @__PURE__ */ React.createElement("span", { className: "ds-txn-r" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-v" + (refund2 || amount < 0 ? " ds-good" : "") }, `${refund2 || amount < 0 ? "+" : "\u2212"}${format(Math.abs(amount))}`), points ? /* @__PURE__ */ React.createElement("span", { className: "ds-txn-p" }, `+${points} pts`) : null));
+    return /* @__PURE__ */ React.createElement(El, { className: "ds-row ds-txn", onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: refund2 ? "arrow" : "card", size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, name), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, points ? `${meta} \xB7 +${points} pts` : meta)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-v" + (refund2 || amount < 0 ? " ds-good" : "") }, `${refund2 || amount < 0 ? "+" : "\u2212"}${format(Math.abs(amount))}`));
   }
   function DueCard({ amount, date, min, onFull, onMin, paid }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-due" }, /* @__PURE__ */ React.createElement("div", { className: "ds-due-top" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, paid ? "Nothing to pay now" : `Due ${date}`)), /* @__PURE__ */ React.createElement("b", { className: "ds-due-v" }, amount), !paid && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Minimum ${min}`), !paid && /* @__PURE__ */ React.createElement("div", { className: "ds-cf-btns" }, /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: onFull }, "Pay in full"), /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: onMin }, "Pay the minimum")));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-account" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ac-top" }, /* @__PURE__ */ React.createElement("span", null, paid ? "Nothing to pay now" : `Due ${date}`), /* @__PURE__ */ React.createElement("span", null)), /* @__PURE__ */ React.createElement("span", { className: "ds-ac-v" }, amount), !paid && /* @__PURE__ */ React.createElement("span", { className: "ds-ac-m" }, `Minimum ${min}`), !paid && /* @__PURE__ */ React.createElement("div", { className: "ds-ac-pills" }, /* @__PURE__ */ React.createElement(Pill, { primary: true, onClick: onFull }, "Pay in full"), /* @__PURE__ */ React.createElement(Pill, { onClick: onMin }, "Pay the minimum")));
   }
   function ActionRow({ icon, title, sub, action, onAction, primary }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-row" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, sub)), /* @__PURE__ */ React.createElement("button", { className: primary ? "ds-pill30" : "ds-pill30 ds-ghostpill", onClick: onAction }, action));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-row" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, sub)), /* @__PURE__ */ React.createElement(Pill, { primary, onClick: onAction }, action));
   }
-  function ControlRow({ icon, title, sub, on: on3, onChange: onChange2 }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-trow" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, sub)), /* @__PURE__ */ React.createElement("button", { role: "switch", "aria-checked": on3, "aria-label": title, className: "ds-toggle", onClick: () => onChange2(!on3) }));
-  }
-  function Challenges({ items }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-btiles", role: "list" }, items.map((x) => /* @__PURE__ */ React.createElement("div", { key: x.key, role: "listitem", className: "ds-btile ds-chal" }, /* @__PURE__ */ React.createElement("span", { className: "ds-btile-t" }, x.title), /* @__PURE__ */ React.createElement(TickMeter, { used: x.target ? x.progress / x.target : 0, ticks: 20, label: x.progressText }), /* @__PURE__ */ React.createElement("span", { className: "ds-btile-s" }, x.progressText), /* @__PURE__ */ React.createElement("span", { className: "ds-chal-f" }, /* @__PURE__ */ React.createElement("b", null, x.reward), x.joined ? /* @__PURE__ */ React.createElement("span", { className: "ds-added ds-static" }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 13, stroke: 2.6 }), "Joined") : /* @__PURE__ */ React.createElement("button", { className: "ds-add", onClick: x.onJoin }, "Join")))));
+  function ControlRow({ title, sub, on: on3, onChange: onChange2 }) {
+    return /* @__PURE__ */ React.createElement(ToggleRow, { title, sub, on: on3, onChange: onChange2 });
   }
   function Choice({ items, value, onChange: onChange2, label }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-list", role: "radiogroup", "aria-label": label }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, role: "radio", "aria-checked": value === x.key, disabled: x.disabled, className: "ds-row ds-choice", onClick: () => onChange2(x.key) }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, x.title), x.sub && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, x.sub)), x.value && /* @__PURE__ */ React.createElement("span", { className: "ds-row-v" }, x.value), /* @__PURE__ */ React.createElement("i", { className: "ds-radio", "aria-hidden": "true" }))));
+    const cur = items.find((x) => x.key === value);
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-choice-w" }, /* @__PURE__ */ React.createElement("div", { className: "ds-pickrow", role: "radiogroup", "aria-label": label }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, role: "radio", "aria-checked": value === x.key, disabled: x.disabled, className: "ds-pick", onClick: () => onChange2(x.key) }, value === x.key && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6 }), x.value ? `${x.title} \xB7 ${x.value}` : x.title))), (cur == null ? void 0 : cur.sub) && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, cur.sub));
   }
   function Field({ label, value, onChange: onChange2, prefix, type = "text", inputMode, placeholder, max, hint, id, autoFocus }) {
     return /* @__PURE__ */ React.createElement("label", { className: "ds-field" }, /* @__PURE__ */ React.createElement("span", { className: "ds-field-l" }, label), /* @__PURE__ */ React.createElement("span", { className: "ds-field-w" }, prefix && /* @__PURE__ */ React.createElement("span", { className: "ds-field-p" }, prefix), /* @__PURE__ */ React.createElement("input", { id, type, inputMode, value, placeholder, maxLength: max, autoFocus, onChange: (e) => onChange2(e.target.value) })), hint && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, hint));
@@ -6276,19 +6321,35 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   function Chips2({ items, value, onChange: onChange2, label }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-chiprow", role: "group", "aria-label": label }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, className: "ds-chip", "aria-pressed": value === x.key, onClick: () => onChange2(x.key) }, x.label)));
   }
-  function Track({ steps, current, eta, tone }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-track" }, /* @__PURE__ */ React.createElement("ol", null, steps.map((s, i) => /* @__PURE__ */ React.createElement("li", { key: s, className: i < current ? "done" : i === current ? "now" : "", "aria-current": i === current ? "step" : void 0 }, /* @__PURE__ */ React.createElement("i", null), s))), eta && /* @__PURE__ */ React.createElement("span", { className: "ds-status" + (tone === "warn" ? " ds-warn" : "") }, /* @__PURE__ */ React.createElement("i", null), eta));
+  function Track({ steps, current, eta, tone, title = "Where it is", sub, children }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-timeline" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("p", { className: "ds-tl-h" }, title), sub && /* @__PURE__ */ React.createElement("p", { className: "ds-row-s", style: { margin: 0 } }, sub)), /* @__PURE__ */ React.createElement("ol", null, steps.map((s, i) => {
+      const state = i < current ? "done" : i === current ? "now" : "next";
+      return /* @__PURE__ */ React.createElement("li", { key: s, className: state, "aria-current": state === "now" ? "step" : void 0 }, /* @__PURE__ */ React.createElement("i", null), state === "now" && eta && /* @__PURE__ */ React.createElement("span", { className: "ds-tl-d" + (tone === "warn" ? " warn" : "") }, eta), /* @__PURE__ */ React.createElement("span", { className: "ds-tl-t" }, s));
+    })), children);
   }
-  function CardDetails({ name, number, expiry, cvv, shown, left, onShow, onHide, onCopy, frozen }) {
-    const mask = (s) => s.replace(/\d(?=.*\d{4})/g, "\u2022");
-    const Line = ({ l, v, copy, wide }) => /* @__PURE__ */ React.createElement("span", { className: "ds-cd-f" + (wide ? " wide" : "") }, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-l" }, l), /* @__PURE__ */ React.createElement("span", { className: "ds-cd-v" }, v, shown && /* @__PURE__ */ React.createElement("button", { className: "ds-cd-copy", "aria-label": `Copy ${l.toLowerCase()}`, onClick: () => onCopy(l, copy) }, /* @__PURE__ */ React.createElement(Icon, { name: "copy", size: 15, stroke: 2 }))));
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-cardface ds-cd" + (frozen ? " ds-is-frozen" : "") }, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-top" }, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-chip", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-name" }, "Gratifi Card"), frozen && /* @__PURE__ */ React.createElement("span", { className: "ds-cf-frozen" }, /* @__PURE__ */ React.createElement(Icon, { name: "lock", size: 12, stroke: 2.4 }), "Frozen")), /* @__PURE__ */ React.createElement("div", { className: "ds-cd-grid", "aria-live": "polite" }, /* @__PURE__ */ React.createElement(Line, { l: "Card number", v: shown ? number : mask(number), copy: number.replace(/\s/g, ""), wide: true }), /* @__PURE__ */ React.createElement(Line, { l: "Expires", v: shown ? expiry : "\u2022\u2022/\u2022\u2022", copy: expiry }), /* @__PURE__ */ React.createElement(Line, { l: "Security code", v: shown ? cvv : "\u2022\u2022\u2022", copy: cvv }), /* @__PURE__ */ React.createElement("span", { className: "ds-cd-f wide" }, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-l" }, "Name on card"), /* @__PURE__ */ React.createElement("span", { className: "ds-cd-v ds-cd-name" }, name))), /* @__PURE__ */ React.createElement("div", { className: "ds-cf-due" }, /* @__PURE__ */ React.createElement("span", null, shown ? `Hides in ${left} s` : "Hidden until you confirm it's you"), shown ? /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: onHide }, /* @__PURE__ */ React.createElement(Icon, { name: "eyeoff", size: 16, stroke: 2 }), "Hide") : /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: onShow }, /* @__PURE__ */ React.createElement(Icon, { name: "eye", size: 16, stroke: 2 }), "Show details")));
+  function KV({ rows }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-kv-card" }, rows.map((r) => /* @__PURE__ */ React.createElement("div", { key: r.label, className: "ds-kv-r" }, /* @__PURE__ */ React.createElement("span", null, r.label), /* @__PURE__ */ React.createElement("b", null, r.value, r.copy && /* @__PURE__ */ React.createElement("button", { className: "ds-x ds-copy", "aria-label": r.copyLabel || `Copy ${r.label.toLowerCase()}`, onClick: r.copy }, /* @__PURE__ */ React.createElement(Icon, { name: "copy", size: 13, stroke: 2.2 }))))));
+  }
+  function CardDetails({ name, number, expiry, cvv, shown, left, onShow, onHide, onCopy, frozen, showLabel = "Show card details" }) {
+    const mask = (x) => x.replace(/\d(?=.*\d{4})/g, "\u2022");
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(KV, { rows: [
+      { label: "Card number", value: /* @__PURE__ */ React.createElement("span", { className: "ds-num" }, shown ? number : mask(number)), copy: shown ? () => onCopy("Card number", number.replace(/\s/g, "")) : void 0 },
+      { label: "Expires", value: /* @__PURE__ */ React.createElement("span", { className: "ds-num" }, shown ? expiry : "\u2022\u2022/\u2022\u2022"), copy: shown ? () => onCopy("Expires", expiry) : void 0 },
+      { label: "Security code", value: /* @__PURE__ */ React.createElement("span", { className: "ds-num" }, shown ? cvv : "\u2022\u2022\u2022"), copy: shown ? () => onCopy("Security code", cvv) : void 0 },
+      { label: "Name on card", value: name }
+    ] }), frozen && /* @__PURE__ */ React.createElement(AssistantNote, null, "Your card is frozen. The details still show, but payments won't go through until you unfreeze it."), shown ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Secondary, { onClick: onHide }, "Hide now"), /* @__PURE__ */ React.createElement("p", { className: "ds-centre-s" }, `Hides by itself in ${left} s`)) : /* @__PURE__ */ React.createElement(Primary, { onClick: onShow }, /* @__PURE__ */ React.createElement(Icon, { name: "faceid", size: 18, stroke: 2 }), showLabel));
+  }
+  function Hero({ value, title, sub, tone }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-hero" }, value && /* @__PURE__ */ React.createElement("p", { className: "ds-hero-v" + (tone === "good" ? " good" : "") }, value), title && /* @__PURE__ */ React.createElement("p", { className: "ds-hero-t" }, title), sub && /* @__PURE__ */ React.createElement("p", { className: "ds-hero-s" }, sub));
   }
   function PinBox({ pin: pin2, shown }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-pin", "aria-label": shown ? `PIN ${pin2.split("").join(" ")}` : "PIN hidden", role: "img" }, pin2.split("").map((d2, i) => /* @__PURE__ */ React.createElement("span", { key: i }, shown ? d2 : /* @__PURE__ */ React.createElement("i", null))));
+    return /* @__PURE__ */ React.createElement("div", { role: "img", "aria-label": shown ? `PIN ${pin2.split("").join(" ")}` : "PIN hidden" }, /* @__PURE__ */ React.createElement(Hero, { value: shown ? pin2.split("").join(" ") : "\u2022 \u2022 \u2022 \u2022" }));
   }
   function LimitRow({ icon, title, spent, limit, used, action, onAction }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-row ds-limit" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, limit ? `${spent} of ${limit} this month` : `${spent} this month \xB7 no limit`), limit && /* @__PURE__ */ React.createElement(TickMeter, { used, ticks: 24, label: `${title}: ${spent} of ${limit}` })), /* @__PURE__ */ React.createElement("button", { className: "ds-pill30 ds-ghostpill", onClick: onAction }, action));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-row ds-limit" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, limit ? `${spent} of ${limit} this month` : `${spent} this month \xB7 no limit`), limit && /* @__PURE__ */ React.createElement(Bar, { used, thin: true, label: `${title}: ${spent} of ${limit}` })), /* @__PURE__ */ React.createElement(Pill, { onClick: onAction }, action));
+  }
+  function AssistantNote({ children }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-anote" }, /* @__PURE__ */ React.createElement(SparkMark, null), /* @__PURE__ */ React.createElement("p", null, children));
   }
   var toastSet = () => {
   };
@@ -6301,15 +6362,21 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     toastSet = (x) => {
       setT(x);
       clearTimeout(timer.current);
-      timer.current = setTimeout(() => setT(""), 2600);
+      timer.current = setTimeout(() => setT(""), 2800);
     };
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-toast-w", "aria-live": "polite" }, t && /* @__PURE__ */ React.createElement("div", { className: "ds-toast", key: t }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 15, stroke: 2.6 }), t));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-toast-w", "aria-live": "polite" }, t && /* @__PURE__ */ React.createElement("div", { className: "ds-toast", key: t }, /* @__PURE__ */ React.createElement(SparkMark, { size: 16 }), t));
   }
   function Primary({ children, onClick, disabled }) {
     return /* @__PURE__ */ React.createElement("button", { className: "ds-btn48", disabled, onClick }, children);
   }
+  function Secondary({ children, onClick }) {
+    return /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 ds-btn48-w", onClick }, children);
+  }
   function Empty({ title, body, action, onAction }) {
-    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-empty" }, /* @__PURE__ */ React.createElement("b", null, title), body && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, body), action && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: onAction }, action));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-empty" }, /* @__PURE__ */ React.createElement("b", null, title), body && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, body), action && /* @__PURE__ */ React.createElement(Pill, { primary: true, onClick: onAction }, action));
+  }
+  function Amount({ label, right, value, meta, tone, children }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-account" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ac-top" }, /* @__PURE__ */ React.createElement("span", null, label), /* @__PURE__ */ React.createElement("span", null, right || "")), /* @__PURE__ */ React.createElement("span", { className: "ds-ac-v" + (tone === "good" ? " ds-good" : "") }, value), meta && /* @__PURE__ */ React.createElement("span", { className: "ds-ac-m" }, meta), children);
   }
 
   // src/bank.ts
@@ -7059,13 +7126,16 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     balance: () => {
       const c2 = useS((s) => s.card);
       const M3 = useMarket();
-      return /* @__PURE__ */ React.createElement(BalanceCard, { last4: c2.last4, balance: c2.balance, available: Math.max(0, c2.limit - c2.balance), limit: c2.limit, due: c2.due, dueDate: M3.date(c2.dueDate), frozen: c2.frozen });
+      return /* @__PURE__ */ React.createElement(CardFace, { last4: c2.last4, balance: M3.money(Math.abs(c2.balance), 2), balLabel: c2.balance < 0 ? "In credit" : "Balance", available: M3.money(Math.max(0, c2.limit - c2.balance)), limit: M3.money(c2.limit), used: c2.limit ? c2.balance / c2.limit : 0, frozen: c2.frozen, dueLine: c2.due > 0 ? `Due ${M3.date(c2.dueDate)} \xB7 ${M3.money(c2.due, 2)}` : "Nothing to pay now", freezeLabel: c2.frozen ? "Unfreeze" : "Freeze", onFreeze: on("card.controls") ? () => respond(c2.frozen ? unfreezeAsk({}) : cardControl({ control: "freeze", on: true })) : void 0, onPay: on("card.pay") && c2.due > 0 ? () => {
+        var _a;
+        return (_a = W.__go) == null ? void 0 : _a.call(W, "cardx", "pay");
+      } : void 0 });
     },
     gambling: () => /* @__PURE__ */ React.createElement(GamblingRow, null),
     directdebit: () => /* @__PURE__ */ React.createElement(DirectDebitRow, null),
     controls: () => {
       const c2 = useS((s) => s.card);
-      return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(CardControls, { state: c2, onChange: (k, v) => {
+      const set2 = (k, v) => {
         if (k === "frozen" && !v) {
           respond(unfreezeAsk({}));
           return;
@@ -7076,7 +7146,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         }
         set((s) => ({ card: { ...s.card, [k]: v } }));
         if (k === "frozen") pushMsg({ role: "gr", text: "Frozen. New payments are blocked; direct debits and refunds still work." });
-      } }), /* @__PURE__ */ React.createElement(GamblingRow, null));
+      };
+      const pz = (on3) => c2.frozen ? "Paused while the card is frozen" : on3 ? "On" : "Off";
+      return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ToggleRow, { title: "Freeze card", sub: c2.frozen ? "New payments are blocked" : "Blocks new payments. Direct debits and refunds still work.", on: c2.frozen, onChange: (v) => set2("frozen", v) }), /* @__PURE__ */ React.createElement(ToggleRow, { title: "Online payments", sub: pz(c2.online), on: c2.online && !c2.frozen, onChange: (v) => set2("online", v) }), /* @__PURE__ */ React.createElement(ToggleRow, { title: "Payments abroad", sub: pz(c2.abroad), on: c2.abroad && !c2.frozen, onChange: (v) => set2("abroad", v) }), /* @__PURE__ */ React.createElement(ToggleRow, { title: "Contactless", sub: pz(c2.contactless), on: c2.contactless && !c2.frozen, onChange: (v) => set2("contactless", v) }), /* @__PURE__ */ React.createElement(ToggleRow, { title: "Cash withdrawals", sub: pz(c2.atm), on: c2.atm && !c2.frozen, onChange: (v) => set2("atm", v) })), on("card.gambling") && /* @__PURE__ */ React.createElement(GamblingRow, null));
     },
     statement: () => {
       const c2 = useS((s) => s.card);
@@ -7085,21 +7157,28 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       const start = new Date(end);
       start.setMonth(start.getMonth() - 1);
       start.setDate(start.getDate() + 1);
-      return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 6 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-heading" }, `Statement ${M3.date(start, "day")} to ${M3.date(end, "day")}`), /* @__PURE__ */ React.createElement(PriceLines, { lines: [["Statement balance", M3.money(c2.due, 2)], ["Minimum payment", M3.money(c2.min, 2)], ["Payment due", M3.date(c2.dueDate)]], total: ["Current balance", M3.money(c2.balance, 2)], note: "Your full PDF statement is in the bank's app." }));
+      return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Amount, { label: `Statement ${M3.date(start, "day")} to ${M3.date(end, "day")}`, right: `\u2022\u2022\u2022\u2022 ${c2.last4}`, value: M3.money(c2.due, 2), meta: "Statement balance" }, on("card.statements") && /* @__PURE__ */ React.createElement("div", { className: "ds-ac-pills" }, /* @__PURE__ */ React.createElement(Pill, { onClick: () => {
+        var _a;
+        return (_a = W.__go) == null ? void 0 : _a.call(W, "cardx", "statements");
+      } }, "All statements"))), /* @__PURE__ */ React.createElement(KV, { rows: [{ label: "Minimum payment", value: M3.money(c2.min, 2) }, { label: "Payment due", value: M3.date(c2.dueDate) }, { label: "Current balance", value: M3.money(c2.balance, 2) }] }));
     },
     spend: () => {
       const all = useS((s) => s.txns);
+      const M3 = useMarket();
       const since = Date.now() - 30 * 864e5, by = {};
       all.filter((t) => t.at >= since && t.cat !== "Payment").forEach((t) => {
         by[t.cat] = (by[t.cat] || 0) + (t.refund ? -t.amount : t.amount);
       });
-      const items = Object.entries(by).filter(([, v]) => v >= 0.5).sort((a, b2) => b2[1] - a[1]).slice(0, 6).map(([label, amount], i) => ({ label, amount, color: ["var(--ink)", "var(--accent)", "#0F7C80", "#5B3FA8", "#B3470F", "#16794A"][i] }));
-      return /* @__PURE__ */ React.createElement(SpendBreakdown, { period: "Last 30 days, after refunds", items, total: items.reduce((s, i) => s + i.amount, 0) });
+      const items = Object.entries(by).filter(([, v]) => v >= 0.5).sort((a, b2) => b2[1] - a[1]).slice(0, 6).map(([label, amount]) => ({ label, amount }));
+      return /* @__PURE__ */ React.createElement(SpendBars, { period: "Last 30 days, after refunds", items, total: items.reduce((s, i) => s + i.amount, 0), format: (n) => M3.money(n, 2) });
     },
     txns: ({ cat }) => {
       const tx = useS((s) => s.txns.filter((t) => !cat || t.cat === cat).slice(0, 8));
       const M3 = useMarket();
-      return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 0 } }, tx.map((t, i) => /* @__PURE__ */ React.createElement(React.Fragment, { key: t.id }, i > 0 && /* @__PURE__ */ React.createElement("div", { className: "gr-hr" }), /* @__PURE__ */ React.createElement(TransactionRow, { mono: t.merchant[0], name: t.merchant, meta: [t.cat, M3.date(new Date(t.at), "day")], amount: t.amount, points: t.points || void 0, refund: t.refund }))));
+      return /* @__PURE__ */ React.createElement(List, null, tx.map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: `${t.cat} \xB7 ${M3.date(new Date(t.at), "day")}`, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M3.money(n, 2), onClick: on("card.transactions") ? () => {
+        var _a;
+        return (_a = W.__go) == null ? void 0 : _a.call(W, "cardx", "txn:" + t.id);
+      } : void 0 })));
     },
     paybill: ({ pick }) => /* @__PURE__ */ React.createElement(PayBill, { pick }),
     alertcard: ({ k }) => {
@@ -7110,7 +7189,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     benefits: () => {
       const left = useS((s) => s.loungeLeft);
       const M3 = useMarket();
-      return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 0, paddingTop: 4, paddingBottom: 4 } }, BENEFITS.map((b2) => /* @__PURE__ */ React.createElement(BenefitRow, { key: b2.id, icon: b2.icon, name: b2.name, sub: b2.key === "lounge" ? `${left} free visit${left === 1 ? "" : "s"} left this year` : b2.id === "BE-8" ? moneyBackRule(M3.id).split(". ")[0].replace(/\.$/, "") + "." : b2.sub, value: b2.key === "lounge" ? `${left} left` : void 0, onClick: () => run(b2.key === "lounge" ? { f: "search", a: { cat: "airport" } } : b2.id === "BE-8" ? { f: "myStuff", a: {} } : b2.id === "BE-4" ? { f: "docs", a: { topic: "insurance" } } : b2.id === "BE-6" ? { f: "search", a: { cat: "dining" } } : b2.id === "BE-7" ? { f: "search", a: { cat: "tickets" } } : b2.id === "BE-5" ? { f: "docs", a: { topic: "abroad" } } : { f: "myStuff", a: {} }, b2.name) })));
+      return /* @__PURE__ */ React.createElement(Included, { items: BENEFITS.map((b2) => ({ key: b2.id, icon: b2.icon, title: b2.name, sub: b2.key === "lounge" ? `${left} free visit${left === 1 ? "" : "s"} left this year` : b2.id === "BE-8" ? moneyBackRule(M3.id).split(". ")[0].replace(/\.$/, "") + "." : b2.sub, meta: b2.key === "lounge" ? `${left} left` : "Included", onClick: () => run(b2.key === "lounge" ? { f: "search", a: { cat: "airport" } } : b2.id === "BE-8" ? { f: "myStuff", a: {} } : b2.id === "BE-4" ? { f: "docs", a: { topic: "insurance" } } : b2.id === "BE-6" ? { f: "search", a: { cat: "dining" } } : b2.id === "BE-7" ? { f: "search", a: { cat: "tickets" } } : b2.id === "BE-5" ? { f: "docs", a: { topic: "abroad" } } : { f: "myStuff", a: {} }, b2.name) })) });
     },
     points: ({ noPending }) => {
       const s = useS((x) => x);
@@ -7151,10 +7230,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     challenges: () => {
       const ch = useS((s) => s.challenges);
       const M3 = useMarket();
-      return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, ch.map((c2) => /* @__PURE__ */ React.createElement(ChallengeCard, { key: c2.id, title: c2.id === "CHL-3" ? `Spend ${M3.money(c2.target)} on travel before 31 Oct` : c2.title, reward: c2.reward, progress: Math.round(c2.progress), target: c2.target, money: c2.unit === "money", joined: c2.joined, onJoin: () => {
+      return /* @__PURE__ */ React.createElement(Challenges, { items: ch.map((c2) => ({ key: c2.id, icon: { "CHL-1": "fork", "CHL-2": "target", "CHL-3": "plane" }[c2.id], title: c2.id === "CHL-3" ? `Spend ${M3.money(c2.target)} on travel before 31 Oct` : c2.title, reward: c2.reward, progress: c2.progress, target: c2.target, progressText: c2.done ? "Done" : c2.unit === "money" ? `${M3.money(Math.round(c2.progress))} of ${M3.money(c2.target)}` : `${Math.round(c2.progress)} of ${c2.target}`, joined: c2.joined, onJoin: () => {
         set((s) => ({ challenges: s.challenges.map((x) => x.id === c2.id ? { ...x, joined: true } : x) }));
         pushMsg({ role: "gr", text: `You're in: ${c2.title}.` });
-      } })));
+      } })) });
     }
   };
   function StateWrap({ state, title, body, was, now, actions = [], bk: bk2 }) {
@@ -7716,13 +7795,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const c2 = useS((s) => s.card);
     const M3 = useMarket();
     const name = M3.directDebit.charAt(0).toUpperCase() + M3.directDebit.slice(1);
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 10 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { gap: 12, alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-ibtn gr-flat gr-sm" }, /* @__PURE__ */ React.createElement(Icon, { name: "refresh", size: 18 })), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650 } }, name), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, !c2.autopay ? "Off. You pay each bill yourself." : c2.autopayMode === "min" ? "Pays the minimum each month" : "Pays the full balance each month"))), /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, !c2.autopay ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: () => openConfirm(ddAsk("full")) }, "Full balance"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => openConfirm(ddAsk("min")) }, "Minimum")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => openConfirm(ddAsk(c2.autopayMode === "min" ? "full" : "min")) }, c2.autopayMode === "min" ? "Change to full balance" : "Change to minimum"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => openConfirm(ddAsk("off")) }, "Cancel"))));
+    return /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ActionRow, { icon: "refresh", title: name, sub: !c2.autopay ? "Off. You pay each bill yourself." : c2.autopayMode === "min" ? "Pays the minimum each month" : "Pays the full balance each month", action: !c2.autopay ? "Full balance" : c2.autopayMode === "min" ? "Change to full balance" : "Change to minimum", primary: !c2.autopay, onAction: () => openConfirm(ddAsk(!c2.autopay ? "full" : c2.autopayMode === "min" ? "full" : "min")) }), !c2.autopay ? /* @__PURE__ */ React.createElement(ActionRow, { icon: "refresh", title: "Or the minimum", sub: "Interest is charged on the rest", action: "Minimum", onAction: () => openConfirm(ddAsk("min")) }) : /* @__PURE__ */ React.createElement(ActionRow, { icon: "close", title: `Cancel ${M3.directDebit}`, sub: "You go back to paying each bill yourself", action: "Cancel", onAction: () => openConfirm(ddAsk("off")) }));
   }
   function GamblingRow() {
     const c2 = useS((s) => s.card);
     const M3 = useMarket();
     const at = c2.gamblingLiftAt ? new Date(c2.gamblingLiftAt) : null;
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-card gr-row", style: { gap: 12, alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { className: "gr-ibtn gr-flat gr-sm" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 18 })), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650 } }, "Gambling block"), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, !c2.gambling ? "Off. Blocks betting sites, casinos and lotteries when on." : at ? `On until ${M3.date(iso(at))} at ${M3.clock(at.toTimeString().slice(0, 5))}, then it lifts` : "On. Betting sites, casinos and lotteries are blocked.")), !c2.gambling ? /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: () => run({ f: "gamblingOn", a: {} }, "Block gambling payments") }, "Turn on") : at ? /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: () => run({ f: "gamblingKeep", a: {} }, "Keep the block") }, "Keep the block") : /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => respond(gamblingLiftAsk()) }, "Lift"));
+    return /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ActionRow, { icon: "shield", title: "Gambling block", sub: !c2.gambling ? "Off. Blocks betting sites, casinos and lotteries when on." : at ? `On until ${M3.date(iso(at))} at ${M3.clock(at.toTimeString().slice(0, 5))}, then it lifts` : "On. Betting sites, casinos and lotteries are blocked.", action: !c2.gambling ? "Turn on" : at ? "Keep the block" : "Lift", primary: !c2.gambling || !!at, onAction: () => !c2.gambling ? run({ f: "gamblingOn", a: {} }, "Block gambling payments") : at ? run({ f: "gamblingKeep", a: {} }, "Keep the block") : respond(gamblingLiftAsk()) }));
   }
   function ClaimForm({ id, bk: bk2, why: why0, pick }) {
     var _a;
@@ -7757,8 +7836,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const over = (parseFloat(other.replace(/,/g, "")) || 0) > c2.due;
     const amt = v === "full" ? c2.due : v === "min" ? c2.min : v === "other" ? oth : c2.due;
     const dd = () => openConfirm(ddAsk("full"));
-    if (c2.due <= 0) return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 10 } }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { gap: 10 } }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 18 }), /* @__PURE__ */ React.createElement("span", null, `Paid. Nothing is due now${c2.autopay ? `; ${M3.directDebit} is set up for the next bill` : ""}.`)), !c2.autopay && /* @__PURE__ */ React.createElement(Button, { block: true, variant: "secondary", onClick: dd }, M3.t("setUp", { dd: M3.directDebit })));
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-card", style: { gap: 12 } }, /* @__PURE__ */ React.createElement(PaymentDue, { amount: c2.due, min: c2.min, date: M3.date(c2.dueDate, "day"), days: Math.round((new Date(c2.dueDate).getTime() - Date.now()) / 864e5), autopay: c2.autopay, actions: false }), c2.due > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "gr-opts", role: "radiogroup" }, [["full", "Full balance", M3.money(c2.due, 2)], ["min", "Minimum", M3.money(c2.min, 2)]].filter((x) => x[0] !== "min" || c2.min > 0).map(([k, t, a]) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-opt", role: "radio", "aria-checked": v === k, onClick: () => setV(k) }, /* @__PURE__ */ React.createElement("span", { className: "gr-radio" }), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650 } }, t)), /* @__PURE__ */ React.createElement("b", null, a))), /* @__PURE__ */ React.createElement("button", { className: "gr-opt", role: "radio", "aria-checked": v === "other", onClick: () => setV("other") }, /* @__PURE__ */ React.createElement("span", { className: "gr-radio" }), /* @__PURE__ */ React.createElement("div", { className: "gr-grow" }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 650 } }, "Another amount")))), v === "other" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("input", { className: "app-in", inputMode: "decimal", placeholder: `Amount, up to ${M3.money(c2.due, 2)}`, "aria-label": "Amount to pay", value: other, onChange: (e) => setOther(e.target.value) }), over && /* @__PURE__ */ React.createElement("div", { className: "gr-meta", role: "status" }, `That's more than you owe, so I've set it to the full balance of ${M3.money(c2.due, 2)}.`), oth > 0 && oth < c2.min && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, `That's below the minimum of ${M3.money(c2.min, 2)}. Pay at least that to avoid a late fee.`)), v === "min" && /* @__PURE__ */ React.createElement("div", { className: "gr-banner gr-warn" }, /* @__PURE__ */ React.createElement(Icon, { name: "info", size: 18 }), /* @__PURE__ */ React.createElement("span", null, "Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm.")), /* @__PURE__ */ React.createElement(Button, { block: true, disabled: !amt, onClick: () => respond(payBillAsk({ amount: amt })) }, amt ? `Pay ${M3.money(amt, 2)}` : "Enter an amount"), !c2.autopay && /* @__PURE__ */ React.createElement(Button, { block: true, variant: "secondary", onClick: dd }, M3.t("setUp", { dd: M3.directDebit }))));
+    const sym2 = M3.money(0).replace(/[0-9.,\s\u00a0\u2212-]/g, "");
+    if (c2.due <= 0) return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(AssistantNote, null, `Paid. Nothing is due now${c2.autopay ? `; ${M3.directDebit} is set up for the next bill` : ""}.`), !c2.autopay && on("card.directdebit") && /* @__PURE__ */ React.createElement(Secondary, { onClick: dd }, M3.t("setUp", { dd: M3.directDebit })));
+    return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, /* @__PURE__ */ React.createElement(Amount, { label: `Due ${M3.date(c2.dueDate)}`, right: `\u2022\u2022\u2022\u2022 ${c2.last4}`, value: M3.money(c2.due, 2), meta: c2.min > 0 ? `Minimum ${M3.money(c2.min, 2)}` : "Minimum paid" }), /* @__PURE__ */ React.createElement(Choice, { label: "How much to pay", value: v, onChange: setV, items: [{ key: "full", title: "Full balance", value: M3.money(c2.due, 2) }, ...c2.min > 0 ? [{ key: "min", title: "Minimum", value: M3.money(c2.min, 2), sub: "Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm." }] : [], { key: "other", title: "Another amount" }] }), v === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Amount to pay", prefix: sym2, inputMode: "decimal", placeholder: `Up to ${M3.money(c2.due, 2)}`, value: other, onChange: setOther, hint: over ? `That's more than you owe, so I've set it to the full balance of ${M3.money(c2.due, 2)}.` : oth > 0 && oth < c2.min ? `That's below the minimum of ${M3.money(c2.min, 2)}. Pay at least that to avoid a late fee.` : void 0 }), /* @__PURE__ */ React.createElement(Primary, { disabled: !amt, onClick: () => respond(payBillAsk({ amount: amt })) }, amt ? `Pay ${M3.money(amt, 2)}` : "Enter an amount"), !c2.autopay && on("card.directdebit") && /* @__PURE__ */ React.createElement(Secondary, { onClick: dd }, M3.t("setUp", { dd: M3.directDebit })));
   }
   function InvestBlock({ id: id0, pts: pts0 }) {
     const [id, setId] = useState(id0 || "IV-1");
@@ -7818,6 +7898,24 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var LAB = { restaurants: ["\u0645\u0637\u0639\u0645 \u0648\u0627\u062D\u062F", "\u0645\u0637\u0639\u0645\u064A\u0646", "\u0645\u0637\u0627\u0639\u0645", "\u0645\u0637\u0639\u0645\u064B\u0627"], "places to stay": ["\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629 \u0648\u0627\u062D\u062F", "\u0645\u0643\u0627\u0646\u064E\u064A \u0625\u0642\u0627\u0645\u0629", "\u0623\u0645\u0627\u0643\u0646 \u0625\u0642\u0627\u0645\u0629", "\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629"], "things to do": ["\u0646\u0634\u0627\u0637 \u0648\u0627\u062D\u062F", "\u0646\u0634\u0627\u0637\u064A\u0646", "\u0623\u0646\u0634\u0637\u0629", "\u0646\u0634\u0627\u0637\u064B\u0627"], products: ["\u0645\u0646\u062A\u062C \u0648\u0627\u062D\u062F", "\u0645\u0646\u062A\u062C\u064A\u0646", "\u0645\u0646\u062A\u062C\u0627\u062A", "\u0645\u0646\u062A\u062C\u064B\u0627"], "gift cards": ["\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0628\u0637\u0627\u0642\u062A\u064E\u064A \u0647\u062F\u064A\u0629", "\u0628\u0637\u0627\u0642\u0627\u062A \u0647\u062F\u0627\u064A\u0627", "\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629"], subscriptions: ["\u0627\u0634\u062A\u0631\u0627\u0643 \u0648\u0627\u062D\u062F", "\u0627\u0634\u062A\u0631\u0627\u0643\u064A\u0646", "\u0627\u0634\u062A\u0631\u0627\u0643\u0627\u062A", "\u0627\u0634\u062A\u0631\u0627\u0643\u064B\u0627"], events: ["\u0641\u0639\u0627\u0644\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0641\u0639\u0627\u0644\u064A\u062A\u064A\u0646", "\u0641\u0639\u0627\u0644\u064A\u0627\u062A", "\u0641\u0639\u0627\u0644\u064A\u0629"], "airport services": ["\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631 \u0648\u0627\u062D\u062F\u0629", "\u062E\u062F\u0645\u062A\u064E\u064A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0627\u062A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631"], "ways to get there": ["\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644 \u0648\u0627\u062D\u062F\u0629", "\u0648\u0633\u064A\u0644\u062A\u064E\u064A \u062A\u0646\u0642\u0644", "\u0648\u0633\u0627\u0626\u0644 \u062A\u0646\u0642\u0644", "\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644"] };
   var D = {
     /* card modules */
+    "Current account \u2022\u2022\u2022\u2022 7781": "\u0627\u0644\u062D\u0633\u0627\u0628 \u0627\u0644\u062C\u0627\u0631\u064A \u2022\u2022\u2022\u2022 7781",
+    "Hide now": "\u0623\u062E\u0641\u0650 \u0627\u0644\u0622\u0646",
+    "Monthly limit": "\u0627\u0644\u062D\u062F \u0627\u0644\u0634\u0647\u0631\u064A",
+    "Included": "\u0645\u0634\u0645\u0648\u0644\u0629",
+    "Join": "\u0627\u0646\u0636\u0645",
+    "Joined": "\u0645\u0646\u0636\u0645",
+    "All statements": "\u0643\u0644 \u0627\u0644\u0643\u0634\u0648\u0641",
+    "Statement balance": "\u0631\u0635\u064A\u062F \u0627\u0644\u0643\u0634\u0641",
+    "Or the minimum": "\u0623\u0648 \u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649",
+    "Minimum paid": "\u062A\u0645 \u062F\u0641\u0639 \u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649",
+    "Remove limit": "\u0623\u0632\u0644 \u0627\u0644\u062D\u062F",
+    "Where it is": "\u0623\u064A\u0646 \u0648\u0635\u0644",
+    "Minimum payment": "\u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649 \u0644\u0644\u062F\u0641\u0639",
+    "Payment due": "\u0645\u0648\u0639\u062F \u0627\u0644\u062F\u0641\u0639",
+    "Current balance": "\u0627\u0644\u0631\u0635\u064A\u062F \u0627\u0644\u062D\u0627\u0644\u064A",
+    "Enter an amount": "\u0623\u062F\u062E\u0644 \u0645\u0628\u0644\u063A\u064B\u0627",
+    "Amount to pay": "\u0627\u0644\u0645\u0628\u0644\u063A \u0627\u0644\u0645\u0631\u0627\u062F \u062F\u0641\u0639\u0647",
+    "Blocks new payments. Direct debits and refunds still work.": "\u064A\u062D\u0638\u0631 \u0627\u0644\u0645\u062F\u0641\u0648\u0639\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629. \u062A\u0633\u062A\u0645\u0631 \u0627\u0644\u062E\u0635\u0648\u0645\u0627\u062A \u0627\u0644\u0645\u0628\u0627\u0634\u0631\u0629 \u0648\u0627\u0644\u0645\u0628\u0627\u0644\u063A \u0627\u0644\u0645\u0633\u062A\u0631\u062F\u0629.",
     "Your card number, expiry date and security code are on My card, after you confirm it's you. Only type them into a shop's own checkout.": "\u0631\u0642\u0645 \u0628\u0637\u0627\u0642\u062A\u0643 \u0648\u062A\u0627\u0631\u064A\u062E \u0627\u0646\u062A\u0647\u0627\u0626\u0647\u0627 \u0648\u0631\u0645\u0632 \u0627\u0644\u0623\u0645\u0627\u0646 \u0641\u064A \u0628\u0637\u0627\u0642\u062A\u064A\u060C \u0628\u0639\u062F \u062A\u0623\u0643\u064A\u062F \u0647\u0648\u064A\u062A\u0643. \u0623\u062F\u062E\u0644\u0647\u0627 \u0641\u0642\u0637 \u0641\u064A \u0635\u0641\u062D\u0629 \u0627\u0644\u062F\u0641\u0639 \u0627\u0644\u062E\u0627\u0635\u0629 \u0628\u0627\u0644\u0645\u062A\u062C\u0631.",
     "PINs are changed at a cash machine, not here. A person can help if you're locked out.": "\u064A\u064F\u063A\u064A\u064E\u0651\u0631 \u0627\u0644\u0631\u0645\u0632 \u0627\u0644\u0633\u0631\u064A \u0645\u0646 \u0627\u0644\u0635\u0631\u0627\u0641 \u0627\u0644\u0622\u0644\u064A\u060C \u0644\u0627 \u0645\u0646 \u0647\u0646\u0627. \u064A\u0645\u0643\u0646 \u0644\u0645\u0648\u0638\u0641 \u0645\u0633\u0627\u0639\u062F\u062A\u0643 \u0625\u0646 \u0642\u064F\u0641\u0644.",
     "You can see your PIN on My card after you confirm it's you. Nobody from the bank will ever ask you for it.": "\u064A\u0645\u0643\u0646\u0643 \u0631\u0624\u064A\u0629 \u0631\u0645\u0632\u0643 \u0627\u0644\u0633\u0631\u064A \u0641\u064A \u0628\u0637\u0627\u0642\u062A\u064A \u0628\u0639\u062F \u062A\u0623\u0643\u064A\u062F \u0647\u0648\u064A\u062A\u0643. \u0644\u0646 \u064A\u0637\u0644\u0628\u0647 \u0645\u0646\u0643 \u0623\u062D\u062F \u0645\u0646 \u0627\u0644\u0628\u0646\u0643 \u0623\u0628\u062F\u064B\u0627.",
@@ -9708,6 +9806,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var alertAr = (w) => w.replace(/^(?:when|if) (?:the )?(?:fares?|prices?|flights?) (?:to |for )?([a-z][a-z ]+?) (?:fares? |prices? )?(?:drop|go down|fall|get cheaper)$/i, (_, x) => `when prices drop for flights to ${x}`).replace(/^(?:when|if) ([a-z][a-z ]+?) (?:fares?|prices?|flights?) (?:drop|go down|fall|get cheaper)$/i, (_, x) => `when prices drop for flights to ${x}`).replace("when food delivery is live", "\u0639\u0646\u062F \u062A\u0648\u0641\u0631 \u062A\u0648\u0635\u064A\u0644 \u0627\u0644\u0637\u0639\u0627\u0645").replace("when it's moving again", "\u0639\u0646\u062F\u0645\u0627 \u064A\u062A\u062D\u0631\u0643 \u0645\u062C\u062F\u062F\u064B\u0627").replace("if your passport needs renewing, 60 days before any trip", "\u0625\u0646 \u0627\u062D\u062A\u0627\u062C \u062C\u0648\u0627\u0632\u0643 \u0625\u0644\u0649 \u062A\u062C\u062F\u064A\u062F\u060C \u0642\u0628\u0644 \u0623\u064A \u0631\u062D\u0644\u0629 \u0628\u0640 60 \u064A\u0648\u0645\u064B\u0627").replace(/^when prices to (.+) drop$/, (_, c1) => `\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0625\u0644\u0649 ${c(c1)}`).replace(/^when your points are (about to|going to) expire$/, "\u0642\u0628\u0644 \u0627\u0646\u062A\u0647\u0627\u0621 \u0635\u0644\u0627\u062D\u064A\u0629 \u0646\u0642\u0627\u0637\u0643").replace(/^when tickets go on sale$/, "\u0639\u0646\u062F \u0637\u0631\u062D \u0627\u0644\u062A\u0630\u0627\u0643\u0631 \u0644\u0644\u0628\u064A\u0639").replace(/^when (.+) tickets go on sale$/, (_, c1) => `\u0639\u0646\u062F \u0637\u0631\u062D \u062A\u0630\u0627\u0643\u0631 ${c1} \u0644\u0644\u0628\u064A\u0639`).replace(/^when (the )?prices? (drops?|go(es)? down)$/, "\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0627\u0644\u0633\u0639\u0631").replace(/^before your card bill is due$/, "\u0642\u0628\u0644 \u0645\u0648\u0639\u062F \u0627\u0633\u062A\u062D\u0642\u0627\u0642 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0629").replace(/^on (.+), to pay your card bill$/, (_, x) => `\u064A\u0648\u0645 ${d(x)}\u060C \u0644\u062F\u0641\u0639 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0629`).replace(/^when (.+?) (is|are) (live|back|available)$/, (_, x) => `\u0639\u0646\u062F \u062A\u0648\u0641\u0631 ${x}`).replace(/^(when|before) your (card )?bill is due$/, "\u0639\u0646\u062F \u0627\u0642\u062A\u0631\u0627\u0628 \u0645\u0648\u0639\u062F \u0627\u0633\u062A\u062D\u0642\u0627\u0642 \u0627\u0644\u0641\u0627\u062A\u0648\u0631\u0629").replace(/^when your (card )?(bill|statement) is ready$/, "\u0639\u0646\u062F \u0635\u062F\u0648\u0631 \u0643\u0634\u0641 \u0627\u0644\u062D\u0633\u0627\u0628").replace(/^when (the )?check-?in opens( for your flight)?$/, "\u0639\u0646\u062F \u0641\u062A\u062D \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644").replace(/^when your (order|parcel|delivery) (arrives|is delivered)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0637\u0644\u0628\u0643").replace(/^when your refund (arrives|comes through|lands)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0627\u0644\u0645\u0628\u0644\u063A \u0627\u0644\u0645\u0633\u062A\u0631\u062F").replace(/^when your points (expire|are expiring|are about to expire|will expire)$/, "\u0642\u0628\u0644 \u0627\u0646\u062A\u0647\u0627\u0621 \u0635\u0644\u0627\u062D\u064A\u0629 \u0646\u0642\u0627\u0637\u0643").replace(/^when (your )?points (land|arrive|come in)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0627\u0644\u0646\u0642\u0627\u0637").replace(/^when prices drop for flights to (.+)$/, (_, x) => `\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0623\u0633\u0639\u0627\u0631 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(x.replace(/^\w/, (ch) => ch.toUpperCase()))}`).replace(/^when flights (?:to )?(.+)$/, (_, x) => `\u0628\u062E\u0635\u0648\u0635 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(x.replace(/^\w/, (ch) => ch.toUpperCase()))}`);
   var P3 = [
     /* card modules */
+    [/^Hides by itself in (\d+) s$/, (m) => `\u062A\u064F\u062E\u0641\u0649 \u062A\u0644\u0642\u0627\u0626\u064A\u064B\u0627 \u062E\u0644\u0627\u0644 ${m[1]} \u062B`],
+    [/^(.+) available of (.+)$/, (m) => /\d/.test(m[1]) ? `${m[1]} \u0645\u062A\u0627\u062D \u0645\u0646 ${m[2]}` : null],
+    [/^(Pay in full|Pay the minimum|Full balance|Minimum) · (.+)$/, (m) => `${t1(m[1])} \xB7 ${m[2]}`],
+    [/^Statement (\d+ [؀-ۿ]+) to (\d+ [؀-ۿ]+)$/, (m) => `\u0643\u0634\u0641 ${m[1]} \u0625\u0644\u0649 ${m[2]}`],
+    [/^Up to (.+)$/, (m) => /\d/.test(m[1]) && !/[A-Za-z]{2}/.test(m[1]) ? `\u062D\u062A\u0649 ${m[1]}` : null],
     [/^To (Home|Office) · ((?:GR|[A-Z]{2})-\d+)$/, (m) => `\u0625\u0644\u0649 ${t1(m[1])} \xB7 ${m[2]}`],
     [/^(.+) (?:isn't|aren't) available in this app(\. Your bank's app or a person at the bank can help with it\.)?$/, (m) => `${t1(m[1])} \u063A\u064A\u0631 \u0645\u062A\u0627\u062D\u0629 \u0641\u064A \u0647\u0630\u0627 \u0627\u0644\u062A\u0637\u0628\u064A\u0642${m[2] ? ". \u064A\u0645\u0643\u0646 \u0644\u062A\u0637\u0628\u064A\u0642 \u0627\u0644\u0628\u0646\u0643 \u0623\u0648 \u0623\u062D\u062F \u0645\u0648\u0638\u0641\u064A \u0627\u0644\u0628\u0646\u0643 \u0645\u0633\u0627\u0639\u062F\u062A\u0643." : ""}`],
     [/^(\d+) of (\d+) APIs · (\d+) of (\d+) services on$/, (m) => `${m[1]} \u0645\u0646 ${m[2]} \u0648\u0627\u062C\u0647\u0629 \xB7 ${m[3]} \u0645\u0646 ${m[4]} \u062E\u062F\u0645\u0629 \u0645\u0641\u0639\u0651\u0644\u0629`],
@@ -10556,6 +10659,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     return null;
   }
   var KEEP = [
+    /^eSIM\)$/,
+    /^(Apple|Google|Samsung) (Pay|Wallet)\)$/,
     /^(Apple|Google|Samsung) (Pay|Wallet)$/,
     /^Hush$/,
     /^Hush 700$/,
@@ -11161,6 +11266,100 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   ];
   W3.__toEn = (x) => toEn(x);
 
+  // src/llm.ts
+  var ENDPOINT = "/api/claude";
+  var MAX_ROUNDS = 6;
+  var err = (code, text) => Object.assign(new Error(code), { code, text });
+  var flat = (c2) => typeof c2 === "string" ? c2 : Array.isArray(c2) ? c2.map((x) => typeof x === "string" ? x : (x == null ? void 0 : x.text) || "").join(" ") : String(c2 != null ? c2 : "");
+  function normalise(input) {
+    const list = typeof input === "string" ? [{ role: "user", content: input }] : input;
+    const out = [];
+    for (const m of list) {
+      const role = m.role === "assistant" ? "assistant" : "user", text = flat(m.content).trim();
+      if (!text) continue;
+      const prev = out[out.length - 1];
+      if (prev && prev.role === role && typeof prev.content === "string") prev.content += "\n\n" + text;
+      else out.push({ role, content: text });
+    }
+    while (out.length && out[0].role !== "user") out.shift();
+    return out;
+  }
+  async function call(body, signal) {
+    let r;
+    try {
+      r = await fetch(ENDPOINT, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body), signal });
+    } catch (e) {
+      throw err((e == null ? void 0 : e.name) === "AbortError" ? "cancelled" : "network");
+    }
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 503) throw err("not_granted");
+    if (r.status === 429) throw err("rate_limited");
+    if (!r.ok) throw err((j == null ? void 0 : j.code) || "upstream");
+    return j;
+  }
+  async function available() {
+    if (!/^https?:$/.test(location.protocol)) return false;
+    try {
+      const r = await fetch(ENDPOINT, { method: "GET" });
+      if (!r.ok) return false;
+      const j = await r.json();
+      return !!(j == null ? void 0 : j.configured);
+    } catch (e) {
+      return false;
+    }
+  }
+  function makeSample() {
+    const sample2 = async (input, opts = {}) => {
+      var _a, _b;
+      const tier = opts.modelTier === "quick" ? "quick" : "default";
+      const tools2 = opts.tools || [];
+      const messages = normalise(input);
+      if (!messages.length) throw err("empty_completion");
+      let text = "";
+      for (let round = 0; round < MAX_ROUNDS; round++) {
+        if ((_a = opts.signal) == null ? void 0 : _a.aborted) throw err("cancelled", text);
+        const res = await call({ tier, system: opts.system, messages, tools: tools2.map((t) => ({ name: t.name, description: t.description, input_schema: t.inputSchema })) }, opts.signal).catch((e) => {
+          if (e.code === "cancelled") e.text = text;
+          throw e;
+        });
+        const said = res.content.filter((b2) => b2.type === "text").map((b2) => b2.text).join("");
+        if (said) {
+          const delta = (text ? " " : "") + said;
+          text += delta;
+          (_b = opts.onText) == null ? void 0 : _b.call(opts, { text, delta });
+        }
+        const uses = res.content.filter((b2) => b2.type === "tool_use");
+        if (res.stop_reason !== "tool_use" || !uses.length) break;
+        messages.push({ role: "assistant", content: res.content.filter((b2) => b2.type === "text" || b2.type === "tool_use") });
+        const results = [];
+        for (const u of uses) {
+          const tool = tools2.find((t) => t.name === u.name);
+          let out, isErr = false;
+          try {
+            out = tool ? await tool.execute(u.input || {}) : { error: "No such tool" };
+            if (!tool) isErr = true;
+          } catch (e) {
+            out = { error: String((e == null ? void 0 : e.message) || e).slice(0, 300) };
+            isErr = true;
+          }
+          results.push({ type: "tool_result", tool_use_id: u.id, content: JSON.stringify(out != null ? out : null).slice(0, 8e3), ...isErr ? { is_error: true } : {} });
+        }
+        messages.push({ role: "user", content: results });
+      }
+      if (!text.trim() && !tools2.length) throw err("empty_completion");
+      return { text, truncated: false };
+    };
+    sample2.json = async (input, opts = {}) => {
+      const r = await sample2(input, { ...opts, tools: [], system: "Reply with one JSON object and nothing else." });
+      const m = String(r.text).match(/\{[\s\S]*\}/);
+      if (!m) throw err("bad_json");
+      return JSON.parse(m[0]);
+    };
+    sample2.limits = async () => ({ tools: { maxCount: 24 }, images: false });
+    sample2.__api = true;
+    return sample2;
+  }
+
   // src/brain.ts
   var mode = "checking";
   var sample = null;
@@ -11178,12 +11377,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   async function initBrain() {
     try {
       const c2 = window.claude;
-      if (!(c2 == null ? void 0 : c2.use)) {
-        setMode("local");
-        return;
-      }
-      const s = await c2.use("sample");
+      const s = (c2 == null ? void 0 : c2.use) ? await c2.use("sample") : null;
       if (!s) {
+        if (await available()) {
+          sample = makeSample();
+          maxTools = 24;
+          setMode("claude");
+          return;
+        }
         setMode("local");
         return;
       }
@@ -11657,7 +11858,8 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         }).join(", ")}` : "";
       })()}]` : ""].filter(Boolean).join(" ") };
     }).filter((x) => x.content);
-    const turns = [{ role: "user", content: rules() }, ...hist.slice(0, -1), { role: "user", content: text }];
+    const viaApi = !!(sample == null ? void 0 : sample.__api);
+    const turns = viaApi ? [...hist.slice(0, -1), { role: "user", content: text }] : [{ role: "user", content: rules() }, ...hist.slice(0, -1), { role: "user", content: text }];
     ctl = new AbortController();
     turnText = toEn(text).toLowerCase() + " " + text;
     turnConfirm = false;
@@ -11690,7 +11892,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     });
     gate = safeP.then(() => !risky);
     try {
-      const res = await sample(turns, { modelTier: text.trim().split(/\s+/).length > 12 || /\b(and|then|also|plus|but)\b|,/.test(text) ? "default" : "quick", tools: tools(id), signal: ctl.signal, onText: ({ text: tx }) => {
+      const res = await sample(turns, { ...viaApi ? { system: rules() } : {}, modelTier: text.trim().split(/\s+/).length > 12 || /\b(and|then|also|plus|but)\b|,/.test(text) ? "default" : "quick", tools: tools(id), signal: ctl.signal, onText: ({ text: tx }) => {
         if (risky) return;
         const g = guard2(clean(tx), { money: snapMoney() !== before, frozen: get().card.frozen !== frozen0, cardSet: snapCard() !== card0, st0, card0: card0o, listing: !turnConfirm && turnTools.some((n) => /my_bookings|manage_booking|card_and_account/.test(n)), card: hasCard() });
         if (verdict) patchMsg(id, { text: g, live: true });
@@ -11916,7 +12118,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const [other, setOther] = useState("");
     if (c2.due <= 0) return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Empty, { title: "Nothing to pay now", body: c2.balance > 0 ? `Your statement is paid. ${M3.money(c2.balance, 2)} of new spending goes on your next statement.` : "Your statement is paid." }), on("card.statements") && /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Statements", chev: true, onClick: () => nav.go("cardx", "statements") })));
     const amt = pick === "full" ? c2.due : pick === "min" ? c2.min : Math.round(num(other) * 100) / 100;
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-due" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Statement balance, due ${M3.date(c2.dueDate)}`), /* @__PURE__ */ React.createElement("b", { className: "ds-due-v" }, M3.money(c2.due, 2)), c2.balance - c2.due >= 0.01 && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Spending since the statement, ${M3.money(Math.round((c2.balance - c2.due) * 100) / 100, 2)}, goes on your next one.`)), /* @__PURE__ */ React.createElement(Label, null, "How much"), /* @__PURE__ */ React.createElement(Choice, { label: "How much to pay", value: pick, onChange: setPick, items: [{ key: "full", title: "Pay in full", sub: "No interest on this statement", value: M3.money(c2.due, 2) }, { key: "min", title: "Pay the minimum", sub: c2.min > 0 ? "Interest is charged on the rest" : "Already paid this month", value: M3.money(c2.min, 2), disabled: c2.min <= 0 }, { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Amount", prefix: sym(M3), inputMode: "decimal", value: other, onChange: setOther, placeholder: "0.00", autoFocus: true, hint: num(other) > c2.due ? `That's more than you owe; it will be set to ${M3.money(c2.due, 2)}.` : num(other) > 0 && num(other) < c2.min ? `Below the minimum of ${M3.money(c2.min, 2)}. Pay at least that by ${M3.date(c2.dueDate)} to avoid a late fee.` : void 0 }), /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("div", { className: "ds-kv" }, /* @__PURE__ */ React.createElement("span", null, "From"), /* @__PURE__ */ React.createElement("b", null, "Current account ending 7781")), /* @__PURE__ */ React.createElement("div", { className: "ds-kv" }, /* @__PURE__ */ React.createElement("span", null, "Arrives"), /* @__PURE__ */ React.createElement("b", null, "Straight away"))), /* @__PURE__ */ React.createElement(Primary, { disabled: !(amt > 0), onClick: () => here(payBillAsk({ amount: amt })) }, amt > 0 ? `Pay ${M3.money(Math.min(amt, c2.due), 2)}` : "Pay"));
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Amount, { label: `Due ${M3.date(c2.dueDate)}`, right: `\u2022\u2022\u2022\u2022 ${c2.last4}`, value: M3.money(c2.due, 2), meta: c2.balance - c2.due >= 0.01 ? `Spending since the statement, ${M3.money(Math.round((c2.balance - c2.due) * 100) / 100, 2)}, goes on your next one.` : "Statement balance" }), /* @__PURE__ */ React.createElement(Label, null, "How much"), /* @__PURE__ */ React.createElement(Choice, { label: "How much to pay", value: pick, onChange: setPick, items: [{ key: "full", title: "Pay in full", sub: "No interest on this statement", value: M3.money(c2.due, 2) }, { key: "min", title: "Pay the minimum", sub: c2.min > 0 ? "Interest is charged on the rest" : "Already paid this month", value: M3.money(c2.min, 2), disabled: c2.min <= 0 }, { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Amount", prefix: sym(M3), inputMode: "decimal", value: other, onChange: setOther, placeholder: "0.00", autoFocus: true, hint: num(other) > c2.due ? `That's more than you owe; it will be set to ${M3.money(c2.due, 2)}.` : num(other) > 0 && num(other) < c2.min ? `Below the minimum of ${M3.money(c2.min, 2)}. Pay at least that by ${M3.date(c2.dueDate)} to avoid a late fee.` : void 0 }), /* @__PURE__ */ React.createElement(KV, { rows: [{ label: "From", value: "Current account \u2022\u2022\u2022\u2022 7781" }, { label: "Arrives", value: "Straight away" }] }), /* @__PURE__ */ React.createElement(Primary, { disabled: !(amt > 0), onClick: () => here(payBillAsk({ amount: amt })) }, amt > 0 ? `Pay ${M3.money(Math.min(amt, c2.due), 2)}` : "Pay"));
   }
   function Statements({ nav }) {
     useS((s) => s.card);
@@ -11966,7 +12168,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     });
     const bars = Object.entries(by).filter(([, v]) => v > 0.5).sort((a, b2) => b2[1] - a[1]).slice(0, 5).map(([label, amount]) => ({ label, amount }));
     const owe = st.current && c2.due > 0;
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-due" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${M3.date(st.start, "day")} to ${M3.date(st.end, "day")}`), /* @__PURE__ */ React.createElement("b", { className: "ds-due-v" }, M3.money(st.balance, 2)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, owe ? `Due ${M3.date(st.due)} \xB7 minimum ${M3.money(c2.min, 2)}` : "Paid in full"), /* @__PURE__ */ React.createElement("div", { className: "ds-cf-btns" }, owe && on("card.pay") && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: () => nav.go("cardx", "pay") }, "Pay this bill"), /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: save2 }, /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 16, stroke: 2 }), "Download"))), bars.length > 0 && /* @__PURE__ */ React.createElement(SpendBars, { period: "Spent this statement", items: bars, total: bars.reduce((a, x) => a + x.amount, 0), format: (n) => M3.money(n, 2) }), /* @__PURE__ */ React.createElement(Label, null, `${st.txns.length} line${st.txns.length === 1 ? "" : "s"}`), st.txns.length ? /* @__PURE__ */ React.createElement(List, null, st.txns.map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: `${t.cat} \xB7 ${M3.date(new Date(t.at), "day")}`, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M3.money(n, 2), onClick: st.current ? () => nav.go("cardx", "txn:" + t.id) : void 0 }))) : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "No card payments in this period."));
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Amount, { label: `${M3.date(st.start, "day")} to ${M3.date(st.end, "day")}`, value: M3.money(st.balance, 2), meta: owe ? `Due ${M3.date(st.due)} \xB7 minimum ${M3.money(c2.min, 2)}` : "Paid in full" }, /* @__PURE__ */ React.createElement("div", { className: "ds-ac-pills" }, owe && on("card.pay") && /* @__PURE__ */ React.createElement(Pill, { primary: true, onClick: () => nav.go("cardx", "pay") }, "Pay this bill"), /* @__PURE__ */ React.createElement(Pill, { icon: "download", onClick: save2 }, "Download"))), bars.length > 0 && /* @__PURE__ */ React.createElement(SpendBars, { period: "Spent this statement", items: bars, total: bars.reduce((a, x) => a + x.amount, 0), format: (n) => M3.money(n, 2) }), /* @__PURE__ */ React.createElement(Label, null, `${st.txns.length} line${st.txns.length === 1 ? "" : "s"}`), st.txns.length ? /* @__PURE__ */ React.createElement(List, null, st.txns.map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: `${t.cat} \xB7 ${M3.date(new Date(t.at), "day")}`, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M3.money(n, 2), onClick: st.current ? () => nav.go("cardx", "txn:" + t.id) : void 0 }))) : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "No card payments in this period."));
   }
   function Txns({ nav }) {
     useS((s) => s.txns);
@@ -11985,17 +12187,18 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Search, { value: q2, onChange: setQ, placeholder: "Search payments" }), /* @__PURE__ */ React.createElement(Chips2, { label: "Filter by category", value: cat, onChange: setCat, items: [{ key: "", label: "All" }, ...cats.map((c2) => ({ key: c2, label: c2 }))] }), days.length ? days.map(([d2, l]) => /* @__PURE__ */ React.createElement(React.Fragment, { key: d2 }, /* @__PURE__ */ React.createElement(Label, null, d2), /* @__PURE__ */ React.createElement(List, null, l.map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: t.pending ? `${t.cat} \xB7 pending` : t.cat, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M3.money(n, 2), onClick: () => nav.go("cardx", "txn:" + t.id) }))))) : /* @__PURE__ */ React.createElement(Empty, { title: "No payments match", body: q2 ? `Nothing for "${q2}". Try the shop's name.` : "Try another category." }));
   }
   function TxnDetail({ nav, arg }) {
+    var _a;
     const s = useS((x) => x);
     const M3 = useMarket();
     const t = s.txns.find((x) => x.id === arg);
     if (!t) return /* @__PURE__ */ React.createElement(Empty, { title: "That payment isn't on your card any more" });
     const kase = s.bookings.find((b2) => {
-      var _a, _b;
-      return ((_a = b2.extra) == null ? void 0 : _a.case) === "dispute" && ((_b = b2.extra) == null ? void 0 : _b.txn) === t.id;
+      var _a2, _b;
+      return ((_a2 = b2.extra) == null ? void 0 : _a2.case) === "dispute" && ((_b = b2.extra) == null ? void 0 : _b.txn) === t.id;
     });
     const canDispute = !t.refund && t.cat !== "Payment" && on("card.disputes") && !kase;
     const d2 = new Date(t.at);
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-due" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, t.merchant), /* @__PURE__ */ React.createElement("b", { className: "ds-due-v" + (t.refund ? " ds-good" : "") }, `${t.refund ? "+" : "\u2212"}${M3.money(t.amount, 2)}`), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${M3.date(d2, "long")} \xB7 ${M3.clock(d2.toTimeString().slice(0, 5))}`)), /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("div", { className: "ds-kv" }, /* @__PURE__ */ React.createElement("span", null, "Status"), /* @__PURE__ */ React.createElement("b", null, t.pending ? "Pending" : t.refund ? "Money back" : "Completed")), /* @__PURE__ */ React.createElement("div", { className: "ds-kv" }, /* @__PURE__ */ React.createElement("span", null, "Category"), /* @__PURE__ */ React.createElement("b", null, t.cat)), /* @__PURE__ */ React.createElement("div", { className: "ds-kv" }, /* @__PURE__ */ React.createElement("span", null, "Card"), /* @__PURE__ */ React.createElement("b", null, `Ending ${s.card.last4}`)), t.points ? /* @__PURE__ */ React.createElement("div", { className: "ds-kv" }, /* @__PURE__ */ React.createElement("span", null, "Points earned"), /* @__PURE__ */ React.createElement("b", { className: "ds-good" }, `+${M3.num(t.points)}`)) : null), kase && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Your dispute"), kase.tracker && /* @__PURE__ */ React.createElement(Track, { steps: kase.tracker.steps, current: kase.tracker.current, eta: kase.tracker.eta })), /* @__PURE__ */ React.createElement(Label, null, "Something wrong?"), /* @__PURE__ */ React.createElement(List, null, canDispute && /* @__PURE__ */ React.createElement(Row, { icon: "refresh", title: "Dispute this payment", sub: "Not received, not as described, charged twice", chev: true, onClick: () => nav.go("cardx", "dispute:" + t.id) }), !t.refund && t.cat !== "Payment" && /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "I don't recognise this", sub: "Freezes your card and brings in the fraud team", chev: true, onClick: () => {
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { value: `${t.refund ? "+" : "\u2212"}${M3.money(t.amount, 2)}`, tone: t.refund ? "good" : void 0, title: t.merchant, sub: `${M3.date(d2, "long")} \xB7 ${M3.clock(d2.toTimeString().slice(0, 5))}` }), /* @__PURE__ */ React.createElement(KV, { rows: [{ label: "Status", value: t.pending ? "Pending" : t.refund ? "Money back" : "Completed" }, { label: "Category", value: t.cat }, { label: "Card", value: `\u2022\u2022\u2022\u2022 ${s.card.last4}` }, ...t.points ? [{ label: "Points earned", value: /* @__PURE__ */ React.createElement("span", { className: "ds-good" }, `+${M3.num(t.points)}`) }] : []] }), kase && kase.tracker && /* @__PURE__ */ React.createElement(Track, { title: "Your dispute", steps: kase.tracker.steps, current: kase.tracker.current, eta: ((_a = kase.extra) == null ? void 0 : _a.outcome) || kase.tracker.eta }), /* @__PURE__ */ React.createElement(Label, null, "Something wrong?"), /* @__PURE__ */ React.createElement(List, null, canDispute && /* @__PURE__ */ React.createElement(Row, { icon: "refresh", title: "Dispute this payment", sub: "Not received, not as described, charged twice", chev: true, onClick: () => nav.go("cardx", "dispute:" + t.id) }), !t.refund && t.cat !== "Payment" && /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "I don't recognise this", sub: "Freezes your card and brings in the fraud team", chev: true, onClick: () => {
       nav.go("chat");
       run({ f: "bank", a: { topic: "fraud" } }, "I don't recognise this payment");
     } }), LIMIT_CATS.includes(t.cat) && on("card.limits") && /* @__PURE__ */ React.createElement(Row, { icon: "split", title: `Set a limit for ${t.cat.toLowerCase()}`, chev: true, onClick: () => nav.go("cardx", "limits") }), /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "Ask about this payment", chev: true, onClick: () => {
@@ -12035,7 +12238,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       }
       toast(`${l} copied`);
     };
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(CardDetails, { name: d2.name, number: d2.number, expiry: d2.expiry, cvv: d2.cvv, shown: left > 0, left, frozen: c2.frozen, onShow: () => reveal("revealDetails", "Show card details"), onHide: () => set((s) => ({ seen: { ...s.seen, revealUntil: 0 } })), onCopy: copy }), c2.frozen && /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "Your card is frozen. The details still show, but payments won't go through until you unfreeze it."), /* @__PURE__ */ React.createElement(List, null, on("card.pin") && /* @__PURE__ */ React.createElement(Row, { icon: "lock", title: "PIN", sub: "See your PIN", chev: true, onClick: () => nav.go("cardx", "pin") }), on("card.wallet") && /* @__PURE__ */ React.createElement(Row, { icon: "phone", title: "Add to phone wallet", sub: "Pay with your phone instead", chev: true, onClick: () => nav.go("cardx", "wallet") })), /* @__PURE__ */ React.createElement("p", { className: "ds-foot" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 14, stroke: 2 }), "The bank never asks for these by phone, text or email. Only type them into a shop's own checkout."));
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(CardDetails, { name: d2.name, number: d2.number, expiry: d2.expiry, cvv: d2.cvv, shown: left > 0, left, frozen: c2.frozen, onShow: () => reveal("revealDetails", "Show card details"), onHide: () => set((s) => ({ seen: { ...s.seen, revealUntil: 0 } })), onCopy: copy }), /* @__PURE__ */ React.createElement(List, null, on("card.pin") && /* @__PURE__ */ React.createElement(Row, { icon: "lock", title: "PIN", sub: "See your PIN", chev: true, onClick: () => nav.go("cardx", "pin") }), on("card.wallet") && /* @__PURE__ */ React.createElement(Row, { icon: "phone", title: "Add to phone wallet", sub: "Pay with your phone instead", chev: true, onClick: () => nav.go("cardx", "wallet") })), /* @__PURE__ */ React.createElement("p", { className: "ds-foot" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 14, stroke: 2 }), "The bank never asks for these by phone, text or email. Only type them into a shop's own checkout."));
   }
   function Pin({ nav }) {
     const left = useLeft("pinUntil");
@@ -12043,7 +12246,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     useEffect(() => () => {
       set((s) => ({ seen: { ...s.seen, pinUntil: 0 } }));
     }, []);
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card", style: { alignItems: "center", gap: 14, padding: "22px 16px" } }, /* @__PURE__ */ React.createElement(PinBox, { pin: pin2, shown: left > 0 }), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, left > 0 ? `Hides in ${left} s` : "Hidden until you confirm it's you"), left > 0 ? /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: () => set((s) => ({ seen: { ...s.seen, pinUntil: 0 } })) }, /* @__PURE__ */ React.createElement(Icon, { name: "eyeoff", size: 16, stroke: 2 }), "Hide") : /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: () => reveal("revealPin", "Show your PIN") }, /* @__PURE__ */ React.createElement(Icon, { name: "eye", size: 16, stroke: 2 }), "Show PIN")), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "cash", title: "Change your PIN", sub: "At any of the bank's cash machines, under PIN services" }), /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "Locked out after wrong tries?", sub: "A person can unlock it", chev: true, onClick: () => {
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(PinBox, { pin: pin2, shown: left > 0 }), /* @__PURE__ */ React.createElement("p", { className: "ds-centre-s", style: { marginTop: -10 } }, left > 0 ? `Hides by itself in ${left} s` : "Hidden until you confirm it's you"), left > 0 ? /* @__PURE__ */ React.createElement(Secondary, { onClick: () => set((s) => ({ seen: { ...s.seen, pinUntil: 0 } })) }, "Hide now") : /* @__PURE__ */ React.createElement(Primary, { onClick: () => reveal("revealPin", "Show your PIN") }, /* @__PURE__ */ React.createElement(Icon, { name: "faceid", size: 18, stroke: 2 }), "Show PIN"), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "cash", title: "Change your PIN", sub: "At any of the bank's cash machines, under PIN services" }), /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "Locked out after wrong tries?", sub: "A person can unlock it", chev: true, onClick: () => {
       nav.go("chat");
       ask("My PIN is locked");
     } })), /* @__PURE__ */ React.createElement("p", { className: "ds-foot" }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 14, stroke: 2 }), "Nobody from the bank will ever ask for your PIN."));
@@ -12067,7 +12270,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         setEdit(cat);
         setV(l ? String(l) : "");
       } });
-    })), edit && /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: "0.9375rem" } }, `${edit} each month`), /* @__PURE__ */ React.createElement(Field, { label: "Limit", prefix: sym(M3), inputMode: "numeric", value: v, onChange: setV, autoFocus: true, hint: num(v) > 0 && num(v) < spentThisMonth(edit) ? `You've already spent ${M3.money(spentThisMonth(edit), 2)} this month, so new ${edit.toLowerCase()} payments are declined until the 1st.` : void 0 }), /* @__PURE__ */ React.createElement("div", { className: "ds-btnrow" }, /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", disabled: !(num(v) > 0), onClick: () => save2(num(v)) }, "Save"), lim[edit] && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: () => save2(null) }, "Remove limit"), /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => setEdit("") }, "Cancel"))));
+    })), edit && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, `${edit} each month`), /* @__PURE__ */ React.createElement(Field, { label: "Monthly limit", prefix: sym(M3), inputMode: "numeric", value: v, onChange: setV, autoFocus: true, hint: num(v) > 0 && num(v) < spentThisMonth(edit) ? `You've already spent ${M3.money(spentThisMonth(edit), 2)} this month, so new ${edit.toLowerCase()} payments are declined until the 1st.` : void 0 }), /* @__PURE__ */ React.createElement("div", { className: "ds-btnrow" }, /* @__PURE__ */ React.createElement(Pill, { primary: true, onClick: () => num(v) > 0 && save2(num(v)) }, "Save"), lim[edit] && /* @__PURE__ */ React.createElement(Pill, { onClick: () => save2(null) }, "Remove limit"), /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => setEdit("") }, "Cancel"))));
   }
   function Lost({ nav }) {
     const s = useS((x) => x);
@@ -12081,14 +12284,14 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     return /* @__PURE__ */ React.createElement(React.Fragment, null, !c2.frozen && on("card.controls") && /* @__PURE__ */ React.createElement(Note, { title: "Freeze it first", action: "Freeze my card", onAction: () => {
       set((x) => ({ card: { ...x.card, frozen: true } }));
       toast("Card frozen. New payments are blocked.");
-    } }, "Nobody can use it while it's frozen. If it turns up, unfreeze it and carry on."), c2.frozen && /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("span", { className: "ds-status" }, /* @__PURE__ */ React.createElement("i", null), `Card ending ${c2.last4} is frozen`), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, "Direct debits and refunds still work.")), /* @__PURE__ */ React.createElement(Label, null, "What happened?"), /* @__PURE__ */ React.createElement(Choice, { label: "What happened", value: why, onChange: (k) => setWhy(k), items: [{ key: "lost", title: "I've lost it" }, { key: "stolen", title: "It was stolen" }, { key: "damaged", title: "It's damaged or not working" }, { key: "missing", title: "A new card never arrived" }] }), /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, newNumber ? "Your card is cancelled for good and the new one has a new number. Direct debits and subscriptions move across by themselves." : why === "missing" ? "The missing card is cancelled and a new one is sent with a new number, in case it went astray." : "The new card keeps the same number, so nothing needs updating. Your current card works until you activate the new one."), why === "stolen" && /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "Payments I don't recognise", sub: "The fraud team checks them and refunds what wasn't you", chev: true, onClick: () => {
+    } }, "Nobody can use it while it's frozen. If it turns up, unfreeze it and carry on."), c2.frozen && /* @__PURE__ */ React.createElement(AssistantNote, null, `Card ending ${c2.last4} is frozen. Direct debits and refunds still work.`), /* @__PURE__ */ React.createElement(Label, null, "What happened?"), /* @__PURE__ */ React.createElement(Choice, { label: "What happened", value: why, onChange: (k) => setWhy(k), items: [{ key: "lost", title: "I've lost it" }, { key: "stolen", title: "It was stolen" }, { key: "damaged", title: "It's damaged or not working" }, { key: "missing", title: "A new card never arrived" }] }), /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, newNumber ? "Your card is cancelled for good and the new one has a new number. Direct debits and subscriptions move across by themselves." : why === "missing" ? "The missing card is cancelled and a new one is sent with a new number, in case it went astray." : "The new card keeps the same number, so nothing needs updating. Your current card works until you activate the new one."), why === "stolen" && /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "Payments I don't recognise", sub: "The fraud team checks them and refunds what wasn't you", chev: true, onClick: () => {
       nav.go("chat");
       run({ f: "bank", a: { topic: "fraud" } }, "Payments I don't recognise");
     } })), /* @__PURE__ */ React.createElement(Label, null, "Send the new card to"), /* @__PURE__ */ React.createElement(Choice, { label: "Delivery address", value: to, onChange: setTo, items: s.addresses.map((a) => ({ key: a.id, title: a.label, sub: a.line })) }), /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(FLOWS.replaceAsk({ why: why === "missing" ? "missing" : why, to })) }, "Order a new card"), /* @__PURE__ */ React.createElement("p", { className: "ds-foot" }, /* @__PURE__ */ React.createElement(Icon, { name: "info", size: 14, stroke: 2 }), "Free, and usually there in 3 to 5 working days."));
   }
   function ReplacementStatus({ nav, b: b2 }) {
     const delivered = b2.status === "delivered";
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: "0.9375rem" } }, delivered ? "Your new card has arrived" : "Your new card is on its way"), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${b2.sub || ""} \xB7 ${b2.ref}`)), b2.tracker && /* @__PURE__ */ React.createElement(Track, { steps: b2.tracker.steps, current: delivered ? b2.tracker.steps.length : b2.tracker.current, eta: delivered ? "Ready to activate" : b2.tracker.eta }), delivered && on("card.activate") ? /* @__PURE__ */ React.createElement(Primary, { onClick: () => nav.go("cardx", "activate") }, "Activate it now") : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "You can activate it here as soon as it arrives."), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "It hasn't arrived after 7 days", chev: true, onClick: () => {
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, b2.tracker && /* @__PURE__ */ React.createElement(Track, { title: delivered ? "Your new card has arrived" : "Your new card is on its way", sub: `${b2.sub || ""} \xB7 ${b2.ref}`, steps: b2.tracker.steps, current: delivered ? b2.tracker.steps.length : b2.tracker.current, eta: delivered ? "Ready to activate" : b2.tracker.eta }), delivered && on("card.activate") ? /* @__PURE__ */ React.createElement(Primary, { onClick: () => nav.go("cardx", "activate") }, "Activate it now") : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "You can activate it here as soon as it arrives."), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "It hasn't arrived after 7 days", chev: true, onClick: () => {
       nav.go("chat");
       ask("My new card hasn't arrived");
     } })));
@@ -12112,6 +12315,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     }, placeholder: "MM/YY" }), /* @__PURE__ */ React.createElement(Primary, { disabled: l4.length !== 4 || exp.length !== 5, onClick: go }, "Activate"), /* @__PURE__ */ React.createElement("p", { className: "app-hint", style: { position: "static" } }, `Demo: the new card ends ${newCardLast4()} and expires ${EXPIRY}`));
   }
   function Dispute({ nav, arg }) {
+    var _a;
     const s = useS((x) => x);
     const M3 = useMarket();
     const t = arg ? s.txns.find((x) => x.id === arg) : void 0;
@@ -12124,18 +12328,18 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "Pick the payment. You can dispute card payments from the last 120 days."), /* @__PURE__ */ React.createElement(List, null, list.map((x) => /* @__PURE__ */ React.createElement(Txn, { key: x.id, name: x.merchant, meta: `${x.cat} \xB7 ${M3.date(new Date(x.at), "day")}`, amount: x.amount, format: (n) => M3.money(n, 2), onClick: () => nav.go("cardx", "dispute:" + x.id) }))));
     }
     const kase = s.bookings.find((b2) => {
-      var _a, _b;
-      return ((_a = b2.extra) == null ? void 0 : _a.case) === "dispute" && ((_b = b2.extra) == null ? void 0 : _b.txn) === t.id;
+      var _a2, _b;
+      return ((_a2 = b2.extra) == null ? void 0 : _a2.case) === "dispute" && ((_b = b2.extra) == null ? void 0 : _b.txn) === t.id;
     });
-    if (kase) return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: "0.9375rem" } }, `Disputed: ${t.merchant}`), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${M3.money(kase.extra.amount, 2)} \xB7 ${kase.sub} \xB7 ${kase.ref}`)), kase.tracker && /* @__PURE__ */ React.createElement(Track, { steps: kase.tracker.steps, current: kase.tracker.current, eta: kase.tracker.eta, tone: kase.tracker.tone === "warn" ? "warn" : void 0 }), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "All your cases", chev: true, onClick: () => nav.go("cardx", "cases") })));
+    if (kase) return /* @__PURE__ */ React.createElement(React.Fragment, null, kase.tracker && /* @__PURE__ */ React.createElement(Track, { title: `Disputed: ${t.merchant}`, sub: `${M3.money(kase.extra.amount, 2)} \xB7 ${kase.sub} \xB7 ${kase.ref}`, steps: kase.tracker.steps, current: kase.tracker.current, eta: ((_a = kase.extra) == null ? void 0 : _a.outcome) || kase.tracker.eta, tone: kase.tracker.tone === "warn" ? "warn" : void 0 }), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "All your cases", chev: true, onClick: () => nav.go("cardx", "cases") })));
     const a = Math.round(num(amt) * 100) / 100;
     return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Txn, { name: t.merchant, meta: `${t.cat} \xB7 ${M3.date(new Date(t.at), "day")}`, amount: t.amount, format: (n) => M3.money(n, 2) })), /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "It helps to contact the shop first. If they haven't put it right, the bank can."), /* @__PURE__ */ React.createElement(Label, null, "What went wrong?"), /* @__PURE__ */ React.createElement(Choice, { label: "What went wrong", value: reason, onChange: setReason, items: DISPUTE_REASONS.map((r) => ({ key: r, title: r })) }), reason === "I don't recognise it" ? /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "Report it as fraud instead", sub: "Your card is frozen and the fraud team takes it from here", chev: true, onClick: () => {
       nav.go("chat");
       run({ f: "bank", a: { topic: "fraud" } }, "I don't recognise this payment");
     } })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Field, { label: "Amount you're disputing", prefix: sym(M3), inputMode: "decimal", value: amt, onChange: setAmt, hint: a > t.amount ? `The most is the payment itself, ${M3.money(t.amount, 2)}.` : void 0 }), /* @__PURE__ */ React.createElement("label", { className: "ds-field" }, /* @__PURE__ */ React.createElement("span", { className: "ds-field-l" }, "What happened (optional)"), /* @__PURE__ */ React.createElement("textarea", { className: "app-ta", value: note, maxLength: 600, onChange: (e) => setNote(e.target.value), placeholder: "Dates, what you were told, what you've tried" })), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement("label", { className: "ds-row", style: { cursor: "pointer" } }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: "doc", size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, file ? file : "Add a receipt or photo"), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, file ? "Attached" : "Optional. Emails, receipts or a photo of the item")), /* @__PURE__ */ React.createElement("input", { type: "file", accept: "image/*,application/pdf", style: { position: "absolute", opacity: 0, width: 1, height: 1 }, onChange: (e) => {
-      var _a, _b;
-      return setFile(((_b = (_a = e.target.files) == null ? void 0 : _a[0]) == null ? void 0 : _b.name) || "");
-    } }), /* @__PURE__ */ React.createElement("span", { className: "ds-pill30 ds-ghostpill" }, file ? "Change" : "Add"))), /* @__PURE__ */ React.createElement(Primary, { disabled: !(a > 0), onClick: () => here(FLOWS.disputeAsk({ txn: t.id, reason, amount: Math.min(a, t.amount), note: note.trim() || void 0, photo: !!file })) }, "Review and send")));
+      var _a2, _b;
+      return setFile(((_b = (_a2 = e.target.files) == null ? void 0 : _a2[0]) == null ? void 0 : _b.name) || "");
+    } }), /* @__PURE__ */ React.createElement("span", { className: "ds-opill" }, file ? "Change" : "Add"))), /* @__PURE__ */ React.createElement(Primary, { disabled: !(a > 0), onClick: () => here(FLOWS.disputeAsk({ txn: t.id, reason, amount: Math.min(a, t.amount), note: note.trim() || void 0, photo: !!file })) }, "Review and send")));
   }
   function Cases({ nav }) {
     const bs = useS((s) => s.bookings);
@@ -12147,7 +12351,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     if (!list.length) return /* @__PURE__ */ React.createElement(Empty, { title: "No cases", body: "New cards, disputes and limit requests show here while the bank works on them." });
     return /* @__PURE__ */ React.createElement(React.Fragment, null, list.map((b2) => {
       var _a, _b, _c, _d, _e, _f;
-      return /* @__PURE__ */ React.createElement("div", { key: b2.id, className: "ds-card" }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: "0.9375rem" } }, b2.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, [b2.sub, ((_a = b2.extra) == null ? void 0 : _a.case) === "dispute" ? M3.money(b2.extra.amount, 2) : "", b2.ref].filter(Boolean).join(" \xB7 ")), b2.tracker && /* @__PURE__ */ React.createElement(Track, { steps: b2.tracker.steps, current: b2.status === "delivered" && !((_b = b2.extra) == null ? void 0 : _b.activated) ? b2.tracker.steps.length : b2.tracker.current, eta: ((_c = b2.extra) == null ? void 0 : _c.outcome) || (b2.status === "delivered" && !((_d = b2.extra) == null ? void 0 : _d.activated) ? "Ready to activate" : ((_e = b2.extra) == null ? void 0 : _e.activated) ? "Activated" : b2.tracker.eta), tone: b2.tracker.tone === "warn" ? "warn" : void 0 }), b2.status === "delivered" && !((_f = b2.extra) == null ? void 0 : _f.activated) && on("card.activate") && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: () => nav.go("cardx", "activate") }, "Activate")));
+      return b2.tracker ? /* @__PURE__ */ React.createElement(Track, { key: b2.id, title: b2.title, sub: [b2.sub, ((_a = b2.extra) == null ? void 0 : _a.case) === "dispute" ? M3.money(b2.extra.amount, 2) : "", b2.ref].filter(Boolean).join(" \xB7 "), steps: b2.tracker.steps, current: b2.status === "delivered" && !((_b = b2.extra) == null ? void 0 : _b.activated) ? b2.tracker.steps.length : b2.tracker.current, eta: ((_c = b2.extra) == null ? void 0 : _c.outcome) || (b2.status === "delivered" && !((_d = b2.extra) == null ? void 0 : _d.activated) ? "Ready to activate" : ((_e = b2.extra) == null ? void 0 : _e.activated) ? "Activated" : b2.tracker.eta), tone: b2.tracker.tone === "warn" ? "warn" : void 0 }, b2.status === "delivered" && !((_f = b2.extra) == null ? void 0 : _f.activated) && on("card.activate") && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Pill, { primary: true, onClick: () => nav.go("cardx", "activate") }, "Activate"))) : null;
     }));
   }
   function Limit() {
@@ -12163,11 +12367,11 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const higher = [1.25, 1.5, 2].map((f) => Math.round(c2.limit * f / step) * step);
     const req = openCase("limit")[0];
     const to = pick === "other" ? Math.round(num(other)) : +pick;
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-due" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, "Your credit limit"), /* @__PURE__ */ React.createElement("b", { className: "ds-due-v" }, M3.money(c2.limit)), /* @__PURE__ */ React.createElement(TickMeter, { used: c2.limit ? c2.balance / c2.limit : 0, label: "Credit used" }), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${M3.money(c2.balance, 2)} used \xB7 ${M3.money(Math.max(0, c2.limit - c2.balance), 2)} available`)), /* @__PURE__ */ React.createElement(Seg, { items: ["Lower it", "Ask for more"], value: mode2, onChange: (x) => {
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Amount, { label: "Your credit limit", right: `\u2022\u2022\u2022\u2022 ${c2.last4}`, value: M3.money(c2.limit) }, /* @__PURE__ */ React.createElement(Bar, { used: c2.limit ? c2.balance / c2.limit : 0, label: "Credit used", tone: "black", thin: true }), /* @__PURE__ */ React.createElement("span", { className: "ds-ac-m" }, `${M3.money(c2.balance, 2)} used \xB7 ${M3.money(Math.max(0, c2.limit - c2.balance), 2)} available`)), /* @__PURE__ */ React.createElement(Seg, { items: ["Lower it", "Ask for more"], value: mode2, onChange: (x) => {
       setMode2(x);
       setPick("");
       setOther("");
-    } }), mode2 === "Lower it" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "Lowering it happens straight away. Raising it again later needs a check by the bank."), /* @__PURE__ */ React.createElement(Choice, { label: "New limit", value: pick, onChange: setPick, items: [...lower.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "New limit", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true, hint: to && to < c2.balance ? `It has to be at least your balance, ${M3.money(c2.balance, 2)}.` : to >= c2.limit ? `Pick an amount below ${M3.money(c2.limit)}.` : void 0 }), /* @__PURE__ */ React.createElement(Primary, { disabled: !(to > 0 && to < c2.limit && to >= c2.balance), onClick: () => here(limitAsk({ to })) }, to > 0 ? `Lower to ${M3.money(to)}` : "Lower my limit")) : req ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { className: "ds-card" }, /* @__PURE__ */ React.createElement("b", { style: { fontSize: "0.9375rem" } }, req.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${req.sub} \xB7 ${req.ref}`)), req.tracker && /* @__PURE__ */ React.createElement(Track, { steps: req.tracker.steps, current: req.tracker.current, eta: ((_a = req.extra) == null ? void 0 : _a.outcome) || req.tracker.eta })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "The bank checks what you can afford before saying yes. It won't affect your credit score unless you go ahead."), /* @__PURE__ */ React.createElement(Choice, { label: "Limit you'd like", value: pick, onChange: setPick, items: [...higher.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Limit you'd like", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true }), /* @__PURE__ */ React.createElement(Primary, { disabled: !(to > c2.limit), onClick: () => here(FLOWS.limitRequestAsk({ to })) }, "Send to the bank")));
+    } }), mode2 === "Lower it" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "Lowering it happens straight away. Raising it again later needs a check by the bank."), /* @__PURE__ */ React.createElement(Choice, { label: "New limit", value: pick, onChange: setPick, items: [...lower.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "New limit", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true, hint: to && to < c2.balance ? `It has to be at least your balance, ${M3.money(c2.balance, 2)}.` : to >= c2.limit ? `Pick an amount below ${M3.money(c2.limit)}.` : void 0 }), /* @__PURE__ */ React.createElement(Primary, { disabled: !(to > 0 && to < c2.limit && to >= c2.balance), onClick: () => here(limitAsk({ to })) }, to > 0 ? `Lower to ${M3.money(to)}` : "Lower my limit")) : req ? /* @__PURE__ */ React.createElement(React.Fragment, null, req.tracker && /* @__PURE__ */ React.createElement(Track, { title: req.title, sub: `${req.sub} \xB7 ${req.ref}`, steps: req.tracker.steps, current: req.tracker.current, eta: ((_a = req.extra) == null ? void 0 : _a.outcome) || req.tracker.eta })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "The bank checks what you can afford before saying yes. It won't affect your credit score unless you go ahead."), /* @__PURE__ */ React.createElement(Choice, { label: "Limit you'd like", value: pick, onChange: setPick, items: [...higher.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Limit you'd like", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true }), /* @__PURE__ */ React.createElement(Primary, { disabled: !(to > c2.limit), onClick: () => here(FLOWS.limitRequestAsk({ to })) }, "Send to the bank")));
   }
   function PhoneWallet() {
     const w = useS((s) => s.seen.wallets || {});
@@ -12231,7 +12435,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const d0 = dests(M3.id)[0];
     const picks = [itemsFor("stays", d0.name)[0], findItem("SH-4")].filter((x) => !!x && !!x.img && on3(x.cat));
     const c2 = s.card;
-    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement("div", { className: "ds-homehd" }, /* @__PURE__ */ React.createElement("img", { src: ART2.wordmark, alt: "gratifi" }), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(HBtn, { label: "You and settings", text: (s.prefs.name || "Y").charAt(0), onClick: () => go("me") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "bell", label: M3.t("alerts"), dot: !!moment, onClick: () => go("alerts") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => go("bank") }))), /* @__PURE__ */ React.createElement("div", { className: "ds-hello" }, /* @__PURE__ */ React.createElement("h1", null, `${hello(M3)}, ${s.prefs.name}`)), on3("card") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(CardSummary, { nav, open: true }), /* @__PURE__ */ React.createElement(Actions, { items: cardActions(nav, on3) })), on3("benefits") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Card benefits", more: "See all", onMore: () => go("card", "benefits") }), /* @__PURE__ */ React.createElement(BenefitTiles, { items: benefitTiles(s, M3, nav) })), on3("offers") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Earn as you spend", more: `All ${OFFERS.length}`, onMore: () => go("offers") }), /* @__PURE__ */ React.createElement("div", { className: "ds-offers" }, OFFERS.map(([id, b2, , , r]) => /* @__PURE__ */ React.createElement(OfferMini, { key: id, art: STAMP[STAMP_OFFER[id]], title: `${r} at ${b2}`, sub: "Until 31 Oct", added: !!s.seen["offer:" + id], onAdd: () => addOffer(id, b2, r, !s.seen["offer:" + id]) })))), on3("moments") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Earn more this month" }), /* @__PURE__ */ React.createElement(Challenges, { items: s.challenges.filter((x) => !x.done).map((x) => ({ key: x.id, title: x.id === "CHL-3" ? `Spend ${M3.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === "money" ? `${M3.money(Math.round(x.progress))} of ${M3.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, onJoin: () => {
+    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement("div", { className: "ds-homehd" }, /* @__PURE__ */ React.createElement("img", { src: ART2.wordmark, alt: "gratifi" }), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(HBtn, { label: "You and settings", text: (s.prefs.name || "Y").charAt(0), onClick: () => go("me") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "bell", label: M3.t("alerts"), dot: !!moment, onClick: () => go("alerts") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => go("bank") }))), /* @__PURE__ */ React.createElement("div", { className: "ds-hello" }, /* @__PURE__ */ React.createElement("h1", null, `${hello(M3)}, ${s.prefs.name}`)), on3("card") && /* @__PURE__ */ React.createElement(CardSummary, { nav, open: true, extra: on3("card.statements") ? [{ label: "Statement", onClick: () => go("cardx", "statements") }] : [] }), on3("benefits") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Card benefits", more: "See all", onMore: () => go("card", "benefits") }), /* @__PURE__ */ React.createElement(Included, { items: benefitTiles(s, M3, nav).slice(0, 3) })), on3("offers") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Earn as you spend", more: `All ${OFFERS.length}`, onMore: () => go("offers") }), /* @__PURE__ */ React.createElement("div", { className: "ds-offers" }, OFFERS.map(([id, b2, , , r]) => /* @__PURE__ */ React.createElement(OfferMini, { key: id, art: STAMP[STAMP_OFFER[id]], title: `${r} at ${b2}`, sub: "Until 31 Oct", added: !!s.seen["offer:" + id], onAdd: () => addOffer(id, b2, r, !s.seen["offer:" + id]) })))), on3("moments") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Challenges, { items: s.challenges.filter((x) => !x.done).map((x) => ({ key: x.id, title: x.id === "CHL-3" ? `Spend ${M3.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === "money" ? `${M3.money(Math.round(x.progress))} of ${M3.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, icon: { "CHL-1": "fork", "CHL-2": "target", "CHL-3": "plane" }[x.id], onJoin: () => {
       set((st) => ({ challenges: st.challenges.map((y) => y.id === x.id ? { ...y, joined: true } : y) }));
       pushMsg({ role: "gr", text: `You're in: ${x.title}.` });
     } })) })), stamps.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Book with your card", more: "See all", onMore: () => go("explore") }), /* @__PURE__ */ React.createElement(Stamps, { items: stamps })), next && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Coming up" }), /* @__PURE__ */ React.createElement(Coming, { art: artOf(next), title: next.title, sub: [next.when || next.sub, next.pts ? `${M3.num(next.pts)} points` : ""].filter(Boolean).join(" \xB7 "), status: next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? next.tracker.eta || next.tracker.steps[next.tracker.current] : "Booked", tone: ((_a = next.tracker) == null ? void 0 : _a.tone) === "warn" ? "warn" : "good", onClick: () => go("wallet") })), again.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Book again" }), /* @__PURE__ */ React.createElement(Again, { items: again.map((b2) => ({ key: b2.id, label: b2.title, art: STAMP[b2.cat], onClick: () => {
@@ -12276,7 +12480,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     pushMsg({ role: "gr", text: "Card frozen. New payments are blocked; direct debits and refunds still work." });
     toast("Card frozen. New payments are blocked.");
   }
-  function CardSummary({ nav, open: open2, noDue }) {
+  function CardSummary({ nav, open: open2, noDue, extra }) {
     const c2 = useS((x) => x.card);
     const M3 = useMarket();
     const market = useS((x) => x.market);
@@ -12295,21 +12499,19 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         dueLine: due,
         freezeLabel: c2.frozen ? "Unfreeze" : "Freeze",
         onFreeze: on3("card.controls") ? freezeToggle : void 0,
-        onPay: on3("card.pay") && c2.due > 0 ? () => nav.go("cardx", "pay") : void 0,
+        onPay: on3("card.pay") && c2.due > 0 && !noDue ? () => nav.go("cardx", "pay") : void 0,
         onOpen: open2 ? () => nav.go("card") : void 0,
-        noDue
+        noDue,
+        extra
       }
     );
-  }
-  function cardActions(nav, on3) {
-    return [on3("card.statements") && { icon: "doc", label: "Statement", onClick: () => nav.go("cardx", "statements") }, on3("card.transactions") && { icon: "split", label: "Spending", onClick: () => nav.go("card", "spending") }, on3("benefits") && { icon: "shield", label: "Benefits", onClick: () => nav.go("card", "benefits") }, { icon: "card", label: "My card", onClick: () => nav.go("card") }].filter(Boolean);
   }
   function benefitRun(b2) {
     return b2.key === "lounge" ? { f: "search", a: { cat: "airport" } } : b2.id === "BE-8" ? { f: "myStuff", a: {} } : b2.id === "BE-4" ? { f: "docs", a: { topic: "insurance" } } : b2.id === "BE-6" ? { f: "search", a: { cat: "dining" } } : b2.id === "BE-7" ? { f: "search", a: { cat: "tickets" } } : b2.id === "BE-5" ? { f: "docs", a: { topic: "abroad" } } : { f: "myStuff", a: {} };
   }
   var BENEFIT_SHORT = { "BE-1": "Free visits this year", "BE-2": "120 days on what you buy", "BE-3": "An extra year", "BE-4": "When the trip is on the card", "BE-5": "On card purchases abroad", "BE-6": "15% off at partners", "BE-7": "48 hours before general sale", "BE-8": "If an order goes wrong" };
   function benefitTiles(s, M3, nav) {
-    return BENEFITS.map((b2) => ({ key: b2.id, icon: b2.icon, title: b2.name, sub: BENEFIT_SHORT[b2.id] || b2.sub, value: b2.key === "lounge" ? `${s.loungeLeft} left` : void 0, onClick: () => {
+    return BENEFITS.map((b2) => ({ key: b2.id, icon: b2.icon, title: b2.name, sub: BENEFIT_SHORT[b2.id] || b2.sub, meta: b2.key === "lounge" ? `${s.loungeLeft} left` : "Included", onClick: () => {
       nav.go("chat");
       run(benefitRun(b2), b2.name);
     } }));
@@ -12361,13 +12563,13 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const notices2 = on3("card.travel") ? notices() : [];
     const wallets = Object.keys(s.seen.wallets || {});
     if (!on3("card")) return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement(Head, { title: "My card", onBack: nav.back }), /* @__PURE__ */ React.createElement(Empty, { title: "Card services aren't available in this app", body: "Your bank's app has everything about your card." }));
-    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll", ref: ref2 }, /* @__PURE__ */ React.createElement(Head, { title: "My card", onBack: nav.back, right: /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => nav.go("home") }) }), /* @__PURE__ */ React.createElement(CardSummary, { nav, noDue: true }), /* @__PURE__ */ React.createElement(Actions, { items: [on3("card.pay") && { icon: "cash", label: "Pay", onClick: x("pay") }, on3("card.details") && { icon: "eye", label: "Details", onClick: x("details") }, on3("card.controls") && { icon: "lock", label: c2.frozen ? "Unfreeze" : "Freeze", onClick: freezeToggle, on: c2.frozen }, on3("card.statements") && { icon: "doc", label: "Statements", onClick: x("statements") }].filter(Boolean) }), arrived2 && /* @__PURE__ */ React.createElement(Note, { title: "Your new card is here", action: "Activate it", onAction: x("activate") }, "Activate it to start using it. Anything set up on your old card moves across by itself."), cases.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Your cases"), /* @__PURE__ */ React.createElement(List, null, cases.slice(0, 3).map((b2) => {
+    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll", ref: ref2 }, /* @__PURE__ */ React.createElement(Head, { title: "My card", onBack: nav.back, right: /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => nav.go("home") }) }), /* @__PURE__ */ React.createElement(CardSummary, { nav, noDue: true, extra: on3("card.details") ? [{ label: "Card details", onClick: x("details") }] : [] }), arrived2 && /* @__PURE__ */ React.createElement(Note, { title: "Your new card is here", action: "Activate it", onAction: x("activate") }, "Activate it to start using it. Anything set up on your old card moves across by itself."), cases.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Your cases"), /* @__PURE__ */ React.createElement(List, null, cases.slice(0, 3).map((b2) => {
       var _a, _b;
       return /* @__PURE__ */ React.createElement(Row, { key: b2.id, icon: ((_a = b2.extra) == null ? void 0 : _a.case) === "dispute" ? "refresh" : ((_b = b2.extra) == null ? void 0 : _b.case) === "limit" ? "swap" : "card", title: b2.title, sub: b2.status === "delivered" ? "Arrived \xB7 ready to activate" : b2.tracker ? `${b2.tracker.steps[b2.tracker.current]} \xB7 ${b2.tracker.eta || ""}`.replace(/ · $/, "") : b2.sub, chev: true, onClick: x("cases") });
-    }))), on3("card.pay") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Payment"), /* @__PURE__ */ React.createElement(DueCard, { amount: M3.money(c2.due, 2), date: M3.date(c2.dueDate), min: M3.money(c2.min, 2), paid: c2.due <= 0, onFull: x("pay"), onMin: x("pay:min") })), on3("card.directdebit") && /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ActionRow, { icon: "refresh", title: ddName, sub: !c2.autopay ? "Off. You pay each bill yourself." : c2.autopayMode === "min" ? "Pays the minimum each month" : "Pays the full balance each month", action: !c2.autopay ? "Set up" : "Change", primary: !c2.autopay, onAction: () => openConfirm(ddAsk(!c2.autopay ? "full" : c2.autopayMode === "min" ? "full" : "min")) }), c2.autopay && /* @__PURE__ */ React.createElement(ActionRow, { icon: "close", title: `Cancel ${M3.directDebit}`, sub: "You go back to paying each bill yourself", action: "Cancel", onAction: () => openConfirm(ddAsk("off")) })), on3("card.transactions") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { "data-sec": "spending", className: "ds-anchor" }, /* @__PURE__ */ React.createElement(Label, null, "Where it went")), /* @__PURE__ */ React.createElement(SpendBars, { period: "Last 30 days, after refunds", items: spend, total: spend.reduce((a, x2) => a + x2.amount, 0), format: (n) => M3.money(n, 2) }), /* @__PURE__ */ React.createElement(List, null, s.txns.slice(0, 5).map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: `${t.cat} \xB7 ${M3.date(new Date(t.at), "day")}`, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M3.money(n, 2), onClick: x("txn:" + t.id) })), /* @__PURE__ */ React.createElement(Row, { icon: "search", title: "All transactions", sub: "Search and filter", chev: true, onClick: x("txns") }), on3("card.statements") && /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Statements", sub: "Every month, ready to download", chev: true, onClick: x("statements") }))), on3("benefits") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { "data-sec": "benefits", className: "ds-anchor" }, /* @__PURE__ */ React.createElement(Label, null, "Card benefits")), /* @__PURE__ */ React.createElement(List, null, BENEFITS.map((b2) => /* @__PURE__ */ React.createElement(Row, { key: b2.id, icon: b2.icon, title: b2.name, sub: b2.key === "lounge" ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? "" : "s"} left this year` : b2.id === "BE-8" ? moneyBackRule(M3.id).split(". ")[0].replace(/\.$/, "") + "." : b2.sub, value: b2.key === "lounge" ? `${s.loungeLeft} left` : void 0, chev: true, onClick: () => {
+    }))), on3("card.pay") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Payment"), /* @__PURE__ */ React.createElement(DueCard, { amount: M3.money(c2.due, 2), date: M3.date(c2.dueDate), min: M3.money(c2.min, 2), paid: c2.due <= 0, onFull: x("pay"), onMin: x("pay:min") })), on3("card.directdebit") && /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ActionRow, { icon: "refresh", title: ddName, sub: !c2.autopay ? "Off. You pay each bill yourself." : c2.autopayMode === "min" ? "Pays the minimum each month" : "Pays the full balance each month", action: !c2.autopay ? "Set up" : "Change", primary: !c2.autopay, onAction: () => openConfirm(ddAsk(!c2.autopay ? "full" : c2.autopayMode === "min" ? "full" : "min")) }), c2.autopay && /* @__PURE__ */ React.createElement(ActionRow, { icon: "close", title: `Cancel ${M3.directDebit}`, sub: "You go back to paying each bill yourself", action: "Cancel", onAction: () => openConfirm(ddAsk("off")) })), on3("card.transactions") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { "data-sec": "spending", className: "ds-anchor" }, /* @__PURE__ */ React.createElement(Label, null, "Where it went")), /* @__PURE__ */ React.createElement(SpendBars, { period: "Last 30 days, after refunds", items: spend, total: spend.reduce((a, x2) => a + x2.amount, 0), format: (n) => M3.money(n, 2) }), /* @__PURE__ */ React.createElement(List, null, s.txns.slice(0, 5).map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: `${t.cat} \xB7 ${M3.date(new Date(t.at), "day")}`, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M3.money(n, 2), onClick: x("txn:" + t.id) })), /* @__PURE__ */ React.createElement(Row, { icon: "search", title: "All transactions", sub: "Search and filter", chev: true, onClick: x("txns") }), on3("card.statements") && /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Statements", sub: "Every month, ready to download", chev: true, onClick: x("statements") }))), on3("benefits") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { "data-sec": "benefits", className: "ds-anchor" }, /* @__PURE__ */ React.createElement(Label, null, "Card benefits")), /* @__PURE__ */ React.createElement(Included, { items: BENEFITS.map((b2) => ({ key: b2.id, icon: b2.icon, title: b2.name, sub: b2.key === "lounge" ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? "" : "s"} left this year` : b2.id === "BE-8" ? moneyBackRule(M3.id).split(". ")[0].replace(/\.$/, "") + "." : b2.sub, meta: b2.key === "lounge" ? `${s.loungeLeft} left` : "Included", onClick: () => {
       nav.go("chat");
       run(benefitRun(b2), b2.name);
-    } })))), (on3("card.controls") || on3("card.limits") || on3("card.travel") || on3("card.gambling")) && /* @__PURE__ */ React.createElement(Label, null, "Controls"), (on3("card.controls") || on3("card.limits") || on3("card.travel") || on3("card.gambling")) && /* @__PURE__ */ React.createElement(List, null, on3("card.controls") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(ControlRow, { icon: "lock", title: "Freeze card", sub: c2.frozen ? "New payments are blocked" : "Blocks new payments. Direct debits and refunds still work.", on: c2.frozen, onChange: (v) => control("frozen", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "globe", title: "Online payments", sub: c2.frozen ? "Paused while the card is frozen" : c2.online ? "On" : "Off", on: c2.online && !c2.frozen, onChange: (v) => control("online", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "plane", title: "Payments abroad", sub: c2.frozen ? "Paused while the card is frozen" : c2.abroad ? "On" : "Off", on: c2.abroad && !c2.frozen, onChange: (v) => control("abroad", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "wifi", title: "Contactless", sub: c2.frozen ? "Paused while the card is frozen" : c2.contactless ? "On" : "Off", on: c2.contactless && !c2.frozen, onChange: (v) => control("contactless", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "cash", title: "Cash withdrawals", sub: c2.frozen ? "Paused while the card is frozen" : c2.atm ? "On" : "Off", on: c2.atm && !c2.frozen, onChange: (v) => control("atm", v) })), on3("card.limits") && /* @__PURE__ */ React.createElement(Row, { icon: "split", title: "Spending limits", sub: nLim ? `${nLim} monthly limit${nLim > 1 ? "s" : ""} set` : "Cap dining, shopping and more each month", chev: true, onClick: x("limits") }), on3("card.travel") && /* @__PURE__ */ React.createElement(Row, { icon: "globe", title: "Travel notice", sub: notices2.length ? `${notices2[0].where}, ${M3.date(notices2[0].from, "day")} to ${M3.date(notices2[0].to, "day")}` : "Tell the bank before you go abroad", chev: true, onClick: x("travel") }), on3("card.gambling") && /* @__PURE__ */ React.createElement(ActionRow, { icon: "shield", title: "Gambling block", sub: !c2.gambling ? "Off. Blocks betting sites, casinos and lotteries when on." : at ? `On until ${M3.date(iso(at))} at ${M3.clock(at.toTimeString().slice(0, 5))}, then it lifts` : "On. Betting sites, casinos and lotteries are blocked.", action: !c2.gambling ? "Turn on" : at ? "Keep the block" : "Lift", primary: !c2.gambling || !!at, onAction: () => here(!c2.gambling ? gamblingOn() : at ? gamblingKeep() : gamblingLiftAsk()) })), (on3("card.details") || on3("card.pin") || on3("card.wallet") || on3("card.limit")) && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Your card"), /* @__PURE__ */ React.createElement(List, null, on3("card.details") && /* @__PURE__ */ React.createElement(Row, { icon: "eye", title: "Card number and security code", sub: "Shown after you confirm it's you", chev: true, onClick: x("details") }), on3("card.pin") && /* @__PURE__ */ React.createElement(Row, { icon: "lock", title: "PIN", chev: true, onClick: x("pin") }), on3("card.wallet") && /* @__PURE__ */ React.createElement(Row, { icon: "phone", title: "Phone wallet", sub: wallets.length ? `In ${wallets.map((w) => ({ apple: "Apple Wallet", google: "Google Wallet", samsung: "Samsung Wallet" })[w]).join(" and ")}` : "Add to Apple Wallet or Google Wallet", chev: true, onClick: x("wallet") }), on3("card.limit") && /* @__PURE__ */ React.createElement(Row, { icon: "swap", title: "Credit limit", sub: M3.money(c2.limit), chev: true, onClick: x("limit") }))), alerts.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Alerts"), /* @__PURE__ */ React.createElement(List, null, alerts.map((k) => /* @__PURE__ */ React.createElement(Row, { key: k, icon: "bell", title: k.slice(6).charAt(0).toUpperCase() + k.slice(7), value: /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x2) => ({ seen: { ...x2.seen, [k]: false } })) }, "Remove") })))), /* @__PURE__ */ React.createElement(Label, null, "Help with your card"), /* @__PURE__ */ React.createElement(List, null, on3("card.replace") && /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "Lost, stolen or damaged card", chev: true, onClick: x("lost") }), /* @__PURE__ */ React.createElement(Row, { icon: "eye", title: "A payment I don't recognise", chev: true, onClick: () => ask2("Someone took money I don't recognise") }), on3("card.disputes") && /* @__PURE__ */ React.createElement(Row, { icon: "refresh", title: "Dispute a payment", chev: true, onClick: x("dispute") }), cases.length === 0 && s.bookings.some((b2) => {
+    } })) })), (on3("card.controls") || on3("card.limits") || on3("card.travel") || on3("card.gambling")) && /* @__PURE__ */ React.createElement(Label, null, "Controls"), (on3("card.controls") || on3("card.limits") || on3("card.travel") || on3("card.gambling")) && /* @__PURE__ */ React.createElement(List, null, on3("card.controls") && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(ControlRow, { icon: "lock", title: "Freeze card", sub: c2.frozen ? "New payments are blocked" : "Blocks new payments. Direct debits and refunds still work.", on: c2.frozen, onChange: (v) => control("frozen", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "globe", title: "Online payments", sub: c2.frozen ? "Paused while the card is frozen" : c2.online ? "On" : "Off", on: c2.online && !c2.frozen, onChange: (v) => control("online", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "plane", title: "Payments abroad", sub: c2.frozen ? "Paused while the card is frozen" : c2.abroad ? "On" : "Off", on: c2.abroad && !c2.frozen, onChange: (v) => control("abroad", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "wifi", title: "Contactless", sub: c2.frozen ? "Paused while the card is frozen" : c2.contactless ? "On" : "Off", on: c2.contactless && !c2.frozen, onChange: (v) => control("contactless", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "cash", title: "Cash withdrawals", sub: c2.frozen ? "Paused while the card is frozen" : c2.atm ? "On" : "Off", on: c2.atm && !c2.frozen, onChange: (v) => control("atm", v) })), on3("card.limits") && /* @__PURE__ */ React.createElement(Row, { icon: "split", title: "Spending limits", sub: nLim ? `${nLim} monthly limit${nLim > 1 ? "s" : ""} set` : "Cap dining, shopping and more each month", chev: true, onClick: x("limits") }), on3("card.travel") && /* @__PURE__ */ React.createElement(Row, { icon: "globe", title: "Travel notice", sub: notices2.length ? `${notices2[0].where}, ${M3.date(notices2[0].from, "day")} to ${M3.date(notices2[0].to, "day")}` : "Tell the bank before you go abroad", chev: true, onClick: x("travel") }), on3("card.gambling") && /* @__PURE__ */ React.createElement(ActionRow, { icon: "shield", title: "Gambling block", sub: !c2.gambling ? "Off. Blocks betting sites, casinos and lotteries when on." : at ? `On until ${M3.date(iso(at))} at ${M3.clock(at.toTimeString().slice(0, 5))}, then it lifts` : "On. Betting sites, casinos and lotteries are blocked.", action: !c2.gambling ? "Turn on" : at ? "Keep the block" : "Lift", primary: !c2.gambling || !!at, onAction: () => here(!c2.gambling ? gamblingOn() : at ? gamblingKeep() : gamblingLiftAsk()) })), (on3("card.details") || on3("card.pin") || on3("card.wallet") || on3("card.limit")) && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Your card"), /* @__PURE__ */ React.createElement(List, null, on3("card.details") && /* @__PURE__ */ React.createElement(Row, { icon: "eye", title: "Card number and security code", sub: "Shown after you confirm it's you", chev: true, onClick: x("details") }), on3("card.pin") && /* @__PURE__ */ React.createElement(Row, { icon: "lock", title: "PIN", chev: true, onClick: x("pin") }), on3("card.wallet") && /* @__PURE__ */ React.createElement(Row, { icon: "phone", title: "Phone wallet", sub: wallets.length ? `In ${wallets.map((w) => ({ apple: "Apple Wallet", google: "Google Wallet", samsung: "Samsung Wallet" })[w]).join(" and ")}` : "Add to Apple Wallet or Google Wallet", chev: true, onClick: x("wallet") }), on3("card.limit") && /* @__PURE__ */ React.createElement(Row, { icon: "swap", title: "Credit limit", sub: M3.money(c2.limit), chev: true, onClick: x("limit") }))), alerts.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Alerts"), /* @__PURE__ */ React.createElement(List, null, alerts.map((k) => /* @__PURE__ */ React.createElement(Row, { key: k, icon: "bell", title: k.slice(6).charAt(0).toUpperCase() + k.slice(7), value: /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x2) => ({ seen: { ...x2.seen, [k]: false } })) }, "Remove") })))), /* @__PURE__ */ React.createElement(Label, null, "Help with your card"), /* @__PURE__ */ React.createElement(List, null, on3("card.replace") && /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "Lost, stolen or damaged card", chev: true, onClick: x("lost") }), /* @__PURE__ */ React.createElement(Row, { icon: "eye", title: "A payment I don't recognise", chev: true, onClick: () => ask2("Someone took money I don't recognise") }), on3("card.disputes") && /* @__PURE__ */ React.createElement(Row, { icon: "refresh", title: "Dispute a payment", chev: true, onClick: x("dispute") }), cases.length === 0 && s.bookings.some((b2) => {
       var _a;
       return (_a = b2.extra) == null ? void 0 : _a.case;
     }) && /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Your cases", chev: true, onClick: x("cases") }), /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "Talk to a person", chev: true, onClick: () => ask2("I want to talk to a person") })));
@@ -12696,6 +12898,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     };
     useEffect(() => {
       document.documentElement.dataset.theme = theme;
+      document.querySelectorAll("meta[name=theme-color]").forEach((m) => m.setAttribute("content", theme === "dark" ? "#232326" : "#F4F4F3"));
     }, [theme]);
     useEffect(() => {
       const f = fmt(s.market);
