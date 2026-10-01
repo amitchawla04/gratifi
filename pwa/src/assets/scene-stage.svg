@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="400" viewBox="0 0 480 400"><rect width="480" height="400" fill="#1F1B3A"/>
+<path d="M90 0 L40 260 H140 Z" fill="#FFD56B" opacity="0.35"/><path d="M390 0 L340 260 H440 Z" fill="#FF7A33" opacity="0.35"/><path d="M240 0 L190 260 H290 Z" fill="#8FD3FF" opacity="0.3"/>
+<rect x="0" y="250" width="480" height="40" fill="#3B3566" stroke="#141416" stroke-width="5"/>
+<g transform="translate(240 190)"><circle cx="0" cy="-38" r="16" fill="#FFE2C8" stroke="#141416" stroke-width="4"/><path d="M-22 60 L-16 -18 H16 L22 60 Z" fill="#E4572E" stroke="#141416" stroke-width="4" stroke-linejoin="round"/><path d="M16 -8 L40 -34" stroke="#141416" stroke-width="5" stroke-linecap="round"/><circle cx="44" cy="-38" r="7" fill="#141416"/></g>
+<g fill="#141416"><circle cx="40" cy="330" r="26"/><circle cx="110" cy="345" r="28"/><circle cx="185" cy="330" r="26"/><circle cx="260" cy="348" r="28"/><circle cx="335" cy="332" r="26"/><circle cx="410" cy="346" r="28"/><rect x="0" y="340" width="480" height="60"/></g>
+<path d="M150 318 l10 -34 M320 316 l-8 -34" stroke="#141416" stroke-width="8" stroke-linecap="round"/>
+</svg>
