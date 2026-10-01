@@ -8,10 +8,10 @@ import * as St from './store'
 import * as F from './flows'
 import * as Cat from './catalog'
 import * as Br from './brain'
-import { Blocks, run, respond, iconFor, sendText, OfferList, OFFERS } from './render'
+import { Blocks, run, respond, iconFor, sendText, OfferList, OFFERS, openConfirm, ddAsk } from './render'
 import * as D from './design'
 
-export type Tab = 'home' | 'explore' | 'chat' | 'wallet' | 'me' | 'offers' | 'alerts' | 'tier' | 'bank'
+export type Tab = 'home' | 'explore' | 'chat' | 'wallet' | 'me' | 'offers' | 'alerts' | 'tier' | 'bank' | 'card'
 export type Nav = { go: (t: Tab, cat?: string) => void; back: () => void }
 
 /* ---------- Tier (demo programme tier, as on the approved screens) ---------- */
@@ -32,17 +32,25 @@ export function Home({ nav }: { nav: Nav }) {
   const seenIds = new Set<string>(); const again = s.bookings.filter(b => b.itemId && !seenIds.has(b.itemId) && seenIds.add(b.itemId)).slice(0, 4)
   const d0 = Cat.dests(M.id)[0]
   const picks = [F.itemsFor('stays', d0.name)[0], F.findItem('SH-4')].filter((x): x is Cat.Item => !!x && !!x.img)
+  const c = s.card
   return <div className="app-scroll">
     <div className="ds-homehd"><img src={D.ART.wordmark} alt="gratifi" /><div><D.HBtn label="You and settings" text={(s.prefs.name || 'Y').charAt(0)} onClick={() => go('me')} /><D.HBtn icon="bell" label={M.t('alerts')} dot={!!moment} onClick={() => go('alerts')} /><D.HBtn icon="close" label="Close" onClick={() => go('bank')} /></div></div>
-    <div className="ds-hello"><h1>{`${hello(M)}, ${s.prefs.name}`}</h1><button onClick={() => go('tier')}>{`You’re ${M.num(toNext())} points from ${TIER.next}.`}</button></div>
-    <D.PointsCard tier={TIER.name} value={M.num(s.balance)} onUse={() => go('explore')} />
-    {moment && <D.Note title={moment.title} action={moment.action} onAction={moment.go} secondary="Not now" onSecondary={() => St.set(x => ({ seen: { ...x.seen, [moment.key]: true } }))}>{moment.body}</D.Note>}
-    <D.Sec title="Spend your points" more="See all" onMore={() => go('explore')} />
-    <D.Stamps items={stamps} />
-    <D.Sec title="Your offers" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
+    <div className="ds-hello"><h1>{`${hello(M)}, ${s.prefs.name}`}</h1></div>
+    <CardSummary nav={nav} open />
+    <D.Actions items={cardActions(nav, c)} />
+    <D.Sec title="Card benefits" more="See all" onMore={() => go('card', 'benefits')} />
+    <D.BenefitTiles items={benefitTiles(s, M, nav)} />
+    <D.Sec title="Earn as you spend" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
     <div className="ds-offers">{OFFERS.map(([id, b, , , r]) => <D.OfferMini key={id} art={D.STAMP[STAMP_OFFER[id]]} title={`${r} at ${b}`} sub="Until 31 Oct" added={!!s.seen['offer:' + id]} onAdd={() => addOffer(id, b, r, !s.seen['offer:' + id])} />)}</div>
+    <D.Sec title="Earn more this month" />
+    <D.Challenges items={s.challenges.filter(x => !x.done).map(x => ({ key: x.id, title: x.id === 'CHL-3' ? `Spend ${M.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === 'money' ? `${M.money(Math.round(x.progress))} of ${M.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, onJoin: () => { St.set(st => ({ challenges: st.challenges.map(y => (y.id === x.id ? { ...y, joined: true } : y)) })); St.pushMsg({ role: 'gr', text: `You're in: ${x.title}.` }) } }))} />
+    <D.Sec title="Book with your card" more="See all" onMore={() => go('explore')} />
+    <D.Stamps items={stamps} />
     {next && <><D.Sec title="Coming up" /><D.Coming art={artOf(next)} title={next.title} sub={[next.when || next.sub, next.pts ? `${M.num(next.pts)} points` : ''].filter(Boolean).join(' · ')} status={next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? (next.tracker.eta || next.tracker.steps[next.tracker.current]) : 'Booked'} tone={next.tracker?.tone === 'warn' ? 'warn' : 'good'} onClick={() => go('wallet')} /></>}
     {again.length > 0 && <><D.Sec title="Book again" /><D.Again items={again.map(b => ({ key: b.id, label: b.title, art: D.STAMP[b.cat], onClick: () => { go('chat'); run({ f: 'showItem', a: { id: b.itemId } }, b.title) } }))} /></>}
+    <D.Sec title="Your points" more={`${M.num(toNext())} to ${TIER.next}`} onMore={() => go('tier')} />
+    <D.PointsCard tier={TIER.name} value={<D.CountUp id={"bal-" + s.market} value={s.balance} format={M.num} />} onUse={() => go('explore')} />
+    {moment && <D.Note title={moment.title} action={moment.action} onAction={moment.go} secondary="Not now" onSecondary={() => St.set(x => ({ seen: { ...x.seen, [moment.key]: true } }))}>{moment.body}</D.Note>}
     <D.Sec title="Picked for you" more="See all" onMore={() => go('explore')} />
     <D.Picks items={picks.map(i => { const price = i.cat === 'stays' ? F.stayPrice(i, '', 2) : F.IP(i); return { key: i.id, art: Cat.img(i.img)!, title: i.cat === 'stays' ? `Stay in ${d0.name}` : i.title, sub: i.cat === 'stays' ? `${i.title}, two nights` : `From ${i.sub}`, price: `${M.num(F.ptsOf(price))} points`, onUse: () => { go('chat'); run({ f: 'showItem', a: { id: i.id } }, i.title) } } })} />
     <D.Sec title="Recent activity" more="See all" onMore={() => go('wallet', 'Points')} />
@@ -60,6 +68,70 @@ function pickMoment(s: St.State, M: any): { key: string; title: string; body: st
   return c.find(x => !s.seen[x.key]) || null
 }
 function moments(s: St.State, M: any) { const out: any[] = []; const seen = { ...s.seen }; for (let i = 0; i < 4; i++) { const m = pickMoment({ ...s, seen } as St.State, M); if (!m) break; out.push(m); seen[m.key] = true } return out }
+
+
+/* ---------- Card: summary, actions, benefits (used on Home and My card) ---------- */
+function CardSummary({ nav, open, noDue }: { nav: Nav; open?: boolean; noDue?: boolean }) {
+  const c = St.useS(x => x.card); const M = useMarket(); const market = St.useS(x => x.market)
+  const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
+  const due = c.due > 0 ? `Due ${M.date(c.dueDate)} · ${M.money(c.due, 2)}` : 'Nothing to pay now'
+  return <D.CardFace last4={c.last4} balance={<D.CountUp id={'card-' + market} value={Math.round(c.balance)} format={(n: number) => M.money(n === Math.round(c.balance) ? c.balance : n, 2)} />} available={M.money(Math.max(0, c.limit - c.balance))} limit={M.money(c.limit)} used={c.limit ? c.balance / c.limit : 0} frozen={c.frozen} dueLine={due}
+    freezeLabel={c.frozen ? 'Unfreeze' : 'Freeze'} onFreeze={() => ask(c.frozen ? 'Unfreeze my card' : 'Freeze my card')} onPay={() => ask('What do I owe?')} onOpen={open ? () => nav.go('card') : undefined} noDue={noDue} />
+}
+function cardActions(nav: Nav, c: St.State['card']) {
+  const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
+  return [{ icon: 'doc', label: 'Statement', onClick: () => ask('Show my statement') }, { icon: 'split', label: 'Spending', onClick: () => nav.go('card', 'spending') }, { icon: 'shield', label: 'Benefits', onClick: () => nav.go('card', 'benefits') }, { icon: 'card', label: 'My card', onClick: () => nav.go('card') }]
+}
+function benefitRun(b: typeof Cat.BENEFITS[number]): { f: string; a: any } { return b.key === 'lounge' ? { f: 'search', a: { cat: 'airport' } } : b.id === 'BE-8' ? { f: 'myStuff', a: {} } : b.id === 'BE-4' ? { f: 'docs', a: { topic: 'insurance' } } : b.id === 'BE-6' ? { f: 'search', a: { cat: 'dining' } } : b.id === 'BE-7' ? { f: 'search', a: { cat: 'tickets' } } : b.id === 'BE-5' ? { f: 'docs', a: { topic: 'abroad' } } : { f: 'myStuff', a: {} } }
+const BENEFIT_SHORT: Record<string, string> = { 'BE-1': 'Free visits this year', 'BE-2': '120 days on what you buy', 'BE-3': 'An extra year', 'BE-4': 'When the trip is on the card', 'BE-5': 'On card purchases abroad', 'BE-6': '15% off at partners', 'BE-7': '48 hours before general sale', 'BE-8': 'If an order goes wrong' }
+function benefitTiles(s: St.State, M: any, nav: Nav) {
+  return Cat.BENEFITS.map(b => ({ key: b.id, icon: b.icon, title: b.name, sub: BENEFIT_SHORT[b.id] || b.sub, value: b.key === 'lounge' ? `${s.loungeLeft} left` : undefined, onClick: () => { nav.go('chat'); run(benefitRun(b), b.name) } }))
+}
+
+/* ---------- My card: everything about the card, in the order people need it ---------- */
+export function Card({ nav, focus }: { nav: Nav; focus?: string }) {
+  const s = St.useS(x => x); const M = useMarket(); const c = s.card as any
+  const ask = (q: string) => { nav.go('chat'); Br.ask(q) }
+  const since = Date.now() - 30 * 864e5, by: Record<string, number> = {}
+  s.txns.filter(t => t.at >= since && t.cat !== 'Payment').forEach(t => { by[t.cat] = (by[t.cat] || 0) + (t.refund ? -t.amount : t.amount) })
+  const spend = Object.entries(by).filter(([, v]) => v >= 0.5).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, amount]) => ({ label, amount }))
+  const ddName = M.directDebit.charAt(0).toUpperCase() + M.directDebit.slice(1)
+  const at = c.gamblingLiftAt ? new Date(c.gamblingLiftAt) : null
+  const control = (k: string, v: boolean) => { if (k === 'frozen' && !v) { respond(F.unfreezeAsk({})); nav.go('chat'); return } if (k !== 'frozen' && v) { respond(F.cardControl({ control: k, on: true })); nav.go('chat'); return } St.set(x => ({ card: { ...x.card, [k]: v } })); if (k === 'frozen') St.pushMsg({ role: 'gr', text: 'Frozen. New payments are blocked; direct debits and refunds still work.' }) }
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => { if (focus) setTimeout(() => ref.current?.querySelector(`[data-sec="${focus}"]`)?.scrollIntoView({ block: 'start', behavior: 'smooth' }), 120) }, [focus])
+  const alerts = Object.keys(s.seen).filter(k => k.startsWith('alert:') && s.seen[k])
+  return <div className="app-scroll" ref={ref}>
+    <D.Head title="My card" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
+    <CardSummary nav={nav} noDue />
+    <D.Label>Payment</D.Label>
+    <D.DueCard amount={M.money(c.due, 2)} date={M.date(c.dueDate)} min={M.money(c.min, 2)} paid={c.due <= 0} onFull={() => ask('Pay my bill in full')} onMin={() => ask('Pay the minimum')} />
+    <D.List><D.ActionRow icon="refresh" title={ddName} sub={!c.autopay ? 'Off. You pay each bill yourself.' : c.autopayMode === 'min' ? 'Pays the minimum each month' : 'Pays the full balance each month'} action={!c.autopay ? 'Set up' : 'Change'} primary={!c.autopay} onAction={() => openConfirm(ddAsk(!c.autopay ? 'full' : c.autopayMode === 'min' ? 'full' : 'min') as any)} />{c.autopay && <D.ActionRow icon="close" title={`Cancel ${M.directDebit}`} sub="You go back to paying each bill yourself" action="Cancel" onAction={() => openConfirm(ddAsk('off') as any)} />}</D.List>
+    <div data-sec="spending" className="ds-anchor"><D.Label>Where it went</D.Label></div>
+    <D.SpendBars period="Last 30 days, after refunds" items={spend} total={spend.reduce((a, x) => a + x.amount, 0)} format={(n: number) => M.money(n, 2)} />
+    <D.List>{s.txns.slice(0, 5).map(t => <D.Txn key={t.id} name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} points={t.points || undefined} refund={t.refund} format={(n: number) => M.money(n, 2)} />)}<D.Row icon="doc" title="Statement" sub="Balance, minimum and due date" chev onClick={() => ask('Show my statement')} /></D.List>
+    <div data-sec="benefits" className="ds-anchor"><D.Label>Card benefits</D.Label></div>
+    <D.List>{Cat.BENEFITS.map(b => <D.Row key={b.id} icon={b.icon} title={b.name} sub={b.key === 'lounge' ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? '' : 's'} left this year` : b.id === 'BE-8' ? Cat.moneyBackRule(M.id).split('. ')[0].replace(/\.$/, '') + '.' : b.sub} value={b.key === 'lounge' ? `${s.loungeLeft} left` : undefined} chev onClick={() => { nav.go('chat'); run(benefitRun(b), b.name) }} />)}</D.List>
+    <D.Label>Controls</D.Label>
+    <D.List>
+      <D.ControlRow icon="lock" title="Freeze card" sub={c.frozen ? 'New payments are blocked' : 'Blocks new payments. Direct debits and refunds still work.'} on={c.frozen} onChange={(v: boolean) => control('frozen', v)} />
+      <D.ControlRow icon="globe" title="Online payments" sub={c.frozen ? 'Paused while the card is frozen' : c.online ? 'On' : 'Off'} on={c.online && !c.frozen} onChange={(v: boolean) => control('online', v)} />
+      <D.ControlRow icon="plane" title="Payments abroad" sub={c.frozen ? 'Paused while the card is frozen' : c.abroad ? 'On' : 'Off'} on={c.abroad && !c.frozen} onChange={(v: boolean) => control('abroad', v)} />
+      <D.ControlRow icon="wifi" title="Contactless" sub={c.frozen ? 'Paused while the card is frozen' : c.contactless ? 'On' : 'Off'} on={c.contactless && !c.frozen} onChange={(v: boolean) => control('contactless', v)} />
+      <D.ControlRow icon="cash" title="Cash withdrawals" sub={c.frozen ? 'Paused while the card is frozen' : c.atm ? 'On' : 'Off'} on={c.atm && !c.frozen} onChange={(v: boolean) => control('atm', v)} />
+      <D.ActionRow icon="shield" title="Gambling block" sub={!c.gambling ? 'Off. Blocks betting sites, casinos and lotteries when on.' : at ? `On until ${M.date(F.iso(at))} at ${M.clock(at.toTimeString().slice(0, 5))}, then it lifts` : 'On. Betting sites, casinos and lotteries are blocked.'} action={!c.gambling ? 'Turn on' : at ? 'Keep the block' : 'Lift'} primary={!c.gambling || !!at} onAction={() => { if (!c.gambling) { nav.go('chat'); run({ f: 'gamblingOn', a: {} }, 'Block gambling payments') } else if (at) { nav.go('chat'); run({ f: 'gamblingKeep', a: {} }, 'Keep the block') } else { nav.go('chat'); respond(F.gamblingLiftAsk()) } }} />
+    </D.List>
+    {alerts.length > 0 && <><D.Label>Alerts</D.Label><D.List>{alerts.map(k => <D.Row key={k} icon="bell" title={k.slice(6).charAt(0).toUpperCase() + k.slice(7)} value={<button className="ds-textbtn" onClick={() => St.set(x => ({ seen: { ...x.seen, [k]: false } }))}>Remove</button>} />)}</D.List></>}
+    <D.Label>Help with your card</D.Label>
+    <D.List>
+      <D.Row icon="alert" title="Lost or stolen card" chev onClick={() => ask('I lost my card')} />
+      <D.Row icon="eye" title="A payment I don't recognise" chev onClick={() => ask("Someone took money I don't recognise")} />
+      <D.Row icon="refresh" title="Dispute a payment" chev onClick={() => ask('I want to dispute a payment')} />
+      <D.Row icon="swap" title="Change my credit limit" chev onClick={() => ask('Change my credit limit')} />
+      <D.Row icon="headset" title="Talk to a person" chev onClick={() => ask('I want to talk to a person')} />
+    </D.List>
+  </div>
+}
 
 /* ---------- Rewards (Explore): every category, by chip ---------- */
 export function Explore({ cat, setCat, nav }: { cat?: string; setCat: (c?: string) => void; nav: Nav }) {
@@ -177,7 +249,7 @@ export function Bank({ nav }: { nav: Nav }) {
   </div>
 }
 
-/* ---------- You (settings, card and demo controls) ---------- */
+/* ---------- You (settings and demo controls) ---------- */
 export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme: (t: string) => void }) {
   const s = St.useS(x => x); const M = useMarket()
   const sim = (k: keyof St.State['sim'], v: boolean) => St.set(x => ({ sim: { ...x.sim, [k]: v } }))
@@ -185,20 +257,9 @@ export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme
   const alerts: [string, string, string][] = [['moments', 'Moments from Gratifi', 'Useful things worth doing now, at most 3 a week'], ['offers', 'Offers', 'Card offers that match what you buy'], ['trips', 'Trip updates', 'Delays, gates, check-in'], ['orders', 'Order updates', 'Dispatch and delivery'], ['spend', 'Every card payment', 'A note each time the card is used']]
   const addr = s.addresses.find(a => a.id === s.addr), other = s.addresses.find(a => a.id !== s.addr)
   return <div className="app-scroll">
-    <D.Head title="My card" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
+    <D.Head title="You" onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('home')} />} />
     <button className="ds-profile" onClick={() => nav.go('tier')}><span className="ds-av">{(s.prefs.name || 'Y').charAt(0)}</span><span className="ds-row-b"><span style={{ fontSize: '1.125rem', fontWeight: 700 }}>{s.prefs.full || s.prefs.name}</span><span className="ds-row-s">{`${TIER.name} member · ${M.num(toNext())} points to ${TIER.next}`}</span></span><Icon name="chev" size={18} stroke={2.2} /></button>
-    <D.Label>Your card</D.Label>
-    <Blocks blocks={[{ kind: 'balance' }]} />
-    <D.List>
-      <D.Row icon="cash" title="Pay bill" chev onClick={() => ask('What do I owe?')} />
-      <D.Row icon="lock" title={s.card.frozen ? 'Unfreeze card' : 'Freeze card'} chev onClick={() => ask(s.card.frozen ? 'Unfreeze my card' : 'Freeze my card')} />
-      <D.Row icon="doc" title="Statement" chev onClick={() => ask('Show my statement')} />
-      <D.Row icon="shield" title="Card benefits" chev onClick={() => ask('What does my card cover?')} />
-    </D.List>
-    <Blocks blocks={[{ kind: 'gambling' }, { kind: 'directdebit' }]} />
-    <D.Label>Points</D.Label>
-    <Blocks blocks={[{ kind: 'points', noPending: true }]} />
-    {(s.pending || []).length > 0 && <D.List>{(s.pending || []).map(p => <D.Row key={p.id} icon="clock" title={p.label} sub={p.pts ? `Land ${M.date(p.lands!)}` : 'Waiting for a purchase'} value={p.pts ? `+${M.num(p.pts)}` : undefined} />)}</D.List>}
+    <D.List><D.Row icon="card" title="My card" sub={`Gratifi Card •••• ${s.card.last4}`} chev onClick={() => nav.go('card')} /><D.Row icon="wallet" title="Wallet" sub="Bookings, orders and points" chev onClick={() => nav.go('wallet')} /></D.List>
     <D.Label>Your assistant</D.Label>
     <D.List>{alerts.map(([k, t, d]) => <D.ToggleRow key={k} title={t} sub={d} on={!!s.alerts[k]} onChange={(v: boolean) => St.set(x => ({ alerts: { ...x.alerts, [k]: v } }))} />)}<D.ToggleRow title="Always ask before spending" sub="Every booking and payment needs your OK." on lock onChange={() => { }} /></D.List>
     <D.Label>What I remember</D.Label>
@@ -206,7 +267,6 @@ export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme
       <D.Row title={s.prefs.aisle ? 'Aisle seat' : 'Seats: no preference'} value={s.prefs.aisle ? <button className="ds-x" aria-label="Forget aisle seat" onClick={() => St.set(x => ({ prefs: { ...x.prefs, aisle: false } }))}><Icon name="close" size={12} stroke={2.4} /></button> : <button className="ds-textbtn" onClick={() => St.set(x => ({ prefs: { ...x.prefs, aisle: true } }))}>Prefer the aisle</button>} />
       <D.Row title="Delivery address" sub={`${addr?.label}, ${addr?.line}`} value={<button className="ds-textbtn" onClick={() => St.set(x => ({ addr: x.addr === 'a1' ? 'a2' : 'a1' }))}>{`Use ${other?.label}`}</button>} />
     </D.List>
-    {Object.keys(s.seen).some(k => k.startsWith('alert:') && s.seen[k]) && <><D.Label>Alerts</D.Label><D.List>{Object.keys(s.seen).filter(k => k.startsWith('alert:') && s.seen[k]).map(k => <D.Row key={k} icon="bell" title={k.slice(6).charAt(0).toUpperCase() + k.slice(7)} value={<button className="ds-textbtn" onClick={() => St.set(x => ({ seen: { ...x.seen, [k]: false } }))}>Remove</button>} />)}</D.List></>}
     <D.Label>Market and language</D.Label>
     <div className="ds-chiprow" style={{ flexWrap: 'wrap', marginRight: 0 }} role="group">{Object.keys(MARKETS).map(k => <button key={k} className="ds-chip" aria-pressed={s.market === k} onClick={() => s.market !== k && St.switchMarket(k)}>{MARKETS[k].name}</button>)}</div>
     <D.List><D.ToggleRow title="Dark mode" sub="Follows your phone unless you change it" on={theme === 'dark'} onChange={(v: boolean) => setTheme(v ? 'dark' : 'light')} /></D.List>
@@ -224,7 +284,7 @@ function cardPayment(M: any) {
   if (s.sim.decline) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined by the bank. Nothing was charged.` }); return }
   const ep = Math.round(amt / St.rate() * 0.01)
   St.set(x => ({ txns: [{ id: St.uidx(), at: Date.now(), merchant: 'Café Lune', cat: 'Dining', amount: amt, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + amt }, balance: x.balance + ep, ledger: [{ id: St.uidx(), at: Date.now(), label: 'Points on card spend: Café Lune', pts: ep }, ...x.ledger] })); St.recordSpend('Dining', amt)
-  St.pushMsg({ role: 'gr', text: St.get().alerts.spend ? `Card used at Café Lune for ${M.money(amt, 2)}. You earned ${M.num(ep)} points.` : `Demo: a card payment of ${M.money(amt, 2)} at Café Lune came in and earned ${M.num(ep)} points. Turn on Every card payment under Your assistant on My card to get a note each time.` })
+  St.pushMsg({ role: 'gr', text: St.get().alerts.spend ? `Card used at Café Lune for ${M.money(amt, 2)}. You earned ${M.num(ep)} points.` : `Demo: a card payment of ${M.money(amt, 2)} at Café Lune came in and earned ${M.num(ep)} points. Turn on Every card payment under Your assistant in your settings to get a note each time.` })
 }
 
 /* Subcategories: a way into each category. Each runs a fixed action, so it works the same in every market and mode. */

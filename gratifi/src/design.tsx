@@ -1,6 +1,6 @@
 /* The approved Gratifi screens (27 Sep design canvas), as components.
    Every piece here is taken from those screens; sizes and colours follow them. */
-import { React } from '../../kit/src/r'
+import { React, useState, useEffect, useRef } from '../../kit/src/r'
 import { Icon, Spark } from '../../kit/src/icons'
 import ring from './art/ring.svg'
 import wordmark from './art/wordmark.svg'
@@ -36,8 +36,23 @@ export function Sec({ title, more, onMore }: { title: string; more?: string; onM
   return <div className="ds-sec"><h2>{title}</h2>{more && <button className="ds-more" onClick={onMore}>{more}</button>}</div>
 }
 
+/** A number that counts to its new value when it changes, the way banking apps show a balance moving. */
+const lastSeen: Record<string, number> = {}
+export function CountUp({ value, format, id = 'balance' }: { value: number; format: (n: number) => string; id?: string }) {
+  const start = lastSeen[id] ?? value
+  const [shown, setShown] = useState(start); const from = useRef(start)
+  useEffect(() => {
+    const a = from.current, b = value; from.current = value; lastSeen[id] = value
+    if (a === b || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { setShown(b); return }
+    let raf = 0; const t0 = performance.now(), dur = 700
+    const step = (t: number) => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); setShown(Math.round(a + (b - a) * e)); if (k < 1) raf = requestAnimationFrame(step) }
+    raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf)
+  }, [value])
+  return <>{format(shown)}</>
+}
+
 /** Points card: tier ring with the tier in a black core, balance, Use points. */
-export function PointsCard({ tier, value, onUse, useLabel = 'Use points' }: { tier: string; value: string; onUse: () => void; useLabel?: string }) {
+export function PointsCard({ tier, value, onUse, useLabel = 'Use points' }: { tier: string; value: any; onUse: () => void; useLabel?: string }) {
   return <div className="ds-pts">
     <div className="ds-ring"><img src={ring} alt="" /><div className="ds-core"><span>{tier.toUpperCase()}</span></div></div>
     <div className="ds-pts-b"><p className="ds-pts-l">Your points</p><p className="ds-pts-v">{value}</p><button className="ds-pill" onClick={onUse}>{useLabel}</button></div>
@@ -105,3 +120,70 @@ export function RewardCard({ art, icon, title, price, short, onUse, onOpen }: { 
 
 /** Orange check in a circle, for done states. */
 export function DoneCheck() { return <div className="ds-done"><img src={check} alt="" /></div> }
+
+/* ---------- Card elements, extrapolated from the approved library ---------- */
+
+/** Ticks in a line, the points dial unrolled: orange for what is used, grey for what is left. */
+export function TickMeter({ used, ticks = 36, label }: { used: number; ticks?: number; label: string }) {
+  const on = Math.round(Math.max(0, Math.min(1, used)) * ticks)
+  return <div className="ds-ticks" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(used * 100)} aria-label={label}>{Array.from({ length: ticks }, (_, i) => <i key={i} className={i < on ? 'on' : ''} />)}</div>
+}
+
+/** The card itself: name, last four digits, balance, how much of the limit is used, and when the bill is due. */
+export function CardFace({ last4, balance, available, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue }: { last4: string; balance: any; available: string; limit: string; frozen?: boolean; dueLine: string; onPay: () => void; onFreeze: () => void; onOpen?: () => void; freezeLabel: string; used: number; noDue?: boolean }) {
+  const body = <>
+    <span className="ds-cf-top"><span className="ds-cf-chip" aria-hidden="true"><i /></span><span className="ds-cf-name">Gratifi Card</span><span className="ds-cf-num">{`•••• ${last4}`}</span>{frozen && <span className="ds-cf-frozen"><Icon name="lock" size={12} stroke={2.4} />Frozen</span>}</span>
+    <span className="ds-cf-l">Balance</span>
+    <span className="ds-cf-v">{balance}</span>
+  </>
+  return <div className={'ds-cardface' + (frozen ? ' ds-is-frozen' : '')}>
+    {onOpen ? <button className="ds-cf-open" onClick={onOpen} aria-label="Open My card">{body}</button> : <div className="ds-cf-open">{body}</div>}
+    <TickMeter used={used} label="Credit used" />
+    <div className="ds-cf-lim"><span>{`${available} available`}</span><span>{`of ${limit}`}</span></div>
+    {!noDue && <div className="ds-cf-due"><span>{dueLine}</span><div className="ds-cf-btns"><button className="ds-btn40 ds-white ds-outline" onClick={onFreeze}>{freezeLabel}</button><button className="ds-btn40" onClick={onPay}>Pay</button></div></div>}
+  </div>
+}
+
+/** Round actions with a word underneath, the header buttons grown into a row. */
+export function Actions({ items }: { items: { icon: string; label: string; onClick: () => void; on?: boolean }[] }) {
+  return <div className="ds-actions">{items.map(x => <button key={x.label} className="ds-act" onClick={x.onClick}><span className={'ds-act-ic' + (x.on ? ' on' : '')}><Icon name={x.icon} size={22} stroke={2} /></span><span className="ds-act-l">{x.label}</span></button>)}</div>
+}
+
+/** A card benefit as a tile in a rail: what it is, and what is left of it. */
+export function BenefitTiles({ items }: { items: { key: string; icon: string; title: string; sub: string; value?: string; onClick: () => void }[] }) {
+  return <div className="ds-btiles" role="list">{items.map(x => <button key={x.key} role="listitem" className="ds-btile" onClick={x.onClick}><span className="ds-row-ic"><Icon name={x.icon} size={18} stroke={2} /></span>{x.value && <b className="ds-btile-v">{x.value}</b>}<span className="ds-btile-t">{x.title}</span><span className="ds-btile-s">{x.sub}</span></button>)}</div>
+}
+
+/** Where the money went: one bar per category, longest first, the top one in orange. */
+export function SpendBars({ period, items, total, format }: { period: string; items: { label: string; amount: number }[]; total: number; format: (n: number) => string }) {
+  const max = Math.max(1, ...items.map(i => i.amount))
+  return <div className="ds-card ds-spend"><div className="ds-spend-hd"><span>{period}</span><b>{format(total)}</b></div>
+    {items.length ? items.map((x, i) => <div key={x.label} className="ds-spend-row"><span className="ds-spend-l">{x.label}</span><span className="ds-spend-a">{format(x.amount)}</span><span className="ds-spend-bar"><i className={i ? '' : 'top'} style={{ width: `${Math.max(4, Math.round(x.amount / max * 100))}%` }} /></span></div>) : <p className="ds-row-s">No card spending in this period.</p>}
+  </div>
+}
+
+/** A card payment: merchant initial, where and when, amount, and the points it earned. */
+export function Txn({ name, meta, amount, points, refund, format }: { name: string; meta: string; amount: number; points?: number; refund?: boolean; format: (n: number) => string }) {
+  return <div className="ds-row ds-txn"><span className="ds-row-ic ds-mono">{name.charAt(0)}</span><span className="ds-row-b"><span className="ds-row-t">{name}</span><span className="ds-row-s">{meta}</span></span><span className="ds-txn-r"><span className={'ds-row-v' + (refund || amount < 0 ? ' ds-good' : '')}>{`${refund || amount < 0 ? '+' : '−'}${format(Math.abs(amount))}`}</span>{points ? <span className="ds-txn-p">{`+${points} pts`}</span> : null}</span></div>
+}
+
+/** The bill: what is due, by when, the minimum, and the two ways to pay it. */
+export function DueCard({ amount, date, min, onFull, onMin, paid }: { amount: string; date: string; min: string; onFull: () => void; onMin: () => void; paid?: boolean }) {
+  return <div className="ds-card ds-due"><div className="ds-due-top"><span className="ds-row-s">{paid ? 'Nothing to pay now' : `Due ${date}`}</span></div><b className="ds-due-v">{amount}</b>{!paid && <span className="ds-row-s">{`Minimum ${min}`}</span>}
+    {!paid && <div className="ds-cf-btns"><button className="ds-btn40" onClick={onFull}>Pay in full</button><button className="ds-btn40 ds-white ds-outline" onClick={onMin}>Pay the minimum</button></div>}</div>
+}
+
+/** A row with a small action pill on the trailing side, for settings that open a step. */
+export function ActionRow({ icon, title, sub, action, onAction, primary }: { icon: string; title: string; sub: string; action: string; onAction: () => void; primary?: boolean }) {
+  return <div className="ds-row"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{sub}</span></span><button className={primary ? 'ds-pill30' : 'ds-pill30 ds-ghostpill'} onClick={onAction}>{action}</button></div>
+}
+
+/** Toggle row with an icon, for card controls. */
+export function ControlRow({ icon, title, sub, on, onChange }: { icon: string; title: string; sub: string; on: boolean; onChange: (v: boolean) => void }) {
+  return <div className="ds-trow"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{sub}</span></span><button role="switch" aria-checked={on} aria-label={title} className="ds-toggle" onClick={() => onChange(!on)} /></div>
+}
+
+/** A challenge as a tile: what to do, how far along, what it pays, and Join. */
+export function Challenges({ items }: { items: { key: string; title: string; reward: string; progress: number; target: number; progressText: string; joined: boolean; onJoin: () => void }[] }) {
+  return <div className="ds-btiles" role="list">{items.map(x => <div key={x.key} role="listitem" className="ds-btile ds-chal"><span className="ds-btile-t">{x.title}</span><TickMeter used={x.target ? x.progress / x.target : 0} ticks={20} label={x.progressText} /><span className="ds-btile-s">{x.progressText}</span><span className="ds-chal-f"><b>{x.reward}</b>{x.joined ? <span className="ds-added ds-static"><Icon name="check" size={13} stroke={2.6} />Joined</span> : <button className="ds-add" onClick={x.onJoin}>Join</button>}</span></div>)}</div>
+}

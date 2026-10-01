@@ -6,7 +6,7 @@ import * as St from './store'
 import * as Br from './brain'
 import * as FL from './flows'
 import { ConfirmHost, setGoChat, setSendText } from './render'
-import { Home, Explore, Chat, Wallet, Me, Offers, Alerts, Tier, Bank, Tab, Nav } from './screens'
+import { Home, Explore, Chat, Wallet, Me, Offers, Alerts, Tier, Bank, Card, Tab, Nav } from './screens'
 import { arabic, toEn } from './ar'
 
 const W = window as any
@@ -29,21 +29,47 @@ function App() {
   ;(window as any).__tab = tab
   const [hist, setHist] = useState<{ t: Tab; c?: string }[]>([])
   const [wstart, setWstart] = useState<string | undefined>()
+  const [cfocus, setCfocus] = useState<string | undefined>()
   const top = () => { const el = document.querySelector('.app-main .app-scroll'); if (el) el.scrollTop = 0 }
-  const go = (t: Tab, c?: string) => { if (t !== tab) setHist(h => [...h.slice(-20), { t: tab, c: cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t !== 'chat') setTimeout(top, 0) }
-  const back = () => { const h = hist[hist.length - 1]; setHist(hist.slice(0, -1)); if (!h) { setTab('home'); return } setTab(h.t); if (h.t === 'explore') setCat(h.c) }
+  const [dir, setDir] = useState<string>('')
+  const depth = (t: Tab) => t === 'bank' ? -1 : t === 'home' ? 0 : t === 'chat' ? 1 : 2
+  /* Screens move like a native app: deeper slides in from the side, back slides away, Gratifi itself rises from the bank app. */
+  const move = (d: string, fn: () => void) => {
+    const doc: any = document, reduce = W.matchMedia && W.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!doc.startViewTransition || reduce) { setDir(d); fn(); return }
+    document.documentElement.dataset.nav = d
+    const v = doc.startViewTransition(() => W.ReactDOM.flushSync(() => { setDir(d); fn() }))
+    v.finished.finally(() => { if (document.documentElement.dataset.nav === d) delete document.documentElement.dataset.nav })
+  }
+  const go = (t: Tab, c?: string) => {
+    if (t === tab && !(t === 'explore' && c !== cat)) { if (t === 'explore') setCat(c); if (t === 'card') setCfocus(c); return }
+    const d = tab === 'bank' ? 'up' : t === 'bank' ? 'down' : depth(t) >= depth(tab) && t !== 'home' ? 'push' : 'pop'
+    move(d, () => { if (t !== tab) setHist(h => [...h.slice(-20), { t: tab, c: cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t === 'card') setCfocus(c); if (t !== 'chat' && !(t === 'card' && c)) setTimeout(top, 0) })
+  }
+  const back = () => { const h = hist[hist.length - 1]; move('pop', () => { setHist(hist.slice(0, -1)); if (!h) { setTab('home'); return } setTab(h.t); if (h.t === 'explore') setCat(h.c) }) }
   const nav: Nav = { go, back }
+  W.__back = back
+  useEffect(() => {
+    let x0 = 0, y0 = 0, on = false
+    const rtl = () => document.documentElement.dir === 'rtl'
+    const start = (e: TouchEvent) => { const t = e.touches[0], edge = rtl() ? window.innerWidth - t.clientX : t.clientX; on = edge < 24 && !document.querySelector('.app-sheet'); x0 = t.clientX; y0 = t.clientY }
+    const end = (e: TouchEvent) => { if (!on) return; on = false; const t = e.changedTouches[0], dx = (t.clientX - x0) * (rtl() ? -1 : 1), dy = Math.abs(t.clientY - y0); if (dx > 70 && dy < 60 && (W.__tab !== 'home' && W.__tab !== 'bank')) W.__back() }
+    document.addEventListener('touchstart', start, { passive: true }); document.addEventListener('touchend', end, { passive: true })
+    return () => { document.removeEventListener('touchstart', start); document.removeEventListener('touchend', end) }
+  }, [])
   W.__go = go; W.__M = fmt(s.market)
   useEffect(() => { setGoChat(() => W.__go('chat')); setSendText((t: string) => { W.__go('chat'); Br.ask(t) }) }, [])
-  const unread = tab !== 'chat' && s.chat.length > 0 && s.chat[s.chat.length - 1].role === 'gr' && !s.seen['chat-' + s.chat[s.chat.length - 1].id]
+  const unread0 = tab !== 'chat' && s.chat.length > 0 && s.chat[s.chat.length - 1].role === 'gr' && !s.seen['chat-' + s.chat[s.chat.length - 1].id]
+  const unread = unread0
+  useEffect(() => { const n: any = navigator; try { if (unread && n.setAppBadge) n.setAppBadge(1); else if (n.clearAppBadge) n.clearAppBadge() } catch (e) { } }, [unread])
   useEffect(() => { if (tab === 'chat' && s.chat.length) { const id = 'chat-' + s.chat[s.chat.length - 1].id; if (!s.seen[id]) St.set(x => ({ seen: { ...x.seen, [id]: true } })) } }, [tab, s.chat.length])
   const M = fmt(s.market)
-  const ph: Record<string, string> = { home: 'Ask or book anything', explore: 'Ask or book anything', chat: 'Reply or ask anything', wallet: 'Ask about your bookings', me: 'Ask about your card', offers: 'Ask about offers', alerts: 'Ask or book anything', tier: 'Ask about your tier' }
+  const ph: Record<string, string> = { home: 'Ask or book anything', explore: 'Ask or book anything', chat: 'Reply or ask anything', wallet: 'Ask about your bookings', me: 'Ask or book anything', card: 'Ask about your card', offers: 'Ask about offers', alerts: 'Ask or book anything', tier: 'Ask about your tier' }
   return <MarketProvider market={s.market}>
     <div className={unread ? 'app gr app-unread' : 'app gr'} data-tab={tab} key={s.market}>
-      {tab === 'bank' ? <main className="app-main ds-bankwrap"><Bank nav={nav} /></main> : <div className="ds-sheet">
+      {tab === 'bank' ? <main className="app-main ds-bankwrap" data-dir={dir}><Bank nav={nav} /></main> : <div className="ds-sheet">
         <div className="ds-grab"><i /></div>
-        <main className="app-main">
+        <main className="app-main" data-dir={dir} key={tab}>
           {tab === 'home' && <Home nav={nav} />}
           {tab === 'explore' && <Explore cat={cat} setCat={setCat} nav={nav} />}
           {tab === 'chat' && <Chat nav={nav} />}
@@ -52,6 +78,7 @@ function App() {
           {tab === 'offers' && <Offers nav={nav} />}
           {tab === 'alerts' && <Alerts nav={nav} />}
           {tab === 'tier' && <Tier nav={nav} />}
+          {tab === 'card' && <Card nav={nav} focus={cfocus} />}
         </main>
         <div className="app-dock">
           <T.AskBar key={tab} placeholder={ph[tab]} onSend={(t: string) => { go('chat'); Br.ask(t) }} onMic={() => { go('chat'); St.pushMsg({ role: 'gr', text: 'Voice works in the phone app. Type here for now.' }) }} />
@@ -67,3 +94,4 @@ const reAR = arabic(document.getElementById('root') as HTMLElement); St.onChange
 Br.initBrain()
 document.addEventListener('keydown', (e: KeyboardEvent) => { const r = (e.target as HTMLElement)?.closest?.('[role=radio]') as HTMLElement | null; if (!r || !['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return; const g = r.closest('[role=radiogroup]'); if (!g) return; const items = Array.from(g.querySelectorAll<HTMLElement>('[role=radio]')).filter(x => !(x as any).disabled); const i = items.indexOf(r), fwd = e.key === 'ArrowDown' || e.key === (document.documentElement.dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight'); const n = items[(i + (fwd ? 1 : -1) + items.length) % items.length]; if (n) { e.preventDefault(); n.focus(); n.click() } })
 FL.tickDue(); FL.resumeTrackers(); setInterval(FL.tickDue, 3000)
+document.addEventListener('click', (e: MouseEvent) => { const el = (e.target as HTMLElement)?.closest?.('.gr-btn-primary, .ds-btn40, .ds-pill, .ds-add, .ds-added, [role=switch], .gr-send'); if (el && (navigator as any).vibrate) try { (navigator as any).vibrate(8) } catch (x) { } }, true)

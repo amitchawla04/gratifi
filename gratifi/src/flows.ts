@@ -1417,7 +1417,7 @@ export function route(cat: string, text: string): R {
   if (/how (do|can) i (get|earn|collect) more points|earn (more )?points faster|more points/.test(t) && !/transfer|move|use/.test(t)) return challenges({})
   if (/\bspa\b|massage|facial/.test(t) && !/hotel/.test(t)) { const c = concierge({ hint: text }); return { ...c, say: 'Spa days aren\'t bookable here yet. The concierge team can find and book one for you.' } }
   { const w = t.match(/(?:cheapest|best|quickest|fastest) way (?:to get |to go |to travel )?to ([a-z][a-z ]+?)\??$/); if (w) return flightSearch({ text: 'to ' + w[1].replace(/\b\w/g, x => x.toUpperCase()) }) }
-  if (/change (my )?address|new address|moved house/.test(t)) return { say: 'Your address is held by the bank, so it\'s changed in the bank\'s app or with a person. For deliveries here, choose Home or Office on My card.', blocks: [], suggest: ['Talk to a person'] }
+  if (/change (my )?address|new address|moved house/.test(t)) return { say: 'Your address is held by the bank, so it\'s changed in the bank\'s app or with a person. For deliveries here, choose Home or Office in your settings.', blocks: [], suggest: ['Talk to a person'] }
   if (/pizza|burger|curry|sushi|takeaway|food delivery|order food/.test(t)) return basketStart({ query: 'food delivery' })
   if (/(uber|taxi|cab|ride)\b/.test(t) && /\bat\s?(2[4-9]|[3-9]\d)(:\d\d)?\b|\bat\s?\d{1,2}:[6-9]\d\b/.test(t)) return { say: 'That isn\'t a valid time. What time should the driver pick you up?', blocks: [] }
   { const fm = /(uber|taxi|cab|ride|lift|car)\b.*?\bto (.+)$/.test(t) && !/train|rail|car hire|airport/.test(t) ? rideFar(t.match(/\bto (.+)$/)![1]) : undefined; if (fm && /\b(uber|taxi|cab|ride|lift)\b/.test(t)) return farRide(fm) }

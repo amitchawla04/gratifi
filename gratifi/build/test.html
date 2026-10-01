@@ -959,6 +959,168 @@ body { overscroll-behavior: none; }
 [data-theme="dark"] .app .gr-toggle[aria-checked="true"] { background: var(--accent); }
 .ds-ip-u::before { content: ' · '; }
 .ds-ip-or { margin-inline-start: 4px; }
+
+/* ===== Installed app: safe areas and touch ===== */
+html, body { -webkit-tap-highlight-color: transparent; }
+.app button, .app a, .app [role=switch] { touch-action: manipulation; }
+.ds-sheet { margin-top: max(14px, env(safe-area-inset-top)); }
+.app-dock { bottom: calc(26px + env(safe-area-inset-bottom)); }
+.app-scroll { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
+.ds-bank { padding-top: max(22px, calc(env(safe-area-inset-top) + 8px)); }
+@media (display-mode: standalone) { body { padding: 0 !important; } .app { height: 100vh; height: 100dvh; max-height: none; border-radius: 0; box-shadow: none; max-width: none; } }
+
+/* ===== Motion: screens slide like a native app, cards rise in, sheets spring ===== */
+.app-main { view-transition-name: screen; }
+.app-dock { view-transition-name: dock; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-group(screen) { animation-duration: .42s; animation-timing-function: cubic-bezier(.32,.72,0,1); }
+::view-transition-old(screen), ::view-transition-new(screen) { animation-duration: .42s; animation-timing-function: cubic-bezier(.32,.72,0,1); animation-fill-mode: both; mix-blend-mode: normal; }
+html[data-nav="push"]::view-transition-old(screen) { animation-name: vt-shift-left; }
+html[data-nav="push"]::view-transition-new(screen) { animation-name: vt-from-right; }
+html[data-nav="pop"]::view-transition-old(screen) { animation-name: vt-to-right; }
+html[data-nav="pop"]::view-transition-new(screen) { animation-name: vt-shift-in-left; }
+html[dir="rtl"][data-nav="push"]::view-transition-old(screen) { animation-name: vt-shift-right; }
+html[dir="rtl"][data-nav="push"]::view-transition-new(screen) { animation-name: vt-from-left; }
+html[dir="rtl"][data-nav="pop"]::view-transition-old(screen) { animation-name: vt-to-left; }
+html[dir="rtl"][data-nav="pop"]::view-transition-new(screen) { animation-name: vt-shift-in-right; }
+html[data-nav="push"]::view-transition-new(screen), html[data-nav="pop"]::view-transition-old(screen) { z-index: 2; }
+html[data-nav="up"] .app-main, html[data-nav="up"] .app-dock, html[data-nav="down"] .app-main, html[data-nav="down"] .app-dock { view-transition-name: none; }
+html[data-nav="up"]::view-transition-new(root) { animation: vt-from-below .48s cubic-bezier(.32,.72,0,1) both; }
+html[data-nav="down"]::view-transition-old(root) { animation: vt-to-below .4s cubic-bezier(.32,.72,0,1) both; z-index: 2; }
+@keyframes vt-from-right { from { transform: translateX(100%); box-shadow: -12px 0 32px rgba(20,20,22,.10); } to { transform: none; } }
+@keyframes vt-from-left { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes vt-shift-left { to { transform: translateX(-28%); opacity: .55; } }
+@keyframes vt-shift-right { to { transform: translateX(28%); opacity: .55; } }
+@keyframes vt-to-right { to { transform: translateX(100%); } }
+@keyframes vt-to-left { to { transform: translateX(-100%); } }
+@keyframes vt-shift-in-left { from { transform: translateX(-28%); opacity: .55; } to { transform: none; opacity: 1; } }
+@keyframes vt-shift-in-right { from { transform: translateX(28%); opacity: .55; } to { transform: none; opacity: 1; } }
+@keyframes vt-from-below { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes vt-to-below { to { transform: translateY(100%); } }
+/* browsers without view transitions: the new screen still slides in */
+@supports not (view-transition-name: a) {
+  .app-main[data-dir="push"] > * { animation: vt-in-soft-r .34s cubic-bezier(.32,.72,0,1) both; }
+  .app-main[data-dir="pop"] > * { animation: vt-in-soft-l .34s cubic-bezier(.32,.72,0,1) both; }
+}
+@keyframes vt-in-soft-r { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes vt-in-soft-l { from { transform: translateX(-24px); opacity: 0; } to { transform: none; opacity: 1; } }
+/* cards rise in one after another when a screen opens */
+.app-main .app-scroll:not(.gr-thread) > * { animation: ds-rise .5s cubic-bezier(.2,.8,.2,1) both; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(2) { animation-delay: .03s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(3) { animation-delay: .06s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(4) { animation-delay: .09s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(5) { animation-delay: .12s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(6) { animation-delay: .15s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(7) { animation-delay: .18s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(8) { animation-delay: .21s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(n+9) { animation-delay: .24s; }
+@keyframes ds-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+/* the note keeps its tilt while it rises */
+.app-main .app-scroll > .ds-note { animation-name: ds-rise-note; }
+@keyframes ds-rise-note { from { opacity: 0; transform: translateY(18px) rotate(-2.5deg); } to { opacity: 1; transform: none; } }
+/* chat: your message pops in from your side, the answer and its cards rise in turn */
+.gr-thread > .gr-you { animation: ds-you .32s cubic-bezier(.2,.9,.3,1.2) both; transform-origin: 100% 100%; }
+[dir="rtl"] .gr-thread > .gr-you { transform-origin: 0 100%; }
+.gr-thread > .gr-answer > * { animation: ds-rise .46s cubic-bezier(.2,.8,.2,1) both; }
+.gr-thread > .gr-answer > :nth-child(2) { animation-delay: .05s; }
+.gr-thread > .gr-answer > :nth-child(3) { animation-delay: .1s; }
+.gr-thread > .gr-answer > :nth-child(n+4) { animation-delay: .15s; }
+.gr-answer .gr-col > .ds-irow, .gr-answer .gr-col > .ds-best { animation: ds-rise .46s cubic-bezier(.2,.8,.2,1) both; }
+.gr-answer .gr-col > :nth-child(2) { animation-delay: .06s; } .gr-answer .gr-col > :nth-child(3) { animation-delay: .12s; } .gr-answer .gr-col > :nth-child(n+4) { animation-delay: .18s; }
+@keyframes ds-you { from { opacity: 0; transform: scale(.86) translateY(8px); } to { opacity: 1; transform: none; } }
+/* sheets spring up from the bottom */
+.app-sheet { animation: app-fade .25s ease both; }
+.app-sheet-in { animation: ds-sheet .5s cubic-bezier(.32,.72,0,1) both; }
+@keyframes ds-sheet { from { transform: translateY(100%); } to { transform: none; } }
+/* things press in under your finger */
+.app button, .app a, .app [role=switch] { transition: transform .16s cubic-bezier(.2,.8,.2,1), background-color .2s, box-shadow .2s, color .2s; }
+.app button:not(:disabled):active, .app a:active { transform: scale(.96); transition-duration: .06s; }
+.app .ds-coming:active, .app .ds-irow:active, .app .ds-profile:active, .app .ds-entry:active, .app .ds-row:active, .app .gr-itemrow:active, .app .ds-best-ph:active, .app .ds-rcard-ph:active { transform: scale(.985); }
+.app .ds-stamp:active img { transform: rotate(0deg) scale(1.06) !important; transition: transform .2s cubic-bezier(.2,.9,.3,1.4); }
+.app .ds-stamp img { transition: transform .3s cubic-bezier(.2,.9,.3,1.4); }
+/* switches glide */
+.ds-toggle::before { transition: transform .26s cubic-bezier(.3,1.4,.6,1); }
+.ds-toggle { transition: background-color .22s; }
+.ds-seg button { transition: background-color .22s, box-shadow .22s, color .22s; }
+.ds-chip { transition: background-color .2s, color .2s, box-shadow .2s, transform .16s; }
+@media (prefers-reduced-motion: reduce) {
+  .app *, .app *::before, ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; transition: none !important; }
+}
+
+/* ===== Card elements ===== */
+.ds-cardface { background: var(--card); border-radius: 28px; padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 32px rgba(20,20,22,0.07), 0 1px 3px rgba(20,20,22,0.05); }
+.ds-cf-open { display: flex; flex-direction: column; gap: 2px; text-align: start; width: 100%; color: var(--ink); padding: 0; }
+.ds-cf-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ds-cf-chip { position: relative; width: 34px; height: 24px; border-radius: 6px; background: #141416; flex-shrink: 0; }
+.ds-cf-chip i { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 3px; background: var(--accent); }
+[data-theme="dark"] .ds-cf-chip { background: #3A3A40; }
+.ds-cf-name { font-size: 0.875rem; font-weight: 700; flex: 1; min-width: 0; }
+.ds-cf-num { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.ds-cf-frozen { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 700; color: #F4F4F3; background: #17171A; border-radius: 10px; padding: 3px 8px; }
+.ds-cf-l { font-size: 0.8125rem; font-weight: 500; color: var(--ink-soft); }
+.ds-cf-v { font-size: 2.125rem; font-weight: 800; letter-spacing: -1px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ds-ticks { display: flex; justify-content: space-between; gap: 2px; height: 18px; align-items: stretch; margin-top: 4px; }
+.ds-ticks i { flex: 1; max-width: 4px; border-radius: 2px; background: #E2E0DC; transition: background-color .4s; }
+.ds-ticks i.on { background: var(--accent); }
+[data-theme="dark"] .ds-ticks i { background: var(--card-sunk); }
+[data-theme="dark"] .ds-ticks i.on { background: var(--accent); }
+.ds-is-frozen .ds-ticks i.on { background: #B9B9BF; }
+.ds-cf-lim { display: flex; justify-content: space-between; gap: 8px; font-size: 0.8125rem; color: var(--ink-soft); flex-wrap: wrap; }
+.ds-cf-lim span:first-child { color: var(--ink); font-weight: 600; }
+.ds-cf-due { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 10px; margin-top: 2px; border-top: 1px solid #F0EFEC; }
+[data-theme="dark"] .ds-cf-due { border-top-color: var(--line); }
+.ds-cf-due > span { font-size: 0.875rem; font-weight: 600; }
+.ds-cf-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-outline { box-shadow: inset 0 0 0 1px #E4E2DE; }
+[data-theme="dark"] .ds-btn40.ds-white { background: var(--card-sunk); color: var(--ink); box-shadow: none; }
+.ds-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.ds-act { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink); min-width: 0; }
+.ds-act-ic { width: 56px; height: 56px; border-radius: 28px; background: var(--card); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(20,20,22,0.06); transition: background-color .25s, color .25s; }
+.ds-act-ic.on { background: var(--pill); color: var(--on-pill); }
+.ds-act-l { font-size: 0.75rem; font-weight: 600; text-align: center; overflow-wrap: anywhere; line-height: 1.2; }
+.ds-btiles { display: flex; gap: 10px; margin-right: -20px; padding: 2px 20px 8px 0; overflow-x: auto; scrollbar-width: none; }
+.ds-btiles::-webkit-scrollbar { display: none; }
+.ds-btile { position: relative; flex-shrink: 0; width: 150px; min-height: 136px; background: var(--card); border-radius: 22px; padding: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: start; color: var(--ink); box-shadow: 0 10px 22px rgba(20,20,22,0.06); box-sizing: border-box; }
+.ds-btile .ds-row-ic { margin-bottom: 8px; }
+.ds-btile-t { font-size: 0.875rem; font-weight: 700; line-height: 1.25; }
+.ds-btile-s { font-size: 0.75rem; color: var(--ink-soft); line-height: 1.35; }
+.ds-btile-v { position: absolute; top: 14px; inset-inline-end: 14px; font-size: 0.75rem; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); border-radius: 10px; padding: 3px 8px; }
+.ds-spend { gap: 12px; }
+.ds-spend-hd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ds-spend-hd span { font-size: 0.8125rem; font-weight: 600; color: var(--ink-soft); }
+.ds-spend-hd b { font-size: 1.125rem; font-weight: 800; }
+.ds-spend-row { display: grid; grid-template-columns: 1fr auto; row-gap: 6px; column-gap: 8px; }
+.ds-spend-l { font-size: 0.875rem; font-weight: 600; }
+.ds-spend-a { font-size: 0.875rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ds-spend-bar { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: #EDECE9; overflow: hidden; }
+.ds-spend-bar i { display: block; height: 8px; border-radius: 4px; background: #141416; animation: ds-grow .8s cubic-bezier(.2,.8,.2,1) both; transform-origin: 0 50%; }
+.ds-spend-bar i.top { background: var(--accent); }
+[dir="rtl"] .ds-spend-bar i { transform-origin: 100% 50%; }
+[data-theme="dark"] .ds-spend-bar { background: var(--card-sunk); }
+[data-theme="dark"] .ds-spend-bar i { background: var(--ink-soft); }
+[data-theme="dark"] .ds-spend-bar i.top { background: var(--accent); }
+@keyframes ds-grow { from { transform: scaleX(0); } to { transform: none; } }
+.ds-mono { font-size: 0.9375rem; font-weight: 700; color: var(--ink); }
+.ds-txn-r { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+.ds-txn-p { font-size: 0.75rem; font-weight: 600; color: var(--accent-ink); }
+.ds-due { gap: 6px; }
+.ds-due-v { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.6px; font-variant-numeric: tabular-nums; }
+.ds-due .ds-cf-btns { margin-top: 8px; }
+.ds-ghostpill { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px #E4E2DE; }
+[data-theme="dark"] .ds-ghostpill { box-shadow: inset 0 0 0 1px var(--line); }
+.ds-trow .ds-row-ic { margin-inline-end: -2px; }
+.ds-actions { grid-template-columns: repeat(auto-fit, minmax(max(4.75rem, 22%), 1fr)); row-gap: 14px; }
+.ds-act-l { overflow-wrap: normal; word-break: normal; hyphens: manual; }
+.ds-chal { width: 220px; min-height: 0; gap: 8px; }
+.ds-chal .ds-ticks { height: 14px; margin: 2px 0 0; }
+.ds-chal-f { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; margin-top: auto; }
+.ds-chal-f b { font-size: 0.8125rem; font-weight: 700; color: var(--accent-ink); }
+.ds-static { cursor: default; }
+.ds-chal .ds-ticks { align-self: stretch; width: 100%; }
+/* rails: room for the card shadows so nothing is cut off */
+.ds-btiles, .ds-offers { padding-bottom: 26px; margin-bottom: -18px; }
+.ds-btiles, .ds-offers, .ds-picks, .ds-again, .ds-stamps { margin-inline-start: -20px; padding-inline-start: 20px; margin-inline-end: -20px; padding-inline-end: 20px; scroll-padding-inline: 20px; }
+.ds-picks { padding-inline-start: 22px; }
 </style>
 <div id="root"></div>
 <script>/**
@@ -5284,7 +5446,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       const w = t.match(/(?:cheapest|best|quickest|fastest) way (?:to get |to go |to travel )?to ([a-z][a-z ]+?)\??$/);
       if (w) return flightSearch({ text: "to " + w[1].replace(/\b\w/g, (x) => x.toUpperCase()) });
     }
-    if (/change (my )?address|new address|moved house/.test(t)) return { say: "Your address is held by the bank, so it's changed in the bank's app or with a person. For deliveries here, choose Home or Office on My card.", blocks: [], suggest: ["Talk to a person"] };
+    if (/change (my )?address|new address|moved house/.test(t)) return { say: "Your address is held by the bank, so it's changed in the bank's app or with a person. For deliveries here, choose Home or Office in your settings.", blocks: [], suggest: ["Talk to a person"] };
     if (/pizza|burger|curry|sushi|takeaway|food delivery|order food/.test(t)) return basketStart({ query: "food delivery" });
     if (/(uber|taxi|cab|ride)\b/.test(t) && /\bat\s?(2[4-9]|[3-9]\d)(:\d\d)?\b|\bat\s?\d{1,2}:[6-9]\d\b/.test(t)) return { say: "That isn't a valid time. What time should the driver pick you up?", blocks: [] };
     {
@@ -5750,6 +5912,32 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   function Sec({ title, more, onMore }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-sec" }, /* @__PURE__ */ React.createElement("h2", null, title), more && /* @__PURE__ */ React.createElement("button", { className: "ds-more", onClick: onMore }, more));
   }
+  var lastSeen = {};
+  function CountUp({ value, format, id = "balance" }) {
+    var _a;
+    const start = (_a = lastSeen[id]) != null ? _a : value;
+    const [shown, setShown] = useState(start);
+    const from = useRef(start);
+    useEffect(() => {
+      const a = from.current, b2 = value;
+      from.current = value;
+      lastSeen[id] = value;
+      if (a === b2 || window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setShown(b2);
+        return;
+      }
+      let raf = 0;
+      const t0 = performance.now(), dur = 700;
+      const step = (t) => {
+        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        setShown(Math.round(a + (b2 - a) * e));
+        if (k < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(raf);
+    }, [value]);
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, format(shown));
+  }
   function PointsCard({ tier, value, onUse, useLabel = "Use points" }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-pts" }, /* @__PURE__ */ React.createElement("div", { className: "ds-ring" }, /* @__PURE__ */ React.createElement("img", { src: ring_default, alt: "" }), /* @__PURE__ */ React.createElement("div", { className: "ds-core" }, /* @__PURE__ */ React.createElement("span", null, tier.toUpperCase()))), /* @__PURE__ */ React.createElement("div", { className: "ds-pts-b" }, /* @__PURE__ */ React.createElement("p", { className: "ds-pts-l" }, "Your points"), /* @__PURE__ */ React.createElement("p", { className: "ds-pts-v" }, value), /* @__PURE__ */ React.createElement("button", { className: "ds-pill", onClick: onUse }, useLabel)));
   }
@@ -5790,6 +5978,39 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   }
   function RewardCard({ art, icon, title, price, short, onUse, onOpen }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-rcard" }, /* @__PURE__ */ React.createElement("button", { className: "ds-rcard-ph", onClick: onOpen, "aria-label": title }, art ? /* @__PURE__ */ React.createElement("img", { src: art, alt: "" }) : /* @__PURE__ */ React.createElement("span", { className: "ds-rcard-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon || "gift", size: 28, stroke: 1.8 }))), /* @__PURE__ */ React.createElement("div", { className: "ds-rcard-b" }, /* @__PURE__ */ React.createElement("p", { className: "ds-rcard-t" }, title), /* @__PURE__ */ React.createElement("div", { className: "ds-rcard-f" }, /* @__PURE__ */ React.createElement("span", null, price), short ? /* @__PURE__ */ React.createElement("span", { className: "ds-rcard-short" }, short) : /* @__PURE__ */ React.createElement("button", { className: "ds-pill30", onClick: onUse }, "Use now"))));
+  }
+  function TickMeter({ used, ticks = 36, label }) {
+    const on2 = Math.round(Math.max(0, Math.min(1, used)) * ticks);
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-ticks", role: "meter", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": Math.round(used * 100), "aria-label": label }, Array.from({ length: ticks }, (_, i) => /* @__PURE__ */ React.createElement("i", { key: i, className: i < on2 ? "on" : "" })));
+  }
+  function CardFace({ last4, balance, available, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue }) {
+    const body = /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-top" }, /* @__PURE__ */ React.createElement("span", { className: "ds-cf-chip", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-name" }, "Gratifi Card"), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-num" }, `\u2022\u2022\u2022\u2022 ${last4}`), frozen && /* @__PURE__ */ React.createElement("span", { className: "ds-cf-frozen" }, /* @__PURE__ */ React.createElement(Icon, { name: "lock", size: 12, stroke: 2.4 }), "Frozen")), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-l" }, "Balance"), /* @__PURE__ */ React.createElement("span", { className: "ds-cf-v" }, balance));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-cardface" + (frozen ? " ds-is-frozen" : "") }, onOpen ? /* @__PURE__ */ React.createElement("button", { className: "ds-cf-open", onClick: onOpen, "aria-label": "Open My card" }, body) : /* @__PURE__ */ React.createElement("div", { className: "ds-cf-open" }, body), /* @__PURE__ */ React.createElement(TickMeter, { used, label: "Credit used" }), /* @__PURE__ */ React.createElement("div", { className: "ds-cf-lim" }, /* @__PURE__ */ React.createElement("span", null, `${available} available`), /* @__PURE__ */ React.createElement("span", null, `of ${limit}`)), !noDue && /* @__PURE__ */ React.createElement("div", { className: "ds-cf-due" }, /* @__PURE__ */ React.createElement("span", null, dueLine), /* @__PURE__ */ React.createElement("div", { className: "ds-cf-btns" }, /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: onFreeze }, freezeLabel), /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: onPay }, "Pay"))));
+  }
+  function Actions({ items }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-actions" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.label, className: "ds-act", onClick: x.onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-act-ic" + (x.on ? " on" : "") }, /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 22, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-act-l" }, x.label))));
+  }
+  function BenefitTiles({ items }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-btiles", role: "list" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, role: "listitem", className: "ds-btile", onClick: x.onClick }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 18, stroke: 2 })), x.value && /* @__PURE__ */ React.createElement("b", { className: "ds-btile-v" }, x.value), /* @__PURE__ */ React.createElement("span", { className: "ds-btile-t" }, x.title), /* @__PURE__ */ React.createElement("span", { className: "ds-btile-s" }, x.sub))));
+  }
+  function SpendBars({ period, items, total, format }) {
+    const max = Math.max(1, ...items.map((i) => i.amount));
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-spend" }, /* @__PURE__ */ React.createElement("div", { className: "ds-spend-hd" }, /* @__PURE__ */ React.createElement("span", null, period), /* @__PURE__ */ React.createElement("b", null, format(total))), items.length ? items.map((x, i) => /* @__PURE__ */ React.createElement("div", { key: x.label, className: "ds-spend-row" }, /* @__PURE__ */ React.createElement("span", { className: "ds-spend-l" }, x.label), /* @__PURE__ */ React.createElement("span", { className: "ds-spend-a" }, format(x.amount)), /* @__PURE__ */ React.createElement("span", { className: "ds-spend-bar" }, /* @__PURE__ */ React.createElement("i", { className: i ? "" : "top", style: { width: `${Math.max(4, Math.round(x.amount / max * 100))}%` } })))) : /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "No card spending in this period."));
+  }
+  function Txn({ name, meta, amount, points, refund: refund2, format }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-row ds-txn" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic ds-mono" }, name.charAt(0)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, name), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, meta)), /* @__PURE__ */ React.createElement("span", { className: "ds-txn-r" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-v" + (refund2 || amount < 0 ? " ds-good" : "") }, `${refund2 || amount < 0 ? "+" : "\u2212"}${format(Math.abs(amount))}`), points ? /* @__PURE__ */ React.createElement("span", { className: "ds-txn-p" }, `+${points} pts`) : null));
+  }
+  function DueCard({ amount, date, min, onFull, onMin, paid }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-card ds-due" }, /* @__PURE__ */ React.createElement("div", { className: "ds-due-top" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, paid ? "Nothing to pay now" : `Due ${date}`)), /* @__PURE__ */ React.createElement("b", { className: "ds-due-v" }, amount), !paid && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Minimum ${min}`), !paid && /* @__PURE__ */ React.createElement("div", { className: "ds-cf-btns" }, /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: onFull }, "Pay in full"), /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white ds-outline", onClick: onMin }, "Pay the minimum")));
+  }
+  function ActionRow({ icon, title, sub, action, onAction, primary }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-row" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, sub)), /* @__PURE__ */ React.createElement("button", { className: primary ? "ds-pill30" : "ds-pill30 ds-ghostpill", onClick: onAction }, action));
+  }
+  function ControlRow({ icon, title, sub, on: on2, onChange: onChange2 }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-trow" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, sub)), /* @__PURE__ */ React.createElement("button", { role: "switch", "aria-checked": on2, "aria-label": title, className: "ds-toggle", onClick: () => onChange2(!on2) }));
+  }
+  function Challenges({ items }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-btiles", role: "list" }, items.map((x) => /* @__PURE__ */ React.createElement("div", { key: x.key, role: "listitem", className: "ds-btile ds-chal" }, /* @__PURE__ */ React.createElement("span", { className: "ds-btile-t" }, x.title), /* @__PURE__ */ React.createElement(TickMeter, { used: x.target ? x.progress / x.target : 0, ticks: 20, label: x.progressText }), /* @__PURE__ */ React.createElement("span", { className: "ds-btile-s" }, x.progressText), /* @__PURE__ */ React.createElement("span", { className: "ds-chal-f" }, /* @__PURE__ */ React.createElement("b", null, x.reward), x.joined ? /* @__PURE__ */ React.createElement("span", { className: "ds-added ds-static" }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 13, stroke: 2.6 }), "Joined") : /* @__PURE__ */ React.createElement("button", { className: "ds-add", onClick: x.onJoin }, "Join")))));
   }
 
   // src/render.tsx
@@ -6633,7 +6854,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (i.mode === "link") return /* @__PURE__ */ React.createElement(DetailCard, { src: img2(i.img), title: i.brand, sub: "Shop on their own site", facts: [i.earn, "Tracked when you use this link"], policy: i.policy, cta: done ? "Link opened" : "Go to their site", disabled: done, onCta: () => {
       setDone(true);
       set((s) => ({ pending: [{ id: uidx(), label: `${i.brand}`, at: Date.now() }, ...(s.pending || []).filter((p) => p.label !== i.brand)] }));
-      pushMsg({ role: "gr", text: `Demo: this is where ${i.brand}${/s$/.test(i.brand || "") ? "'" : "'s"} own site opens. Pay there with your card and the ${i.earn} are tracked. They show as pending on My card and land after the 30-day return window.`, blocks: [{ kind: "affiliate", id: i.id }] });
+      pushMsg({ role: "gr", text: `Demo: this is where ${i.brand}${/s$/.test(i.brand || "") ? "'" : "'s"} own site opens. Pay there with your card and the ${i.earn} are tracked. They show as pending in Wallet, under Points, and land after the 30-day return window.`, blocks: [{ kind: "affiliate", id: i.id }] });
     } });
     const freeVisit = !!(i.included && i.cat === "airport" && get().loungeLeft);
     const freeLeft = freeVisit ? get().loungeLeft : 0;
@@ -7013,6 +7234,39 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var forPeople = (n) => +n === 1 ? "\u0644\u0634\u062E\u0635 \u0648\u0627\u062D\u062F" : +n === 2 ? "\u0644\u0634\u062E\u0635\u064A\u0646" : `\u0644\u0640 ${n} ${+n <= 10 ? "\u0623\u0634\u062E\u0627\u0635" : "\u0634\u062E\u0635\u064B\u0627"}`;
   var LAB = { restaurants: ["\u0645\u0637\u0639\u0645 \u0648\u0627\u062D\u062F", "\u0645\u0637\u0639\u0645\u064A\u0646", "\u0645\u0637\u0627\u0639\u0645", "\u0645\u0637\u0639\u0645\u064B\u0627"], "places to stay": ["\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629 \u0648\u0627\u062D\u062F", "\u0645\u0643\u0627\u0646\u064E\u064A \u0625\u0642\u0627\u0645\u0629", "\u0623\u0645\u0627\u0643\u0646 \u0625\u0642\u0627\u0645\u0629", "\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629"], "things to do": ["\u0646\u0634\u0627\u0637 \u0648\u0627\u062D\u062F", "\u0646\u0634\u0627\u0637\u064A\u0646", "\u0623\u0646\u0634\u0637\u0629", "\u0646\u0634\u0627\u0637\u064B\u0627"], products: ["\u0645\u0646\u062A\u062C \u0648\u0627\u062D\u062F", "\u0645\u0646\u062A\u062C\u064A\u0646", "\u0645\u0646\u062A\u062C\u0627\u062A", "\u0645\u0646\u062A\u062C\u064B\u0627"], "gift cards": ["\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0628\u0637\u0627\u0642\u062A\u064E\u064A \u0647\u062F\u064A\u0629", "\u0628\u0637\u0627\u0642\u0627\u062A \u0647\u062F\u0627\u064A\u0627", "\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629"], subscriptions: ["\u0627\u0634\u062A\u0631\u0627\u0643 \u0648\u0627\u062D\u062F", "\u0627\u0634\u062A\u0631\u0627\u0643\u064A\u0646", "\u0627\u0634\u062A\u0631\u0627\u0643\u0627\u062A", "\u0627\u0634\u062A\u0631\u0627\u0643\u064B\u0627"], events: ["\u0641\u0639\u0627\u0644\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0641\u0639\u0627\u0644\u064A\u062A\u064A\u0646", "\u0641\u0639\u0627\u0644\u064A\u0627\u062A", "\u0641\u0639\u0627\u0644\u064A\u0629"], "airport services": ["\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631 \u0648\u0627\u062D\u062F\u0629", "\u062E\u062F\u0645\u062A\u064E\u064A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0627\u062A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631"], "ways to get there": ["\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644 \u0648\u0627\u062D\u062F\u0629", "\u0648\u0633\u064A\u0644\u062A\u064E\u064A \u062A\u0646\u0642\u0644", "\u0648\u0633\u0627\u0626\u0644 \u062A\u0646\u0642\u0644", "\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644"] };
   var D = {
+    "Earn as you spend": "\u0627\u0643\u0633\u0628 \u0648\u0623\u0646\u062A \u062A\u0646\u0641\u0642",
+    "Earn more this month": "\u0627\u0643\u0633\u0628 \u0623\u0643\u062B\u0631 \u0647\u0630\u0627 \u0627\u0644\u0634\u0647\u0631",
+    "Book with your card": "\u0627\u062D\u062C\u0632 \u0628\u0628\u0637\u0627\u0642\u062A\u0643",
+    "Your address is held by the bank, so it's changed in the bank's app or with a person. For deliveries here, choose Home or Office in your settings.": "\u0639\u0646\u0648\u0627\u0646\u0643 \u0645\u0633\u062C\u0651\u0644 \u0644\u062F\u0649 \u0627\u0644\u0645\u0635\u0631\u0641\u060C \u0644\u0630\u0627 \u064A\u064F\u063A\u064A\u064E\u0651\u0631 \u0641\u064A \u062A\u0637\u0628\u064A\u0642 \u0627\u0644\u0645\u0635\u0631\u0641 \u0623\u0648 \u0645\u0639 \u0645\u0648\u0638\u0641. \u0644\u0644\u062A\u0648\u0635\u064A\u0644 \u0647\u0646\u0627\u060C \u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0646\u0632\u0644 \u0623\u0648 \u0627\u0644\u0645\u0643\u062A\u0628 \u0641\u064A \u0625\u0639\u062F\u0627\u062F\u0627\u062A\u0643.",
+    "For deliveries here, choose Home or Office in your settings.": "\u0644\u0644\u062A\u0648\u0635\u064A\u0644 \u0647\u0646\u0627\u060C \u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0646\u0632\u0644 \u0623\u0648 \u0627\u0644\u0645\u0643\u062A\u0628 \u0641\u064A \u0625\u0639\u062F\u0627\u062F\u0627\u062A\u0643.",
+    "Spending": "\u0627\u0644\u0625\u0646\u0641\u0627\u0642",
+    "Where it went": "\u0623\u064A\u0646 \u0630\u0647\u0628 \u0645\u0627\u0644\u0643",
+    "Balance, minimum and due date": "\u0627\u0644\u0631\u0635\u064A\u062F \u0648\u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649 \u0648\u062A\u0627\u0631\u064A\u062E \u0627\u0644\u0627\u0633\u062A\u062D\u0642\u0627\u0642",
+    "Controls": "\u0627\u0644\u062A\u062D\u0643\u0645",
+    "New payments are blocked": "\u0627\u0644\u0645\u062F\u0641\u0648\u0639\u0627\u062A \u0627\u0644\u062C\u062F\u064A\u062F\u0629 \u0645\u062D\u0638\u0648\u0631\u0629",
+    "On": "\u0645\u0641\u0639\u0651\u0644",
+    "Help with your card": "\u0645\u0633\u0627\u0639\u062F\u0629 \u0641\u064A \u0628\u0637\u0627\u0642\u062A\u0643",
+    "Lost or stolen card": "\u0628\u0637\u0627\u0642\u0629 \u0645\u0641\u0642\u0648\u062F\u0629 \u0623\u0648 \u0645\u0633\u0631\u0648\u0642\u0629",
+    "A payment I don't recognise": "\u062F\u0641\u0639\u0629 \u0644\u0627 \u0623\u0639\u0631\u0641\u0647\u0627",
+    "Dispute a payment": "\u0627\u0639\u062A\u0631\u0636 \u0639\u0644\u0649 \u062F\u0641\u0639\u0629",
+    "Change my credit limit": "\u063A\u064A\u0651\u0631 \u062D\u062F\u0651 \u0627\u0644\u0627\u0626\u062A\u0645\u0627\u0646",
+    "Pay in full": "\u0627\u062F\u0641\u0639 \u0643\u0627\u0645\u0644 \u0627\u0644\u0645\u0628\u0644\u063A",
+    "Pay the minimum": "\u0627\u062F\u0641\u0639 \u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649",
+    "Nothing to pay now": "\u0644\u0627 \u0634\u064A\u0621 \u0645\u0633\u062A\u062D\u0642 \u0627\u0644\u0622\u0646",
+    "You go back to paying each bill yourself": "\u062A\u0639\u0648\u062F \u0625\u0644\u0649 \u062F\u0641\u0639 \u0643\u0644 \u0641\u0627\u062A\u0648\u0631\u0629 \u0628\u0646\u0641\u0633\u0643",
+    "Frozen": "\u0645\u062C\u0645\u0651\u062F\u0629",
+    "Credit used": "\u0627\u0644\u0627\u0626\u062A\u0645\u0627\u0646 \u0627\u0644\u0645\u0633\u062A\u062E\u062F\u0645",
+    "No card spending in this period.": "\u0644\u0627 \u0625\u0646\u0641\u0627\u0642 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u0641\u062A\u0631\u0629.",
+    "Open My card": "\u0627\u0641\u062A\u062D \u0628\u0637\u0627\u0642\u062A\u064A",
+    "Bookings, orders and points": "\u0627\u0644\u062D\u062C\u0648\u0632\u0627\u062A \u0648\u0627\u0644\u0637\u0644\u0628\u0627\u062A \u0648\u0627\u0644\u0646\u0642\u0627\u0637",
+    "Free visits this year": "\u0632\u064A\u0627\u0631\u0627\u062A \u0645\u062C\u0627\u0646\u064A\u0629 \u0647\u0630\u0627 \u0627\u0644\u0639\u0627\u0645",
+    "120 days on what you buy": "120 \u064A\u0648\u0645\u064B\u0627 \u0639\u0644\u0649 \u0645\u0634\u062A\u0631\u064A\u0627\u062A\u0643",
+    "An extra year": "\u0633\u0646\u0629 \u0625\u0636\u0627\u0641\u064A\u0629",
+    "When the trip is on the card": "\u0639\u0646\u062F \u062F\u0641\u0639 \u0627\u0644\u0631\u062D\u0644\u0629 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629",
+    "On card purchases abroad": "\u0639\u0644\u0649 \u0627\u0644\u0645\u0634\u062A\u0631\u064A\u0627\u062A \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0641\u064A \u0627\u0644\u062E\u0627\u0631\u062C",
+    "15% off at partners": "\u062E\u0635\u0645 15% \u0644\u062F\u0649 \u0627\u0644\u0634\u0631\u0643\u0627\u0621",
+    "48 hours before general sale": "\u0642\u0628\u0644 \u0627\u0644\u0628\u064A\u0639 \u0627\u0644\u0639\u0627\u0645 \u0628\u064048 \u0633\u0627\u0639\u0629",
+    "If an order goes wrong": "\u0625\u0630\u0627 \u062D\u062F\u062B \u062E\u0637\u0623 \u0641\u064A \u0637\u0644\u0628",
     "Ask about your bookings": "\u0627\u0633\u0623\u0644 \u0639\u0646 \u062D\u062C\u0648\u0632\u0627\u062A\u0643",
     "Forget aisle seat": "\u0627\u0646\u0633\u064E \u0645\u0642\u0639\u062F \u0627\u0644\u0645\u0645\u0631",
     "Spend your points": "\u0627\u0635\u0631\u0641 \u0646\u0642\u0627\u0637\u0643",
@@ -8607,6 +8861,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var moneyBack = (x) => x.replace(/(.+?) are back in your balance/, "\u0639\u0627\u062F\u062A $1 \u0625\u0644\u0649 \u0631\u0635\u064A\u062F\u0643").replace(/(?:, and |^)?(.+?) (?:is back on your card; it can take 3 to 5 working days to show on your statement|goes back to your card)/, (_, y) => `${_.startsWith(", and") ? " \u0648" : ""}\u0623\u064F\u0639\u064A\u062F ${y.replace(/^, and /, "")} \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643`).replace(", and ", " \u0648");
   var alertAr = (w) => w.replace(/^(?:when|if) (?:the )?(?:fares?|prices?|flights?) (?:to |for )?([a-z][a-z ]+?) (?:fares? |prices? )?(?:drop|go down|fall|get cheaper)$/i, (_, x) => `when prices drop for flights to ${x}`).replace(/^(?:when|if) ([a-z][a-z ]+?) (?:fares?|prices?|flights?) (?:drop|go down|fall|get cheaper)$/i, (_, x) => `when prices drop for flights to ${x}`).replace("when food delivery is live", "\u0639\u0646\u062F \u062A\u0648\u0641\u0631 \u062A\u0648\u0635\u064A\u0644 \u0627\u0644\u0637\u0639\u0627\u0645").replace("when it's moving again", "\u0639\u0646\u062F\u0645\u0627 \u064A\u062A\u062D\u0631\u0643 \u0645\u062C\u062F\u062F\u064B\u0627").replace("if your passport needs renewing, 60 days before any trip", "\u0625\u0646 \u0627\u062D\u062A\u0627\u062C \u062C\u0648\u0627\u0632\u0643 \u0625\u0644\u0649 \u062A\u062C\u062F\u064A\u062F\u060C \u0642\u0628\u0644 \u0623\u064A \u0631\u062D\u0644\u0629 \u0628\u0640 60 \u064A\u0648\u0645\u064B\u0627").replace(/^when prices to (.+) drop$/, (_, c1) => `\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0625\u0644\u0649 ${c(c1)}`).replace(/^when your points are (about to|going to) expire$/, "\u0642\u0628\u0644 \u0627\u0646\u062A\u0647\u0627\u0621 \u0635\u0644\u0627\u062D\u064A\u0629 \u0646\u0642\u0627\u0637\u0643").replace(/^when tickets go on sale$/, "\u0639\u0646\u062F \u0637\u0631\u062D \u0627\u0644\u062A\u0630\u0627\u0643\u0631 \u0644\u0644\u0628\u064A\u0639").replace(/^when (.+) tickets go on sale$/, (_, c1) => `\u0639\u0646\u062F \u0637\u0631\u062D \u062A\u0630\u0627\u0643\u0631 ${c1} \u0644\u0644\u0628\u064A\u0639`).replace(/^when (the )?prices? (drops?|go(es)? down)$/, "\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0627\u0644\u0633\u0639\u0631").replace(/^before your card bill is due$/, "\u0642\u0628\u0644 \u0645\u0648\u0639\u062F \u0627\u0633\u062A\u062D\u0642\u0627\u0642 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0629").replace(/^on (.+), to pay your card bill$/, (_, x) => `\u064A\u0648\u0645 ${d(x)}\u060C \u0644\u062F\u0641\u0639 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0629`).replace(/^when (.+?) (is|are) (live|back|available)$/, (_, x) => `\u0639\u0646\u062F \u062A\u0648\u0641\u0631 ${x}`).replace(/^(when|before) your (card )?bill is due$/, "\u0639\u0646\u062F \u0627\u0642\u062A\u0631\u0627\u0628 \u0645\u0648\u0639\u062F \u0627\u0633\u062A\u062D\u0642\u0627\u0642 \u0627\u0644\u0641\u0627\u062A\u0648\u0631\u0629").replace(/^when your (card )?(bill|statement) is ready$/, "\u0639\u0646\u062F \u0635\u062F\u0648\u0631 \u0643\u0634\u0641 \u0627\u0644\u062D\u0633\u0627\u0628").replace(/^when (the )?check-?in opens( for your flight)?$/, "\u0639\u0646\u062F \u0641\u062A\u062D \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644").replace(/^when your (order|parcel|delivery) (arrives|is delivered)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0637\u0644\u0628\u0643").replace(/^when your refund (arrives|comes through|lands)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0627\u0644\u0645\u0628\u0644\u063A \u0627\u0644\u0645\u0633\u062A\u0631\u062F").replace(/^when your points (expire|are expiring|are about to expire|will expire)$/, "\u0642\u0628\u0644 \u0627\u0646\u062A\u0647\u0627\u0621 \u0635\u0644\u0627\u062D\u064A\u0629 \u0646\u0642\u0627\u0637\u0643").replace(/^when (your )?points (land|arrive|come in)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0627\u0644\u0646\u0642\u0627\u0637").replace(/^when prices drop for flights to (.+)$/, (_, x) => `\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0623\u0633\u0639\u0627\u0631 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(x.replace(/^\w/, (ch) => ch.toUpperCase()))}`).replace(/^when flights (?:to )?(.+)$/, (_, x) => `\u0628\u062E\u0635\u0648\u0635 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(x.replace(/^\w/, (ch) => ch.toUpperCase()))}`);
   var P3 = [
+    [/^Set up$/, () => "\u0625\u0639\u062F\u0627\u062F"],
+    [/^Tunewave comes free with this card and you haven't turned it on yet\.$/, () => "Tunewave \u0645\u062C\u0627\u0646\u064A \u0645\u0639 \u0647\u0630\u0647 \u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0648\u0644\u0645 \u062A\u0641\u0639\u0651\u0644\u0647 \u0628\u0639\u062F."],
+    [/^Due (.+) · (.+)$/, (m) => `\u0645\u0633\u062A\u062D\u0642 ${m[1]} \xB7 ${m[2]}`],
+    [/^Minimum (.+)$/, (m) => /\d/.test(m[1]) ? `\u0627\u0644\u062D\u062F \u0627\u0644\u0623\u062F\u0646\u0649 ${m[1]}` : null],
+    [/^(.+) available$/, (m) => /\d/.test(m[1]) ? `${m[1]} \u0645\u062A\u0627\u062D` : null],
+    [/^of (.+)$/, (m) => /\d/.test(m[1]) ? `\u0645\u0646 ${m[1]}` : null],
+    [/^\+(\d[\d,]*) pts$/, (m) => `+${m[1]} \u0646\u0642\u0637\u0629`],
+    [/^(\S+) to Platinum$/, (m) => `${m[1]} \u0644\u0644\u0628\u0644\u0627\u062A\u064A\u0646\u064A\u0629`],
+    [/^Gratifi Card •••• (\d{4})$/, (m) => `\u0628\u0637\u0627\u0642\u0629 Gratifi \u2022\u2022\u2022\u2022 ${m[1]}`],
     [/^You’re (.+) points from Platinum\.$/, (m) => `\u064A\u0641\u0635\u0644\u0643 ${m[1]} \u0646\u0642\u0637\u0629 \u0639\u0646 \u0627\u0644\u0641\u0626\u0629 \u0627\u0644\u0628\u0644\u0627\u062A\u064A\u0646\u064A\u0629.`],
     [/^(\S+) points to Platinum$/, (m) => `${m[1]} \u0646\u0642\u0637\u0629 \u0644\u0644\u0648\u0635\u0648\u0644 \u0625\u0644\u0649 \u0627\u0644\u0628\u0644\u0627\u062A\u064A\u0646\u064A\u0629`],
     [/^Gold member · (\S+) points to Platinum$/, (m) => `\u0639\u0636\u0648 \u0630\u0647\u0628\u064A \xB7 ${m[1]} \u0646\u0642\u0637\u0629 \u0644\u0644\u0648\u0635\u0648\u0644 \u0625\u0644\u0649 \u0627\u0644\u0628\u0644\u0627\u062A\u064A\u0646\u064A\u0629`],
@@ -9028,7 +9291,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     [/^Up to (\d) guests in this room\. For more, book a second room or a suite\.$/, (m) => `\u062D\u062A\u0649 ${PEOPLE(m[1])} \u0641\u064A \u0647\u0630\u0647 \u0627\u0644\u063A\u0631\u0641\u0629. \u0644\u0639\u062F\u062F \u0623\u0643\u0628\u0631\u060C \u0627\u062D\u062C\u0632 \u063A\u0631\u0641\u0629 \u062B\u0627\u0646\u064A\u0629 \u0623\u0648 \u062C\u0646\u0627\u062D\u064B\u0627.`],
     [/^Paid\. Nothing is due now(?:; (.+) is set up for the next bill)?\.$/, (m) => `\u062A\u0645 \u0627\u0644\u062F\u0641\u0639. \u0644\u0627 \u064A\u0648\u062C\u062F \u0645\u0628\u0644\u063A \u0645\u0633\u062A\u062D\u0642 \u0627\u0644\u0622\u0646${m[1] ? `\u061B ${t1(m[1])} \u0645\u0641\u0639\u0651\u0644 \u0644\u0644\u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0642\u0627\u062F\u0645\u0629` : ""}.`],
     [/^You have (\d+) that could be\. Which one\?$/, (m) => `\u0644\u062F\u064A\u0643 ${m[1]} \u0642\u062F \u062A\u0643\u0648\u0646 \u0627\u0644\u0645\u0642\u0635\u0648\u062F\u0629. \u0623\u064A\u0647\u0627 \u062A\u0642\u0635\u062F\u061F`],
-    [/^Demo: this is where (.+?)'s? own site opens\. Pay there with your card and the (.+) are tracked\. They show as pending on My card and land after the 30-day return window\.$/, (m) => `\u062A\u062C\u0631\u064A\u0628\u064A: \u0647\u0646\u0627 \u064A\u064F\u0641\u062A\u062D \u0645\u0648\u0642\u0639 ${m[1]}. \u0627\u062F\u0641\u0639 \u0647\u0646\u0627\u0643 \u0628\u0628\u0637\u0627\u0642\u062A\u0643 \u0648\u0633\u064A\u062A\u0645 \u062A\u062A\u0628\u0651\u0639 ${t1(m[2])}. \u062A\u0638\u0647\u0631 \u0645\u0639\u0644\u0651\u0642\u0629 \u0641\u064A \xAB\u0628\u0637\u0627\u0642\u062A\u064A\xBB \u0648\u062A\u064F\u0636\u0627\u0641 \u0628\u0639\u062F \u0627\u0646\u062A\u0647\u0627\u0621 \u0641\u062A\u0631\u0629 \u0627\u0644\u0625\u0631\u062C\u0627\u0639 \u0627\u0644\u0628\u0627\u0644\u063A\u0629 30 \u064A\u0648\u0645\u064B\u0627.`],
+    [/^Demo: this is where (.+?)'s? own site opens\. Pay there with your card and the (.+) are tracked\. They show as pending in Wallet, under Points, and land after the 30-day return window\.$/, (m) => `\u062A\u062C\u0631\u064A\u0628\u064A: \u0647\u0646\u0627 \u064A\u064F\u0641\u062A\u062D \u0645\u0648\u0642\u0639 ${m[1]}. \u0627\u062F\u0641\u0639 \u0647\u0646\u0627\u0643 \u0628\u0628\u0637\u0627\u0642\u062A\u0643 \u0648\u0633\u064A\u062A\u0645 \u062A\u062A\u0628\u0651\u0639 ${t1(m[2])}. \u062A\u0638\u0647\u0631 \u0645\u0639\u0644\u0651\u0642\u0629 \u0641\u064A \xAB\u0627\u0644\u0645\u062D\u0641\u0638\u0629\xBB \u0636\u0645\u0646 \xAB\u0627\u0644\u0646\u0642\u0627\u0637\xBB \u0648\u062A\u064F\u0636\u0627\u0641 \u0628\u0639\u062F \u0627\u0646\u062A\u0647\u0627\u0621 \u0641\u062A\u0631\u0629 \u0627\u0644\u0625\u0631\u062C\u0627\u0639 \u0627\u0644\u0628\u0627\u0644\u063A\u0629 30 \u064A\u0648\u0645\u064B\u0627.`],
     [/^Demo: a (.+) purchase at (.+) was tracked\. (.+) are pending and land on (.+), once the return window closes\.$/, (m) => `\u062A\u062C\u0631\u064A\u0628\u064A: \u062A\u0645 \u062A\u062A\u0628\u0651\u0639 \u0639\u0645\u0644\u064A\u0629 \u0634\u0631\u0627\u0621 \u0628\u0642\u064A\u0645\u0629 ${m[1]} \u0645\u0646 ${m[2]}. ${t1(m[3])} \u0645\u0639\u0644\u0651\u0642\u0629 \u0648\u062A\u064F\u0636\u0627\u0641 \u0641\u064A ${d(m[4])} \u0628\u0639\u062F \u0627\u0646\u062A\u0647\u0627\u0621 \u0641\u062A\u0631\u0629 \u0627\u0644\u0625\u0631\u062C\u0627\u0639.`],
     [/^(.+) · land (.+)$/, (m) => /نقطة|points/.test(m[1]) ? `${t1(m[1])} \xB7 \u062A\u064F\u0636\u0627\u0641 ${d(m[2])}` : null],
     [/^Your (.+) order was delivered\.$/, (m) => `\u062A\u0645 \u062A\u0633\u0644\u064A\u0645 \u0637\u0644\u0628 ${t1(m[1])}.`],
@@ -9324,7 +9587,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     [/^Matched to your (.+?) on (.+?), leaving (.+)$/, (m) => `\u0645\u0637\u0627\u0628\u0642 \u0644\u0631\u062D\u0644\u062A\u0643 ${m[1]} \u064A\u0648\u0645 ${m[2]}\u060C \u0627\u0644\u0645\u063A\u0627\u062F\u0631\u0629 ${m[3]}`],
     [/^Changed\. You're now on the (\S+) on (.+?)\.(?: The new fare is cheaper, so (.+?) \((.+?)\) are back in your balance\.)?$/, (m) => `\u062A\u0645 \u0627\u0644\u062A\u063A\u064A\u064A\u0631. \u0623\u0646\u062A \u0627\u0644\u0622\u0646 \u0639\u0644\u0649 \u0631\u062D\u0644\u0629 ${m[1]} \u064A\u0648\u0645 ${m[2]}.${m[3] ? ` \u0627\u0644\u0633\u0639\u0631 \u0627\u0644\u062C\u062F\u064A\u062F \u0623\u0631\u062E\u0635\u060C \u0644\u0630\u0627 \u0639\u0627\u062F\u062A ${m[3]} (${m[4]}) \u0625\u0644\u0649 \u0631\u0635\u064A\u062F\u0643.` : ""}`],
     [/^Statement (.+) to (.+)$/, (m) => `\u0643\u0634\u0641 \u0627\u0644\u062D\u0633\u0627\u0628 \u0645\u0646 ${d(m[1])} \u0625\u0644\u0649 ${d(m[2])}`],
-    [/^Demo: a card payment of (.+?) at (.+?) came in and earned (\S+) points\. Turn on Every card payment under Your assistant on My card to get a note each time\.$/, (m) => `\u062A\u062C\u0631\u064A\u0628\u064A: \u0648\u0635\u0644\u062A \u062F\u0641\u0639\u0629 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0628\u0642\u064A\u0645\u0629 ${m[1]} \u0644\u062F\u0649 ${m[2]} \u0648\u0643\u0633\u0628\u062A ${m[3]} \u0646\u0642\u0637\u0629. \u0641\u0639\u0651\u0644 \xAB\u0643\u0644 \u062F\u0641\u0639\u0629 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629\xBB \u0636\u0645\u0646 \xAB\u0645\u0633\u0627\u0639\u062F\u0643\xBB \u0641\u064A \xAB\u0628\u0637\u0627\u0642\u062A\u064A\xBB \u0644\u062A\u0635\u0644\u0643 \u0631\u0633\u0627\u0644\u0629 \u0641\u064A \u0643\u0644 \u0645\u0631\u0629.`],
+    [/^Demo: a card payment of (.+?) at (.+?) came in and earned (\S+) points\. Turn on Every card payment under Your assistant in your settings to get a note each time\.$/, (m) => `\u062A\u062C\u0631\u064A\u0628\u064A: \u0648\u0635\u0644\u062A \u062F\u0641\u0639\u0629 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0628\u0642\u064A\u0645\u0629 ${m[1]} \u0644\u062F\u0649 ${m[2]} \u0648\u0643\u0633\u0628\u062A ${m[3]} \u0646\u0642\u0637\u0629. \u0641\u0639\u0651\u0644 \xAB\u0643\u0644 \u062F\u0641\u0639\u0629 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629\xBB \u0636\u0645\u0646 \xAB\u0645\u0633\u0627\u0639\u062F\u0643\xBB \u0641\u064A \u0625\u0639\u062F\u0627\u062F\u0627\u062A\u0643 \u0644\u062A\u0635\u0644\u0643 \u0631\u0633\u0627\u0644\u0629 \u0641\u064A \u0643\u0644 \u0645\u0631\u0629.`],
     [/^(.+?): Hello (.+?), I've read the chat\. I'll take it from here and message you in this thread\. \(Demo: in the live product this is a real person\.\)$/, (m) => `${t1(m[1])}: \u0645\u0631\u062D\u0628\u064B\u0627 ${t1(m[2])}\u060C \u0642\u0631\u0623\u062A \u0627\u0644\u0645\u062D\u0627\u062F\u062B\u0629. \u0633\u0623\u062A\u0648\u0644\u0649 \u0627\u0644\u0623\u0645\u0631 \u0648\u0623\u0631\u0627\u0633\u0644\u0643 \u0647\u0646\u0627. (\u062A\u062C\u0631\u064A\u0628\u064A: \u0641\u064A \u0627\u0644\u0645\u0646\u062A\u062C \u0627\u0644\u0641\u0639\u0644\u064A \u0647\u0630\u0627 \u0634\u062E\u0635 \u062D\u0642\u064A\u0642\u064A.)`],
     [/^You have (\d+) free lounge visits? left\.$/, (m) => `\u0644\u062F\u064A\u0643 ${FREEV(m[1])} \u0644\u0644\u0635\u0627\u0644\u0629.`],
     [/^(\d+) free visits? left this year$/, (m) => `\u0628\u0642\u064A \u0644\u0643 ${FREEV(m[1])} \u0647\u0630\u0627 \u0627\u0644\u0639\u0627\u0645`],
@@ -10732,9 +10995,9 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const M2 = useMarket();
     const { go } = nav;
     const moment = pickMoment(s, M2);
-    const stamps = ["stays", "flights", "experiences", "dining", "tickets", "shopping", "subs", "rides", "quick", "giftcards"].map((k) => CATS.find((c2) => c2.key === k)).map((c2) => {
-      const earn = itemsFor(c2.key).map((i) => i.earn).find((e) => e && /\d×/.test(e));
-      return { key: c2.key, label: c2.label, art: STAMP[c2.key], badge: earn ? earn.match(/\d×/)[0] : void 0, onClick: () => go("explore", c2.key) };
+    const stamps = ["stays", "flights", "experiences", "dining", "tickets", "shopping", "subs", "rides", "quick", "giftcards"].map((k) => CATS.find((c3) => c3.key === k)).map((c3) => {
+      const earn = itemsFor(c3.key).map((i) => i.earn).find((e) => e && /\d×/.test(e));
+      return { key: c3.key, label: c3.label, art: STAMP[c3.key], badge: earn ? earn.match(/\d×/)[0] : void 0, onClick: () => go("explore", c3.key) };
     });
     const next = s.bookings.filter((b2) => live(b2) && (["booking", "ticket"].includes(b2.kind || "") || b2.tracker && b2.tracker.current < b2.tracker.steps.length - 1)).sort((a, b2) => {
       var _a2, _b;
@@ -10744,10 +11007,14 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const again = s.bookings.filter((b2) => b2.itemId && !seenIds.has(b2.itemId) && seenIds.add(b2.itemId)).slice(0, 4);
     const d0 = dests(M2.id)[0];
     const picks = [itemsFor("stays", d0.name)[0], findItem("SH-4")].filter((x) => !!x && !!x.img);
-    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement("div", { className: "ds-homehd" }, /* @__PURE__ */ React.createElement("img", { src: ART2.wordmark, alt: "gratifi" }), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(HBtn, { label: "You and settings", text: (s.prefs.name || "Y").charAt(0), onClick: () => go("me") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "bell", label: M2.t("alerts"), dot: !!moment, onClick: () => go("alerts") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => go("bank") }))), /* @__PURE__ */ React.createElement("div", { className: "ds-hello" }, /* @__PURE__ */ React.createElement("h1", null, `${hello(M2)}, ${s.prefs.name}`), /* @__PURE__ */ React.createElement("button", { onClick: () => go("tier") }, `You\u2019re ${M2.num(toNext())} points from ${TIER.next}.`)), /* @__PURE__ */ React.createElement(PointsCard, { tier: TIER.name, value: M2.num(s.balance), onUse: () => go("explore") }), moment && /* @__PURE__ */ React.createElement(Note, { title: moment.title, action: moment.action, onAction: moment.go, secondary: "Not now", onSecondary: () => set((x) => ({ seen: { ...x.seen, [moment.key]: true } })) }, moment.body), /* @__PURE__ */ React.createElement(Sec, { title: "Spend your points", more: "See all", onMore: () => go("explore") }), /* @__PURE__ */ React.createElement(Stamps, { items: stamps }), /* @__PURE__ */ React.createElement(Sec, { title: "Your offers", more: `All ${OFFERS.length}`, onMore: () => go("offers") }), /* @__PURE__ */ React.createElement("div", { className: "ds-offers" }, OFFERS.map(([id, b2, , , r]) => /* @__PURE__ */ React.createElement(OfferMini, { key: id, art: STAMP[STAMP_OFFER[id]], title: `${r} at ${b2}`, sub: "Until 31 Oct", added: !!s.seen["offer:" + id], onAdd: () => addOffer(id, b2, r, !s.seen["offer:" + id]) }))), next && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Coming up" }), /* @__PURE__ */ React.createElement(Coming, { art: artOf(next), title: next.title, sub: [next.when || next.sub, next.pts ? `${M2.num(next.pts)} points` : ""].filter(Boolean).join(" \xB7 "), status: next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? next.tracker.eta || next.tracker.steps[next.tracker.current] : "Booked", tone: ((_a = next.tracker) == null ? void 0 : _a.tone) === "warn" ? "warn" : "good", onClick: () => go("wallet") })), again.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Book again" }), /* @__PURE__ */ React.createElement(Again, { items: again.map((b2) => ({ key: b2.id, label: b2.title, art: STAMP[b2.cat], onClick: () => {
+    const c2 = s.card;
+    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement("div", { className: "ds-homehd" }, /* @__PURE__ */ React.createElement("img", { src: ART2.wordmark, alt: "gratifi" }), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(HBtn, { label: "You and settings", text: (s.prefs.name || "Y").charAt(0), onClick: () => go("me") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "bell", label: M2.t("alerts"), dot: !!moment, onClick: () => go("alerts") }), /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => go("bank") }))), /* @__PURE__ */ React.createElement("div", { className: "ds-hello" }, /* @__PURE__ */ React.createElement("h1", null, `${hello(M2)}, ${s.prefs.name}`)), /* @__PURE__ */ React.createElement(CardSummary, { nav, open: true }), /* @__PURE__ */ React.createElement(Actions, { items: cardActions(nav, c2) }), /* @__PURE__ */ React.createElement(Sec, { title: "Card benefits", more: "See all", onMore: () => go("card", "benefits") }), /* @__PURE__ */ React.createElement(BenefitTiles, { items: benefitTiles(s, M2, nav) }), /* @__PURE__ */ React.createElement(Sec, { title: "Earn as you spend", more: `All ${OFFERS.length}`, onMore: () => go("offers") }), /* @__PURE__ */ React.createElement("div", { className: "ds-offers" }, OFFERS.map(([id, b2, , , r]) => /* @__PURE__ */ React.createElement(OfferMini, { key: id, art: STAMP[STAMP_OFFER[id]], title: `${r} at ${b2}`, sub: "Until 31 Oct", added: !!s.seen["offer:" + id], onAdd: () => addOffer(id, b2, r, !s.seen["offer:" + id]) }))), /* @__PURE__ */ React.createElement(Sec, { title: "Earn more this month" }), /* @__PURE__ */ React.createElement(Challenges, { items: s.challenges.filter((x) => !x.done).map((x) => ({ key: x.id, title: x.id === "CHL-3" ? `Spend ${M2.money(x.target)} on travel before 31 Oct` : x.title, reward: x.reward, progress: x.progress, target: x.target, progressText: x.unit === "money" ? `${M2.money(Math.round(x.progress))} of ${M2.money(x.target)}` : `${Math.round(x.progress)} of ${x.target}`, joined: x.joined, onJoin: () => {
+      set((st) => ({ challenges: st.challenges.map((y) => y.id === x.id ? { ...y, joined: true } : y) }));
+      pushMsg({ role: "gr", text: `You're in: ${x.title}.` });
+    } })) }), /* @__PURE__ */ React.createElement(Sec, { title: "Book with your card", more: "See all", onMore: () => go("explore") }), /* @__PURE__ */ React.createElement(Stamps, { items: stamps }), next && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Coming up" }), /* @__PURE__ */ React.createElement(Coming, { art: artOf(next), title: next.title, sub: [next.when || next.sub, next.pts ? `${M2.num(next.pts)} points` : ""].filter(Boolean).join(" \xB7 "), status: next.tracker && next.tracker.current < next.tracker.steps.length - 1 ? next.tracker.eta || next.tracker.steps[next.tracker.current] : "Booked", tone: ((_a = next.tracker) == null ? void 0 : _a.tone) === "warn" ? "warn" : "good", onClick: () => go("wallet") })), again.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Sec, { title: "Book again" }), /* @__PURE__ */ React.createElement(Again, { items: again.map((b2) => ({ key: b2.id, label: b2.title, art: STAMP[b2.cat], onClick: () => {
       go("chat");
       run({ f: "showItem", a: { id: b2.itemId } }, b2.title);
-    } })) })), /* @__PURE__ */ React.createElement(Sec, { title: "Picked for you", more: "See all", onMore: () => go("explore") }), /* @__PURE__ */ React.createElement(Picks, { items: picks.map((i) => {
+    } })) })), /* @__PURE__ */ React.createElement(Sec, { title: "Your points", more: `${M2.num(toNext())} to ${TIER.next}`, onMore: () => go("tier") }), /* @__PURE__ */ React.createElement(PointsCard, { tier: TIER.name, value: /* @__PURE__ */ React.createElement(CountUp, { id: "bal-" + s.market, value: s.balance, format: M2.num }), onUse: () => go("explore") }), moment && /* @__PURE__ */ React.createElement(Note, { title: moment.title, action: moment.action, onAction: moment.go, secondary: "Not now", onSecondary: () => set((x) => ({ seen: { ...x.seen, [moment.key]: true } })) }, moment.body), /* @__PURE__ */ React.createElement(Sec, { title: "Picked for you", more: "See all", onMore: () => go("explore") }), /* @__PURE__ */ React.createElement(Picks, { items: picks.map((i) => {
       const price = i.cat === "stays" ? stayPrice(i, "", 2) : IP(i);
       return { key: i.id, art: img(i.img), title: i.cat === "stays" ? `Stay in ${d0.name}` : i.title, sub: i.cat === "stays" ? `${i.title}, two nights` : `From ${i.sub}`, price: `${M2.num(ptsOf(price))} points`, onUse: () => {
         go("chat");
@@ -10775,6 +11042,103 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       seen[m.key] = true;
     }
     return out;
+  }
+  function CardSummary({ nav, open: open2, noDue }) {
+    const c2 = useS((x) => x.card);
+    const M2 = useMarket();
+    const market = useS((x) => x.market);
+    const ask2 = (q2) => {
+      nav.go("chat");
+      ask(q2);
+    };
+    const due = c2.due > 0 ? `Due ${M2.date(c2.dueDate)} \xB7 ${M2.money(c2.due, 2)}` : "Nothing to pay now";
+    return /* @__PURE__ */ React.createElement(
+      CardFace,
+      {
+        last4: c2.last4,
+        balance: /* @__PURE__ */ React.createElement(CountUp, { id: "card-" + market, value: Math.round(c2.balance), format: (n) => M2.money(n === Math.round(c2.balance) ? c2.balance : n, 2) }),
+        available: M2.money(Math.max(0, c2.limit - c2.balance)),
+        limit: M2.money(c2.limit),
+        used: c2.limit ? c2.balance / c2.limit : 0,
+        frozen: c2.frozen,
+        dueLine: due,
+        freezeLabel: c2.frozen ? "Unfreeze" : "Freeze",
+        onFreeze: () => ask2(c2.frozen ? "Unfreeze my card" : "Freeze my card"),
+        onPay: () => ask2("What do I owe?"),
+        onOpen: open2 ? () => nav.go("card") : void 0,
+        noDue
+      }
+    );
+  }
+  function cardActions(nav, c2) {
+    const ask2 = (q2) => {
+      nav.go("chat");
+      ask(q2);
+    };
+    return [{ icon: "doc", label: "Statement", onClick: () => ask2("Show my statement") }, { icon: "split", label: "Spending", onClick: () => nav.go("card", "spending") }, { icon: "shield", label: "Benefits", onClick: () => nav.go("card", "benefits") }, { icon: "card", label: "My card", onClick: () => nav.go("card") }];
+  }
+  function benefitRun(b2) {
+    return b2.key === "lounge" ? { f: "search", a: { cat: "airport" } } : b2.id === "BE-8" ? { f: "myStuff", a: {} } : b2.id === "BE-4" ? { f: "docs", a: { topic: "insurance" } } : b2.id === "BE-6" ? { f: "search", a: { cat: "dining" } } : b2.id === "BE-7" ? { f: "search", a: { cat: "tickets" } } : b2.id === "BE-5" ? { f: "docs", a: { topic: "abroad" } } : { f: "myStuff", a: {} };
+  }
+  var BENEFIT_SHORT = { "BE-1": "Free visits this year", "BE-2": "120 days on what you buy", "BE-3": "An extra year", "BE-4": "When the trip is on the card", "BE-5": "On card purchases abroad", "BE-6": "15% off at partners", "BE-7": "48 hours before general sale", "BE-8": "If an order goes wrong" };
+  function benefitTiles(s, M2, nav) {
+    return BENEFITS.map((b2) => ({ key: b2.id, icon: b2.icon, title: b2.name, sub: BENEFIT_SHORT[b2.id] || b2.sub, value: b2.key === "lounge" ? `${s.loungeLeft} left` : void 0, onClick: () => {
+      nav.go("chat");
+      run(benefitRun(b2), b2.name);
+    } }));
+  }
+  function Card({ nav, focus }) {
+    const s = useS((x) => x);
+    const M2 = useMarket();
+    const c2 = s.card;
+    const ask2 = (q2) => {
+      nav.go("chat");
+      ask(q2);
+    };
+    const since = Date.now() - 30 * 864e5, by = {};
+    s.txns.filter((t) => t.at >= since && t.cat !== "Payment").forEach((t) => {
+      by[t.cat] = (by[t.cat] || 0) + (t.refund ? -t.amount : t.amount);
+    });
+    const spend = Object.entries(by).filter(([, v]) => v >= 0.5).sort((a, b2) => b2[1] - a[1]).slice(0, 5).map(([label, amount]) => ({ label, amount }));
+    const ddName = M2.directDebit.charAt(0).toUpperCase() + M2.directDebit.slice(1);
+    const at = c2.gamblingLiftAt ? new Date(c2.gamblingLiftAt) : null;
+    const control = (k, v) => {
+      if (k === "frozen" && !v) {
+        respond(unfreezeAsk({}));
+        nav.go("chat");
+        return;
+      }
+      if (k !== "frozen" && v) {
+        respond(cardControl({ control: k, on: true }));
+        nav.go("chat");
+        return;
+      }
+      set((x) => ({ card: { ...x.card, [k]: v } }));
+      if (k === "frozen") pushMsg({ role: "gr", text: "Frozen. New payments are blocked; direct debits and refunds still work." });
+    };
+    const ref2 = useRef(null);
+    useEffect(() => {
+      if (focus) setTimeout(() => {
+        var _a, _b;
+        return (_b = (_a = ref2.current) == null ? void 0 : _a.querySelector(`[data-sec="${focus}"]`)) == null ? void 0 : _b.scrollIntoView({ block: "start", behavior: "smooth" });
+      }, 120);
+    }, [focus]);
+    const alerts = Object.keys(s.seen).filter((k) => k.startsWith("alert:") && s.seen[k]);
+    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll", ref: ref2 }, /* @__PURE__ */ React.createElement(Head, { title: "My card", onBack: nav.back, right: /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => nav.go("home") }) }), /* @__PURE__ */ React.createElement(CardSummary, { nav, noDue: true }), /* @__PURE__ */ React.createElement(Label, null, "Payment"), /* @__PURE__ */ React.createElement(DueCard, { amount: M2.money(c2.due, 2), date: M2.date(c2.dueDate), min: M2.money(c2.min, 2), paid: c2.due <= 0, onFull: () => ask2("Pay my bill in full"), onMin: () => ask2("Pay the minimum") }), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ActionRow, { icon: "refresh", title: ddName, sub: !c2.autopay ? "Off. You pay each bill yourself." : c2.autopayMode === "min" ? "Pays the minimum each month" : "Pays the full balance each month", action: !c2.autopay ? "Set up" : "Change", primary: !c2.autopay, onAction: () => openConfirm(ddAsk(!c2.autopay ? "full" : c2.autopayMode === "min" ? "full" : "min")) }), c2.autopay && /* @__PURE__ */ React.createElement(ActionRow, { icon: "close", title: `Cancel ${M2.directDebit}`, sub: "You go back to paying each bill yourself", action: "Cancel", onAction: () => openConfirm(ddAsk("off")) })), /* @__PURE__ */ React.createElement("div", { "data-sec": "spending", className: "ds-anchor" }, /* @__PURE__ */ React.createElement(Label, null, "Where it went")), /* @__PURE__ */ React.createElement(SpendBars, { period: "Last 30 days, after refunds", items: spend, total: spend.reduce((a, x) => a + x.amount, 0), format: (n) => M2.money(n, 2) }), /* @__PURE__ */ React.createElement(List, null, s.txns.slice(0, 5).map((t) => /* @__PURE__ */ React.createElement(Txn, { key: t.id, name: t.merchant, meta: `${t.cat} \xB7 ${M2.date(new Date(t.at), "day")}`, amount: t.amount, points: t.points || void 0, refund: t.refund, format: (n) => M2.money(n, 2) })), /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Statement", sub: "Balance, minimum and due date", chev: true, onClick: () => ask2("Show my statement") })), /* @__PURE__ */ React.createElement("div", { "data-sec": "benefits", className: "ds-anchor" }, /* @__PURE__ */ React.createElement(Label, null, "Card benefits")), /* @__PURE__ */ React.createElement(List, null, BENEFITS.map((b2) => /* @__PURE__ */ React.createElement(Row, { key: b2.id, icon: b2.icon, title: b2.name, sub: b2.key === "lounge" ? `${s.loungeLeft} free visit${s.loungeLeft === 1 ? "" : "s"} left this year` : b2.id === "BE-8" ? moneyBackRule(M2.id).split(". ")[0].replace(/\.$/, "") + "." : b2.sub, value: b2.key === "lounge" ? `${s.loungeLeft} left` : void 0, chev: true, onClick: () => {
+      nav.go("chat");
+      run(benefitRun(b2), b2.name);
+    } }))), /* @__PURE__ */ React.createElement(Label, null, "Controls"), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ControlRow, { icon: "lock", title: "Freeze card", sub: c2.frozen ? "New payments are blocked" : "Blocks new payments. Direct debits and refunds still work.", on: c2.frozen, onChange: (v) => control("frozen", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "globe", title: "Online payments", sub: c2.frozen ? "Paused while the card is frozen" : c2.online ? "On" : "Off", on: c2.online && !c2.frozen, onChange: (v) => control("online", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "plane", title: "Payments abroad", sub: c2.frozen ? "Paused while the card is frozen" : c2.abroad ? "On" : "Off", on: c2.abroad && !c2.frozen, onChange: (v) => control("abroad", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "wifi", title: "Contactless", sub: c2.frozen ? "Paused while the card is frozen" : c2.contactless ? "On" : "Off", on: c2.contactless && !c2.frozen, onChange: (v) => control("contactless", v) }), /* @__PURE__ */ React.createElement(ControlRow, { icon: "cash", title: "Cash withdrawals", sub: c2.frozen ? "Paused while the card is frozen" : c2.atm ? "On" : "Off", on: c2.atm && !c2.frozen, onChange: (v) => control("atm", v) }), /* @__PURE__ */ React.createElement(ActionRow, { icon: "shield", title: "Gambling block", sub: !c2.gambling ? "Off. Blocks betting sites, casinos and lotteries when on." : at ? `On until ${M2.date(iso(at))} at ${M2.clock(at.toTimeString().slice(0, 5))}, then it lifts` : "On. Betting sites, casinos and lotteries are blocked.", action: !c2.gambling ? "Turn on" : at ? "Keep the block" : "Lift", primary: !c2.gambling || !!at, onAction: () => {
+      if (!c2.gambling) {
+        nav.go("chat");
+        run({ f: "gamblingOn", a: {} }, "Block gambling payments");
+      } else if (at) {
+        nav.go("chat");
+        run({ f: "gamblingKeep", a: {} }, "Keep the block");
+      } else {
+        nav.go("chat");
+        respond(gamblingLiftAsk());
+      }
+    } })), alerts.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Alerts"), /* @__PURE__ */ React.createElement(List, null, alerts.map((k) => /* @__PURE__ */ React.createElement(Row, { key: k, icon: "bell", title: k.slice(6).charAt(0).toUpperCase() + k.slice(7), value: /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x) => ({ seen: { ...x.seen, [k]: false } })) }, "Remove") })))), /* @__PURE__ */ React.createElement(Label, null, "Help with your card"), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "alert", title: "Lost or stolen card", chev: true, onClick: () => ask2("I lost my card") }), /* @__PURE__ */ React.createElement(Row, { icon: "eye", title: "A payment I don't recognise", chev: true, onClick: () => ask2("Someone took money I don't recognise") }), /* @__PURE__ */ React.createElement(Row, { icon: "refresh", title: "Dispute a payment", chev: true, onClick: () => ask2("I want to dispute a payment") }), /* @__PURE__ */ React.createElement(Row, { icon: "swap", title: "Change my credit limit", chev: true, onClick: () => ask2("Change my credit limit") }), /* @__PURE__ */ React.createElement(Row, { icon: "headset", title: "Talk to a person", chev: true, onClick: () => ask2("I want to talk to a person") })));
   }
   function Explore({ cat, setCat, nav }) {
     var _a;
@@ -10878,8 +11242,8 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     };
     const alerts = [["moments", "Moments from Gratifi", "Useful things worth doing now, at most 3 a week"], ["offers", "Offers", "Card offers that match what you buy"], ["trips", "Trip updates", "Delays, gates, check-in"], ["orders", "Order updates", "Dispatch and delivery"], ["spend", "Every card payment", "A note each time the card is used"]];
     const addr = s.addresses.find((a) => a.id === s.addr), other = s.addresses.find((a) => a.id !== s.addr);
-    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement(Head, { title: "My card", onBack: nav.back, right: /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => nav.go("home") }) }), /* @__PURE__ */ React.createElement("button", { className: "ds-profile", onClick: () => nav.go("tier") }, /* @__PURE__ */ React.createElement("span", { className: "ds-av" }, (s.prefs.name || "Y").charAt(0)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "1.125rem", fontWeight: 700 } }, s.prefs.full || s.prefs.name), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${TIER.name} member \xB7 ${M2.num(toNext())} points to ${TIER.next}`)), /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18, stroke: 2.2 })), /* @__PURE__ */ React.createElement(Label, null, "Your card"), /* @__PURE__ */ React.createElement(Blocks, { blocks: [{ kind: "balance" }] }), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "cash", title: "Pay bill", chev: true, onClick: () => ask2("What do I owe?") }), /* @__PURE__ */ React.createElement(Row, { icon: "lock", title: s.card.frozen ? "Unfreeze card" : "Freeze card", chev: true, onClick: () => ask2(s.card.frozen ? "Unfreeze my card" : "Freeze my card") }), /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Statement", chev: true, onClick: () => ask2("Show my statement") }), /* @__PURE__ */ React.createElement(Row, { icon: "shield", title: "Card benefits", chev: true, onClick: () => ask2("What does my card cover?") })), /* @__PURE__ */ React.createElement(Blocks, { blocks: [{ kind: "gambling" }, { kind: "directdebit" }] }), /* @__PURE__ */ React.createElement(Label, null, "Points"), /* @__PURE__ */ React.createElement(Blocks, { blocks: [{ kind: "points", noPending: true }] }), (s.pending || []).length > 0 && /* @__PURE__ */ React.createElement(List, null, (s.pending || []).map((p) => /* @__PURE__ */ React.createElement(Row, { key: p.id, icon: "clock", title: p.label, sub: p.pts ? `Land ${M2.date(p.lands)}` : "Waiting for a purchase", value: p.pts ? `+${M2.num(p.pts)}` : void 0 }))), /* @__PURE__ */ React.createElement(Label, null, "Your assistant"), /* @__PURE__ */ React.createElement(List, null, alerts.map(([k, t, d2]) => /* @__PURE__ */ React.createElement(ToggleRow, { key: k, title: t, sub: d2, on: !!s.alerts[k], onChange: (v) => set((x) => ({ alerts: { ...x.alerts, [k]: v } })) })), /* @__PURE__ */ React.createElement(ToggleRow, { title: "Always ask before spending", sub: "Every booking and payment needs your OK.", on: true, lock: true, onChange: () => {
-    } })), /* @__PURE__ */ React.createElement(Label, null, "What I remember"), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { title: s.prefs.aisle ? "Aisle seat" : "Seats: no preference", value: s.prefs.aisle ? /* @__PURE__ */ React.createElement("button", { className: "ds-x", "aria-label": "Forget aisle seat", onClick: () => set((x) => ({ prefs: { ...x.prefs, aisle: false } })) }, /* @__PURE__ */ React.createElement(Icon, { name: "close", size: 12, stroke: 2.4 })) : /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x) => ({ prefs: { ...x.prefs, aisle: true } })) }, "Prefer the aisle") }), /* @__PURE__ */ React.createElement(Row, { title: "Delivery address", sub: `${addr == null ? void 0 : addr.label}, ${addr == null ? void 0 : addr.line}`, value: /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x) => ({ addr: x.addr === "a1" ? "a2" : "a1" })) }, `Use ${other == null ? void 0 : other.label}`) })), Object.keys(s.seen).some((k) => k.startsWith("alert:") && s.seen[k]) && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Label, null, "Alerts"), /* @__PURE__ */ React.createElement(List, null, Object.keys(s.seen).filter((k) => k.startsWith("alert:") && s.seen[k]).map((k) => /* @__PURE__ */ React.createElement(Row, { key: k, icon: "bell", title: k.slice(6).charAt(0).toUpperCase() + k.slice(7), value: /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x) => ({ seen: { ...x.seen, [k]: false } })) }, "Remove") })))), /* @__PURE__ */ React.createElement(Label, null, "Market and language"), /* @__PURE__ */ React.createElement("div", { className: "ds-chiprow", style: { flexWrap: "wrap", marginRight: 0 }, role: "group" }, Object.keys(MARKETS).map((k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "ds-chip", "aria-pressed": s.market === k, onClick: () => s.market !== k && switchMarket(k) }, MARKETS[k].name))), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ToggleRow, { title: "Dark mode", sub: "Follows your phone unless you change it", on: theme === "dark", onChange: (v) => setTheme(v ? "dark" : "light") })), /* @__PURE__ */ React.createElement("p", { className: "ds-foot" }, /* @__PURE__ */ React.createElement(Icon, { name: "info", size: 14, stroke: 2 }), "Gratifi is an AI assistant. It can make mistakes, so it always asks before spending your points or money. Your name and card details come from the bank."), /* @__PURE__ */ React.createElement("div", { className: "app-demo" }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { gap: 8 } }, /* @__PURE__ */ React.createElement(Icon, { name: "bolt", size: 18 }), /* @__PURE__ */ React.createElement("b", null, "Demo controls")), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "This stands in for the bank. Use it to test what happens when things change."), /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: () => {
+    return /* @__PURE__ */ React.createElement("div", { className: "app-scroll" }, /* @__PURE__ */ React.createElement(Head, { title: "You", onBack: nav.back, right: /* @__PURE__ */ React.createElement(HBtn, { icon: "close", label: "Close", onClick: () => nav.go("home") }) }), /* @__PURE__ */ React.createElement("button", { className: "ds-profile", onClick: () => nav.go("tier") }, /* @__PURE__ */ React.createElement("span", { className: "ds-av" }, (s.prefs.name || "Y").charAt(0)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "1.125rem", fontWeight: 700 } }, s.prefs.full || s.prefs.name), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${TIER.name} member \xB7 ${M2.num(toNext())} points to ${TIER.next}`)), /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18, stroke: 2.2 })), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "card", title: "My card", sub: `Gratifi Card \u2022\u2022\u2022\u2022 ${s.card.last4}`, chev: true, onClick: () => nav.go("card") }), /* @__PURE__ */ React.createElement(Row, { icon: "wallet", title: "Wallet", sub: "Bookings, orders and points", chev: true, onClick: () => nav.go("wallet") })), /* @__PURE__ */ React.createElement(Label, null, "Your assistant"), /* @__PURE__ */ React.createElement(List, null, alerts.map(([k, t, d2]) => /* @__PURE__ */ React.createElement(ToggleRow, { key: k, title: t, sub: d2, on: !!s.alerts[k], onChange: (v) => set((x) => ({ alerts: { ...x.alerts, [k]: v } })) })), /* @__PURE__ */ React.createElement(ToggleRow, { title: "Always ask before spending", sub: "Every booking and payment needs your OK.", on: true, lock: true, onChange: () => {
+    } })), /* @__PURE__ */ React.createElement(Label, null, "What I remember"), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { title: s.prefs.aisle ? "Aisle seat" : "Seats: no preference", value: s.prefs.aisle ? /* @__PURE__ */ React.createElement("button", { className: "ds-x", "aria-label": "Forget aisle seat", onClick: () => set((x) => ({ prefs: { ...x.prefs, aisle: false } })) }, /* @__PURE__ */ React.createElement(Icon, { name: "close", size: 12, stroke: 2.4 })) : /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x) => ({ prefs: { ...x.prefs, aisle: true } })) }, "Prefer the aisle") }), /* @__PURE__ */ React.createElement(Row, { title: "Delivery address", sub: `${addr == null ? void 0 : addr.label}, ${addr == null ? void 0 : addr.line}`, value: /* @__PURE__ */ React.createElement("button", { className: "ds-textbtn", onClick: () => set((x) => ({ addr: x.addr === "a1" ? "a2" : "a1" })) }, `Use ${other == null ? void 0 : other.label}`) })), /* @__PURE__ */ React.createElement(Label, null, "Market and language"), /* @__PURE__ */ React.createElement("div", { className: "ds-chiprow", style: { flexWrap: "wrap", marginRight: 0 }, role: "group" }, Object.keys(MARKETS).map((k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "ds-chip", "aria-pressed": s.market === k, onClick: () => s.market !== k && switchMarket(k) }, MARKETS[k].name))), /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ToggleRow, { title: "Dark mode", sub: "Follows your phone unless you change it", on: theme === "dark", onChange: (v) => setTheme(v ? "dark" : "light") })), /* @__PURE__ */ React.createElement("p", { className: "ds-foot" }, /* @__PURE__ */ React.createElement(Icon, { name: "info", size: 14, stroke: 2 }), "Gratifi is an AI assistant. It can make mistakes, so it always asks before spending your points or money. Your name and card details come from the bank."), /* @__PURE__ */ React.createElement("div", { className: "app-demo" }, /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { gap: 8 } }, /* @__PURE__ */ React.createElement(Icon, { name: "bolt", size: 18 }), /* @__PURE__ */ React.createElement("b", null, "Demo controls")), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "This stands in for the bank. Use it to test what happens when things change."), /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, /* @__PURE__ */ React.createElement(Button, { size: "sm", onClick: () => {
       addPoints(5e3, "Points adjustment (demo)");
       pushMsg({ role: "gr", text: `Demo: ${M2.pts(5e3)} came in from the bank. Your balance is now ${M2.pts(get().balance)}.` });
     } }, "Points come in (+", M2.num(5e3), ")"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => cardPayment(M2) }, "A card payment")), [["priceRise", "Price rises at the next checkout"], ["supplierDown", "Supplier is down"], ["decline", "Card is declined"]].map(([k, l]) => /* @__PURE__ */ React.createElement("div", { key: k, className: "gr-row", style: { justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "0.875rem", fontWeight: 600 } }, l), /* @__PURE__ */ React.createElement(Toggle, { label: l, on: s.sim[k], onChange: (v) => sim(k, v) }))), /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("cancel") }, "Cancel my next flight"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("late") }, "Delay my order"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("deliver") }, "Deliver my order"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => {
@@ -10901,7 +11265,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const ep = Math.round(amt / rate() * 0.01);
     set((x) => ({ txns: [{ id: uidx(), at: Date.now(), merchant: "Caf\xE9 Lune", cat: "Dining", amount: amt, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + amt }, balance: x.balance + ep, ledger: [{ id: uidx(), at: Date.now(), label: "Points on card spend: Caf\xE9 Lune", pts: ep }, ...x.ledger] }));
     recordSpend("Dining", amt);
-    pushMsg({ role: "gr", text: get().alerts.spend ? `Card used at Caf\xE9 Lune for ${M2.money(amt, 2)}. You earned ${M2.num(ep)} points.` : `Demo: a card payment of ${M2.money(amt, 2)} at Caf\xE9 Lune came in and earned ${M2.num(ep)} points. Turn on Every card payment under Your assistant on My card to get a note each time.` });
+    pushMsg({ role: "gr", text: get().alerts.spend ? `Card used at Caf\xE9 Lune for ${M2.money(amt, 2)}. You earned ${M2.num(ep)} points.` : `Demo: a card payment of ${M2.money(amt, 2)} at Caf\xE9 Lune came in and earned ${M2.num(ep)} points. Turn on Every card payment under Your assistant in your settings to get a note each time.` });
   }
   var SUBCATS = (m) => {
     const D2 = dests(m), h = home(m).city, fri = iso(nextFriday());
@@ -11051,28 +11415,81 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     window.__tab = tab;
     const [hist, setHist] = useState([]);
     const [wstart, setWstart] = useState();
+    const [cfocus, setCfocus] = useState();
     const top = () => {
       const el = document.querySelector(".app-main .app-scroll");
       if (el) el.scrollTop = 0;
     };
+    const [dir, setDir] = useState("");
+    const depth = (t) => t === "bank" ? -1 : t === "home" ? 0 : t === "chat" ? 1 : 2;
+    const move = (d2, fn) => {
+      const doc = document, reduce = W4.matchMedia && W4.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!doc.startViewTransition || reduce) {
+        setDir(d2);
+        fn();
+        return;
+      }
+      document.documentElement.dataset.nav = d2;
+      const v = doc.startViewTransition(() => W4.ReactDOM.flushSync(() => {
+        setDir(d2);
+        fn();
+      }));
+      v.finished.finally(() => {
+        if (document.documentElement.dataset.nav === d2) delete document.documentElement.dataset.nav;
+      });
+    };
     const go = (t, c2) => {
-      if (t !== tab) setHist((h) => [...h.slice(-20), { t: tab, c: cat }]);
-      setTab(t);
-      if (t === "explore") setCat(c2);
-      if (t === "wallet") setWstart(c2);
-      if (t !== "chat") setTimeout(top, 0);
+      if (t === tab && !(t === "explore" && c2 !== cat)) {
+        if (t === "explore") setCat(c2);
+        if (t === "card") setCfocus(c2);
+        return;
+      }
+      const d2 = tab === "bank" ? "up" : t === "bank" ? "down" : depth(t) >= depth(tab) && t !== "home" ? "push" : "pop";
+      move(d2, () => {
+        if (t !== tab) setHist((h) => [...h.slice(-20), { t: tab, c: cat }]);
+        setTab(t);
+        if (t === "explore") setCat(c2);
+        if (t === "wallet") setWstart(c2);
+        if (t === "card") setCfocus(c2);
+        if (t !== "chat" && !(t === "card" && c2)) setTimeout(top, 0);
+      });
     };
     const back = () => {
       const h = hist[hist.length - 1];
-      setHist(hist.slice(0, -1));
-      if (!h) {
-        setTab("home");
-        return;
-      }
-      setTab(h.t);
-      if (h.t === "explore") setCat(h.c);
+      move("pop", () => {
+        setHist(hist.slice(0, -1));
+        if (!h) {
+          setTab("home");
+          return;
+        }
+        setTab(h.t);
+        if (h.t === "explore") setCat(h.c);
+      });
     };
     const nav = { go, back };
+    W4.__back = back;
+    useEffect(() => {
+      let x0 = 0, y0 = 0, on2 = false;
+      const rtl = () => document.documentElement.dir === "rtl";
+      const start = (e) => {
+        const t = e.touches[0], edge = rtl() ? window.innerWidth - t.clientX : t.clientX;
+        on2 = edge < 24 && !document.querySelector(".app-sheet");
+        x0 = t.clientX;
+        y0 = t.clientY;
+      };
+      const end = (e) => {
+        if (!on2) return;
+        on2 = false;
+        const t = e.changedTouches[0], dx = (t.clientX - x0) * (rtl() ? -1 : 1), dy = Math.abs(t.clientY - y0);
+        if (dx > 70 && dy < 60 && (W4.__tab !== "home" && W4.__tab !== "bank")) W4.__back();
+      };
+      document.addEventListener("touchstart", start, { passive: true });
+      document.addEventListener("touchend", end, { passive: true });
+      return () => {
+        document.removeEventListener("touchstart", start);
+        document.removeEventListener("touchend", end);
+      };
+    }, []);
     W4.__go = go;
     W4.__M = fmt(s.market);
     useEffect(() => {
@@ -11082,7 +11499,16 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         ask(t);
       });
     }, []);
-    const unread = tab !== "chat" && s.chat.length > 0 && s.chat[s.chat.length - 1].role === "gr" && !s.seen["chat-" + s.chat[s.chat.length - 1].id];
+    const unread0 = tab !== "chat" && s.chat.length > 0 && s.chat[s.chat.length - 1].role === "gr" && !s.seen["chat-" + s.chat[s.chat.length - 1].id];
+    const unread = unread0;
+    useEffect(() => {
+      const n = navigator;
+      try {
+        if (unread && n.setAppBadge) n.setAppBadge(1);
+        else if (n.clearAppBadge) n.clearAppBadge();
+      } catch (e) {
+      }
+    }, [unread]);
     useEffect(() => {
       if (tab === "chat" && s.chat.length) {
         const id = "chat-" + s.chat[s.chat.length - 1].id;
@@ -11090,8 +11516,8 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       }
     }, [tab, s.chat.length]);
     const M2 = fmt(s.market);
-    const ph = { home: "Ask or book anything", explore: "Ask or book anything", chat: "Reply or ask anything", wallet: "Ask about your bookings", me: "Ask about your card", offers: "Ask about offers", alerts: "Ask or book anything", tier: "Ask about your tier" };
-    return /* @__PURE__ */ React.createElement(MarketProvider, { market: s.market }, /* @__PURE__ */ React.createElement("div", { className: unread ? "app gr app-unread" : "app gr", "data-tab": tab, key: s.market }, tab === "bank" ? /* @__PURE__ */ React.createElement("main", { className: "app-main ds-bankwrap" }, /* @__PURE__ */ React.createElement(Bank, { nav })) : /* @__PURE__ */ React.createElement("div", { className: "ds-sheet" }, /* @__PURE__ */ React.createElement("div", { className: "ds-grab" }, /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("main", { className: "app-main" }, tab === "home" && /* @__PURE__ */ React.createElement(Home, { nav }), tab === "explore" && /* @__PURE__ */ React.createElement(Explore, { cat, setCat, nav }), tab === "chat" && /* @__PURE__ */ React.createElement(Chat, { nav }), tab === "wallet" && /* @__PURE__ */ React.createElement(Wallet, { nav, start: wstart, key: wstart || "w" }), tab === "me" && /* @__PURE__ */ React.createElement(Me, { nav, theme, setTheme }), tab === "offers" && /* @__PURE__ */ React.createElement(Offers, { nav }), tab === "alerts" && /* @__PURE__ */ React.createElement(Alerts, { nav }), tab === "tier" && /* @__PURE__ */ React.createElement(Tier, { nav })), /* @__PURE__ */ React.createElement("div", { className: "app-dock" }, /* @__PURE__ */ React.createElement(AskBar, { key: tab, placeholder: ph[tab], onSend: (t) => {
+    const ph = { home: "Ask or book anything", explore: "Ask or book anything", chat: "Reply or ask anything", wallet: "Ask about your bookings", me: "Ask or book anything", card: "Ask about your card", offers: "Ask about offers", alerts: "Ask or book anything", tier: "Ask about your tier" };
+    return /* @__PURE__ */ React.createElement(MarketProvider, { market: s.market }, /* @__PURE__ */ React.createElement("div", { className: unread ? "app gr app-unread" : "app gr", "data-tab": tab, key: s.market }, tab === "bank" ? /* @__PURE__ */ React.createElement("main", { className: "app-main ds-bankwrap", "data-dir": dir }, /* @__PURE__ */ React.createElement(Bank, { nav })) : /* @__PURE__ */ React.createElement("div", { className: "ds-sheet" }, /* @__PURE__ */ React.createElement("div", { className: "ds-grab" }, /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("main", { className: "app-main", "data-dir": dir, key: tab }, tab === "home" && /* @__PURE__ */ React.createElement(Home, { nav }), tab === "explore" && /* @__PURE__ */ React.createElement(Explore, { cat, setCat, nav }), tab === "chat" && /* @__PURE__ */ React.createElement(Chat, { nav }), tab === "wallet" && /* @__PURE__ */ React.createElement(Wallet, { nav, start: wstart, key: wstart || "w" }), tab === "me" && /* @__PURE__ */ React.createElement(Me, { nav, theme, setTheme }), tab === "offers" && /* @__PURE__ */ React.createElement(Offers, { nav }), tab === "alerts" && /* @__PURE__ */ React.createElement(Alerts, { nav }), tab === "tier" && /* @__PURE__ */ React.createElement(Tier, { nav }), tab === "card" && /* @__PURE__ */ React.createElement(Card, { nav, focus: cfocus })), /* @__PURE__ */ React.createElement("div", { className: "app-dock" }, /* @__PURE__ */ React.createElement(AskBar, { key: tab, placeholder: ph[tab], onSend: (t) => {
       go("chat");
       ask(t);
     }, onMic: () => {
@@ -11121,6 +11547,14 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
   tickDue();
   resumeTrackers();
   setInterval(tickDue, 3e3);
+  document.addEventListener("click", (e) => {
+    var _a, _b;
+    const el = (_b = (_a = e.target) == null ? void 0 : _a.closest) == null ? void 0 : _b.call(_a, ".gr-btn-primary, .ds-btn40, .ds-pill, .ds-add, .ds-added, [role=switch], .gr-send");
+    if (el && navigator.vibrate) try {
+      navigator.vibrate(8);
+    } catch (x) {
+    }
+  }, true);
 })();
 </script>
 </head></html>

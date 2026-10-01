@@ -340,3 +340,165 @@ body { overscroll-behavior: none; }
 [data-theme="dark"] .app .gr-toggle[aria-checked="true"] { background: var(--accent); }
 .ds-ip-u::before { content: ' · '; }
 .ds-ip-or { margin-inline-start: 4px; }
+
+/* ===== Installed app: safe areas and touch ===== */
+html, body { -webkit-tap-highlight-color: transparent; }
+.app button, .app a, .app [role=switch] { touch-action: manipulation; }
+.ds-sheet { margin-top: max(14px, env(safe-area-inset-top)); }
+.app-dock { bottom: calc(26px + env(safe-area-inset-bottom)); }
+.app-scroll { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
+.ds-bank { padding-top: max(22px, calc(env(safe-area-inset-top) + 8px)); }
+@media (display-mode: standalone) { body { padding: 0 !important; } .app { height: 100vh; height: 100dvh; max-height: none; border-radius: 0; box-shadow: none; max-width: none; } }
+
+/* ===== Motion: screens slide like a native app, cards rise in, sheets spring ===== */
+.app-main { view-transition-name: screen; }
+.app-dock { view-transition-name: dock; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-group(screen) { animation-duration: .42s; animation-timing-function: cubic-bezier(.32,.72,0,1); }
+::view-transition-old(screen), ::view-transition-new(screen) { animation-duration: .42s; animation-timing-function: cubic-bezier(.32,.72,0,1); animation-fill-mode: both; mix-blend-mode: normal; }
+html[data-nav="push"]::view-transition-old(screen) { animation-name: vt-shift-left; }
+html[data-nav="push"]::view-transition-new(screen) { animation-name: vt-from-right; }
+html[data-nav="pop"]::view-transition-old(screen) { animation-name: vt-to-right; }
+html[data-nav="pop"]::view-transition-new(screen) { animation-name: vt-shift-in-left; }
+html[dir="rtl"][data-nav="push"]::view-transition-old(screen) { animation-name: vt-shift-right; }
+html[dir="rtl"][data-nav="push"]::view-transition-new(screen) { animation-name: vt-from-left; }
+html[dir="rtl"][data-nav="pop"]::view-transition-old(screen) { animation-name: vt-to-left; }
+html[dir="rtl"][data-nav="pop"]::view-transition-new(screen) { animation-name: vt-shift-in-right; }
+html[data-nav="push"]::view-transition-new(screen), html[data-nav="pop"]::view-transition-old(screen) { z-index: 2; }
+html[data-nav="up"] .app-main, html[data-nav="up"] .app-dock, html[data-nav="down"] .app-main, html[data-nav="down"] .app-dock { view-transition-name: none; }
+html[data-nav="up"]::view-transition-new(root) { animation: vt-from-below .48s cubic-bezier(.32,.72,0,1) both; }
+html[data-nav="down"]::view-transition-old(root) { animation: vt-to-below .4s cubic-bezier(.32,.72,0,1) both; z-index: 2; }
+@keyframes vt-from-right { from { transform: translateX(100%); box-shadow: -12px 0 32px rgba(20,20,22,.10); } to { transform: none; } }
+@keyframes vt-from-left { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes vt-shift-left { to { transform: translateX(-28%); opacity: .55; } }
+@keyframes vt-shift-right { to { transform: translateX(28%); opacity: .55; } }
+@keyframes vt-to-right { to { transform: translateX(100%); } }
+@keyframes vt-to-left { to { transform: translateX(-100%); } }
+@keyframes vt-shift-in-left { from { transform: translateX(-28%); opacity: .55; } to { transform: none; opacity: 1; } }
+@keyframes vt-shift-in-right { from { transform: translateX(28%); opacity: .55; } to { transform: none; opacity: 1; } }
+@keyframes vt-from-below { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes vt-to-below { to { transform: translateY(100%); } }
+/* browsers without view transitions: the new screen still slides in */
+@supports not (view-transition-name: a) {
+  .app-main[data-dir="push"] > * { animation: vt-in-soft-r .34s cubic-bezier(.32,.72,0,1) both; }
+  .app-main[data-dir="pop"] > * { animation: vt-in-soft-l .34s cubic-bezier(.32,.72,0,1) both; }
+}
+@keyframes vt-in-soft-r { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes vt-in-soft-l { from { transform: translateX(-24px); opacity: 0; } to { transform: none; opacity: 1; } }
+/* cards rise in one after another when a screen opens */
+.app-main .app-scroll:not(.gr-thread) > * { animation: ds-rise .5s cubic-bezier(.2,.8,.2,1) both; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(2) { animation-delay: .03s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(3) { animation-delay: .06s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(4) { animation-delay: .09s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(5) { animation-delay: .12s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(6) { animation-delay: .15s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(7) { animation-delay: .18s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(8) { animation-delay: .21s; }
+.app-main .app-scroll:not(.gr-thread) > :nth-child(n+9) { animation-delay: .24s; }
+@keyframes ds-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+/* the note keeps its tilt while it rises */
+.app-main .app-scroll > .ds-note { animation-name: ds-rise-note; }
+@keyframes ds-rise-note { from { opacity: 0; transform: translateY(18px) rotate(-2.5deg); } to { opacity: 1; transform: none; } }
+/* chat: your message pops in from your side, the answer and its cards rise in turn */
+.gr-thread > .gr-you { animation: ds-you .32s cubic-bezier(.2,.9,.3,1.2) both; transform-origin: 100% 100%; }
+[dir="rtl"] .gr-thread > .gr-you { transform-origin: 0 100%; }
+.gr-thread > .gr-answer > * { animation: ds-rise .46s cubic-bezier(.2,.8,.2,1) both; }
+.gr-thread > .gr-answer > :nth-child(2) { animation-delay: .05s; }
+.gr-thread > .gr-answer > :nth-child(3) { animation-delay: .1s; }
+.gr-thread > .gr-answer > :nth-child(n+4) { animation-delay: .15s; }
+.gr-answer .gr-col > .ds-irow, .gr-answer .gr-col > .ds-best { animation: ds-rise .46s cubic-bezier(.2,.8,.2,1) both; }
+.gr-answer .gr-col > :nth-child(2) { animation-delay: .06s; } .gr-answer .gr-col > :nth-child(3) { animation-delay: .12s; } .gr-answer .gr-col > :nth-child(n+4) { animation-delay: .18s; }
+@keyframes ds-you { from { opacity: 0; transform: scale(.86) translateY(8px); } to { opacity: 1; transform: none; } }
+/* sheets spring up from the bottom */
+.app-sheet { animation: app-fade .25s ease both; }
+.app-sheet-in { animation: ds-sheet .5s cubic-bezier(.32,.72,0,1) both; }
+@keyframes ds-sheet { from { transform: translateY(100%); } to { transform: none; } }
+/* things press in under your finger */
+.app button, .app a, .app [role=switch] { transition: transform .16s cubic-bezier(.2,.8,.2,1), background-color .2s, box-shadow .2s, color .2s; }
+.app button:not(:disabled):active, .app a:active { transform: scale(.96); transition-duration: .06s; }
+.app .ds-coming:active, .app .ds-irow:active, .app .ds-profile:active, .app .ds-entry:active, .app .ds-row:active, .app .gr-itemrow:active, .app .ds-best-ph:active, .app .ds-rcard-ph:active { transform: scale(.985); }
+.app .ds-stamp:active img { transform: rotate(0deg) scale(1.06) !important; transition: transform .2s cubic-bezier(.2,.9,.3,1.4); }
+.app .ds-stamp img { transition: transform .3s cubic-bezier(.2,.9,.3,1.4); }
+/* switches glide */
+.ds-toggle::before { transition: transform .26s cubic-bezier(.3,1.4,.6,1); }
+.ds-toggle { transition: background-color .22s; }
+.ds-seg button { transition: background-color .22s, box-shadow .22s, color .22s; }
+.ds-chip { transition: background-color .2s, color .2s, box-shadow .2s, transform .16s; }
+@media (prefers-reduced-motion: reduce) {
+  .app *, .app *::before, ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; transition: none !important; }
+}
+
+/* ===== Card elements ===== */
+.ds-cardface { background: var(--card); border-radius: 28px; padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 32px rgba(20,20,22,0.07), 0 1px 3px rgba(20,20,22,0.05); }
+.ds-cf-open { display: flex; flex-direction: column; gap: 2px; text-align: start; width: 100%; color: var(--ink); padding: 0; }
+.ds-cf-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ds-cf-chip { position: relative; width: 34px; height: 24px; border-radius: 6px; background: #141416; flex-shrink: 0; }
+.ds-cf-chip i { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 3px; background: var(--accent); }
+[data-theme="dark"] .ds-cf-chip { background: #3A3A40; }
+.ds-cf-name { font-size: 0.875rem; font-weight: 700; flex: 1; min-width: 0; }
+.ds-cf-num { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.ds-cf-frozen { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 700; color: #F4F4F3; background: #17171A; border-radius: 10px; padding: 3px 8px; }
+.ds-cf-l { font-size: 0.8125rem; font-weight: 500; color: var(--ink-soft); }
+.ds-cf-v { font-size: 2.125rem; font-weight: 800; letter-spacing: -1px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ds-ticks { display: flex; justify-content: space-between; gap: 2px; height: 18px; align-items: stretch; margin-top: 4px; }
+.ds-ticks i { flex: 1; max-width: 4px; border-radius: 2px; background: #E2E0DC; transition: background-color .4s; }
+.ds-ticks i.on { background: var(--accent); }
+[data-theme="dark"] .ds-ticks i { background: var(--card-sunk); }
+[data-theme="dark"] .ds-ticks i.on { background: var(--accent); }
+.ds-is-frozen .ds-ticks i.on { background: #B9B9BF; }
+.ds-cf-lim { display: flex; justify-content: space-between; gap: 8px; font-size: 0.8125rem; color: var(--ink-soft); flex-wrap: wrap; }
+.ds-cf-lim span:first-child { color: var(--ink); font-weight: 600; }
+.ds-cf-due { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 10px; margin-top: 2px; border-top: 1px solid #F0EFEC; }
+[data-theme="dark"] .ds-cf-due { border-top-color: var(--line); }
+.ds-cf-due > span { font-size: 0.875rem; font-weight: 600; }
+.ds-cf-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.ds-outline { box-shadow: inset 0 0 0 1px #E4E2DE; }
+[data-theme="dark"] .ds-btn40.ds-white { background: var(--card-sunk); color: var(--ink); box-shadow: none; }
+.ds-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.ds-act { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--ink); min-width: 0; }
+.ds-act-ic { width: 56px; height: 56px; border-radius: 28px; background: var(--card); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(20,20,22,0.06); transition: background-color .25s, color .25s; }
+.ds-act-ic.on { background: var(--pill); color: var(--on-pill); }
+.ds-act-l { font-size: 0.75rem; font-weight: 600; text-align: center; overflow-wrap: anywhere; line-height: 1.2; }
+.ds-btiles { display: flex; gap: 10px; margin-right: -20px; padding: 2px 20px 8px 0; overflow-x: auto; scrollbar-width: none; }
+.ds-btiles::-webkit-scrollbar { display: none; }
+.ds-btile { position: relative; flex-shrink: 0; width: 150px; min-height: 136px; background: var(--card); border-radius: 22px; padding: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: start; color: var(--ink); box-shadow: 0 10px 22px rgba(20,20,22,0.06); box-sizing: border-box; }
+.ds-btile .ds-row-ic { margin-bottom: 8px; }
+.ds-btile-t { font-size: 0.875rem; font-weight: 700; line-height: 1.25; }
+.ds-btile-s { font-size: 0.75rem; color: var(--ink-soft); line-height: 1.35; }
+.ds-btile-v { position: absolute; top: 14px; inset-inline-end: 14px; font-size: 0.75rem; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); border-radius: 10px; padding: 3px 8px; }
+.ds-spend { gap: 12px; }
+.ds-spend-hd { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ds-spend-hd span { font-size: 0.8125rem; font-weight: 600; color: var(--ink-soft); }
+.ds-spend-hd b { font-size: 1.125rem; font-weight: 800; }
+.ds-spend-row { display: grid; grid-template-columns: 1fr auto; row-gap: 6px; column-gap: 8px; }
+.ds-spend-l { font-size: 0.875rem; font-weight: 600; }
+.ds-spend-a { font-size: 0.875rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ds-spend-bar { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: #EDECE9; overflow: hidden; }
+.ds-spend-bar i { display: block; height: 8px; border-radius: 4px; background: #141416; animation: ds-grow .8s cubic-bezier(.2,.8,.2,1) both; transform-origin: 0 50%; }
+.ds-spend-bar i.top { background: var(--accent); }
+[dir="rtl"] .ds-spend-bar i { transform-origin: 100% 50%; }
+[data-theme="dark"] .ds-spend-bar { background: var(--card-sunk); }
+[data-theme="dark"] .ds-spend-bar i { background: var(--ink-soft); }
+[data-theme="dark"] .ds-spend-bar i.top { background: var(--accent); }
+@keyframes ds-grow { from { transform: scaleX(0); } to { transform: none; } }
+.ds-mono { font-size: 0.9375rem; font-weight: 700; color: var(--ink); }
+.ds-txn-r { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+.ds-txn-p { font-size: 0.75rem; font-weight: 600; color: var(--accent-ink); }
+.ds-due { gap: 6px; }
+.ds-due-v { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.6px; font-variant-numeric: tabular-nums; }
+.ds-due .ds-cf-btns { margin-top: 8px; }
+.ds-ghostpill { background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px #E4E2DE; }
+[data-theme="dark"] .ds-ghostpill { box-shadow: inset 0 0 0 1px var(--line); }
+.ds-trow .ds-row-ic { margin-inline-end: -2px; }
+.ds-actions { grid-template-columns: repeat(auto-fit, minmax(max(4.75rem, 22%), 1fr)); row-gap: 14px; }
+.ds-act-l { overflow-wrap: normal; word-break: normal; hyphens: manual; }
+.ds-chal { width: 220px; min-height: 0; gap: 8px; }
+.ds-chal .ds-ticks { height: 14px; margin: 2px 0 0; }
+.ds-chal-f { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; margin-top: auto; }
+.ds-chal-f b { font-size: 0.8125rem; font-weight: 700; color: var(--accent-ink); }
+.ds-static { cursor: default; }
+.ds-chal .ds-ticks { align-self: stretch; width: 100%; }
+/* rails: room for the card shadows so nothing is cut off */
+.ds-btiles, .ds-offers { padding-bottom: 26px; margin-bottom: -18px; }
+.ds-btiles, .ds-offers, .ds-picks, .ds-again, .ds-stamps { margin-inline-start: -20px; padding-inline-start: 20px; margin-inline-end: -20px; padding-inline-end: 20px; scroll-padding-inline: 20px; }
+.ds-picks { padding-inline-start: 22px; }

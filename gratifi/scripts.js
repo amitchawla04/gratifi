@@ -20,7 +20,8 @@ async function buyFirst(h, q, tag, nth = 0, pre) {
   await full(tag + '-checkout'); await payOrFree(h, tag)
 }
 module.exports = {
-  async tabs({ full, nav }) { await full('home'); await nav(2); await full('explore'); await nav(3); await full('chat'); await nav(4); await full('wallet'); await nav(5); await full('me') },
+  async tabs({ full, nav, p }) { await full('home'); await nav(2); await full('explore'); await nav(3); await full('chat'); await nav(4); await full('wallet'); await nav(5); await full('me')
+    for (const [t, c] of [['card'], ['card', 'benefits'], ['alerts'], ['tier'], ['offers'], ['explore', 'stays'], ['explore', 'bank'], ['wallet', 'Points'], ['bank']]) { await p.evaluate(([t, c]) => window.__go(t, c), [t, c]); await p.waitForTimeout(700); await full(t + (c ? '-' + c : '')) } },
   async flight(h) {
     const { ask, click, full, confirm, nav, p } = h
     await nav(3); await ask(`Flights to ${CITY[mk()]} next weekend for two`); await full('results')

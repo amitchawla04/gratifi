@@ -41,4 +41,20 @@ window.claude = { use: async (n) => n !== 'sample' ? null : Object.assign(async 
 }, { limits: async () => ({ maxInputBytes: 65536, tools: { maxCount: 16 } }), json: async () => ({}) }) };
 </script>'''
 open('build/test-ai.html','w').write('<!doctype html><html><head><meta charset="utf-8"><script>window.__errs=[];addEventListener("error",e=>__errs.push(e.message));</script>'+fake+html+'</head></html>')
+
+# installable app (PWA) for Vercel: full page, manifest, service worker, icons
+import hashlib, shutil
+os.makedirs('build/site', exist_ok=True)
+head = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
+  '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
+  '<meta name="theme-color" content="#2A2A2E"><meta name="color-scheme" content="light dark">'
+  '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">'
+  '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Gratifi">'
+  '<meta name="description" content="Your points and card assistant.">'
+  '<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" href="/icon.svg" type="image/svg+xml">')
+reg = '<script>if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("/sw.js"))</script>'
+open('build/site/index.html','w').write(head + html + reg + '</head></html>')
+build = hashlib.sha1(html.encode()).hexdigest()[:10]
+open('build/site/sw.js','w').write(open('pwa/sw.js').read().replace('__BUILD__', build))
+for f in ['manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png']: shutil.copy('pwa/'+f, 'build/site/'+f)
 print('ok', len(html)//1024, 'KB')

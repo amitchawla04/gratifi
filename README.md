@@ -5,6 +5,10 @@ Gratifi is a working prototype of an AI-first rewards and shopping assistant ins
 - Live prototype: https://claude.ai/artifact/PnL2cqt2NU8tFYp8MDMKaj
 - Team handoff: https://claude.ai/code/artifact/f3fec621-39ab-455f-9952-26cd9d4f6d45
 
+## Install as an app
+
+Gratifi is a progressive web app. Open the Vercel link on a phone: on iPhone tap Share, then Add to Home Screen; on Android tap Install app. It opens full screen, works offline, has long-press shortcuts (My card, Ask Gratifi, Rewards, Wallet) and shows a badge when Gratifi has news. `python3 gratifi/build.py` writes the installable site to `gratifi/build/site/` (copied to `site/` for Vercel).
+
 ## Build
 
 ```
@@ -19,7 +23,7 @@ This writes `gratifi/build/gratifi.html` (the published page), `test.html` (loca
 | Path | What it holds |
 | --- | --- |
 | `gratifi/src/main.tsx` | App start and tab layout |
-| `gratifi/src/screens.tsx` | Home, Rewards, chat, Wallet, My card, Offers, Alerts, Tier, bank entry, demo controls |
+| `gratifi/src/screens.tsx` | Home (card first, then earning, then rewards), My card, Rewards, chat, Wallet, You (settings and demo controls), Offers, Alerts, Tier, bank entry |
 | `gratifi/src/design.tsx` | Components taken from the approved 27 Sep screens (header buttons, points card, note, stamps, offers, polaroids, lists, segmented, switches) |
 | `gratifi/src/art/` | Artwork from the approved screens |
 | `gratifi/src/brain.ts` | Live AI mode: Claude rules, 16 tools, second safety check, reply filters |
