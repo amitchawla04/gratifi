@@ -1,0 +1,6 @@
+node_modules/
+gratifi/build/app.js
+*.log
+*.done
+missing.txt
+ar-missing-engine.txt

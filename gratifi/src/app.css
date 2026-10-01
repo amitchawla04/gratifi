@@ -1,0 +1,119 @@
+html, body { margin: 0; height: 100%; background: var(--ground); }
+body { overscroll-behavior: none; }
+#root { height: 100%; }
+.app { position: relative; height: 100%; max-width: 480px; margin: 0 auto; background: var(--screen); display: flex; flex-direction: column; overflow: hidden; }
+@media (min-width: 700px) { body { padding: 24px 0; box-sizing: border-box; } .app { height: calc(100vh - 48px); max-height: 920px; border-radius: 36px; box-shadow: var(--shadow-float); } }
+.app-main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.app-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 14px 16px 170px; display: flex; flex-direction: column; gap: 16px; scrollbar-width: none; }
+.app-scroll::-webkit-scrollbar { display: none; }
+.app-scroll > * { flex-shrink: 0; }
+.app-dock { position: absolute; left: 12px; right: 12px; bottom: 14px; display: flex; flex-direction: column; gap: 10px; z-index: 3; }
+.app-dock::before { content: ""; position: absolute; left: -12px; right: -12px; bottom: -14px; height: calc(100% + 40px); background: linear-gradient(to bottom, transparent, var(--screen) 40%); pointer-events: none; z-index: -1; }
+.app-navwrap { display: flex; justify-content: center; position: relative; }
+.app-navwrap .gr-nav { max-width: 100%; }
+.app-unread .gr-nav button:nth-child(3)::after { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: -22px 0 0 22px; }
+.app-unread .gr-nav button:nth-child(3) { position: relative; }
+.app-mk { height: 36px; padding: 0 12px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow-card); font-size: 0.8125rem; font-weight: 700; letter-spacing: .02em; }
+.app-catgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.app-chat { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.app-chat-hd { display: flex; align-items: center; gap: 10px; padding: 14px 16px 6px; }
+.app-chat-hd .gr-heading { flex: 1; }
+.app-chat .app-scroll { padding-top: 6px; }
+.app-mode { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 650; color: var(--ink-soft); background: var(--card); border-radius: 999px; padding: 5px 10px; }
+.app-mode i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); }
+.app-mode i.on { background: var(--good); }
+.app-quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(max(4.5rem, 22%), 1fr)); gap: 8px; }
+.app-quick button { min-width: 0; overflow-wrap: anywhere; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.7812rem; font-weight: 650; padding: 12px 4px; background: var(--card); border-radius: var(--radius-md); }
+.app-demo { display: flex; flex-direction: column; gap: 12px; background: var(--card); border: 1.5px dashed var(--ink-faint); border-radius: var(--radius-lg); padding: 16px; }
+.app-gchip { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 9px 12px; border-radius: 999px; background: var(--card); box-shadow: 0 0 0 1px var(--line); font-size: 0.875rem; font-weight: 600; }
+.app-gchip b { color: var(--ink-soft); font-weight: 600; }
+.app-ta { width: 100%; min-height: 84px; border-radius: var(--radius-md); border: 0; background: var(--card-sunk); padding: 12px 14px; font: inherit; color: var(--ink); resize: vertical; outline: 0; box-sizing: border-box; }
+.app-ta:focus { box-shadow: 0 0 0 2px var(--ink); }
+.app-sheet { position: absolute; inset: 0; background: var(--scrim); z-index: 10; display: flex; flex-direction: column; justify-content: flex-end; animation: app-fade .18s ease; }
+.app-sheet-in { position: relative; max-height: calc(100% - 40px); overflow-y: auto; animation: app-up .24s cubic-bezier(.2,.8,.2,1); }
+.app-sheet-in .gr-sheet { border-radius: 28px 28px 0 0; padding-bottom: 34px; }
+.app-hint { position: absolute; left: 0; right: 0; bottom: 8px; text-align: center; font-size: 0.75rem; color: var(--ink-soft); }
+.app-sheet-x { position: absolute; top: 12px; inset-inline-end: 12px; width: 36px; height: 36px; border-radius: 50%; }
+.app-sheet-x::before, .app-sheet-x::after { content: ""; position: absolute; left: 11px; top: 17px; width: 14px; height: 2px; background: var(--ink-soft); transform: rotate(45deg); }
+.app-sheet-x::after { transform: rotate(-45deg); }
+.gr-state-host { display: flex; flex-direction: column; }
+@keyframes app-fade { from { opacity: 0 } }
+@keyframes app-up { from { transform: translateY(40px); opacity: .4 } }
+@media (prefers-reduced-motion: reduce) { .app-sheet, .app-sheet-in { animation: none; } }
+.app .gr-ask input:focus, .app .gr-ask input:focus-visible { outline: none; box-shadow: none; }
+.app .gr-ask:focus-within { box-shadow: var(--shadow-float), 0 0 0 1.5px var(--ink-soft); }
+.app-in { width: 100%; height: 48px; border-radius: var(--radius-md); border: 0; background: var(--card-sunk); padding: 0 14px; font: inherit; color: var(--ink); outline: 0; box-sizing: border-box; }
+.app-in:focus { box-shadow: 0 0 0 2px var(--ink); }
+.app-each { font-size: 0.75rem; padding: 6px 4px 0; }
+.app .gr-link { min-height: 44px; display: inline-flex; align-items: center; }
+.app-sheet .gr-sheetwrap { max-width: none; padding: 0; background: none; border-radius: 0; min-height: 0; display: block; }
+.app-sheet .gr-sheetwrap { overflow: visible; }
+.app .gr-chip { position: relative; }
+.app .gr-chip::after { content: ''; position: absolute; inset: -4px -2px; }
+.app .gr-offer .gr-rate { white-space: normal; font-size: 1.125rem; line-height: 1.375rem; }
+.app .gr-offer .gr-grow { min-width: 0; }
+.app h1, .app h2, .app h3 { margin: 0; }
+.app .gr-thread .gr-rail, .app .gr-answer .gr-rail { margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+.app-mode { min-height: 32px; }
+.app .gr-btn[disabled] { opacity: .55; }
+[data-theme="dark"] .app .gr-btn-primary[disabled] { background: var(--card-sunk); color: var(--ink-soft); opacity: 1; }
+.app-days { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 12px 6px; margin: 0 -12px; scroll-padding-inline: 12px; }
+.app-scroll > .app-days { padding-inline: 16px; margin-inline: -16px; scroll-padding-inline: 16px; }
+.app-days::-webkit-scrollbar { display: none; }
+.app-days .gr-slot { flex: 0 0 auto; white-space: nowrap; padding: 0 12px; scroll-snap-align: start; }
+.app-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.app-badge { display: flex; align-items: flex-start; }
+.app-scroll:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.app-sheet:has(.gr-sheet[data-state="done"]) .app-hint, .app-sheet:has(.gr-sheet[data-state="scanning"]) .app-hint { display: none; }
+.gr-sheet:focus { outline: none; }
+/* legibility floor: nothing a customer must read is under 12px */
+.app .gr-label, .app .gr-cal-grid .gr-dow, .app .gr-seatrow .gr-rn, .app .gr-exit, .app .gr-route .gr-plus, .app .gr-seatmap .gr-cols span, .app .gr-dial .gr-core span { font-size: 0.75rem; }
+.app .gr-day small { font-size: 0.6875rem; }
+.app-fs { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; }
+[dir="rtl"] .app .gr-flipx { transform: scaleX(-1) !important; }
+.app a.gr-btn { text-decoration: none; }
+/* large text: nothing clips or collides at 200% */
+.app .gr-cattile { min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.app .gr-route .gr-path { min-width: 0; }
+.app .gr-route .gr-dur, .app .gr-route .gr-stops { overflow-wrap: anywhere; text-align: center; }
+.app-flightw { width: min(18.75rem, 86vw); }
+.app-flightw { container-type: inline-size; }
+@container (max-width: 17rem) {
+  .gr-route { grid-template-columns: auto auto; grid-template-areas: "a b" "p p"; row-gap: 6px; }
+  .gr-route > .gr-end:first-child { grid-area: a; }
+  .gr-route > .gr-end.gr-r { grid-area: b; }
+  .gr-route > .gr-path { grid-area: p; }
+}
+.app .gr-lines .gr-nw { white-space: nowrap; }
+.app .gr-lines > div > span:first-child { min-width: 0; }
+.app-mode { white-space: nowrap; }
+.app .gr-ir-t { -webkit-line-clamp: unset; display: block; overflow: visible; overflow-wrap: break-word; }
+.app .gr-slot[aria-checked="true"] .gr-meta, .app .gr-slot[aria-checked="true"] small { color: var(--on-pill); opacity: .9; }
+.app .gr-btn { white-space: normal; height: auto; min-height: 48px; padding-block: 8px; text-align: center; line-height: 1.25; }
+.app .gr-btn-lg { min-height: 56px; }
+.app .gr-btn.gr-btn-sm, .app .gr-btn[class*='gr-sm'] { min-height: 36px; padding-block: 6px; }
+.app .gr-split { flex-wrap: wrap; gap: 8px 16px; }
+.app .gr-split > div { min-width: 0; }
+.app .gr-split b { white-space: nowrap; }
+.app-tick { width: 1.25rem; height: 1.25rem; border-radius: 0.375rem; border: 2px solid var(--ink-faint); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--card); }
+[aria-checked="true"] > .app-tick { background: var(--ink); border-color: var(--ink); }
+/* Large text: keep the dock compact so the conversation keeps most of the screen */
+.app-dock { container-type: inline-size; }
+@container (max-width: 22rem) {
+  .app-dock .gr-ask { min-height: 0; padding: 4px 4px 4px 12px; gap: 6px; }
+  .app-dock .gr-ask .gr-mic { display: none; }
+  .app-dock .gr-ask .gr-send { width: 44px; height: 44px; }
+  .app-dock .gr-ask input { font-size: 0.875rem; }
+  .app-dock .gr-nav { padding: 3px; gap: 2px; }
+  .app-dock .gr-nav button { height: 44px; min-width: 44px; padding: 0 8px; font-size: 0.75rem; gap: 4px; }
+  .app-dock .gr-nav button[aria-current="page"] { padding: 0 10px; }
+}
+/* Marketing banners on Home: flavour only; each opens the assistant */
+.app-promos > .app-promo { width: min(85%, 20rem); gap: 12px; }
+.app-promo-ph { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-md, 16px); overflow: hidden; background: var(--card-sunk); }
+.app-promo-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.app-promo-st { position: absolute; top: 10px; inset-inline-start: 10px; }
+.app-promo .gr-btn { align-self: flex-start; }
+.app-subcats { display: flex; flex-wrap: wrap; gap: 8px; }
+.app .gr-nav button svg { width: 1.25rem; height: 1.25rem; } /* nav icons scale with text size */
+.app .gr-slots { grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr)); } /* slot chips reflow at large text sizes */

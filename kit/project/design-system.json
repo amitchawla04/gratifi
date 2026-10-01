@@ -1,0 +1,210 @@
+{
+ "v": 3,
+ "layout": "files",
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-09-28T14:24:34Z"
+ },
+ "title": "Gratifi UI Kit",
+ "namespace": "Gratifi",
+ "libraries": [
+  {
+   "name": "react",
+   "version": "18"
+  },
+  {
+   "name": "react-dom",
+   "version": "18"
+  }
+ ],
+ "sections": {},
+ "groups": [
+  "Logos",
+  "Illustrations",
+  "Stamps"
+ ],
+ "assetGroups": {
+  "Logos": {
+   "name": "Logos",
+   "tile": "l",
+   "order": [
+    "app-icon.svg",
+    "wordmark-dark.svg"
+   ],
+   "files": {
+    "app-icon.svg": {
+     "name": "app-icon.svg",
+     "blob": "d20cb338d1534e9452b2bea098c915dc",
+     "size": 832,
+     "type": "image/svg+xml"
+    },
+    "wordmark-dark.svg": {
+     "name": "wordmark-dark.svg",
+     "blob": "04e66b6e1c012f1731d7d506060cb2bb",
+     "size": 1969,
+     "type": "image/svg+xml"
+    }
+   }
+  },
+  "Illustrations": {
+   "name": "Illustrations",
+   "tile": "m",
+   "order": [
+    "scene-flight.svg",
+    "scene-lisbon.svg",
+    "scene-pool.svg",
+    "scene-room.svg",
+    "scene-food.svg",
+    "scene-car.svg",
+    "scene-cinema.svg",
+    "scene-jacket.svg",
+    "torn-lisbon.svg"
+   ],
+   "files": {
+    "scene-flight.svg": {
+     "name": "scene-flight.svg",
+     "blob": "581b5f612fa5889ebfc8f3cdc115d687",
+     "size": 1730,
+     "type": "image/svg+xml"
+    },
+    "scene-lisbon.svg": {
+     "name": "scene-lisbon.svg",
+     "blob": "76bdfdb10ad8df4e399b1229866fce42",
+     "size": 2615,
+     "type": "image/svg+xml"
+    },
+    "scene-pool.svg": {
+     "name": "scene-pool.svg",
+     "blob": "6a0710c000b08381b165f4bde1321f0f",
+     "size": 2668,
+     "type": "image/svg+xml"
+    },
+    "scene-room.svg": {
+     "name": "scene-room.svg",
+     "blob": "adfcefbe01b22ed357e81016d738ae06",
+     "size": 1918,
+     "type": "image/svg+xml"
+    },
+    "scene-food.svg": {
+     "name": "scene-food.svg",
+     "blob": "fbd40aa22f9481305d67d028fdd602c9",
+     "size": 1272,
+     "type": "image/svg+xml"
+    },
+    "scene-car.svg": {
+     "name": "scene-car.svg",
+     "blob": "f49c063fd86068cfea1b17307a9f2a6b",
+     "size": 1494,
+     "type": "image/svg+xml"
+    },
+    "scene-cinema.svg": {
+     "name": "scene-cinema.svg",
+     "blob": "11a0d458cffa8d753ef8b3308abfdb11",
+     "size": 1893,
+     "type": "image/svg+xml"
+    },
+    "scene-jacket.svg": {
+     "name": "scene-jacket.svg",
+     "blob": "39c820dbeaecfd8c5843777fd983a233",
+     "size": 1423,
+     "type": "image/svg+xml"
+    },
+    "torn-lisbon.svg": {
+     "name": "torn-lisbon.svg",
+     "blob": "8230a746a3243e7cfb412d7709c1654d",
+     "size": 4255,
+     "type": "image/svg+xml"
+    }
+   }
+  },
+  "Stamps": {
+   "name": "Stamps",
+   "tile": "s",
+   "order": [
+    "stamp-plane.svg",
+    "stamp-hotel.svg",
+    "stamp-dining.svg",
+    "stamp-gift.svg",
+    "stamp-ticket.svg",
+    "stamp-car.svg",
+    "stamp-bag.svg",
+    "stamp-balloon.svg",
+    "stamp-music.svg",
+    "stamp-takeaway.svg"
+   ],
+   "files": {
+    "stamp-plane.svg": {
+     "name": "stamp-plane.svg",
+     "blob": "a9393714e439b3bf6ab3ae3c5ab28beb",
+     "size": 3029,
+     "type": "image/svg+xml"
+    },
+    "stamp-hotel.svg": {
+     "name": "stamp-hotel.svg",
+     "blob": "0dd715339441ccb3aedd0ba585362e47",
+     "size": 3390,
+     "type": "image/svg+xml"
+    },
+    "stamp-dining.svg": {
+     "name": "stamp-dining.svg",
+     "blob": "450d81e4389c4345aaa30a943126d60d",
+     "size": 3122,
+     "type": "image/svg+xml"
+    },
+    "stamp-gift.svg": {
+     "name": "stamp-gift.svg",
+     "blob": "9b8ded885c51bcd4e41f9bda66951f6f",
+     "size": 3166,
+     "type": "image/svg+xml"
+    },
+    "stamp-ticket.svg": {
+     "name": "stamp-ticket.svg",
+     "blob": "00a5bb69de3f9e44ee8982a67ca4939c",
+     "size": 2969,
+     "type": "image/svg+xml"
+    },
+    "stamp-car.svg": {
+     "name": "stamp-car.svg",
+     "blob": "8d3d984c8e706520623871d4ada54e9a",
+     "size": 3257,
+     "type": "image/svg+xml"
+    },
+    "stamp-bag.svg": {
+     "name": "stamp-bag.svg",
+     "blob": "b09c9e142f933203ace16d8da43fe4d8",
+     "size": 3035,
+     "type": "image/svg+xml"
+    },
+    "stamp-balloon.svg": {
+     "name": "stamp-balloon.svg",
+     "blob": "9ef327b1a6805085b5ac363dd0a2a203",
+     "size": 3232,
+     "type": "image/svg+xml"
+    },
+    "stamp-music.svg": {
+     "name": "stamp-music.svg",
+     "blob": "f30199673da48abe79dfe70def845cd6",
+     "size": 3131,
+     "type": "image/svg+xml"
+    },
+    "stamp-takeaway.svg": {
+     "name": "stamp-takeaway.svg",
+     "blob": "43604ac7d91d50e0ec987783bc3ebdb3",
+     "size": 3146,
+     "type": "image/svg+xml"
+    }
+   }
+  }
+ },
+ "blobs": {},
+ "docs": {
+  "readme": "project/README.md",
+  "sections": []
+ },
+ "lastChange": {
+  "by": "Amit Chawla",
+  "at": "2026-09-28T15:50:00Z",
+  "via": "Claude",
+  "note": "Six markets and Arabic right to left: currency, dates, payment confirmation and words come from the market"
+ }
+}
