@@ -64,7 +64,12 @@ function Statements({ nav }: { nav: Nav }) {
 function Statement({ nav, arg }: { nav: Nav; arg: string }) {
   const c = St.useS(s => s.card); const M = useMarket(); const st = Bk.statements().find(x => x.id === arg)
   if (!st) return <D.Empty title="That statement isn't here" />
-  const save = () => { try { const blob = new Blob([Bk.statementCsv(st)], { type: 'text/csv' }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Gratifi statement ${st.id}.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); D.toast('Statement saved') } catch (e) { D.toast('This browser blocked the download') } }
+  const save = async () => {
+    const name = `Gratifi statement ${st.id}.csv`, csv = Bk.statementCsv(st)
+    /* Inside Claude the viewer's own save prompt hands over the file; elsewhere a normal download. */
+    let dl: any = null; try { dl = W.claude?.use ? await W.claude.use('downloads') : null } catch (e) { dl = null }
+    if (dl) { try { await dl.save({ filename: name, data: csv }); D.toast('Statement saved') } catch (e: any) { if (e?.code !== 'declined') D.toast('This browser blocked the download') } return }
+    try { const blob = new Blob([csv], { type: 'text/csv' }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); D.toast('Statement saved') } catch (e) { D.toast('This browser blocked the download') } }
   const by: Record<string, number> = {}; st.txns.filter(t => t.cat !== 'Payment').forEach(t => { by[t.cat] = (by[t.cat] || 0) + (t.refund ? -t.amount : t.amount) })
   const bars = Object.entries(by).filter(([, v]) => v > 0.5).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([label, amount]) => ({ label, amount }))
   const owe = st.current && c.due > 0

@@ -11362,8 +11362,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           const b2 = new Date(o.getFullYear(), o.getMonth() + (dd <= o.getDate() ? 1 : 0), dd, 12);
           nb = iso(b2);
         } else {
-          const W5 = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], o = /* @__PURE__ */ new Date(last.date + "T12:00:00");
-          o.setDate(o.getDate() + ((W5.indexOf(bw[1]) - o.getDay() + 7) % 7 || 7));
+          const W6 = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], o = /* @__PURE__ */ new Date(last.date + "T12:00:00");
+          o.setDate(o.getDate() + ((W6.indexOf(bw[1]) - o.getDay() + 7) % 7 || 7));
           nb = iso(o);
         }
         return flightSearch({ city: last.city, date: last.date, back: nb, pax: last.pax, kids: last.kids, inf: last.inf });
@@ -11412,7 +11412,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       }
       const wf = t.match(/^(?:(?:what|how) about |and |or |actually |try |ok,? )?(?:(?:can|could) we (?:go|fly|leave|do it) |let'?s (?:go|fly) |(?:go|fly) )?(?:on )?(?:the )?(?:(next|this) )?(monday|tuesday|wednesday|thursday|friday|saturday|sunday)(?: instead)?\??$/);
       if (wf) {
-        const W5 = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], w = W5.indexOf(wf[2]), o = /* @__PURE__ */ new Date();
+        const W6 = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], w = W6.indexOf(wf[2]), o = /* @__PURE__ */ new Date();
         o.setDate(o.getDate() + ((w - o.getDay() + 7) % 7 || 7) + (wf[1] === "next" && (w - (/* @__PURE__ */ new Date()).getDay() + 7) % 7 < 3 ? 7 : 0));
         if (!wf[1] && last.date && last.date > addDays(iso(/* @__PURE__ */ new Date()), 6)) {
           const b0 = /* @__PURE__ */ new Date(last.date + "T12:00:00");
@@ -11880,6 +11880,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
   var clean = (t) => unslop(t).replace(/\*\*|__/g, "").replace(/^#+\s*/gm, "").replace(/^\s*[-*•]\s+/gm, "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, "").replace(/!+/g, ".").replace(/\.{2,}/g, ".").replace(/[ \t]{2,}/g, " ").trim();
 
   // src/cardx.tsx
+  var W4 = window;
   function here(r) {
     if (r.confirm) openConfirm(r.confirm);
     else {
@@ -11928,11 +11929,28 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const M3 = useMarket();
     const st = statements().find((x) => x.id === arg);
     if (!st) return /* @__PURE__ */ React.createElement(Empty, { title: "That statement isn't here" });
-    const save2 = () => {
+    const save2 = async () => {
+      var _a;
+      const name = `Gratifi statement ${st.id}.csv`, csv = statementCsv(st);
+      let dl = null;
       try {
-        const blob = new Blob([statementCsv(st)], { type: "text/csv" }), a = document.createElement("a");
+        dl = ((_a = W4.claude) == null ? void 0 : _a.use) ? await W4.claude.use("downloads") : null;
+      } catch (e) {
+        dl = null;
+      }
+      if (dl) {
+        try {
+          await dl.save({ filename: name, data: csv });
+          toast("Statement saved");
+        } catch (e) {
+          if ((e == null ? void 0 : e.code) !== "declined") toast("This browser blocked the download");
+        }
+        return;
+      }
+      try {
+        const blob = new Blob([csv], { type: "text/csv" }), a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = `Gratifi statement ${st.id}.csv`;
+        a.download = name;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -12649,7 +12667,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
   }
 
   // src/main.tsx
-  var W4 = window;
+  var W5 = window;
   function readLS(k) {
     try {
       return localStorage.getItem(k);
@@ -12670,7 +12688,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const s = useS((x) => x);
     const [tab, setTab] = useState(q.get("tab") || "home");
     const [cat, setCat] = useState(q.get("cat") || void 0);
-    const sysDark = W4.matchMedia && W4.matchMedia("(prefers-color-scheme: dark)").matches;
+    const sysDark = W5.matchMedia && W5.matchMedia("(prefers-color-scheme: dark)").matches;
     const [theme, setThemeS] = useState(q.get("theme") || readLS("gratifi-theme") || (sysDark ? "dark" : "light"));
     const setTheme = (t) => {
       setThemeS(t);
@@ -12683,7 +12701,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       const f = fmt(s.market);
       document.documentElement.lang = f.locale;
       document.documentElement.dir = f.dir;
-      W4.__phoneEnd = { UK: "21", EU: "48", IN: "45", AE: "09", AR: "09", SG: "63", MY: "17" }[s.market];
+      W5.__phoneEnd = { UK: "21", EU: "48", IN: "45", AE: "09", AR: "09", SG: "63", MY: "17" }[s.market];
     }, [s.market]);
     window.__tab = tab;
     const [hist, setHist] = useState([]);
@@ -12697,14 +12715,14 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const [dir, setDir] = useState("");
     const depth = (t) => t === "bank" ? -1 : t === "home" ? 0 : t === "chat" ? 1 : t === "cardx" ? 3 : 2;
     const move = (d2, fn) => {
-      const doc = document, reduce = W4.matchMedia && W4.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const doc = document, reduce = W5.matchMedia && W5.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!doc.startViewTransition || reduce) {
         setDir(d2);
         fn();
         return;
       }
       document.documentElement.dataset.nav = d2;
-      const v = doc.startViewTransition(() => W4.ReactDOM.flushSync(() => {
+      const v = doc.startViewTransition(() => W5.ReactDOM.flushSync(() => {
         setDir(d2);
         fn();
       }));
@@ -12743,7 +12761,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       });
     };
     const nav = { go, back };
-    W4.__back = back;
+    W5.__back = back;
     useEffect(() => {
       let x0 = 0, y0 = 0, on3 = false;
       const rtl = () => document.documentElement.dir === "rtl";
@@ -12757,7 +12775,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         if (!on3) return;
         on3 = false;
         const t = e.changedTouches[0], dx = (t.clientX - x0) * (rtl() ? -1 : 1), dy = Math.abs(t.clientY - y0);
-        if (dx > 70 && dy < 60 && (W4.__tab !== "home" && W4.__tab !== "bank")) W4.__back();
+        if (dx > 70 && dy < 60 && (W5.__tab !== "home" && W5.__tab !== "bank")) W5.__back();
       };
       document.addEventListener("touchstart", start, { passive: true });
       document.addEventListener("touchend", end, { passive: true });
@@ -12766,13 +12784,13 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         document.removeEventListener("touchend", end);
       };
     }, []);
-    W4.__go = go;
-    W4.__M = fmt(s.market);
-    W4.__setApis = (o) => set((x) => ({ seen: { ...x.seen, apisOff: o } }));
+    W5.__go = go;
+    W5.__M = fmt(s.market);
+    W5.__setApis = (o) => set((x) => ({ seen: { ...x.seen, apisOff: o } }));
     useEffect(() => {
-      setGoChat(() => W4.__go("chat"));
+      setGoChat(() => W5.__go("chat"));
       setSendText((t) => {
-        W4.__go("chat");
+        W5.__go("chat");
         ask(t);
       });
     }, []);
@@ -12802,7 +12820,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       pushMsg({ role: "gr", text: "Voice works in the phone app. Type here for now." });
     } }))), /* @__PURE__ */ React.createElement(ConfirmHost, null)));
   }
-  W4.ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));
+  W5.ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));
   var reAR = arabic(document.getElementById("root"));
   onChange(() => reAR());
   initBrain();
