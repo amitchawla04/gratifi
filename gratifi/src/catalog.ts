@@ -1,6 +1,7 @@
 /* Mock supply for every category, per market. Everything here stands in for a supplier or the bank:
    fictional airlines, hotels, brands and charities; real airport codes and cities. Prices are illustrative. */
 import { ART } from '../../kit/src/art'
+import { scene, CUISINE } from './scenes'
 
 export const MK = ['UK', 'EU', 'IN', 'AE', 'SG', 'MY', 'AR'] as const
 export type Mk = typeof MK[number]
@@ -122,14 +123,14 @@ export function hotels(m: string, cityName: string): Item[] {
   const g0 = NIGHT[cityName] || (c ? Math.max(90, c.gbp) : 120)
   return [0, 1, 2, 3].map(i => {
     const gbp = Math.round(g0 * (0.8 + i * 0.25 + r() * 0.15)) * 2
-    return { id: `ST-${cityName}-${i}`, cat: 'stays', title: `${W1[(i * 3 + hsh(cityName)) % W1.length]} ${W2[(i + hsh(cityName) * 7) % W2.length]}`, sub: `${(CITY_AREAS[cityName] || AREAS)[i]}, ${cityName}`, img: ['pool', 'room', 'lisbon', 'room'][i], gbp, unit: '2 nights, taxes in', rating: +(4.2 + r() * 0.7).toFixed(1), meta: [['Pool', 'Breakfast'], ['Breakfast'], ['Rooftop bar'], ['Gym', 'Spa']][i], city: cityName, opts: { kind: 'variants', label: 'Room', values: ['Double', 'Twin', 'Suite (+40%)'] }, policy: i === 2 ? 'Non-refundable rate' : 'Free cancellation until 3 days before', mode: 'order', earn: i === 0 ? '3× points' : undefined } as Item
+    return { id: `ST-${cityName}-${i}`, cat: 'stays', title: `${W1[(i * 3 + hsh(cityName)) % W1.length]} ${W2[(i + hsh(cityName) * 7) % W2.length]}`, sub: `${(CITY_AREAS[cityName] || AREAS)[i]}, ${cityName}`, img: ['stay:pool', 'stay:room', 'stay:facade', 'stay:terrace'][i], gbp, unit: '2 nights, taxes in', rating: +(4.2 + r() * 0.7).toFixed(1), meta: [['Pool', 'Breakfast'], ['Breakfast'], ['Rooftop bar'], ['Gym', 'Spa']][i], city: cityName, opts: { kind: 'variants', label: 'Room', values: ['Double', 'Twin', 'Suite (+40%)'] }, policy: i === 2 ? 'Non-refundable rate' : 'Free cancellation until 3 days before', mode: 'order', earn: i === 0 ? '3× points' : undefined } as Item
   })
 }
 
 const CITY_EXP = ['Old town walking tour', 'Sunset boat trip', 'Food market tour', 'Cooking class', 'Museum with skip-the-line entry', 'Day trip to the coast', 'Theme park day']
 export function experiences(m: string, cityName: string): Item[] {
   const r = rnd(m + 'x' + cityName)
-  return CITY_EXP.map((t, i) => ({ id: `EX-${cityName}-${i}`, cat: 'experiences', title: t, sub: cityName, img: ['lisbon', 'pool', 'food', 'food', 'cinema', 'car', 'pool'][i], gbp: [24, 45, 38, 52, 22, 68, 58][i], unit: 'per person', rating: +(4.4 + r() * 0.5).toFixed(1), meta: [['2 hours', 'Small group'], ['90 min'], ['3 hours', 'Tastings'], ['3 hours'], ['Timed entry'], ['Full day', 'Pick-up'], ['Full day']][i], city: cityName, opts: { kind: 'slots', label: 'Time', values: ['09:00', '11:00', '14:00', '17:30'] }, policy: i === 6 ? 'Non-refundable' : 'Free cancellation until 24 hours before', mode: 'order' } as Item))
+  return CITY_EXP.map((t, i) => ({ id: `EX-${cityName}-${i}`, cat: 'experiences', title: t, sub: cityName, img: ['do:walk', 'do:boat', 'do:market', 'do:cooking', 'do:museum', 'do:coast', 'do:park'][i], gbp: [24, 45, 38, 52, 22, 68, 58][i], unit: 'per person', rating: +(4.4 + r() * 0.5).toFixed(1), meta: [['2 hours', 'Small group'], ['90 min'], ['3 hours', 'Tastings'], ['3 hours'], ['Timed entry'], ['Full day', 'Pick-up'], ['Full day']][i], city: cityName, opts: { kind: 'slots', label: 'Time', values: ['09:00', '11:00', '14:00', '17:30'] }, policy: i === 6 ? 'Non-refundable' : 'Free cancellation until 24 hours before', mode: 'order' } as Item))
 }
 
 const REST_BY: Record<string, string[][]> = {
@@ -141,7 +142,7 @@ const REST_BY: Record<string, string[][]> = {
 const REST = [['Harrow & Vine', 'Modern European'], ['Salt and Ember', 'Grill'], ['The Green Table', 'Vegetarian'], ['Kanji', 'Japanese'], ['Masala Room', 'Indian'], ['Little Olive', 'Mediterranean']]
 export function restaurants(m: string, cityName: string): Item[] {
   const r = rnd(m + 'd' + cityName)
-  return (REST_BY[base(m)] || REST).map(([n, cu], i) => ({ id: `DN-${cityName}-${i}`, cat: 'dining', title: n, sub: `${cu} · ${cityName}`, img: /Japanese/.test(cu) ? 'food' : 'table', gbp: 0, unit: 'to book', rating: +(4.3 + r() * 0.6).toFixed(1), meta: [['Upmarket', '15% off with your card'], ['Mid-price'], ['Mid-price', 'Plant-based'], ['Upmarket', 'Chef\'s counter'], ['Mid-price'], ['Mid-price', 'Terrace']][i], city: cityName, opts: { kind: 'slots', label: 'Time', values: ['18:30', '19:00', '19:30', '20:00', '20:30', '21:00'] }, policy: 'Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee.', mode: 'order', earn: i === 0 ? '15% off with your card' : undefined } as Item))
+  return (REST_BY[base(m)] || REST).map(([n, cu], i) => ({ id: `DN-${cityName}-${i}`, cat: 'dining', title: n, sub: `${cu} · ${cityName}`, img: 'food:' + (CUISINE[cu] || 'european'), gbp: 0, unit: 'to book', rating: +(4.3 + r() * 0.6).toFixed(1), meta: [['Upmarket', '15% off with your card'], ['Mid-price'], ['Mid-price', 'Plant-based'], ['Upmarket', 'Chef\'s counter'], ['Mid-price'], ['Mid-price', 'Terrace']][i], city: cityName, opts: { kind: 'slots', label: 'Time', values: ['18:30', '19:00', '19:30', '20:00', '20:30', '21:00'] }, policy: 'Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee.', mode: 'order', earn: i === 0 ? '15% off with your card' : undefined } as Item))
 }
 
 export const GROCERY: Item[] = [
@@ -150,52 +151,52 @@ export const GROCERY: Item[] = [
 ].map(([t, g], i) => ({ id: `QC-${i}`, cat: 'quick', title: t as string, icon: 'bag', gbp: g as number, mode: 'order', live: true } as Item))
 
 export const PRODUCTS: Item[] = [
-  { id: 'SH-1', cat: 'shopping', title: 'Hush 700 noise-cancelling headphones', sub: 'Byte Store', icon: 'headset', gbp: 229, rating: 4.7, meta: ['Free delivery', '2-year warranty'], opts: { kind: 'variants', label: 'Colour', values: ['Black', 'Silver', 'Blue'] }, policy: 'Return within 30 days', mode: 'order', tags: ['electronics', 'audio'] },
-  { id: 'SH-2', cat: 'shopping', title: 'Smartwatch, 44mm', sub: 'Byte Store', icon: 'clock', gbp: 279, rating: 4.6, meta: ['Delivery in 2 days'], opts: { kind: 'variants', label: 'Strap', values: ['Black', 'Sand', 'Olive'] }, policy: 'Return within 30 days', mode: 'order', tags: ['electronics'] },
-  { id: 'SH-3', cat: 'shopping', title: '13-inch laptop, 16GB', sub: 'Byte Store', icon: 'grid', gbp: 999, rating: 4.8, meta: ['Free delivery', '1-year warranty'], policy: 'Return within 14 days', mode: 'order', tags: ['electronics', 'laptop'] },
-  { id: 'SH-4', cat: 'shopping', title: 'Rain shell jacket', sub: 'Stride Outdoor', img: 'jacket', gbp: 120, rating: 4.5, meta: ['Free returns'], opts: { kind: 'variants', label: 'Size', values: ['S', 'M', 'L', 'XL'] }, policy: 'Return within 30 days', mode: 'order', tags: ['fashion', 'jacket'] },
-  { id: 'SH-5', cat: 'shopping', title: 'Leather trainers', sub: 'Stride Outdoor', icon: 'bag', gbp: 95, rating: 4.4, opts: { kind: 'variants', label: 'Size', values: ['6', '7', '8', '9', '10', '11'] }, policy: 'Return within 30 days', mode: 'order', tags: ['fashion', 'shoes'] },
-  { id: 'SH-6', cat: 'shopping', title: 'Skincare set', sub: 'Glow Beauty', icon: 'leaf', gbp: 58, rating: 4.6, policy: 'Unopened returns within 14 days', mode: 'order', tags: ['beauty'] },
-  { id: 'SH-7', cat: 'shopping', title: 'Espresso machine', sub: 'Home & Hearth', icon: 'meal', gbp: 349, rating: 4.7, meta: ['Delivery in 3 days', '2-year warranty'], policy: 'Return within 30 days', mode: 'order', tags: ['home', 'kitchen', 'coffee'] },
-  { id: 'SH-8', cat: 'shopping', title: 'Air fryer, 5.5 litres', sub: 'Home & Hearth', icon: 'meal', gbp: 89, rating: 4.5, policy: 'Return within 30 days', mode: 'order', tags: ['home', 'kitchen'] },
-  { id: 'SH-9', cat: 'shopping', title: 'Cabin suitcase', sub: 'Wander Goods', icon: 'cabinbag', gbp: 139, rating: 4.6, opts: { kind: 'variants', label: 'Colour', values: ['Graphite', 'Sand', 'Orange'] }, policy: 'Return within 30 days', mode: 'order', tags: ['travel', 'luggage'] },
-  { id: 'SH-10', cat: 'shopping', title: 'Linen bedding set', sub: 'Home & Hearth', img: 'room', gbp: 110, rating: 4.4, opts: { kind: 'variants', label: 'Size', values: ['Double', 'King', 'Super king'] }, policy: 'Return within 30 days', mode: 'order', tags: ['home'] },
-  { id: 'SH-11', cat: 'shopping', title: 'Shop at Lumen Books', sub: 'On their own site · 10× points', icon: 'doc', gbp: 0, earn: '10× points', mode: 'link', brand: 'Lumen Books', policy: 'Points land after the 30-day return window', tags: ['cache', 'books'] },
-  { id: 'SH-12', cat: 'shopping', title: 'Shop at Stride Outdoor', sub: 'On their own site · 5× points', img: 'jacket', gbp: 0, earn: '5× points', mode: 'link', brand: 'Stride Outdoor', policy: 'Points land after the 30-day return window', tags: ['cache', 'fashion'] },
+  { id: 'SH-1', cat: 'shopping', title: 'Hush 700 noise-cancelling headphones', sub: 'Byte Store', img: 'shop:headphones', gbp: 229, rating: 4.7, meta: ['Free delivery', '2-year warranty'], opts: { kind: 'variants', label: 'Colour', values: ['Black', 'Silver', 'Blue'] }, policy: 'Return within 30 days', mode: 'order', tags: ['electronics', 'audio'] },
+  { id: 'SH-2', cat: 'shopping', title: 'Smartwatch, 44mm', sub: 'Byte Store', img: 'shop:watch', gbp: 279, rating: 4.6, meta: ['Delivery in 2 days'], opts: { kind: 'variants', label: 'Strap', values: ['Black', 'Sand', 'Olive'] }, policy: 'Return within 30 days', mode: 'order', tags: ['electronics'] },
+  { id: 'SH-3', cat: 'shopping', title: '13-inch laptop, 16GB', sub: 'Byte Store', img: 'shop:laptop', gbp: 999, rating: 4.8, meta: ['Free delivery', '1-year warranty'], policy: 'Return within 14 days', mode: 'order', tags: ['electronics', 'laptop'] },
+  { id: 'SH-4', cat: 'shopping', title: 'Rain shell jacket', sub: 'Stride Outdoor', img: 'shop:jacket', gbp: 120, rating: 4.5, meta: ['Free returns'], opts: { kind: 'variants', label: 'Size', values: ['S', 'M', 'L', 'XL'] }, policy: 'Return within 30 days', mode: 'order', tags: ['fashion', 'jacket'] },
+  { id: 'SH-5', cat: 'shopping', title: 'Leather trainers', sub: 'Stride Outdoor', img: 'shop:trainers', gbp: 95, rating: 4.4, opts: { kind: 'variants', label: 'Size', values: ['6', '7', '8', '9', '10', '11'] }, policy: 'Return within 30 days', mode: 'order', tags: ['fashion', 'shoes'] },
+  { id: 'SH-6', cat: 'shopping', title: 'Skincare set', sub: 'Glow Beauty', img: 'shop:skincare', gbp: 58, rating: 4.6, policy: 'Unopened returns within 14 days', mode: 'order', tags: ['beauty'] },
+  { id: 'SH-7', cat: 'shopping', title: 'Espresso machine', sub: 'Home & Hearth', img: 'shop:espresso', gbp: 349, rating: 4.7, meta: ['Delivery in 3 days', '2-year warranty'], policy: 'Return within 30 days', mode: 'order', tags: ['home', 'kitchen', 'coffee'] },
+  { id: 'SH-8', cat: 'shopping', title: 'Air fryer, 5.5 litres', sub: 'Home & Hearth', img: 'shop:airfryer', gbp: 89, rating: 4.5, policy: 'Return within 30 days', mode: 'order', tags: ['home', 'kitchen'] },
+  { id: 'SH-9', cat: 'shopping', title: 'Cabin suitcase', sub: 'Wander Goods', img: 'shop:suitcase', gbp: 139, rating: 4.6, opts: { kind: 'variants', label: 'Colour', values: ['Graphite', 'Sand', 'Orange'] }, policy: 'Return within 30 days', mode: 'order', tags: ['travel', 'luggage'] },
+  { id: 'SH-10', cat: 'shopping', title: 'Linen bedding set', sub: 'Home & Hearth', img: 'shop:bedding', gbp: 110, rating: 4.4, opts: { kind: 'variants', label: 'Size', values: ['Double', 'King', 'Super king'] }, policy: 'Return within 30 days', mode: 'order', tags: ['home'] },
+  { id: 'SH-11', cat: 'shopping', title: 'Shop at Lumen Books', sub: 'On their own site · 10× points', img: 'shop:books', gbp: 0, earn: '10× points', mode: 'link', brand: 'Lumen Books', policy: 'Points land after the 30-day return window', tags: ['cache', 'books'] },
+  { id: 'SH-12', cat: 'shopping', title: 'Shop at Stride Outdoor', sub: 'On their own site · 5× points', img: 'shop:outdoor', gbp: 0, earn: '5× points', mode: 'link', brand: 'Stride Outdoor', policy: 'Points land after the 30-day return window', tags: ['cache', 'fashion'] },
 ]
 
 export const GIFTCARDS: Item[] = [['Harbour & Co', '#2E5E4E', 'Homeware'], ['Bloom', '#B5542B', 'Flowers'], ['Northway Air', '#1F3A5F', 'Flights'], ['Reel House', '#5B3FA8', 'Cinema'], ['Pantry Market', '#3D6B35', 'Groceries'], ['Stride Outdoor', '#8A5A2B', 'Outdoor'], ['Lumen Books', '#6B4E9E', 'Books'], ['Glow Beauty', '#B03A6A', 'Beauty'], ['Byte Store', '#17171A', 'Electronics'], ['Table Collective', '#9A3B2E', 'Dining']]
-  .map(([n, c, s], i) => ({ id: `GC-${i}`, cat: 'giftcards', title: n, sub: s, icon: 'gift', gbp: 0, tags: [c], opts: { kind: 'variants', label: 'Amount', values: ['25', '50', '100', '200'] }, policy: 'Delivered instantly. Valid for 12 months. Not refundable once sent.', mode: 'order' } as Item))
+  .map(([n, c, s], i) => ({ id: `GC-${i}`, cat: 'giftcards', title: n, sub: s, icon: 'gift', img: `gift:${s}|${c}`, gbp: 0, tags: [c], opts: { kind: 'variants', label: 'Amount', values: ['25', '50', '100', '200'] }, policy: 'Delivered instantly. Valid for 12 months. Not refundable once sent.', mode: 'order' } as Item))
 
 export const SUBS: Item[] = [
-  { id: 'SB-1', cat: 'subs', title: 'Screenly', sub: 'Films and series', icon: 'eye', gbp: 10.99, unit: 'a month', tags: ['#C0301C'], opts: { kind: 'plans', label: 'Plan', values: ['Standard', 'Premium 4K (+£5)'] }, policy: 'Cancel any time; access until your next billing date', mode: 'order' },
-  { id: 'SB-2', cat: 'subs', title: 'Tunewave', sub: 'Music', icon: 'bell', gbp: 0, included: true, unit: 'included with your card', tags: ['#16794A'], policy: 'Included for as long as you hold the card', mode: 'order' },
-  { id: 'SB-3', cat: 'subs', title: 'Pagebound', sub: 'Audiobooks', icon: 'doc', gbp: 7.99, unit: 'a month', tags: ['#B3470F'], policy: 'Cancel any time; access until your next billing date', mode: 'order' },
-  { id: 'SB-4', cat: 'subs', title: 'Daily Ledger', sub: 'News', icon: 'doc', gbp: 6.5, unit: 'a month', tags: ['#1F3A5F'], policy: 'Cancel any time; access until your next billing date', mode: 'order' },
-  { id: 'SB-5', cat: 'subs', title: 'Fitloop', sub: 'Home workouts', icon: 'heart', gbp: 9.99, unit: 'a month', tags: ['#0F7C80'], policy: 'First month free, then monthly', mode: 'order' },
-  { id: 'SB-6', cat: 'subs', title: 'Cloudkeep', sub: 'Photo storage, 200GB', icon: 'grid', gbp: 2.99, unit: 'a month', tags: ['#5B3FA8'], policy: 'Cancel any time; access until your next billing date', mode: 'order' },
+  { id: 'SB-1', cat: 'subs', title: 'Screenly', sub: 'Films and series', img: 'sub:Films and series|#C0301C', icon: 'eye', gbp: 10.99, unit: 'a month', tags: ['#C0301C'], opts: { kind: 'plans', label: 'Plan', values: ['Standard', 'Premium 4K (+£5)'] }, policy: 'Cancel any time; access until your next billing date', mode: 'order' },
+  { id: 'SB-2', cat: 'subs', title: 'Tunewave', sub: 'Music', img: 'sub:Music|#16794A', icon: 'bell', gbp: 0, included: true, unit: 'included with your card', tags: ['#16794A'], policy: 'Included for as long as you hold the card', mode: 'order' },
+  { id: 'SB-3', cat: 'subs', title: 'Pagebound', sub: 'Audiobooks', img: 'sub:Audiobooks|#B3470F', icon: 'doc', gbp: 7.99, unit: 'a month', tags: ['#B3470F'], policy: 'Cancel any time; access until your next billing date', mode: 'order' },
+  { id: 'SB-4', cat: 'subs', title: 'Daily Ledger', sub: 'News', img: 'sub:News|#1F3A5F', icon: 'doc', gbp: 6.5, unit: 'a month', tags: ['#1F3A5F'], policy: 'Cancel any time; access until your next billing date', mode: 'order' },
+  { id: 'SB-5', cat: 'subs', title: 'Fitloop', sub: 'Home workouts', img: 'sub:Home workouts|#0F7C80', icon: 'heart', gbp: 9.99, unit: 'a month', tags: ['#0F7C80'], policy: 'First month free, then monthly', mode: 'order' },
+  { id: 'SB-6', cat: 'subs', title: 'Cloudkeep', sub: 'Photo storage, 200GB', img: 'sub:Photo storage, 200GB|#5B3FA8', icon: 'grid', gbp: 2.99, unit: 'a month', tags: ['#5B3FA8'], policy: 'Cancel any time; access until your next billing date', mode: 'order' },
 ]
 
 export function events(m: string): Item[] {
   const c = home(m).city
   return [
-    { id: 'ET-1', tags: ['concert', 'music', 'gig', 'live'], cat: 'tickets', title: 'Arlo Grey live', sub: `Arena, ${c} · Sat 24 Oct`, img: 'stage', gbp: 65, unit: 'per ticket', meta: ['Presale for cardholders'], opts: { kind: 'variants', label: 'Area', values: ['Standing', 'Seated, upper', 'Seated, lower (+£30)'] }, policy: 'No refunds unless the event is cancelled or moved', mode: 'order' },
+    { id: 'ET-1', tags: ['concert', 'music', 'gig', 'live'], cat: 'tickets', title: 'Arlo Grey live', sub: `Arena, ${c} · Sat 24 Oct`, img: 'do:concert', gbp: 65, unit: 'per ticket', meta: ['Presale for cardholders'], opts: { kind: 'variants', label: 'Area', values: ['Standing', 'Seated, upper', 'Seated, lower (+£30)'] }, policy: 'No refunds unless the event is cancelled or moved', mode: 'order' },
     { id: 'ET-2', tags: ['football', 'sport', 'match', 'derby'], cat: 'tickets', title: 'City derby', sub: `National Stadium, ${c} · Sun 1 Nov`, img: 'stadium', gbp: 48, unit: 'per ticket', opts: { kind: 'variants', label: 'Stand', values: ['North', 'South', 'West (+£20)'] }, policy: 'Tickets are named; no resale', mode: 'order' },
-    { id: 'ET-3', tags: ['theatre', 'play', 'show'], cat: 'tickets', title: 'The Glass Garden (theatre)', sub: `Royal Playhouse, ${c} · evenings`, img: 'stage', gbp: 42, unit: 'per ticket', opts: { kind: 'slots', label: 'Date', values: ['Thu 22 Oct', 'Fri 23 Oct', 'Sat 24 Oct'] }, policy: 'Exchange up to 48 hours before', mode: 'order' },
+    { id: 'ET-3', tags: ['theatre', 'play', 'show'], cat: 'tickets', title: 'The Glass Garden (theatre)', sub: `Royal Playhouse, ${c} · evenings`, img: 'do:theatre', gbp: 42, unit: 'per ticket', opts: { kind: 'slots', label: 'Date', values: ['Thu 22 Oct', 'Fri 23 Oct', 'Sat 24 Oct'] }, policy: 'Exchange up to 48 hours before', mode: 'order' },
     { id: 'ET-4', tags: ['cinema', 'film', 'movie'], cat: 'tickets', title: 'Cinema: 2 for 1 this week', sub: `Reel House, ${c}`, img: 'cinema', gbp: 12, unit: 'for two', meta: ['Card offer'], opts: { kind: 'slots', label: 'Showing', values: ['17:40', '19:15', '20:50'] }, policy: 'Refund up to 1 hour before', mode: 'order' },
-    { id: 'ET-5', tags: ['food', 'festival'], cat: 'tickets', title: 'Riverside food festival', sub: `${c} · 7 to 8 Nov`, img: 'food', gbp: 18, unit: 'day pass', opts: { kind: 'slots', label: 'Day', values: ['Sat 7 Nov', 'Sun 8 Nov'] }, policy: 'No refunds', mode: 'order' },
+    { id: 'ET-5', tags: ['food', 'festival'], cat: 'tickets', title: 'Riverside food festival', sub: `${c} · 7 to 8 Nov`, img: 'do:festival', gbp: 18, unit: 'day pass', opts: { kind: 'slots', label: 'Day', values: ['Sat 7 Nov', 'Sun 8 Nov'] }, policy: 'No refunds', mode: 'order' },
   ]
 }
 
 export function airportServices(m: string): Item[] {
   const h = home(m)
   return [
-    { id: 'AP-1', cat: 'airport', title: 'Lounge visit', sub: `${h.airport} ${h.terminal} · The Orchard`, icon: 'sofa', gbp: 32, unit: 'per person', meta: ['Up to 3 hours before your flight'], policy: 'Card visits come back if the lounge can\'t take you', mode: 'order', included: true },
-    { id: 'AP-2', cat: 'airport', title: 'Fast track security', sub: `${h.airport} ${h.terminal}`, icon: 'bolt', gbp: 9, unit: 'per person', policy: 'Full refund if not delivered', mode: 'order' },
-    { id: 'AP-3', cat: 'airport', title: 'Meet and greet on arrival', sub: `${h.airport} · greeter at the gate`, icon: 'users', gbp: 85, unit: 'per group', meta: ['Help through arrivals and bags'], policy: 'Full refund if the greeter doesn\'t turn up', mode: 'order' },
-    { id: 'AP-4', cat: 'airport', title: 'Porter and buggy', sub: h.airport, icon: 'cabinbag', gbp: 25, unit: 'per booking', policy: 'Full refund if not delivered', mode: 'order' },
-    { id: 'AP-5', cat: 'airport', title: 'Sleep pod, 4 hours', sub: `${h.airport} airside`, icon: 'bed', gbp: 45, unit: 'per pod', policy: 'Free change up to 2 hours before', mode: 'order' },
-    { id: 'AP-6', cat: 'airport', title: 'Baggage wrap and storage', sub: h.airport, icon: 'bag', gbp: 12, unit: 'per bag', policy: 'Full refund if not delivered', mode: 'order' },
+    { id: 'AP-1', cat: 'airport', title: 'Lounge visit', sub: `${h.airport} ${h.terminal} · The Orchard`, img: 'move:lounge', gbp: 32, unit: 'per person', meta: ['Up to 3 hours before your flight'], policy: 'Card visits come back if the lounge can\'t take you', mode: 'order', included: true },
+    { id: 'AP-2', cat: 'airport', title: 'Fast track security', sub: `${h.airport} ${h.terminal}`, img: 'move:fasttrack', gbp: 9, unit: 'per person', policy: 'Full refund if not delivered', mode: 'order' },
+    { id: 'AP-3', cat: 'airport', title: 'Meet and greet on arrival', sub: `${h.airport} · greeter at the gate`, img: 'move:meet', gbp: 85, unit: 'per group', meta: ['Help through arrivals and bags'], policy: 'Full refund if the greeter doesn\'t turn up', mode: 'order' },
+    { id: 'AP-4', cat: 'airport', title: 'Porter and buggy', sub: h.airport, img: 'move:porter', gbp: 25, unit: 'per booking', policy: 'Full refund if not delivered', mode: 'order' },
+    { id: 'AP-5', cat: 'airport', title: 'Sleep pod, 4 hours', sub: `${h.airport} airside`, img: 'move:pod', gbp: 45, unit: 'per pod', policy: 'Free change up to 2 hours before', mode: 'order' },
+    { id: 'AP-6', cat: 'airport', title: 'Baggage wrap and storage', sub: h.airport, img: 'move:wrap', gbp: 12, unit: 'per bag', policy: 'Full refund if not delivered', mode: 'order' },
   ]
 }
 
@@ -203,15 +204,15 @@ export function rides(m: string): Item[] {
   const h = home(m)
   const rail = m === 'UK' ? 'Train to Edinburgh' : m === 'EU' ? 'Train to Cork' : m === 'IN' ? 'Train to Pune' : m === 'MY' ? 'Train to Ipoh' : null
   const out: Item[] = [
-    { id: 'GT-1', cat: 'rides', title: 'Ride: Standard', sub: `${h.city} · 4 min away`, icon: 'car', gbp: 14, unit: 'across town; fixed when you book', meta: ['4 seats'], policy: 'Free to cancel until the driver arrives', mode: 'order' },
-    { id: 'GT-2', cat: 'rides', title: 'Ride: Larger', sub: `${h.city} · 7 min away`, icon: 'car', gbp: 19, unit: 'across town; fixed when you book', meta: ['6 seats', '4 bags'], policy: 'Free to cancel until the driver arrives', mode: 'order' },
-    { id: 'GT-3', cat: 'rides', title: `Airport transfer to ${h.airport}${h.airport === h.city ? ' Airport' : ''}`, sub: 'Timed to your flight', icon: 'car', gbp: 48, unit: 'fixed price', meta: ['Driver waits 60 min on arrivals'], policy: 'Free to cancel up to 12 hours before', mode: 'order' },
-    { id: 'GT-4', cat: 'rides', title: 'Car hire: compact automatic', sub: 'Pick up at the airport', icon: 'car', gbp: 38, unit: 'per day', meta: ['Unlimited miles', 'Full-to-full fuel'], opts: { kind: 'dates', label: 'Days', values: ['1', '2', '3', '5', '7'] }, policy: 'Free cancellation up to 48 hours before', mode: 'order' },
-    { id: 'GT-5', cat: 'rides', title: 'Chauffeur, half day', sub: h.city, icon: 'user', gbp: 180, unit: '4 hours', policy: 'Free cancellation up to 24 hours before', mode: 'order' },
+    { id: 'GT-1', cat: 'rides', title: 'Ride: Standard', sub: `${h.city} · 4 min away`, img: 'move:car', gbp: 14, unit: 'across town; fixed when you book', meta: ['4 seats'], policy: 'Free to cancel until the driver arrives', mode: 'order' },
+    { id: 'GT-2', cat: 'rides', title: 'Ride: Larger', sub: `${h.city} · 7 min away`, img: 'move:van', gbp: 19, unit: 'across town; fixed when you book', meta: ['6 seats', '4 bags'], policy: 'Free to cancel until the driver arrives', mode: 'order' },
+    { id: 'GT-3', cat: 'rides', title: `Airport transfer to ${h.airport}${h.airport === h.city ? ' Airport' : ''}`, sub: 'Timed to your flight', img: 'move:transfer', gbp: 48, unit: 'fixed price', meta: ['Driver waits 60 min on arrivals'], policy: 'Free to cancel up to 12 hours before', mode: 'order' },
+    { id: 'GT-4', cat: 'rides', title: 'Car hire: compact automatic', sub: 'Pick up at the airport', img: 'move:hire', gbp: 38, unit: 'per day', meta: ['Unlimited miles', 'Full-to-full fuel'], opts: { kind: 'dates', label: 'Days', values: ['1', '2', '3', '5', '7'] }, policy: 'Free cancellation up to 48 hours before', mode: 'order' },
+    { id: 'GT-5', cat: 'rides', title: 'Chauffeur, half day', sub: h.city, img: 'move:chauffeur', gbp: 180, unit: '4 hours', policy: 'Free cancellation up to 24 hours before', mode: 'order' },
   ]
-  if (rail) out.splice(3, 0, { id: 'GT-6', cat: 'rides', title: rail, sub: 'Standard class, reserved seat', icon: 'train', gbp: 42, unit: 'per person', opts: { kind: 'slots', label: 'Departure', values: ['07:30', '09:00', '12:30', '16:00'] }, policy: 'Changes before departure for a fee', mode: 'order' })
+  if (rail) out.splice(3, 0, { id: 'GT-6', cat: 'rides', title: rail, sub: 'Standard class, reserved seat', img: 'move:train', gbp: 42, unit: 'per person', opts: { kind: 'slots', label: 'Departure', values: ['07:30', '09:00', '12:30', '16:00'] }, policy: 'Changes before departure for a fee', mode: 'order' })
   const more: [string, number][] = ({ UK: [['Manchester', 34], ['Birmingham', 27], ['York', 36], ['Bristol', 30]], EU: [['Galway', 24], ['Belfast', 28], ['Limerick', 22]], IN: [['Ahmedabad', 30], ['Goa', 38], ['Surat', 22]], MY: [['Penang', 36], ['Johor Bahru', 40]] } as Record<string, [string, number][]>)[m] || []
-  more.forEach(([to, gbp], k) => out.push({ id: `GT-R${k + 1}`, cat: 'rides', title: `Train to ${to}`, sub: 'Standard class, reserved seat', icon: 'train', gbp, unit: 'per person', opts: { kind: 'slots', label: 'Departure', values: ['07:15', '09:30', '13:00', '17:30'] }, policy: 'Changes before departure for a fee', mode: 'order' }))
+  more.forEach(([to, gbp], k) => out.push({ id: `GT-R${k + 1}`, cat: 'rides', title: `Train to ${to}`, sub: 'Standard class, reserved seat', img: 'move:train', icon: 'train', gbp, unit: 'per person', opts: { kind: 'slots', label: 'Departure', values: ['07:15', '09:30', '13:00', '17:30'] }, policy: 'Changes before departure for a fee', mode: 'order' }))
   return out
 }
 
@@ -222,10 +223,10 @@ export const PROGRAMMES = [
 ]
 
 export const CHARITIES = [
-  { id: 'CH-1', name: 'Clean Seas Trust', cause: 'Clearing plastic from coastlines', raised: 1240000, goal: 2000000, img: 'pool' },
-  { id: 'CH-2', name: 'Books for Every Child', cause: 'Reading packs for primary schools', raised: 860000, goal: 1000000, img: 'cinema' },
-  { id: 'CH-3', name: 'Warm Homes', cause: 'Heating help for older people', raised: 410000, goal: 1500000, img: 'room' },
-  { id: 'CH-4', name: 'Local Food Bank Network', cause: 'Food parcels near you', raised: 2100000, goal: 2500000, img: 'food' },
+  { id: 'CH-1', name: 'Clean Seas Trust', cause: 'Clearing plastic from coastlines', raised: 1240000, goal: 2000000, img: 'money:sea' },
+  { id: 'CH-2', name: 'Books for Every Child', cause: 'Reading packs for primary schools', raised: 860000, goal: 1000000, img: 'money:booksgive' },
+  { id: 'CH-3', name: 'Warm Homes', cause: 'Heating help for older people', raised: 410000, goal: 1500000, img: 'money:home' },
+  { id: 'CH-4', name: 'Local Food Bank Network', cause: 'Food parcels near you', raised: 2100000, goal: 2500000, img: 'money:parcel' },
 ]
 
 /* Cover limits are set per market in local money (demo figures; the insurer sets the real ones). */
@@ -291,4 +292,4 @@ export const CATS = [
 ]
 /** The home airport as people say it: 'Heathrow Airport', but just 'KLIA'. */
 export const airportName = (m: string) => { const h = home(m); return /^KLIA$/.test(h.airport) ? h.airport : `${h.airport} Airport` }
-export const img = (k?: string) => (k ? (ART as any)[k] : undefined)
+export const img = (k?: string) => (k ? (ART as any)[k] || scene(k) : undefined)

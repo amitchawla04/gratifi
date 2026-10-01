@@ -76,7 +76,7 @@ export function SeatMap({ rows = [12, 13, 14, 15, 16], exitAfter = 13, taken = [
       <div className="gr-seatrow">{L.map(c => seat(r, c))}<span className="gr-rn">{r}</span>{R.map(c => seat(r, c))}</div>
       {r === exitAfter && <div className="gr-exit" dir="ltr"><span>◂ {M.t('exit')}</span><span>{M.t('exit')} ▸</span></div>}
     </React.Fragment>)}
-    <div className="gr-seatkey" style={{ marginTop: 8 }}><span><i style={{ background: 'var(--accent)' }} />{youName || M.t('you')}</span><span><i style={{ background: 'var(--card-sunk)', backgroundImage: 'linear-gradient(135deg, transparent 44%, var(--ink-faint) 44%, var(--ink-faint) 56%, transparent 56%)' }} />{M.t('takenKey')}</span><span><i style={{ background: 'var(--pill)' }} />{mateName}</span><span><i style={{ background: 'var(--sticky-blue)' }} />{M.t('extraLegroom', { p: M.money(extraPrice) })}</span><span><i style={{ background: 'var(--card-sunk)', boxShadow: 'inset 0 0 0 1.5px var(--ink-faint)' }} />{M.t('free')}</span></div>
+    <div className="gr-seatkey" style={{ marginTop: 8 }}><span><i style={{ background: 'var(--accent)' }} />{youName || M.t('you')}</span><span><i style={{ background: '#E7E5E1' }} />{M.t('takenKey')}</span><span><i style={{ background: '#fff', boxShadow: 'inset 0 0 0 1.5px #9A9AA2' }} />{M.t('extraLegroom', { p: M.money(extraPrice) })}</span></div>
   </div>
 }
 

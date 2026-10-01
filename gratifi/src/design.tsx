@@ -95,16 +95,14 @@ export function Picks({ items }: { items: { key: string; art: string; title: str
 
 /** A white list card with rows: icon in a grey circle, title, meta, a value or status on the trailing side. */
 export function List({ children }: { children: any }) { return <div className="ds-list">{children}</div> }
-export function Row({ icon, title, sub, value, tone, onClick, chev, sparkSub }: { icon?: string; title: any; sub?: any; value?: any; tone?: 'good'; onClick?: () => void; chev?: boolean; sparkSub?: boolean }) {
-  const inner = <>{icon && <span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span>}<span className="ds-row-b"><span className="ds-row-t">{title}</span>{sub && <span className="ds-row-s">{sparkSub && <Spark size={12} />}{sub}</span>}</span>{value != null && <span className={'ds-row-v' + (tone === 'good' ? ' ds-good' : '')}>{value}</span>}{chev && <Icon name="chev" size={16} stroke={2.2} />}</>
+export function Row({ icon, title, sub, value, tone, onClick, chev, sparkSub, meta }: { icon?: string; title: any; sub?: any; value?: any; tone?: 'good'; onClick?: () => void; chev?: boolean; sparkSub?: boolean; meta?: string }) {
+  const inner = <>{icon && <span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span>}<span className="ds-row-b"><span className="ds-row-t">{title}</span>{sub && <span className="ds-row-s">{sparkSub && <Spark size={12} />}{sub}</span>}</span>{value != null && <span className={'ds-row-v' + (tone === 'good' ? ' ds-good' : '')}>{value}</span>}{meta && <span className="ds-row-meta">{meta}</span>}{chev && <Icon name="chev" size={16} stroke={2.2} />}</>
   return onClick ? <button className="ds-row" onClick={onClick}>{inner}</button> : <div className="ds-row">{inner}</div>
 }
-
 /** Toggle row inside a list card. */
-export function ToggleRow({ title, sub, on, onChange, lock }: { title: string; sub?: string; on: boolean; onChange: (v: boolean) => void; lock?: boolean }) {
-  return <div className="ds-trow"><span className="ds-row-b"><span className="ds-row-t">{title}</span>{sub && <span className="ds-row-s">{sub}</span>}</span><button role="switch" aria-checked={on} aria-label={title} className="ds-toggle" disabled={lock} onClick={() => onChange(!on)}>{lock && <Icon name="lock" size={12} stroke={2.4} />}</button></div>
+export function ToggleRow({ title, sub, on, onChange, lock, dim }: { title: string; sub?: string; on: boolean; onChange: (v: boolean) => void; lock?: boolean; dim?: boolean }) {
+  return <div className={'ds-trow' + (dim ? ' ds-dim' : '')}><span className="ds-row-b"><span className="ds-row-t">{title}</span>{sub && <span className="ds-row-s">{sub}</span>}</span><button role="switch" aria-checked={on} aria-label={title} className="ds-toggle" disabled={lock || dim} onClick={() => onChange(!on)}>{lock && <Icon name="lock" size={12} stroke={2.4} />}</button></div>
 }
-
 /** Segmented control: two to four tabs in a grey track. */
 export function Seg({ items, value, onChange }: { items: string[]; value: string; onChange: (v: string) => void }) {
   return <div className="ds-seg" role="tablist">{items.map(x => <button key={x} role="tab" aria-selected={value === x} onClick={() => onChange(x)}>{x}</button>)}</div>
@@ -138,20 +136,19 @@ export function TickMeter({ used, label }: { used: number; ticks?: number; label
 export function Pill({ children, onClick, primary, icon }: { children: any; onClick: () => void; primary?: boolean; icon?: string }) { return <button className={'ds-opill' + (primary ? ' primary' : '')} onClick={onClick}>{icon && <Icon name={icon} size={15} stroke={2.2} />}{children}</button> }
 
 /** The account card from the bank screen: label and last four digits, the balance, then pills. Credit use shows on the approved bar. */
-export function CardFace({ balLabel = 'Balance', last4, balance, available, limit, frozen, dueLine, onPay, onFreeze, onOpen, freezeLabel, used, noDue, extra }: { balLabel?: string; last4: string; balance: any; available: string; limit: string; frozen?: boolean; dueLine: string; onPay?: () => void; onFreeze?: () => void; onOpen?: () => void; freezeLabel: string; used: number; noDue?: boolean; extra?: { label: string; onClick: () => void }[] }) {
+export function CardFace({ last4, balance, available, frozen, dueLine, onPay, onOpen, used, extra, freeze, title = 'Gratifi Card', children }: { balLabel?: string; last4: string; balance: any; available?: string; limit?: string; frozen?: boolean; dueLine: string; onPay?: () => void; onFreeze?: () => void; onOpen?: () => void; freezeLabel?: string; used?: number; noDue?: boolean; extra?: { label: string; onClick: () => void }[]; freeze?: { on: boolean; onChange: (v: boolean) => void }; title?: string; children?: any }) {
   const top = <>
-    <span className="ds-ac-top"><span>{frozen ? <span className="ds-ac-frozen"><i />Frozen</span> : 'Gratifi Card'}</span><span>{`•••• ${last4}`}</span></span>
+    <span className="ds-ac-top"><span>{frozen ? <span className="ds-ac-frozen"><i />Frozen</span> : title}</span><span className="ds-ac-r">{`•••• ${last4}`}{onOpen && <Icon name="chev" size={16} stroke={2.2} />}</span></span>
     <span className="ds-ac-v">{balance}</span>
-    {noDue ? (balLabel !== 'Balance' && <span className="ds-ac-m">{balLabel}</span>) : <span className="ds-ac-m">{dueLine}</span>}
+    <span className="ds-ac-m">{dueLine}</span>
   </>
   return <div className={'ds-account' + (frozen ? ' ds-is-frozen' : '')}>
     {onOpen ? <button className="ds-ac-open" onClick={onOpen} aria-label="Open My card">{top}</button> : <div className="ds-ac-open">{top}</div>}
-    <Bar used={used} label="Credit used" tone="black" thin />
-    <span className="ds-ac-m">{`${available} available of ${limit}`}</span>
-    {(onPay || onFreeze || extra?.length) && <div className="ds-ac-pills">{onPay && <Pill onClick={onPay}>Pay</Pill>}{onFreeze && <Pill onClick={onFreeze}>{freezeLabel}</Pill>}{extra?.map(x => <Pill key={x.label} onClick={x.onClick}>{x.label}</Pill>)}</div>}
+    {(onPay || extra?.length) && <div className="ds-ac-pills">{onPay && <Pill primary onClick={onPay}>Pay</Pill>}{extra?.map(x => <Pill key={x.label} onClick={x.onClick}>{x.label}</Pill>)}</div>}
+    {freeze && <div className="ds-ac-freeze"><ToggleRow title="Freeze card" sub={freeze.on ? 'New payments are blocked' : undefined} on={freeze.on} onChange={freeze.onChange} /></div>}
+    {children}
   </div>
 }
-
 /** Rows with a trailing grey word, as in Already included (Heathrow lounge · Free). */
 export function Included({ items }: { items: { key: string; icon: string; title: string; sub: string; meta?: string; onClick: () => void }[] }) {
   return <div className="ds-list">{items.map(x => <button key={x.key} className="ds-row" onClick={x.onClick}><span className="ds-row-ic"><Icon name={x.icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{x.title}</span><span className="ds-row-s">{x.sub}</span></span>{x.meta && <span className="ds-row-meta">{x.meta}</span>}</button>)}</div>
@@ -176,16 +173,16 @@ export function Actions(_: { items: any[] }) { return null }
 export function SpendBars({ period, items, total, format }: { period: string; items: { label: string; amount: number }[]; total: number; format: (n: number) => string }) {
   const max = Math.max(1, ...items.map(i => i.amount))
   return <div className="ds-card ds-spend"><div className="ds-kvh"><span>{period}</span><b>{format(total)}</b></div>
-    {items.length ? items.map(x => <div key={x.label} className="ds-spend-row"><div className="ds-kvh"><span>{x.label}</span><b>{format(x.amount)}</b></div><Bar used={x.amount / max} label={`${x.label}, ${format(x.amount)}`} /></div>) : <p className="ds-row-s">No card spending in this period.</p>}
+    {items.length ? items.map(x => <div key={x.label} className="ds-spend-row"><div className="ds-kvh"><span>{x.label}</span><b>{format(x.amount)}</b></div><Bar used={x.amount / max} label={`${x.label}, ${format(x.amount)}`} tone="black" thin /></div>) : <p className="ds-row-s">No card spending in this period.</p>}
   </div>
 }
-
 /** A card payment, as on the bank screen: card icon in a grey circle, where and when, amount. */
-export function Txn({ name, meta, amount, points, refund, format, onClick }: { name: string; meta: string; amount: number; points?: number; refund?: boolean; format: (n: number) => string; onClick?: () => void }) {
+/** Icon for each kind of card payment, so a list reads at a glance. */
+export const CAT_ICON: Record<string, string> = { Groceries: 'bag', Travel: 'plane', Dining: 'fork', Shopping: 'gift', Transport: 'car', Subscriptions: 'refresh', Entertainment: 'ticket', 'Gift cards': 'gift', Concierge: 'bell', Payment: 'arrow', Other: 'card' }
+export function Txn({ name, meta, amount, points, refund, format, onClick, cat, chev }: { name: string; meta: string; amount: number; points?: number; refund?: boolean; format: (n: number) => string; onClick?: () => void; cat?: string; chev?: boolean }) {
   const El: any = onClick ? 'button' : 'div'
-  return <El className="ds-row ds-txn" onClick={onClick}><span className="ds-row-ic"><Icon name={refund ? 'arrow' : 'card'} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{name}</span><span className="ds-row-s">{points ? `${meta} · +${points} pts` : meta}</span></span><span className={'ds-row-v' + (refund || amount < 0 ? ' ds-good' : '')}>{`${refund || amount < 0 ? '+' : '−'}${format(Math.abs(amount))}`}</span></El>
+  return <El className="ds-row ds-txn" onClick={onClick}><span className="ds-row-ic"><Icon name={refund ? 'arrow' : CAT_ICON[cat || ''] || 'card'} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{name}</span><span className="ds-row-s">{meta}</span></span><span className="ds-txn-r"><span className={'ds-row-v' + (refund || amount < 0 ? ' ds-good' : '')}>{`${refund || amount < 0 ? '+' : '−'}${format(Math.abs(amount))}`}</span>{points ? <span className="ds-txn-pts">{`+${points} points`}</span> : null}</span>{chev && <Icon name="chev" size={16} stroke={2.2} />}</El>
 }
-
 /** The bill, in the account card format: when it is due, the amount, the minimum, two pills. */
 export function DueCard({ amount, date, min, onFull, onMin, paid }: { amount: string; date: string; min: string; onFull: () => void; onMin: () => void; paid?: boolean }) {
   return <div className="ds-account"><span className="ds-ac-top"><span>{paid ? 'Nothing to pay now' : `Due ${date}`}</span><span /></span><span className="ds-ac-v">{amount}</span>{!paid && <span className="ds-ac-m">{`Minimum ${min}`}</span>}
@@ -203,11 +200,11 @@ export function ControlRow({ title, sub, on, onChange }: { icon?: string; title:
 }
 
 /** One choice from a few, as the Where can I reach you chips: black with a tick when picked. */
-export function Choice({ items, value, onChange, label }: { items: { key: string; title: string; sub?: string; value?: string; disabled?: boolean }[]; value: string; onChange: (k: string) => void; label: string }) {
+export function Choice({ items, value, onChange, label, list }: { items: { key: string; title: string; sub?: string; value?: string; disabled?: boolean }[]; value: string; onChange: (k: string) => void; label: string; list?: boolean }) {
   const cur = items.find(x => x.key === value)
+  if (list) return <div className="ds-list" role="radiogroup" aria-label={label}>{items.map(x => <button key={x.key} role="radio" aria-checked={value === x.key} disabled={x.disabled} className="ds-row ds-pickrow-l" onClick={() => onChange(x.key)}><span className="ds-row-b"><span className="ds-row-t">{x.title}</span>{x.sub && <span className="ds-row-s">{x.sub}</span>}</span>{x.value && <span className="ds-row-meta">{x.value}</span>}<span className="ds-tick" aria-hidden="true">{value === x.key && <Icon name="check" size={14} stroke={2.6} />}</span></button>)}</div>
   return <div className="ds-choice-w"><div className="ds-pickrow" role="radiogroup" aria-label={label}>{items.map(x => <button key={x.key} role="radio" aria-checked={value === x.key} disabled={x.disabled} className="ds-pick" onClick={() => onChange(x.key)}>{value === x.key && <Icon name="check" size={14} stroke={2.6} />}{x.value ? `${x.title} · ${x.value}` : x.title}</button>)}</div>{cur?.sub && <span className="ds-row-s">{cur.sub}</span>}</div>
 }
-
 /** A labelled field on a white card, the ask bar's input made still. */
 export function Field({ label, value, onChange, prefix, type = 'text', inputMode, placeholder, max, hint, id, autoFocus }: { label: string; value: string; onChange: (v: string) => void; prefix?: string; type?: string; inputMode?: any; placeholder?: string; max?: number; hint?: string; id?: string; autoFocus?: boolean }) {
   return <label className="ds-field"><span className="ds-field-l">{label}</span><span className="ds-field-w">{prefix && <span className="ds-field-p">{prefix}</span>}<input id={id} type={type} inputMode={inputMode} value={value} placeholder={placeholder} maxLength={max} autoFocus={autoFocus} onChange={e => onChange((e.target as HTMLInputElement).value)} /></span>{hint && <span className="ds-row-s">{hint}</span>}</label>
@@ -237,17 +234,14 @@ export function KV({ rows }: { rows: { label: string; value: any; copy?: () => v
 export function CardDetails({ name, number, expiry, cvv, shown, left, onShow, onHide, onCopy, frozen, showLabel = 'Show card details' }: { name: string; number: string; expiry: string; cvv: string; shown: boolean; left: number; onShow: () => void; onHide: () => void; onCopy: (what: string, v: string) => void; frozen?: boolean; showLabel?: string }) {
   const mask = (x: string) => x.replace(/\d(?=.*\d{4})/g, '•')
   return <>
-    <KV rows={[
-      { label: 'Card number', value: <span className="ds-num">{shown ? number : mask(number)}</span>, copy: shown ? () => onCopy('Card number', number.replace(/\s/g, '')) : undefined },
-      { label: 'Expires', value: <span className="ds-num">{shown ? expiry : '••/••'}</span>, copy: shown ? () => onCopy('Expires', expiry) : undefined },
-      { label: 'Security code', value: <span className="ds-num">{shown ? cvv : '•••'}</span>, copy: shown ? () => onCopy('Security code', cvv) : undefined },
-      { label: 'Name on card', value: name },
-    ]} />
+    <div className="ds-kv-card">
+      {[{ label: 'Card number', v: shown ? number : mask(number), c: number.replace(/\s/g, '') }, { label: 'Expires', v: shown ? expiry : '••/••', c: expiry }, { label: 'Security code', v: shown ? cvv : '•••', c: cvv }].map(r => <div key={r.label} className="ds-kv-r"><span>{r.label}</span><b><span className="ds-num">{r.v}</span>{shown && <button className="ds-x ds-copy" aria-label={`Copy ${r.label.toLowerCase()}`} onClick={() => onCopy(r.label, r.c)}><Icon name="copy" size={13} stroke={2.2} /></button>}</b></div>)}
+      <div className="ds-kv-r"><span>Name on card</span><b>{name}</b></div>
+      <div className="ds-kv-foot">{shown ? <><span className="ds-row-s">{`Hides by itself in ${left} s`}</span><Pill onClick={onHide}>Hide now</Pill></> : <><span className="ds-row-s">Hidden until you confirm it's you</span><Pill primary icon="faceid" onClick={onShow}>{showLabel}</Pill></>}</div>
+    </div>
     {frozen && <AssistantNote>Your card is frozen. The details still show, but payments won't go through until you unfreeze it.</AssistantNote>}
-    {shown ? <><Secondary onClick={onHide}>Hide now</Secondary><p className="ds-centre-s">{`Hides by itself in ${left} s`}</p></> : <Primary onClick={onShow}><Icon name="faceid" size={18} stroke={2} />{showLabel}</Primary>}
   </>
 }
-
 /** The big number from the Details screen (+640), used for the PIN. */
 export function Hero({ value, title, sub, tone }: { value?: string; title?: string; sub?: string; tone?: 'good' }) {
   return <div className="ds-hero">{value && <p className={'ds-hero-v' + (tone === 'good' ? ' good' : '')}>{value}</p>}{title && <p className="ds-hero-t">{title}</p>}{sub && <p className="ds-hero-s">{sub}</p>}</div>
@@ -258,7 +252,7 @@ export function PinBox({ pin, shown }: { pin: string; shown: boolean }) {
 
 /** A monthly limit: a row with the approved bar under the line, and an outline pill. */
 export function LimitRow({ icon, title, spent, limit, used, action, onAction }: { icon: string; title: string; spent: string; limit?: string; used: number; action: string; onAction: () => void }) {
-  return <div className="ds-row ds-limit"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{limit ? `${spent} of ${limit} this month` : `${spent} this month · no limit`}</span>{limit && <Bar used={used} thin label={`${title}: ${spent} of ${limit}`} />}</span><Pill onClick={onAction}>{action}</Pill></div>
+  return <div className="ds-row ds-limit"><span className="ds-row-ic"><Icon name={icon} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{title}</span><span className="ds-row-s">{limit ? `${spent} of ${limit} in 30 days` : `${spent} in 30 days · no limit`}</span>{limit && <Bar used={used} thin label={`${title}: ${spent} of ${limit}`} />}</span><Pill onClick={onAction}>{action}</Pill></div>
 }
 
 /** The pale-yellow assistant strip from the Details screen (Done by your assistant). */
@@ -286,4 +280,10 @@ export function Empty({ title, body, action, onAction }: { title: string; body?:
 /** The account card format for a single amount: a grey label line, the number, a grey meta line, and pills. */
 export function Amount({ label, right, value, meta, tone, children }: { label: string; right?: string; value: string; meta?: string; tone?: 'good'; children?: any }) {
   return <div className="ds-account"><span className="ds-ac-top"><span>{label}</span><span>{right || ''}</span></span><span className={'ds-ac-v' + (tone === 'good' ? ' ds-good' : '')}>{value}</span>{meta && <span className="ds-ac-m">{meta}</span>}{children}</div>
+}
+
+/** The cream line with an orange dot from the bank screen's points card (2,400 expire Sunday). */
+export function CreamRow({ children, onClick }: { children: any; onClick?: () => void }) {
+  const inner = <><i className="ds-cream-dot" /><span>{children}</span>{onClick && <Icon name="chev" size={16} stroke={2.2} />}</>
+  return onClick ? <button className="ds-cream" onClick={onClick}>{inner}</button> : <div className="ds-cream">{inner}</div>
 }

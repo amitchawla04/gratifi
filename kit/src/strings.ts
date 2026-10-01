@@ -13,7 +13,7 @@ export const STRINGS: Record<string, Record<string, string>> = {
     adults: 'Adults', adultsSub: '12 and over', children: 'Children', childrenSub: '2 to 11', infants: 'Infants', infantsSub: 'Under 2, on a lap', infantNote: 'One infant per adult. Infants sit on your lap and fly for a reduced fare.',
     fewer: 'Fewer {x}', more: 'More {x}',
     points: 'Points', pointsAndCard: 'Points and card', card: 'Card', payWith: 'Pay with', ptsHave: '{pts} · you have {bal}', ptsShort: '{pts} · {n} more than you have', ptsPlus: '{pts} + {cash}', onCardEnding: '{cash} on card ending {card}',
-    ptsN: '{n} pts', orPts: 'or {n} pts', onYourCard: 'On your card', youHave: 'You have {bal} points', pointRate: '1 point = {v}', pointsToUse: 'Points to use',
+    ptsN: '{n} points', orPts: 'or {n} points', onYourCard: 'On your card', youHave: 'You have {bal} points', pointRate: '1 point = {v}', pointsToUse: 'Points to use',
     confirmPay: 'Confirm and pay', payFaceId: 'Pay with Face ID', payApp: 'Approve in your banking app', checking: 'Checking it\'s you…', nothingPaid: 'Nothing is paid until you confirm', booked: 'Booked', close: 'Close',
     otpSent: 'Enter the 6-digit code sent to your phone ending {d}', otpResend: 'Send a new code', otpDigit: 'Digit {n}', confirmWithCode: 'Confirm {amt}', appSent: 'We\'ve sent a request to your banking app. Approve it there to finish.',
     sendTo: 'Send to', chosen: '{n} chosen', done: 'Done',

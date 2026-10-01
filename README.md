@@ -20,6 +20,14 @@ To switch Live AI on for the Vercel link, add `ANTHROPIC_API_KEY` under the proj
 
 Every message passes the fixed safety check first, then a second Claude safety check runs alongside the answer and can replace it. Claude can only show things and prepare confirm sheets; any sentence claiming something was booked, paid or changed is removed unless it really happened.
 
+## Voice
+
+The microphone in the ask bar opens the Listening screen from the approved design. Speech is turned into text by the phone's own browser (Web Speech API) in the market's language; nothing is recorded or stored. Where the browser can't listen, or the microphone is blocked, it says so and offers typing instead.
+
+## Chat answer cards
+
+Every answer in the chat is drawn from an approved screen: results follow Hotels (a big Best match card, then picture rows), details follow Cinema (picture, points line, orange-check bullets, one black button), checkout is a short card that opens the Confirm sheet, success is the Booked page, passes are the Tickets card with a code, and problems are the yellow sticky note. Prices always read "8,200 points" first, with cash in grey after it. `gratifi/src/scenes.ts` draws every item its own picture in the house style (destinations with a plane, hotels, dishes by cuisine, things to do, events, products, airport services, rides, gift cards, subscriptions, points and charities).
+
 ## Modules and the bank connection
 
 Every service is a module that needs one or more bank APIs (`gratifi/src/modules.ts`). A bank that offers the APIs gets the module; a bank that doesn't never sees it: no screen, no button, no chat answer. The chat filters every answer the same way, in both the built-in engine and Live AI, so it can't offer a service the bank doesn't have.
@@ -58,7 +66,10 @@ This writes `gratifi/build/gratifi.html` (the published page), `test.html` (loca
 | `gratifi/src/llm.ts` | The Claude API line for the web: same interface as the page's own Claude access, runs the tool loop |
 | `api/claude.js` | Vercel server function: holds the API key, pins models per tier, caches the rules and tools, rate limits |
 | `gratifi/src/flows.ts` | Built-in engine and flow logic: fixed safety check, search, checkout, bookings, card servicing |
-| `gratifi/src/render.tsx` | Answer cards, confirm sheet, receipts |
+| `gratifi/src/render.tsx` | Answer cards wired to flows, confirm sheet, receipts |
+| `gratifi/src/cards.tsx` | The chat card set, from the approved screens: results, detail, offers rows, tiles, checkout, Confirm sheet, Booked, Tickets with code, sticky-note states, next-step chips |
+| `gratifi/src/scenes.ts` | Illustrations for every catalogue item, drawn in the approved style |
+| `gratifi/src/voice.tsx` | Voice input on the Listening screen |
 | `gratifi/src/store.tsx` | Demo bank and app state, kept per market in local storage |
 | `gratifi/src/catalog.ts` | Demo catalogue and prices per market |
 | `gratifi/src/ar.ts`, `ar-dict.ts` | Arabic input and on-screen text |

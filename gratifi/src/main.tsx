@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from '../../kit/src/r'
+import { React, useState, useEffect, useRef } from '../../kit/src/r'
 import * as K from '../../kit/src/base'
 import * as T from '../../kit/src/talk'
 import { MarketProvider, fmt } from '../../kit/src/market'
@@ -9,6 +9,7 @@ import { ConfirmHost, setGoChat, setSendText } from './render'
 import { Home, Explore, Chat, Wallet, Me, Offers, Alerts, Tier, Bank, Card, Tab, Nav } from './screens'
 import { CardX } from './cardx'
 import { ToastHost } from './design'
+import { Voice } from './voice'
 import { arabic, toEn } from './ar'
 
 const W = window as any
@@ -18,11 +19,16 @@ function writeLS(k: string, v: string) { try { localStorage.setItem(k, v) } catc
 const q = new URLSearchParams(location.search)
 const startMarket = q.get('m') || readLS('gratifi-market') || 'UK'
 St.boot(startMarket)
+/* Where you were: the screen survives a refresh, and each screen remembers how far down you had scrolled. */
+const ssGet = (k: string) => { try { return JSON.parse(sessionStorage.getItem(k) || 'null') } catch (e) { return null } }
+const ssSet = (k: string, v: any) => { try { sessionStorage.setItem(k, JSON.stringify(v)) } catch (e) { } }
+const saved = q.get('tab') ? null : ssGet('gratifi-route') as { t: Tab; c?: string } | null
 
 function App() {
   const s = St.useS(x => x)
-  const [tab, setTab] = useState<Tab>((q.get('tab') as Tab) || 'home')
-  const [cat, setCat] = useState<string | undefined>(q.get('cat') || undefined)
+  const [tab, setTab] = useState<Tab>((q.get('tab') as Tab) || saved?.t || 'home')
+  const [cat, setCat] = useState<string | undefined>(q.get('cat') || (saved?.t === 'explore' ? saved.c : undefined))
+  const [voice, setVoice] = useState(false)
   const sysDark = W.matchMedia && W.matchMedia('(prefers-color-scheme: dark)').matches
   const [theme, setThemeS] = useState(q.get('theme') || readLS('gratifi-theme') || (sysDark ? 'dark' : 'light'))
   const setTheme = (t: string) => { setThemeS(t); writeLS('gratifi-theme', t) }
@@ -32,8 +38,15 @@ function App() {
   const [hist, setHist] = useState<{ t: Tab; c?: string }[]>([])
   const [wstart, setWstart] = useState<string | undefined>()
   const [cfocus, setCfocus] = useState<string | undefined>()
-  const [cx, setCx] = useState<string>(q.get('to') || '')
-  const top = () => { const el = document.querySelector('.app-main .app-scroll'); if (el) el.scrollTop = 0 }
+  const [cx, setCx] = useState<string>(q.get('to') || (saved?.t === 'cardx' ? saved.c || '' : ''))
+  const scroller = () => document.querySelector('.app-main .app-scroll') as HTMLElement | null
+  const top = () => { const el = scroller(); if (el) el.scrollTop = 0 }
+  const mem = useRef<Record<string, number>>(ssGet('gratifi-scroll') || {})
+  const keyOf = (t: Tab, c?: string) => t + ':' + (t === 'explore' || t === 'cardx' ? c || '' : '')
+  const curKey = keyOf(tab, tab === 'explore' ? cat : tab === 'cardx' ? cx : undefined)
+  const remember = () => { if (tab === 'chat') return; const el = scroller(); if (el) { mem.current[curKey] = el.scrollTop; ssSet('gratifi-scroll', mem.current) } }
+  /* Going back, or closing to a screen you were on, returns you to the same spot; going deeper starts at the top. */
+  const land = (k: string, restore: boolean) => { if (k.startsWith('chat:')) return; const y = restore ? mem.current[k] || 0 : 0; const put = () => { const el = scroller(); if (el) el.scrollTop = y }; put(); requestAnimationFrame(put); setTimeout(put, 60) }
   const [dir, setDir] = useState<string>('')
   const depth = (t: Tab) => t === 'bank' ? -1 : t === 'home' ? 0 : t === 'chat' ? 1 : t === 'cardx' ? 3 : 2
   /* Screens move like a native app: deeper slides in from the side, back slides away, Gratifi itself rises from the bank app. */
@@ -47,9 +60,13 @@ function App() {
   const go = (t: Tab, c?: string) => {
     if (t === tab && !(t === 'explore' && c !== cat) && !(t === 'cardx' && c !== cx)) { if (t === 'explore') setCat(c); if (t === 'card') setCfocus(c); return }
     const d = tab === 'bank' ? 'up' : t === 'bank' ? 'down' : depth(t) >= depth(tab) && t !== 'home' ? 'push' : 'pop'
-    move(d, () => { if (t !== tab || t === 'cardx') setHist(h => [...h.slice(-20), { t: tab, c: tab === 'cardx' ? cx : cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t === 'card') setCfocus(c); if (t === 'cardx') setCx(c || ''); if (t !== 'chat' && !(t === 'card' && c)) setTimeout(top, 0) })
+    remember()
+    move(d, () => { if (t !== tab || t === 'cardx') setHist(h => [...h.slice(-20), { t: tab, c: tab === 'cardx' ? cx : cat }]); setTab(t); if (t === 'explore') setCat(c); if (t === 'wallet') setWstart(c); if (t === 'card') setCfocus(c); if (t === 'cardx') setCx(c || ''); if (t !== 'chat' && !(t === 'card' && c)) land(keyOf(t, c), d === 'pop' || d === 'down') })
   }
-  const back = () => { const h = hist[hist.length - 1]; move('pop', () => { setHist(hist.slice(0, -1)); if (!h) { setTab(tab === 'cardx' ? 'card' : 'home'); return } setTab(h.t); if (h.t === 'explore') setCat(h.c); if (h.t === 'cardx') setCx(h.c || '') }) }
+  const back = () => { const h = hist[hist.length - 1]; remember(); move('pop', () => { setHist(hist.slice(0, -1)); if (!h) { const t0: Tab = tab === 'cardx' ? 'card' : 'home'; setTab(t0); land(keyOf(t0), true); return } setTab(h.t); if (h.t === 'explore') setCat(h.c); if (h.t === 'cardx') setCx(h.c || ''); land(keyOf(h.t, h.c), true) }) }
+  useEffect(() => { ssSet('gratifi-route', { t: tab, c: tab === 'explore' ? cat : tab === 'cardx' ? cx : undefined }) }, [tab, cat, cx])
+  useEffect(() => { land(curKey, true) }, [])
+  useEffect(() => { const el = scroller(); if (!el) return; let t: any = 0; const f = () => { clearTimeout(t); t = setTimeout(remember, 150) }; el.addEventListener('scroll', f, { passive: true }); return () => { el.removeEventListener('scroll', f); clearTimeout(t) } }, [curKey])
   const nav: Nav = { go, back }
   W.__back = back
   useEffect(() => {
@@ -85,11 +102,12 @@ function App() {
           {tab === 'card' && <Card nav={nav} focus={cfocus} />}
           {tab === 'cardx' && <CardX nav={nav} to={cx} key={cx} />}
         </main>
-        <ToastHost />
         <div className="app-dock">
-          <T.AskBar key={tab} placeholder={ph[tab]} onSend={(t: string) => { go('chat'); Br.ask(t) }} onMic={() => { go('chat'); St.pushMsg({ role: 'gr', text: 'Voice works in the phone app. Type here for now.' }) }} />
+          <T.AskBar key={tab} placeholder={ph[tab]} onSend={(t: string) => { go('chat'); Br.ask(t) }} onMic={() => setVoice(true)} />
         </div>
       </div>}
+      <ToastHost />
+      {voice && <Voice market={s.market} onClose={() => setVoice(false)} onSend={(t: string) => { setVoice(false); go('chat'); Br.ask(t) }} onType={() => { setVoice(false); setTimeout(() => (document.querySelector('.gr-ask input') as HTMLInputElement | null)?.focus(), 60) }} />}
       <ConfirmHost />
     </div>
   </MarketProvider>

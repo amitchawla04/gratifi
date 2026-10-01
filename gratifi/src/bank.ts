@@ -23,7 +23,7 @@ export function details() {
 }
 export function pin() { need('cards.pin'); return String(1000 + (hash(St.get().market + St.get().card.last4 + 'pin') % 9000)) }
 
-export type Statement = { id: string; label: string; start: string; end: string; balance: number; min: number; due: string; spend: number; payments: number; txns: St.Txn[]; current?: boolean }
+export type Statement = { id: string; label: string; start: string; end: string; balance: number; min: number; due: string; spend: number; payments: number; txns: St.Txn[]; current?: boolean; purchases: number; brought: number }
 const iso = (d: Date) => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10)
 /** Six months of statements. The latest uses the live account; earlier ones come from the bank's history (mocked). */
 export function statements(): Statement[] {
@@ -35,7 +35,9 @@ export function statements(): Statement[] {
     const inRange = i === 0 ? s.txns.filter(t => t.at >= start.getTime() && t.at <= end.getTime() + 864e5 - 1) : history(s.market, i, start, end, Math.round(bal0 * 0.92 * 100) / 100)
     const spend = inRange.filter(t => t.cat !== 'Payment' && !t.refund).reduce((a, t) => a + t.amount, 0)
     const bal = bal0
-    return { id: iso(end).slice(0, 7), label: M().monthLabel(end.getFullYear(), end.getMonth()), start: iso(start), end: iso(end), balance: bal, min: i === 0 ? c.min : Math.round(bal * 0.03 * 100) / 100, due: i === 0 ? c.dueDate : iso(due), spend: i === 0 ? spend : Math.round(bal * 0.92 * 100) / 100, payments: i === 0 ? 0 : bal, txns: inRange, current: i === 0 }
+    const net = Math.round(inRange.filter(t => t.cat !== 'Payment').reduce((a, t) => a + (t.refund ? -t.amount : t.amount), 0) * 100) / 100
+    const purchases = Math.min(bal, Math.max(0, net)), brought = Math.round((bal - purchases) * 100) / 100
+    return { purchases, brought, id: iso(end).slice(0, 7), label: M().monthLabel(end.getFullYear(), end.getMonth()), start: iso(start), end: iso(end), balance: bal, min: i === 0 ? c.min : Math.round(bal * 0.03 * 100) / 100, due: i === 0 ? c.dueDate : iso(due), spend: i === 0 ? spend : Math.round(bal * 0.92 * 100) / 100, payments: i === 0 ? 0 : bal, txns: inRange, current: i === 0 }
   })
 }
 /* Earlier months come from the bank's history; the mock makes a believable, fixed set of lines for each one. */
@@ -56,11 +58,12 @@ export function transactions(q = '', cat = '') { need('transactions.read'); cons
 /* ---------- spending limits by category ---------- */
 export const LIMIT_CATS = ['Dining', 'Groceries', 'Shopping', 'Travel', 'Transport', 'Entertainment']
 export function limits(): Record<string, number> { need('cards.limits'); return (St.get().seen.catLimits || {}) as Record<string, number> }
-export function spentThisMonth(cat: string) { const now = new Date(), from = new Date(now.getFullYear(), now.getMonth(), 1).getTime(); return St.get().txns.filter(t => t.cat === cat && t.at >= from && !t.refund).reduce((a, t) => a + t.amount, 0) }
+/** Spending in one category over the last 30 days, which is what a spending limit counts. */
+export function spentThisMonth(cat: string) { const from = Date.now() - 30 * 864e5; return St.get().txns.filter(t => t.cat === cat && t.at >= from && !t.refund).reduce((a, t) => a + t.amount, 0) }
 export function setLimit(a: { cat: string; amount: number | null }): R {
   need('cards.limits'); const cur = { ...limits() }; if (a.amount == null || a.amount <= 0) delete cur[a.cat]; else cur[a.cat] = Math.round(a.amount)
   St.set(s => ({ seen: { ...s.seen, catLimits: cur } }))
-  return { say: a.amount ? `${a.cat}: a limit of ${M().money(Math.round(a.amount))} a month is set. Card payments over it are declined until the 1st.` : `${a.cat}: no monthly limit now.`, blocks: [] }
+  return { say: a.amount ? `${a.cat}: a limit of ${M().money(Math.round(a.amount))} over 30 days is set. Card payments that would go over it are declined.` : `${a.cat}: no limit now.`, blocks: [] }
 }
 
 /* ---------- lost, stolen, damaged, and the new card ---------- */

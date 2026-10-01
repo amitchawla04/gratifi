@@ -57,7 +57,7 @@ export function fmt(m: Market | string = 'UK'): Fmt {
       return new Intl.NumberFormat(mk.locale, { style: 'currency', currency: mk.currency, minimumFractionDigits: dp, maximumFractionDigits: dp }).format(n)
     },
     num: n => nf(0).format(Math.round(n)),
-    pts: n => Math.round(n) === 1 && pack.ptsN === '{n} pts' ? '1 pt' : pack.ptsN.replace('{n}', nf(0).format(Math.round(n))),
+    pts: n => Math.round(n) === 1 && pack.ptsN === '{n} points' ? '1 point' : pack.ptsN.replace('{n}', nf(0).format(Math.round(n))),
     date: (d, style = 'short') => {
       const x = typeof d === 'string' ? new Date(d + 'T12:00:00') : d
       const o: any = style === 'long' ? { weekday: 'long', day: 'numeric', month: 'long' } : style === 'day' ? { day: 'numeric', month: 'short' } : { weekday: 'short', day: 'numeric', month: 'short' }
