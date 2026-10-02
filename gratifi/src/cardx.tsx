@@ -8,7 +8,7 @@ import * as F from './flows'
 import * as Bk from './bank'
 import * as Mod from './modules'
 import * as Br from './brain'
-import { openConfirm, respond, run, FLOWS } from './render'
+import { openConfirm, respond, run, FLOWS, GamblingRow } from './render'
 import * as D from './design'
 import * as Cat from './catalog'
 import type { Nav } from './screens'
@@ -20,15 +20,15 @@ export function here(r: F.R) { if (r.confirm) openConfirm(r.confirm); else { res
 const first = (x?: string) => (x || '').split(/(?<=[a-z0-9)])\.\s(?=[A-Z])/)[0].replace(/([^.])$/, '$1.')
 const sym = (M: any) => M.money(0).replace(/[0-9.,\s −-]/g, '')
 const num = (v: string) => { const n = parseFloat(v.replace(/[^0-9.]/g, '')); return Number.isFinite(n) ? n : 0 }
-const TITLES: Record<string, string> = { benefits: 'Included with your card', dd: 'Direct Debit', pay: 'Pay your bill', statements: 'Statements', statement: 'Statement', txns: 'Transactions', txn: 'Payment', details: 'Card details', pin: 'PIN', limits: 'Spending limits', lost: 'Lost, stolen or damaged', activate: 'Activate your card', dispute: 'Dispute a payment', cases: 'Your cases', limit: 'Credit limit', wallet: 'Phone wallet', travel: 'Travel notice' }
-const NEEDS: Record<string, string> = { benefits: 'benefits', dd: 'card.directdebit', pay: 'card.pay', statements: 'card.statements', statement: 'card.statements', txns: 'card.transactions', txn: 'card.transactions', details: 'card.details', pin: 'card.pin', limits: 'card.limits', lost: 'card.replace', activate: 'card.activate', dispute: 'card.disputes', cases: 'card', limit: 'card.limit', wallet: 'card.wallet', travel: 'card.travel' }
+const TITLES: Record<string, string> = { benefits: 'Included with your card', dd: 'Direct Debit', pay: 'Pay your bill', statements: 'Statements', statement: 'Statement', txns: 'Transactions', txn: 'Payment', details: 'Card details', pin: 'PIN', controls: 'Card controls', limits: 'Limits by category', lost: 'Lost, stolen or damaged', activate: 'Activate your card', dispute: 'Dispute a payment', cases: 'Your cases', limit: 'Credit limit', wallet: 'Phone wallet', travel: 'Travel notice' }
+const NEEDS: Record<string, string> = { controls: 'card.controls', benefits: 'benefits', dd: 'card.directdebit', pay: 'card.pay', statements: 'card.statements', statement: 'card.statements', txns: 'card.transactions', txn: 'card.transactions', details: 'card.details', pin: 'card.pin', limits: 'card.limits', lost: 'card.replace', activate: 'card.activate', dispute: 'card.disputes', cases: 'card', limit: 'card.limit', wallet: 'card.wallet', travel: 'card.travel' }
 
 export function CardX({ nav, to = '' }: { nav: Nav; to?: string }) {
   St.useS(s => s.seen.apisOff); const [page, arg] = [to.split(':')[0], to.split(':').slice(1).join(':')]
   const ok = Mod.on(NEEDS[page] || 'card')
   const M0 = useMarket()
   const title = page === 'statement' && arg ? (Bk.statements().find(x => x.id === arg)?.label || 'Statement') : page === 'dd' ? M0.directDebit.charAt(0).toUpperCase() + M0.directDebit.slice(1) : TITLES[page] || 'My card'
-  const P: Record<string, any> = { benefits: Benefits, dd: DirectDebit, pay: Pay, statements: Statements, statement: Statement, txns: Txns, txn: TxnDetail, details: Details, pin: Pin, limits: Limits, lost: Lost, activate: Activate, dispute: Dispute, cases: Cases, limit: Limit, wallet: PhoneWallet, travel: Travel }
+  const P: Record<string, any> = { controls: Controls, benefits: Benefits, dd: DirectDebit, pay: Pay, statements: Statements, statement: Statement, txns: Txns, txn: TxnDetail, details: Details, pin: Pin, limits: Limits, lost: Lost, activate: Activate, dispute: Dispute, cases: Cases, limit: Limit, wallet: PhoneWallet, travel: Travel }
   const Page = P[page]
   return <div className="app-scroll">
     <D.Head title={title} onBack={nav.back} right={<D.HBtn icon="close" label="Close" onClick={() => nav.go('card')} />} />
@@ -174,6 +174,62 @@ function Pin({ nav }: { nav: Nav }) {
     <div className="ds-hero-sub">{left > 0 ? <D.Pill onClick={() => St.set(s => ({ seen: { ...s.seen, pinUntil: 0 } }))}>Hide now</D.Pill> : <D.Pill primary icon="faceid" onClick={() => reveal('revealPin', 'Show your PIN')}>Show PIN</D.Pill>}</div>
     <D.List><D.Row icon="headset" title="Locked out after wrong tries?" sub="A person can unlock it" chev onClick={() => { nav.go('chat'); Br.ask('My PIN is locked') }} /></D.List>
     <p className="ds-foot"><Icon name="info" size={14} stroke={2} />To change your PIN, use any of the bank's cash machines. Nobody from the bank will ever ask for it.</p>
+  </>
+}
+
+/* ---------- Card controls: one place for every switch, limit, block and alert on the card ---------- */
+function Controls({ nav }: { nav: Nav }) {
+  const c = St.useS(s => s.card) as any; St.useS(s => s.seen.ctl); St.useS(s => s.txns); const M = useMarket(); const on = Mod.useOn()
+  const ct = Bk.ctl(), country = Cat.HOME[M.id === 'AR' ? 'AE' : M.id]?.country || 'your country'
+  const [where, setWhere] = useState<'At home' | 'Abroad'>('At home'); const w: Bk.Where = where === 'Abroad' ? 'abroad' : 'home'
+  const [edit, setEdit] = useState<(Bk.LimKey & { alert?: boolean }) | null>(null); const [v, setV] = useState('')
+  const sw = (k: string, val: boolean) => { if (k === 'frozen') { if (val) { St.set(x => ({ card: { ...x.card, frozen: true } })); D.toast('Card frozen. New payments are blocked.') } else here(F.unfreezeAsk({})); return } here(F.cardControl({ control: k, on: val })) }
+  const open = (k: Bk.LimKey & { alert?: boolean }, now?: number) => { setEdit(k); setV(now ? String(now) : '') }
+  const save = (amount: number | null) => { const e = edit!; setEdit(null); here(e.alert ? Bk.alertsSet({ over: amount }) : Bk.limAsk({ ...e, amount })) }
+  const same = (k: Bk.LimKey & { alert?: boolean }) => !!edit && edit.key === k.key && edit.ch === k.ch && edit.where === k.where && !!edit.alert === !!k.alert
+  const editor = (k: Bk.LimKey & { alert?: boolean }, now?: number) => same(k) && <div className="ds-ctl-edit">
+    <D.Field label={k.alert ? 'Payments over' : Bk.limName(k)} prefix={sym(M)} inputMode="numeric" value={v} onChange={setV} autoFocus hint={k.key === 'daily' && k.ch === 'contactless' ? `Up to ${M.money(Bk.chMax('contactless'))} a payment. Above that, you pay with chip and PIN.` : undefined} />
+    <div className="ds-btnrow">{num(v) > 0 && <D.Pill primary onClick={() => save(num(v))}>Save</D.Pill>}{now != null && k.key !== 'daily' && <D.Pill onClick={() => save(null)}>{k.alert ? 'Turn off' : 'Remove limit'}</D.Pill>}<button className="ds-textbtn" onClick={() => setEdit(null)}>Cancel</button></div></div>
+  const nLim = on('card.limits') ? Object.keys(Bk.limits()).length : 0
+  return <>
+    <D.List><D.ToggleRow title="Freeze card" sub={c.frozen ? 'Everything below is paused while it\'s frozen' : 'Blocks new payments. Direct debits and refunds still work.'} on={c.frozen} onChange={(x: boolean) => sw('frozen', x)} /></D.List>
+    <D.Sec title="Where your card works" />
+    <D.List>
+      <D.ToggleRow title="Domestic payments" sub={`In ${country}`} on={c.domestic !== false} dim={c.frozen} onChange={(x: boolean) => sw('domestic', x)} />
+      <D.ToggleRow title="International payments" sub={`Outside ${country}, and online in other currencies`} on={c.abroad} dim={c.frozen} onChange={(x: boolean) => sw('abroad', x)} />
+      {on('card.travel') && <D.Row icon="plane" title="Travel notices" meta={Bk.notices().length ? `${Bk.notices().length} set` : 'None set'} chev onClick={() => nav.go('cardx', 'travel')} />}
+    </D.List>
+    <D.Sec title="How you pay" />
+    <D.List>
+      <D.ToggleRow title="Online" sub="Websites and apps" on={c.online} dim={c.frozen} onChange={(x: boolean) => sw('online', x)} />
+      <D.ToggleRow title="In store" sub="Chip and PIN at a till" on={c.instore !== false} dim={c.frozen} onChange={(x: boolean) => sw('instore', x)} />
+      <D.ToggleRow title="Contactless" on={c.contactless} dim={c.frozen} onChange={(x: boolean) => sw('contactless', x)} />
+      <D.ToggleRow title="Cash withdrawals" on={c.atm} dim={c.frozen} onChange={(x: boolean) => sw('atm', x)} />
+      {on('card.wallet') && <D.Row icon="phone" title="Phone wallets" chev onClick={() => nav.go('cardx', 'wallet')} />}
+    </D.List>
+    <D.Sec title="Limits" />
+    <p className="ds-row-s">Lowering a limit works straight away. Raising one asks you to confirm it's you.</p>
+    <D.List>
+      <D.LimitRow icon="split" title="Monthly spending" spent={M.money(Bk.spentMonth(), 2)} limit={ct.month ? M.money(ct.month) : undefined} used={ct.month ? Bk.spentMonth() / ct.month : 0} action={ct.month ? 'Change' : 'Set'} onAction={() => open({ key: 'month' }, ct.month)} />
+      {editor({ key: 'month' }, ct.month)}
+      <D.Row icon="card" title="Each payment" value={ct.txn ? `Up to ${M.money(ct.txn)}` : 'No limit'} chev onClick={() => open({ key: 'txn' }, ct.txn)} />
+      {editor({ key: 'txn' }, ct.txn)}
+      {on('card.limits') && <D.Row icon="split" title="Limits by category" meta={nLim ? `${nLim} set` : 'None set'} chev onClick={() => nav.go('cardx', 'limits')} />}
+    </D.List>
+    <D.Label>Daily limits by how you pay</D.Label>
+    <D.Seg items={['At home', 'Abroad']} value={where} onChange={(x: string) => { setWhere(x as any); setEdit(null) }} />
+    <D.List>{Bk.CHS.map(ch => { const k = { key: 'daily' as const, ch, where: w }, now = ct.daily[w][ch]; return <React.Fragment key={ch}>
+      <D.Row title={Bk.CH_NAME[ch]} value={`${M.money(now)}${ch === 'contactless' ? ' a payment' : ' a day'}`} chev onClick={() => open(k, now)} />{editor(k, now)}</React.Fragment> })}</D.List>
+    <D.Sec title="Spending blocks" />
+    {on('card.gambling') && <GamblingRow />}
+    <D.List>{Bk.BLOCKS.map(b => <D.ToggleRow key={b.k} title={b.name} sub={b.sub} on={!!ct.blocks[b.k]} onChange={(x: boolean) => here(Bk.blockSet({ k: b.k, on: x }))} />)}</D.List>
+    <D.Sec title="Payment alerts" />
+    <D.List>
+      <D.ToggleRow title="Every payment" sub="A message each time your card is used" on={ct.alerts.every} onChange={(x: boolean) => here(Bk.alertsSet({ every: x }))} />
+      <D.Row icon="bell" title="Large payments" value={ct.alerts.over ? `Over ${M.money(ct.alerts.over)}` : 'Off'} chev onClick={() => open({ key: 'txn', alert: true }, ct.alerts.over)} />
+      {editor({ key: 'txn', alert: true }, ct.alerts.over)}
+      <D.ToggleRow title="Declined payments" sub="With the reason, so you can fix it" on={ct.alerts.declined} onChange={(x: boolean) => here(Bk.alertsSet({ declined: x }))} />
+    </D.List>
   </>
 }
 

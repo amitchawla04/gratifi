@@ -901,3 +901,4 @@ html, body { overflow: hidden; }
 .ds-cine .ds-kv-card { box-shadow: none; background: var(--screen); border-radius: 18px; padding: 2px 14px; }
 .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: #E8E6E2; }
 [data-theme="dark"] .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: var(--line); }
+.ds-ctl-edit{padding:4px 0 14px}.ds-ctl-edit .ds-btnrow{margin-top:10px}

@@ -5,6 +5,7 @@ import * as St from './store'
 import * as Mod from './modules'
 import * as Cat from './catalog'
 import { fmt } from '../../kit/src/market'
+import * as Bk from './bank'
 
 export type PayChoice = { method: 'points' | 'mix' | 'card'; pts: number; card: number }
 export type Confirm = { kind: 'pay'; draft: string; choice: PayChoice } | { kind: 'action'; title: string; summary?: string; lines?: [string, string][]; total?: [string, string]; cta?: string; act: { f: string; a?: any } }
@@ -1116,10 +1117,18 @@ export function declined(t: string): R {
   const why: string[] = [], fix: string[] = []
   if (c.frozen) { why.push('your card is frozen, so new payments are blocked'); fix.push('Unfreeze my card') }
   if (!c.online && (online || !abroad && !atm && !tap)) { why.push('online payments are switched off'); fix.push('Turn on online payments') }
-  if (!c.abroad && (abroad || !online && !atm && !tap)) { why.push('payments abroad are switched off'); fix.push('Turn on payments abroad') }
+  if (!c.abroad && (abroad || !online && !atm && !tap && !/shop|store|till|supermarket|restaurant|in person/.test(t) && (c as any).domestic !== false)) { why.push('international payments are switched off'); fix.push('Turn on international payments') }
   if (!c.atm && atm) { why.push('cash withdrawals are switched off'); fix.push('Turn on cash withdrawals') }
   if (!c.contactless && tap) { why.push('contactless is switched off'); fix.push('Turn on contactless') }
   if ((c as any).gambling && /bet|casino|gambl|lottery/.test(t)) why.push('gambling payments are blocked, as you asked')
+  { const cc = c as any, ct = Mod.apiOn('cards.controls') ? Bk.ctl() : null, inShop = /shop|store|till|supermarket|restaurant|in person|chip|pin\b/.test(t)
+    if (cc.domestic === false && !abroad) { why.push('domestic payments are switched off'); fix.push('Turn on domestic payments') }
+    if (cc.instore === false && (inShop || !online && !abroad && !atm && !tap)) { why.push('in-store payments are switched off'); fix.push('Turn on in-store payments') }
+    if (ct) { const amt = +((t.match(/(\d[\d,]*(?:\.\d+)?)/) || [])[1] || '0').replace(/,/g, '')
+      if (ct.blocks.crypto && /crypto|bitcoin|coinbase|binance|exchange/.test(t)) why.push('crypto purchases are blocked, as you asked')
+      if (ct.blocks.transfers && /transfer|wallet|top.?up|paypal|remit/.test(t)) why.push('money transfers and wallet top-ups are blocked, as you asked')
+      if (ct.txn && amt > ct.txn) { why.push(`it's over your limit of ${M().money(ct.txn)} for each payment`); fix.push('Change my payment limit') }
+      if (ct.month && Bk.spentMonth() >= ct.month) { why.push(`you've reached your monthly spending limit of ${M().money(ct.month)}`); fix.push('Change my monthly limit') } } }
   if (avail < 50) why.push(`you have ${M().money(avail, 2)} of credit left`)
   if (why.length) return { say: `That's likely because ${why.join(', and ')}.${fix.length ? ' You can change that here.' : ''}`, blocks: [{ kind: 'controls' }], suggest: fix.slice(0, 2) }
   return { say: `Nothing on your card is blocking payments: it isn't frozen, online and abroad payments are on, and you have ${M().money(avail, 2)} available. A declined payment is usually the shop's terminal, a wrong PIN, or a security check. Try again with chip and PIN, or tell me if it keeps happening and a person will look at it.`, blocks: [{ kind: 'controls' }], suggest: ['It keeps happening', 'Payments I don\'t recognise'] }
@@ -1232,12 +1241,13 @@ export function settlePending(): R {
   return { say: `Demo: the return window has closed. ${M().pts(tot)} from ${[...new Set(ps.map(p => p.label))].join(' and ')} are now in your balance.`, blocks: [{ kind: 'points' }] }
 }
 export function cardControl(a: { control: string; on: boolean }): R {
-  const k = ({ freeze: 'frozen', frozen: 'frozen', online: 'online', abroad: 'abroad', contactless: 'contactless', atm: 'atm', cash: 'atm' } as any)[String(a.control).toLowerCase()] || 'frozen'
+  const k = ({ freeze: 'frozen', frozen: 'frozen', online: 'online', abroad: 'abroad', international: 'abroad', contactless: 'contactless', atm: 'atm', cash: 'atm', domestic: 'domestic', instore: 'instore' } as any)[String(a.control).toLowerCase()] || 'frozen'
   if (k === 'frozen' && !a.on) return unfreezeAsk({})
-  const nm = ({ online: 'online payments', abroad: 'payments abroad', contactless: 'contactless', atm: 'cash withdrawals' } as any)[k]
-  if (k !== 'frozen' && a.on) { if ((St.get().card as any)[k]) return { say: `${nm.charAt(0).toUpperCase() + nm.slice(1)} ${k === 'contactless' ? 'is' : 'are'} already on.`, blocks: [{ kind: 'controls' }] }; return { say: 'Confirm it\'s you to switch this back on.', blocks: [], confirm: { kind: 'action', title: `Turn on ${nm}`, summary: `Card ending ${St.get().card.last4}`, lines: [['Change', `Allow ${nm}`]], total: ['Takes effect', 'Straight away'], act: { f: 'cardSet', a: { k } } } } }
+  const nm = ({ online: 'online payments', abroad: 'international payments', contactless: 'contactless', atm: 'cash withdrawals', domestic: `payments in ${Cat.HOME[mk() === 'AR' ? 'AE' : mk()]?.country || 'your country'}`, instore: 'in-store payments' } as any)[k]
+  const cur = (St.get().card as any)[k] !== false && (k === 'domestic' || k === 'instore' || !!(St.get().card as any)[k])
+  if (k !== 'frozen' && a.on) { if (cur) return { say: `${nm.charAt(0).toUpperCase() + nm.slice(1)} ${k === 'contactless' ? 'is' : 'are'} already on.`, blocks: [{ kind: 'controls' }] }; return { say: 'Confirm it\'s you to switch this back on.', blocks: [], confirm: { kind: 'action', title: `Turn on ${nm}`, summary: `Card ending ${St.get().card.last4}`, lines: [['Change', `Allow ${nm}`]], total: ['Takes effect', 'Straight away'], act: { f: 'cardSet', a: { k } } } } }
   St.set(s => ({ card: { ...s.card, [k]: !!a.on } }))
-  const lab = ({ frozen: 'Card frozen. New payments are blocked; direct debits and refunds still work.', online: `Online payments are ${a.on ? 'on' : 'off'}.`, abroad: `Payments abroad are ${a.on ? 'on' : 'off'}.`, contactless: `Contactless is ${a.on ? 'on' : 'off'}.`, atm: `Cash withdrawals are ${a.on ? 'on' : 'off'}.` } as any)[k]
+  const lab = k === 'frozen' ? 'Card frozen. New payments are blocked; direct debits and refunds still work.' : `${nm.charAt(0).toUpperCase() + nm.slice(1)} ${k === 'contactless' ? 'is' : 'are'} ${a.on ? 'on' : 'off'}.${k === 'domestic' && !a.on ? ' Direct debits and refunds still work.' : ''}`
   return { say: lab, blocks: [{ kind: 'controls' }] }
 }
 export function flexDates(a: { city?: string; pax?: number }): R {
@@ -1459,6 +1469,7 @@ export function safety(t0: string): R | null {
 export function route(cat: string, text: string): R {
   const t = (cat + ' ' + text).toLowerCase().trim(), m = mk()
   { const sf = safety(text); if (sf) { if (mixedCrisis(text)) { const cl = text.split(/[,.;!?]|\s+(?:and|but|so|then)\s+/i).map(x => x.trim()).filter(x => x && TASK.test(x) && !CRISIS.test(x.toLowerCase()) && !CRISIS2.test(x.toLowerCase())); const task = (cl.join(', ') || '').replace(/^[\s,.;:]+|[\s,.;:]+$/g, '').replace(/^(?:(?:can|could|would|will) you (?:please )?|please )/i, ''); const c = crisis(text.toLowerCase()); return task.length > 4 && !/\b(all|every|everything)\b|\bclose (my )?(card|account)\b|\bdelete (my )?account\b/i.test(task) ? { ...c, suggest: [task.charAt(0).toUpperCase() + task.slice(1)] } : c } return sf } }
+  if (!CRISIS.test(detitle(t))) { const ctlR = controlsRoute(t); if (ctlR) return ctlR }
   { const sv = servicing(t); if (sv) return sv }
   if (/\b(taken|kept|swallowed|eaten|retained|stuck|grabbed|held) (by|in) (the |a )?(cash ?point|cash machine|atm|machine|hole in the wall)\b/.test(t) && !/\bstuck in the atm\b/.test(t)) return route('', 'the atm kept my card')
   if (/\b(turn|switch|put) (my )?card (back )?on\b|\b(turn|switch) (it|my card) back on\b|\bcard back on\b|\b(reactivate|re-?enable) (my )?card\b/.test(t) && !/\b(online|abroad|contactless|cash|atm|gambling)\b/.test(t)) return route('', 'unfreeze my card')
@@ -1757,4 +1768,35 @@ export function route(cat: string, text: string): R {
   if (/^(hi|hello|hey|hiya|yo|help|what can you do|menu|start)( there| gratifi)?\b[\s!?.,]*$/.test(t) || !t) return { say: 'I can help with anything on your card: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. What would you like to do?', blocks: [{ kind: 'cats' }], suggest: ['Book a flight', 'A table tonight', 'Groceries now', 'Freeze my card'] }
   { const gm = t.match(/^(?:can you |could you |please |i want to |i'?d like to )?(?:get|buy|order|find)(?: me)? (?:a |an |some |new |a new )?([a-z][a-z -]{2,30})\??$/); if (gm && !/\b(flight|hotel|table|ride|cab|taxi|ticket|lounge|card|points|money|refund)\b/.test(gm[1])) { const r = search({ cat: 'shopping', query: gm[1] }); return { ...r, say: `I can't find ${gm[1].trim()} here. These are the closest things I can offer, or the concierge team can look for it.`, suggest: ['Find a special gift'] } } }
   return { say: 'I can\'t do that one. Here\'s what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.', blocks: [{ kind: 'cats' }], suggest: ['Book a flight', 'A table tonight', 'Groceries now', 'Talk to a person'] }
+}
+
+/* ---------- card controls in chat ---------- */
+const amtIn = (t: string) => { const x = t.replace(/(\d),(\d{3})/g, '$1$2').match(/(\d+(?:\.\d+)?)\s*(k|thousand|lakh|lakhs)?\b/); if (!x) return null; const n = +x[1] * (x[2] === 'k' || x[2] === 'thousand' ? 1000 : /lakh/.test(x[2] || '') ? 100000 : 1); return n > 0 ? n : null }
+export function controlsRoute(t: string): R | null {
+  if (!Mod.apiOn('cards.controls')) return null
+  const on = /\b(allow|turn on|enable|switch on|unblock|lift|back on|let me)\b/.test(t) && !/\b(turn off|switch off|disable|block|stop)\b(?!.*\b(allow|unblock|lift)\b)/.test(t)
+  const offWord = /\b(block|turn off|stop|disable|switch off|no more|don.?t allow|pause)\b/.test(t)
+  // where the card works
+  if (/\bdomestic\b|\b(local|home) (payments|transactions|use|spending)\b/.test(t) && /\b(payments?|transactions?|use|usage|spending|card)\b/.test(t) && (on || offWord)) return cardControl({ control: 'domestic', on })
+  if (/\binternational\b/.test(t) && /\b(payments?|transactions?|use|usage|spending|card)\b/.test(t) && (on || offWord)) return cardControl({ control: 'abroad', on })
+  if (/\b(in.?store|in shops?|in person|pos|point of sale|chip and pin)\b/.test(t) && (on || offWord)) return cardControl({ control: 'instore', on })
+  // spending blocks
+  const bk = /crypto|bitcoin/.test(t) ? 'crypto' : /money transfers?|wallet top.?ups?|e.?wallet|remittance/.test(t) ? 'transfers' : /premium.?rate/.test(t) ? 'premium' : /\badult\b|porn/.test(t) ? 'adult' : ''
+  if (bk && (on || offWord || /\bblock\b/.test(t))) return Bk.blockSet({ k: bk, on: !on })
+  // payment alerts
+  if (/\b(alert|notify|notification|message|tell|text|ping)\b/.test(t) && /\b(every|each|all) (card )?(payments?|transactions?|purchases?|spend)\b/.test(t)) return Bk.alertsSet({ every: !offWord })
+  if (/\b(alert|notify|notification|message|tell|text|ping)\b/.test(t) && /\b(over|above|more than|bigger than|larger than)\b/.test(t) && /\b(payments?|transactions?|purchases?|spend)\b/.test(t)) { const n = amtIn(t); if (offWord) return Bk.alertsSet({ over: null }); if (n) return Bk.alertsSet({ over: n }) }
+  if (/\b(alert|notify|tell|message)\b/.test(t) && /\bdeclined\b/.test(t)) return Bk.alertsSet({ declined: !offWord })
+  // limits
+  if (/\b(limits?|caps?|max(imum)?)\b/.test(t) && !/\bcredit limit\b|\bcategory\b|\b(dining|groceries|shopping|travel|transport|entertainment)\b/.test(t)) {
+    if (!/\b(spending|spend|monthly|month|daily|day|each|every|per|single|transaction|atm|cash|withdraw\w*|contactless|tap|online|internet|in.?store|shops?|pos|card limits)\b/.test(t)) return null
+    const n = /\b(remove|no|delete|clear|take off)\b.{0,20}\blimit\b/.test(t) ? null : amtIn(t), where: Bk.Where = /\b(abroad|international|overseas|outside)\b/.test(t) ? 'abroad' : 'home'
+    const ch: Bk.Ch | null = /\b(atm|cash|withdraw)/.test(t) ? 'atm' : /\bcontactless|\btap\b/.test(t) ? 'contactless' : /\bonline|internet|e.?commerce\b/.test(t) ? 'online' : /\b(in.?store|in shops?|pos)\b/.test(t) ? 'instore' : null
+    if (ch) return Bk.limAsk({ key: 'daily', ch, where, amount: n ?? 0 })
+    if (/\b(each|every|per|single|one) (payment|transaction|purchase)\b|\bper.?transaction\b|\btransaction limit\b/.test(t)) return n === undefined ? null : n == null && !/\bremove|no|delete|clear\b/.test(t) ? { say: 'How much should each payment be capped at?', blocks: [{ kind: 'ctllimit', lim: { key: 'txn' } }] } : Bk.limAsk({ key: 'txn', amount: n })
+    if (/\b(month|monthly|a month|per month|spending limit|spend limit|overall)\b/.test(t)) return n == null && !/\bremove|no|delete|clear\b/.test(t) ? { say: 'How much a month?', blocks: [{ kind: 'ctllimit', lim: { key: 'month' } }] } : Bk.limAsk({ key: 'month', amount: n })
+    if (/\b(spending|spend|card|daily|payment) limits?\b/.test(t) && !/\bcredit\b/.test(t)) return { say: 'Here are your card limits. Lowering one works straight away; raising one needs you to confirm it\'s you.', blocks: [{ kind: 'controls', open: 'limits' }] }
+  }
+  if (/\b(card controls?|all (my )?controls|control my card|manage my card controls)\b/.test(t)) return { say: 'Everything you can switch on and off, and every limit. Changes work straight away.', blocks: [{ kind: 'controls' }] }
+  return null
 }

@@ -284,3 +284,72 @@ export function holderRemoveDo(a: { id: string }): R {
   St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, removed: true, closed: true, outcome: 'Card cancelled' }, tracker: { steps: ['Added', 'Removed'], current: 1, eta: 'Card cancelled' } })
   return { say: `${b.extra.name.split(' ')[0]}'s card is cancelled. Anything they spent before now stays on your statement.`, blocks: [] }
 }
+
+/* ---------- card controls: where the card works, how it works, limits, spending blocks, payment alerts ----------
+   Everything here maps to the bank's card-controls API. Switching something off or lowering a limit takes effect at once;
+   switching something back on or raising a limit asks the customer to confirm it's them first. */
+export type Ch = 'online' | 'instore' | 'contactless' | 'atm'
+export type Where = 'home' | 'abroad'
+export const CHS: Ch[] = ['online', 'instore', 'contactless', 'atm']
+export const CH_NAME: Record<Ch, string> = { online: 'Online', instore: 'In store', contactless: 'Contactless', atm: 'Cash withdrawals' }
+const mkt = () => { const m = St.get().market; return m === 'AR' ? 'AE' : m }
+/** The bank's default daily limits per channel (contactless is per payment, capped by the card scheme in each country). */
+const DEF: Record<string, Record<Ch, number>> = {
+  UK: { online: 2500, instore: 2500, contactless: 100, atm: 300 }, EU: { online: 3000, instore: 3000, contactless: 50, atm: 400 },
+  IN: { online: 100000, instore: 100000, contactless: 5000, atm: 40000 }, AE: { online: 10000, instore: 10000, contactless: 500, atm: 5000 },
+  SG: { online: 5000, instore: 5000, contactless: 200, atm: 2000 }, MY: { online: 10000, instore: 10000, contactless: 250, atm: 3000 },
+}
+export const chDefault = (ch: Ch) => (DEF[mkt()] || DEF.UK)[ch]
+/** The most a channel can be set to: the credit limit, or the scheme cap for contactless. */
+export const chMax = (ch: Ch) => ch === 'contactless' ? chDefault('contactless') : St.get().card.limit
+export const BLOCKS: { k: string; name: string; sub: string }[] = [
+  { k: 'crypto', name: 'Crypto', sub: 'Buying crypto on exchanges and apps' },
+  { k: 'transfers', name: 'Money transfers and e-wallet top-ups', sub: 'Sending money or loading a wallet with your card' },
+  { k: 'premium', name: 'Premium-rate phone lines', sub: 'Phone and text services that charge your card' },
+  { k: 'adult', name: 'Adult entertainment', sub: 'Adult sites and services' },
+]
+export type Ctl = { txn?: number; month?: number; daily: Record<Where, Record<Ch, number>>; blocks: Record<string, boolean>; alerts: { every: boolean; over?: number; declined: boolean } }
+export function ctl(): Ctl {
+  need('cards.controls'); const c = (St.get().seen.ctl || {}) as Partial<Ctl>, d = { ...DEF[mkt()] || DEF.UK }
+  return { txn: c.txn, month: c.month, daily: { home: { ...d, ...(c.daily?.home || {}) }, abroad: { ...d, ...(c.daily?.abroad || {}) } }, blocks: { ...(c.blocks || {}) }, alerts: { every: false, declined: true, ...(c.alerts || {}) } }
+}
+const ctlPut = (f: (c: Ctl) => Ctl) => St.set(s => ({ seen: { ...s.seen, ctl: f(ctl()) } }))
+export const domesticOn = () => (St.get().card as any).domestic !== false
+export const instoreOn = () => (St.get().card as any).instore !== false
+export function spentMonth() { const since = Date.now() - 30 * 864e5; return Math.round(St.get().txns.filter(t => t.at >= since && t.cat !== 'Payment').reduce((s, t) => s + (t.refund ? -t.amount : t.amount), 0) * 100) / 100 }
+export type LimKey = { key: 'txn' | 'month' | 'daily'; ch?: Ch; where?: Where }
+export const limName = (k: LimKey) => k.key === 'txn' ? 'Limit for each payment' : k.key === 'month' ? 'Monthly spending limit' : `${CH_NAME[k.ch!]}${k.ch === 'contactless' ? ' limit per payment' : ' limit per day'}${k.where === 'abroad' ? ' abroad' : ''}`
+export function limNow(k: LimKey): number | undefined { const c = ctl(); return k.key === 'txn' ? c.txn : k.key === 'month' ? c.month : c.daily[k.where || 'home'][k.ch!] }
+/** Lowering or setting a first limit applies at once. Raising one, or removing it, needs the customer to confirm. */
+export function limAsk(a: LimKey & { amount: number | null }): R {
+  need('cards.controls'); const now = limNow(a), nm = limName(a), cur = St.get().card.last4
+  if (a.key === 'daily' && (a.amount == null || a.amount <= 0)) return { say: `Tell me the new ${nm.toLowerCase()}.`, blocks: [{ kind: 'ctllimit', lim: { key: a.key, ch: a.ch, where: a.where } }] }
+  if (a.amount != null && a.key === 'daily' && a.amount > chMax(a.ch!)) return { say: a.ch === 'contactless' ? `A contactless payment can be at most ${M().money(chMax('contactless'))} here; above that you pay with chip and PIN.` : `That's more than your credit limit of ${M().money(chMax(a.ch!))}.`, blocks: [{ kind: 'ctllimit', lim: { key: a.key, ch: a.ch, where: a.where } }] }
+  if (a.amount != null && a.key !== 'daily' && a.amount > St.get().card.limit) return { say: `That's more than your credit limit of ${M().money(St.get().card.limit)}.`, blocks: [{ kind: 'ctllimit', lim: { key: a.key, ch: a.ch, where: a.where } }] }
+  const raising = a.amount == null || (now != null && a.amount > now)
+  if (!raising) return limDo(a)
+  return { say: 'Confirm it\'s you to raise this limit.', blocks: [], confirm: { kind: 'action', title: a.amount == null ? `Remove the ${nm.toLowerCase()}` : `Raise the ${nm.toLowerCase()}`, summary: `Card ending ${cur}`, lines: [['Now', now != null ? M().money(now) : 'No limit'], ['New', a.amount != null ? M().money(a.amount) : 'No limit']], total: ['Takes effect', 'Straight away'], cta: 'Confirm', act: { f: 'limDo', a } } }
+}
+export function limDo(a: LimKey & { amount: number | null }): R {
+  need('cards.controls'); const nm = limName(a)
+  ctlPut(c => a.key === 'daily' ? { ...c, daily: { ...c.daily, [a.where || 'home']: { ...c.daily[a.where || 'home'], [a.ch!]: a.amount ?? chDefault(a.ch!) } } } : { ...c, [a.key]: a.amount ?? undefined })
+  const over = a.key === 'month' && a.amount != null && spentMonth() > a.amount
+  return { say: a.amount == null ? `${nm} removed.` : `${nm} set to ${M().money(a.amount)}.${over ? ` You've already spent ${M().money(spentMonth(), 2)} in the last 30 days, so new card payments are declined until that drops below the limit.` : ''} It works straight away.`, blocks: [{ kind: 'controls' }] }
+}
+export function blockSet(a: { k: string; on: boolean }): R {
+  need('cards.controls'); const b = BLOCKS.find(x => x.k === a.k); if (!b) return { say: 'That block isn\'t offered on this card.', blocks: [] }
+  if (!!ctl().blocks[a.k] === a.on) return { say: `${b.name} ${a.on ? 'is already blocked' : 'isn\'t blocked'}.`, blocks: [{ kind: 'controls' }] }
+  if (!a.on) return { say: 'Confirm it\'s you to lift this block.', blocks: [], confirm: { kind: 'action', title: `Allow ${b.name.toLowerCase()}`, summary: `Card ending ${St.get().card.last4}`, lines: [['Change', `Lift the block on ${b.name.toLowerCase()}`]], total: ['Takes effect', 'Straight away'], cta: 'Confirm', act: { f: 'blockDo', a } } }
+  return blockDo(a)
+}
+export function blockDo(a: { k: string; on: boolean }): R {
+  need('cards.controls'); const b = BLOCKS.find(x => x.k === a.k)!
+  ctlPut(c => ({ ...c, blocks: { ...c.blocks, [a.k]: a.on } }))
+  return { say: a.on ? `${b.name} is blocked. Payments like this are declined from now on.` : `The block on ${b.name.toLowerCase()} is lifted.`, blocks: [{ kind: 'controls' }] }
+}
+export function alertsSet(a: { every?: boolean; over?: number | null; declined?: boolean }): R {
+  need('cards.controls')
+  ctlPut(c => ({ ...c, alerts: { ...c.alerts, ...(a.every != null ? { every: a.every } : {}), ...(a.declined != null ? { declined: a.declined } : {}), ...(a.over !== undefined ? { over: a.over ?? undefined } : {}) } }))
+  const al = ctl().alerts
+  return { say: a.every != null ? (a.every ? 'I\'ll message you about every card payment.' : 'No more messages for every payment.') : a.declined != null ? (a.declined ? 'I\'ll tell you when a payment is declined, and why.' : 'No more messages for declined payments.') : al.over ? `I'll message you about any payment over ${M().money(al.over)}.` : 'No more messages for large payments.', blocks: [{ kind: 'controls' }] }
+}

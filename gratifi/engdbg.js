@@ -23,11 +23,12 @@ const CASES = (d) => [
   ['someone stole my card', 'controls'], ['I lost my wallet', 'controls'], ['turn on online payments', /Confirm it's you|already on/], ['block gambling transactions', /block gambling payments/], ['can I use my card in Japan?', 'controls'],
   [`flights to ${d[0]} on 20 Oct back 18 Oct`, /before you leave/], [`flights to ${d[0]} for me, my wife and our 2 kids on 20/10`, 'flights'], [`flights to ${d[0]} on 31 Feb`, /no 31 February/], [`flights to ${d[0]} yesterday`, /already passed/], [`flights to ${d[0]} for 12 people`, 'conciergeform'],
   [`Flights to ${d[1]} next weekend for two`, 'flights'], ['what about the day after?', 'flights'], ['what time does it land?', /lands at/],
+  ['turn off international payments', /International payments are off/], ['turn off domestic transactions', /payments in .+ are off/i], ['allow domestic payments', /Confirm it's you/], ['block in-store payments', /In-store payments are off/], ['set a monthly spending limit of 1500', /Monthly spending limit set/], ['limit each payment to 400', /Limit for each payment set/], ['set my daily atm limit to 200', /Cash withdrawals limit per day set/], ['contactless limit 30', /Contactless limit per payment set/], ['block crypto', /Crypto is blocked/], ['unblock crypto', /Confirm it's you to lift/], ['alert me for every payment', /every card payment/], ['notify me of payments over 250', /any payment over/], ['set spending limits', 'controls'], ['card controls', 'controls'], ['block money transfers', /Money transfers and e-wallet top-ups is blocked/],
   [`watch the price of flights to ${d[0]}`, 'state'], [`flights to ${d[0]} next Friday back from ${d[1]} on Monday`, 'flights'], ['stop watching fares', /./],
   ['good morning', 'cats'], ['thanks, that is all', /welcome/], ['How do I get more points?', 'challenges'], ['book a spa day', 'conciergeform'], ['do I need a visa for Peru?', /official travel advice/], ['cheapest way to get to Reykjavik', /can't book flights to Reykjavik/],
   [`A hotel in ${d[0]} with a pool`, 'items'], ['make it 3 nights', 'items'], ['cheaper ones?', 'items'],
   ['someone called from the bank and asked me to move my money', 'handoff'], ['transfer 100 pounds to my friend', /isn't something Gratifi does/], ['convert points to cash', /can't be paid out as cash/], ['cancel my subscription', /don't have any subscriptions|Which one|cancel/i],
-  ['turn off payments abroad', /Payments abroad are off/], ['unfreeze my card', /isn't frozen|Confirm/], [`Cheaper dates to ${d[0]}`, 'calendar'], ['statement for August', /Older statements/],
+  ['turn off payments abroad', /International payments are off|Payments abroad are off/], ['unfreeze my card', /isn't frozen|Confirm/], [`Cheaper dates to ${d[0]}`, 'calendar'], ['statement for August', /Older statements/],
   [`fly to ${d[1]} friday to monday`, 'flights'], [`flights to ${d[0]} 2026-10-20`, 'flights'], [`flights from Manchester to ${d[0]}`, /only book flights from|flights to/], [`flights to ${d[0]} for 3 adults and 1 infant`, 'flights'],
   [`Flights to ${d[0]} next weekend for two`, 'flights'], ['back on monday instead', 'flights'], ['evening flights only', 'flights'], ['make it three people', 'flights'],
   ['I feel like ending it all', 'crisis'], ["I can't go on", 'crisis'], ['someone phoned me pretending to be the bank', 'handoff'], ['I got a text asking me to confirm a payment', 'handoff'], ['someone from the bank asking for my PIN', 'handoff'],
@@ -94,7 +95,7 @@ const CASES = (d) => [
   for (const m of markets) {
     const p = await b.newPage({ viewport: { width: 420, height: 880 } }); const errs = []; p.on('pageerror', e => errs.push(e.message))
     await p.goto(`file://${__dirname}/build/test.html?m=${m}&tab=chat`); await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForTimeout(400)
-    for (const [ph, exp] of CASES(D[m])) {
+    for (const [ph, exp] of CASES(D[m]).filter(([ph]) => !process.env.ONLY || new RegExp(process.env.ONLY).test(ph))) {
       total++; console.log("> " + m + " " + ph)
       await p.evaluate(() => { const k = Object.keys(localStorage).find(x => x.startsWith('gratifi-state')); }); 
       if (await p.$('.app-sheet')) { await p.keyboard.press('Escape'); await p.waitForTimeout(120) }

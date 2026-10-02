@@ -59,6 +59,25 @@ module.exports = {
     if (!(await p.locator('.c2-tl li.chg').count())) errs.push('NO CHANGE SHOWN')
     await ask('my luggage never arrived'); await full('lostbag'); if (await A().locator('.c2-slot').count()) { await cta(); await full('lostbag-sent') } else errs.push('NO LOST BAG FORM')
   },
+  async controls(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const sw = async (name) => { const l = p.getByRole('switch', { name: await p.evaluate(t => window.__tr ? window.__tr(t) : t, name), exact: true }).first(); if (!(await l.count())) { errs.push('NO SWITCH ' + name); return } await l.scrollIntoViewIfNeeded(); await l.click(); await p.waitForTimeout(350) }
+    const amount = async (v) => { const i = p.locator('.ds-ctl-edit input').first(); if (!(await i.count())) { errs.push('NO LIMIT FIELD'); return false } await i.fill(v); await click('Save'); return true }
+    await nav(1); await full('home')
+    if (!(await p.getByRole('switch', { name: await p.evaluate(t => window.__tr ? window.__tr(t) : t, 'Domestic payments') }).count())) errs.push('NO CONTROLS ON HOME')
+    await click('All controls'); await full('controls')
+    await sw('Domestic payments'); await full('domestic-off')
+    await click('Set', { exact: true }); if (await amount('5000')) await full('month-set')
+    await click('Each payment'); if (await amount('400')) await full('txn-set')
+    await click('Change', { exact: true }); if (await amount('7000')) { await confirm(); await full('month-raised') }
+    await p.getByRole('tab', { name: await p.evaluate(t => window.__tr ? window.__tr(t) : t, 'Abroad') }).click(); await p.waitForTimeout(250); await click('Cash withdrawals'); if (await amount('100')) await full('atm-abroad')
+    await sw('Crypto'); await full('crypto-blocked')
+    await sw('Every payment'); await full('alerts')
+    await nav(3); await ask('set my daily atm limit to 200'); await full('chat-atm')
+    await ask('turn off international payments'); await full('chat-intl')
+    await ask('card controls'); await full('chat-controls')
+    await ask('my card was declined in a shop'); await full('chat-declined')
+  },
   async fares(h) {
     const { ask, click, full, nav, p, errs } = h
     const A = () => p.locator('.gr-answer').last()

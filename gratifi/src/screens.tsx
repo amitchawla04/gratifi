@@ -27,6 +27,18 @@ const artOf = (b: { img?: string; cat: string }) => (b.img && Cat.img(b.img)) ||
 function addOffer(id: string, b: string, r: string, on: boolean) { St.set(s => ({ seen: { ...s.seen, ['offer:' + id]: on } })); if (on) St.pushMsg({ role: 'gr', text: `Added: ${r} at ${b} until 31 Oct, when you pay with your card.` }) }
 
 /* ---------- Home ---------- */
+/** Card controls lead the home screen: the switches people reach for most, and the way into every limit, block and alert. */
+function HomeControls({ nav }: { nav: Nav }) {
+  const c = St.useS(x => x.card) as any; St.useS(x => x.seen.ctl); const M = useMarket(); const ct = Bk.ctl()
+  const sw = (k: string, v: boolean) => { if (v) { here(F.cardControl({ control: k, on: true })); return } const r = F.cardControl({ control: k, on: false }); respond(r); D.toast(r.say || '') }
+  return <><D.Sec title="Card controls" more="All controls" onMore={() => nav.go('cardx', 'controls')} />
+    <D.List>
+      <D.ToggleRow title="Domestic payments" on={c.domestic !== false} dim={c.frozen} onChange={(v: boolean) => sw('domestic', v)} />
+      <D.ToggleRow title="International payments" on={c.abroad} dim={c.frozen} onChange={(v: boolean) => sw('abroad', v)} />
+      <D.ToggleRow title="Online payments" on={c.online} dim={c.frozen} onChange={(v: boolean) => sw('online', v)} />
+      <D.Row icon="split" title="Monthly spending limit" value={ct.month ? M.money(ct.month) : 'Not set'} chev onClick={() => nav.go('cardx', 'controls')} />
+    </D.List></>
+}
 export function Home({ nav }: { nav: Nav }) {
   const s = St.useS(x => x); const M = useMarket(); const { go } = nav; const on = Mod.useOn()
   const moment = pickMoment(s, M)
@@ -39,7 +51,8 @@ export function Home({ nav }: { nav: Nav }) {
   return <div className="app-scroll">
     <div className="ds-homehd"><img src={D.ART.wordmark} alt="gratifi" /><div><D.HBtn label="You and settings" text={(s.prefs.name || 'Y').charAt(0)} onClick={() => go('me')} /><D.HBtn icon="bell" label={M.t('alerts')} dot={!!moment} onClick={() => go('alerts')} /><D.HBtn icon="close" label="Close" onClick={() => go('bank')} /></div></div>
     <div className="ds-hello"><h1>{`${hello(M)}, ${s.prefs.name}`}</h1>{on('card.pay') && <p>{c.due > 0 ? `${M.money(c.due, 2)} to pay by ${M.date(c.dueDate, 'day')}.` : 'Nothing to pay right now.'}</p>}</div>
-    {on('card') && <CardSummary nav={nav} open pay freeze extra={[...(on('card.controls') ? [{ label: 'Controls', onClick: () => go('card', 'controls') }] : []), ...(!on('card.controls') && on('card.statements') ? [{ label: 'Statements', onClick: () => go('cardx', 'statements') }] : [])]} />}
+    {on('card') && <CardSummary nav={nav} open pay freeze extra={[...(on('card.controls') ? [{ label: 'Controls', onClick: () => go('cardx', 'controls') }] : []), ...(!on('card.controls') && on('card.statements') ? [{ label: 'Statements', onClick: () => go('cardx', 'statements') }] : [])]} />}
+    {on('card') && on('card.controls') && <HomeControls nav={nav} />}
     {on('benefits') && <><D.Sec title="Card benefits" more="See all" onMore={() => go('cardx', 'benefits')} />
     <D.Included items={benefitTiles(s, M, nav).slice(0, 3)} /></>}
     {on('offers') && <><D.Sec title="Earn as you spend" more={`All ${OFFERS.length}`} onMore={() => go('offers')} />
@@ -122,10 +135,13 @@ export function Card({ nav, focus }: { nav: Nav; focus?: string }) {
     {anyControl && <D.List>
       {on('card.controls') && <>
         <D.ToggleRow title="Freeze card" sub={c.frozen ? 'The switches below are paused while it\'s frozen' : undefined} on={c.frozen} onChange={(v: boolean) => control('frozen', v)} />
+        <D.ToggleRow title="Domestic payments" on={c.domestic !== false} dim={c.frozen} onChange={(v: boolean) => control('domestic', v)} />
+        <D.ToggleRow title="International payments" on={c.abroad} dim={c.frozen} onChange={(v: boolean) => control('abroad', v)} />
         <D.ToggleRow title="Online payments" on={c.online} dim={c.frozen} onChange={(v: boolean) => control('online', v)} />
-        <D.ToggleRow title="Payments abroad" on={c.abroad} dim={c.frozen} onChange={(v: boolean) => control('abroad', v)} />
+        <D.ToggleRow title="In store" on={c.instore !== false} dim={c.frozen} onChange={(v: boolean) => control('instore', v)} />
         <D.ToggleRow title="Contactless" on={c.contactless} dim={c.frozen} onChange={(v: boolean) => control('contactless', v)} />
         <D.ToggleRow title="Cash withdrawals" on={c.atm} dim={c.frozen} onChange={(v: boolean) => control('atm', v)} />
+        <D.Row icon="split" title="Limits, blocks and alerts" chev onClick={x('controls')} />
       </>}
       {on('card.gambling') && <D.ToggleRow title="Gambling block" sub={at ? `Lifts ${M.date(F.iso(at), 'day')} at ${M.clock(at.toTimeString().slice(0, 5))}. Switch on to keep it.` : undefined} on={!!c.gambling && !at} onChange={gamble} />}
     </D.List>}
