@@ -1,0 +1,3 @@
+STATE card {"last4":"6624","limit":44800,"balance":5079,"due":5079,"min":152.37,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 72320 Ride: Standard:confirmed:76.8:7680/0
+LAST Your driver is 4 min away. Wallet shows each step. | Confirmed | GR-86881 | Booked | Ride: Standard | From | Your location | To | KLIA | When | Now | Paid | 7,680 pts | Free to cancel until the driver arrives. | What else can I do?
+MY rides clean

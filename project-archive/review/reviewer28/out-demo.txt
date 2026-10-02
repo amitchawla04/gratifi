@@ -1,0 +1,23 @@
+STATE pts in pts 53210 card 906.98 due 906.98 frozen false 
+STATE card pay pts 53252 card 948.98 due 906.98 frozen false 
+ME My card | Gratifi Card | •••• 4821 | Balance | £948.98 | Available £7,051 | Due £906.98 · Fri 9 Oct | Pay bill | Freeze | Statement | Benefits | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Direct Debit | Off. You pay each bill yourself. | Full balance | Minimum | Points | 53,252 | POINTS | Worth about £533 | Expiring on 31 Oct | 3,860 | Points on card spend: Café Lune | +42 | Points adjustment (demo) | +5,000 | Points on card spend | +1,840 | Balance brought forward | +46,370 | Market and language | United Kingdom | Eurozone (English) | India | UAE | 
+
+[Noise-cancelling headphones] => Searched 12 products | Priced with your points | 1 product. Hush 700 noise-cancelling headphones is the closest match, with free delivery. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts
+SHEET false
+AFTER supplier down: The supplier isn't answering. | Nothing has moved | Nothing has been booked or charged. Try again in a minute. | Try again
+STATE supplier down pts 53252 card 948.98 due 906.98 frozen false 
+
+[Rain shell jacket] => Searched 12 products | Priced with your points | 2 products. Rain shell jacket is the closest match, with free returns. | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | £120 | or 12,000 pts | Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts
+STATE jacket after reload pts 41252 card 948.98 due 906.98 frozen false Rain shell jacket:confirmed:12000/0
+live pay buttons after paid+reload 1
+SHEET2 Confirm and pay | Hush 700 noise-cancelling headphones · Byte Store · Black | Price | £229.00 | Points used (22,900 pts) | −£229.00 | Points | 22,900 pts | Nothing is paid until you confirm | Pay with Face ID
+LAST Done. It's in your Wallet. | Confirmed | GR-85073 | Order | Rain shell jacket | Size | M | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Paid | 12,000 pts | Return within 30 days. | Track my order
+DELAY Your Rain shell jacket order is running a day late: the courier has a backlog. It should now arrive on Sat 3 Oct. You can wait, or cancel now for a full refund. | Rain shell jacket | Stride Outdoor · Size M · GR-85073 | Sat 3 Oct | Order placed | Packed | Out for delivery | Delivered | Cancel | Deli
+DELIVER Your Rain shell jacket order was delivered. | Rain shell jacket | Stride Outdoor · Size M | Delivered | GR-85073 | 12,000 pts | Return | Report a problem
+RETWIN There are no pending points to land yet.
+CANCELFL Book a flight first, then I can show you what happens when it's cancelled.
+SUSP Did you just try to pay £649.00 to an online electronics shop abroad? It didn't look like you, so I've frozen your card and blocked the payment. | Payment blocked | Nothing left your account. | It was me | It wasn't me
+STATE susp pts 41252 card 948.98 due 906.98 frozen true Rain shell jacket:delivered:12000/0
+STATE reset pts 41252 card 948.98 due 906.98 frozen true Rain shell jacket:delivered:12000/0
+
+## s-demo-UK ERRORS: NO SHEET

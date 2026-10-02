@@ -1,0 +1,33 @@
+const { chromium } = require('/home/claude/.npm-global/lib/node_modules/playwright');
+const D = __dirname, REV = D + '/../gratifi/review/';
+exports.run = async (name, opts, fn) => {
+  const market = opts.m || 'UK', theme = opts.theme || 'light';
+  const b = await chromium.launch();
+  const ctx = await b.newContext({ viewport: { width: 420, height: 880 }, deviceScaleFactor: 1, locale: opts.locale || 'en-GB', timezoneId: 'Asia/Kolkata' });
+  if (opts.fake) await ctx.addInitScript({ path: D + '/fake.js' });
+  if (opts.init) await ctx.addInitScript(opts.init);
+  const p = await ctx.newPage();
+  const errs = []; p.on('pageerror', e => errs.push('PAGE ' + e.message)); p.on('console', m => { if (m.type() === 'error') errs.push('CON ' + m.text()) });
+  const file = opts.file || 'test.html';
+  const url = (x = '') => `file://${REV}${file}?m=${market}&theme=${theme}${x}`;
+  await p.goto(url(opts.q || '')); if (!opts.keep) { await p.evaluate(() => localStorage.clear()); await p.goto(url(opts.q || '')); } await p.waitForTimeout(500);
+  let n = 0;
+  const shot = async (nm) => { await p.waitForTimeout(300); await p.screenshot({ path: `${D}/shots/${name}-${String(++n).padStart(2, '0')}-${nm}.png` }) };
+  const full = async (nm, h = 1400) => { await p.waitForTimeout(300); await p.setViewportSize({ width: 420, height: h }); await p.waitForTimeout(200); await p.evaluate(() => { const e = document.querySelector('.app-main .app-scroll'); if (e) e.scrollTop = e.scrollHeight }); await p.waitForTimeout(500); await p.screenshot({ path: `${D}/shots/${name}-${String(++n).padStart(2, '0')}-${nm}.png` }); await p.setViewportSize({ width: 420, height: 880 }) };
+  const page = async (nm) => { await p.waitForTimeout(300); const el = await p.$('.app-main .app-scroll'); const hh = el ? await el.evaluate(e => e.scrollHeight) : 880; await p.setViewportSize({ width: 420, height: Math.min(7000, hh + 200) }); await p.waitForTimeout(300); await p.screenshot({ path: `${D}/shots/${name}-${String(++n).padStart(2, '0')}-${nm}.png` }); await p.setViewportSize({ width: 420, height: 880 }) };
+  const nav = async (i) => { await p.click(`.gr-nav button:nth-child(${i})`); await p.waitForTimeout(300) };
+  const ask = async (t, w = 700) => { await p.fill('.gr-ask input', t); await p.press('.gr-ask input', 'Enter'); await p.waitForTimeout(w) };
+  const click = async (text, o = {}) => { let l = p.getByRole(o.role || 'button', { name: text, exact: !!o.exact }).last(); if (!(await l.count())) for (const r of ['radio', 'tab', 'option', 'checkbox', 'switch', 'link']) { const c = p.getByRole(r, { name: text, exact: !!o.exact }).last(); if (await c.count()) { l = c; break } } await l.scrollIntoViewIfNeeded({ timeout: 4000 }); await l.click({ timeout: 4000 }); await p.waitForTimeout(o.w || 450) };
+  const lastText = async () => p.evaluate(() => { const a = [...document.querySelectorAll('.gr-answer, .gr-msg')]; return a.length ? a[a.length - 1].innerText : '' });
+  const answers = async (k = 1) => p.evaluate((k) => { const a = [...document.querySelectorAll('.gr-answer')]; return a.slice(-k).map(x => x.innerText).join('\n=====\n') }, k);
+  const btns = async () => p.evaluate(() => { const a = [...document.querySelectorAll('.gr-answer')]; const l = a[a.length - 1]; return l ? [...l.querySelectorAll('button,[role=radio],[role=tab]')].filter(b => !b.disabled).map(b => (b.innerText || b.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim()) : [] });
+  const sheet = async () => p.evaluate(() => { const s = document.querySelector('.app-sheet'); return s ? s.innerText : null });
+  const auth = async (code = '482193') => { await p.waitForTimeout(300); const s = await p.$('.app-sheet'); if (!s) return 'NO SHEET'; const t = await s.innerText(); const ins = await p.$$('.app-sheet input'); if (ins.length >= 6) { for (let i = 0; i < 6; i++) await ins[i].fill(code[i]) } else if (ins.length) await ins[0].fill(code); await p.locator('.app-sheet .gr-btn').last().click(); await p.waitForSelector('.app-sheet', { state: 'detached', timeout: 8000 }).catch(() => {}); await p.waitForTimeout(500); return t };
+  const st = async () => p.evaluate(() => { for (const k of Object.keys(localStorage)) if (k.startsWith('gratifi-state')) { const s = JSON.parse(localStorage.getItem(k)); if (s.market) return s } return null });
+  const S = async () => p.evaluate(() => JSON.parse(localStorage.getItem(Object.keys(localStorage).find(k => k.startsWith('gratifi-state-v3-')))));
+  const log = (...a) => console.log(...a);
+  try { await fn({ p, shot, full, page, nav, ask, click, lastText, answers, btns, sheet, auth, st, S, log, errs, url, market }) } catch (e) { console.log('SCRIPT ERR', e.message.split('\n').slice(0, 3).join(' ')); await shot('fail') }
+  const e2 = await p.evaluate(() => window.__errs || []).catch(() => []);
+  if (errs.length || e2.length) console.log('ERRS', [...errs, ...e2].join(' | ').slice(0, 1500));
+  await b.close();
+};

@@ -1,0 +1,72 @@
+> Flights to Barcelona on Saturday
+  [flights,suggest] 6 flights to Barcelona on Sat 3 Oct, back Mon 5 Oct. I'd pick the 07:25 Coastline: direct, £142 one way per person; a Standard return with the cheapest direct flight back is £252 per person. I've assumed you come back 2 days later; tell me the return date, or say one way.
+  SHOWN: Checked 6 flights from London Priced for 1 person with points 6 flights to Barcelona on Sat 3 Oct, back Mon 5 Oct. I'd pick the 07:25 Coastline: direct, £142 one way per person; a Standard return with the cheapest direct flight back is £252 per person. I've as
+> make it 3 people
+  [flights,suggest] 6 flights to Barcelona on Sat 3 Oct, back Mon 5 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £142 one way per person; a Standard return with the cheapest direct flight back is £252 per person.
+  SHOWN: Checked 6 flights from London Priced for 3 people with points 6 flights to Barcelona on Sat 3 Oct, back Mon 5 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £142 one way per person; a Standard return with the cheapest direct flight back is £252 per p
+> what about Sunday
+  [flights,suggest] 5 flights to Barcelona on Sun 4 Oct, back Tue 6 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £125 one way per person; a Standard return with the cheapest direct flight back is £232 per person.
+  SHOWN: Checked 5 flights from London Priced for 3 people with points 5 flights to Barcelona on Sun 4 Oct, back Tue 6 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £125 one way per person; a Standard return with the cheapest direct flight back is £232 per p
+> only direct
+  [flights,suggest] 3 direct flights to Barcelona on Sun 4 Oct, back Tue 6 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £125 one way per person; a Standard return with the cheapest direct flight back is £232 per person.
+  SHOWN: Checked 3 flights from London Priced for 3 people with points 3 direct flights to Barcelona on Sun 4 Oct, back Tue 6 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £125 one way per person; a Standard return with the cheapest direct flight back is £23
+> the cheapest
+  [fares] I've matched it with the cheapest direct flight back, the 14:15 on Tue 6 Oct; you can pick another below. Pick a fare; prices are per person, return.
+  SHOWN: Checked fare rules I've matched it with the cheapest direct flight back, the 14:15 on Tue 6 Oct; you can pick another below. Pick a fare; prices are per person, return. 07:25 London LHR CL CL 522 2h 16m Economy 10:41 Barcelona BCN 14:15 Barcelona BCN CL CL 287
+> hotel in Lisbon
+  [items:stays] 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card.
+  SHOWN: Searched 4 places to stay Priced with your points 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card. Tidewater House 3× points City centre, Lisbon 4.8 Pool Breakfast £218 2 nights, taxes in or 21,800 pts Riverside Hotel Old town, L
+> cheaper
+  [items:stays] Cheapest first. 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card.
+  SHOWN: Searched 4 places to stay Priced with your points Cheapest first. 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card. Tidewater House 3× points City centre, Lisbon 4.8 Pool Breakfast £218 2 nights, taxes in or 21,800 pts Riverside H
+> with breakfast
+  [items:stays] 2 have breakfast included. 2 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card.
+  SHOWN: Searched 4 places to stay Priced with your points 2 have breakfast included. 2 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card. Tidewater House 3× points City centre, Lisbon 4.8 Pool Breakfast £218 2 nights, taxes in or 21,800 pts 
+> make it 5 nights
+  [items:stays] 4 places to stay in Lisbon, for 5 nights. Tidewater House is my pick: 3× points on your card.
+  SHOWN: Searched 4 places to stay Priced with your points 4 places to stay in Lisbon, for 5 nights. Tidewater House is my pick: 3× points on your card. Tidewater House 3× points City centre, Lisbon 4.8 Pool Breakfast £545 5 nights, taxes in or 54,500 pts Riverside Hot
+> milk
+  [grocery] Added milk. Anything else? It arrives in about 15 minutes.
+  SHOWN: Checked the nearest store: open, 15 min Added milk. Anything else? It arrives in about 15 minutes. Sourdough loaf £2.99 Free-range eggs, 12 £3.99 Bananas, 6 £1.00 Coffee beans, 500g £7.49 Greek yoghurt £2.49 Tomatoes, 500g £2.00 Chicken thighs, 1kg £5.99 Basma
+> 2 more milk
+  [grocery] Added 2 × milk. Anything else? It arrives in about 15 minutes.
+  SHOWN: Checked the nearest store: open, 15 min Added 2 × milk. Anything else? It arrives in about 15 minutes. Sourdough loaf £2.99 Free-range eggs, 12 £3.99 Bananas, 6 £1.00 Coffee beans, 500g £7.49 Greek yoghurt £2.49 Tomatoes, 500g £2.00 Chicken thighs, 1kg £5.99 B
+> remove eggs
+  [grocery] Done: free-range eggs removed. Anything else? It arrives in about 15 minutes.
+  SHOWN: Done: free-range eggs removed. Anything else? It arrives in about 15 minutes. Sourdough loaf £2.99 Free-range eggs, 12 £3.99 Bananas, 6 £1.00 Coffee beans, 500g £7.49 Greek yoghurt £2.49 Tomatoes, 500g £2.00 Chicken thighs, 1kg £5.99 Basmati rice, 2kg £4.49 Ol
+> make it 1 milk
+  [grocery] Done: milk (1). Anything else? It arrives in about 15 minutes.
+  SHOWN: Done: milk (1). Anything else? It arrives in about 15 minutes. Sourdough loaf £2.99 Free-range eggs, 12 £3.99 Bananas, 6 £1.00 Coffee beans, 500g £7.49 Greek yoghurt £2.49 Tomatoes, 500g £2.00 Chicken thighs, 1kg £5.99 Basmati rice, 2kg £4.49 Olive oil, 750ml 
+> checkout
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+  SHOWN: I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. Flights Book, change, cancel Stays Hotels and rooms Airport Lounges, fast track Rides and rail Cabs, trains, car
+> book a lounge for 3 people on Friday
+  [items:airport] 1 airport service. You have 2 free lounge visits left.
+  SHOWN: Searched 6 airport services Priced with your points 1 airport service. You have 2 free lounge visits left. Lounge visit Heathrow T5 · The Orchard Up to 3 hours before your flight Free per person
+> table for 2 at Salt and Ember tomorrow at 7pm
+  [detail] Salt and Ember has tables around 19:00 for 2. Pick a time and I'll book it.
+  SHOWN: Salt and Ember has tables around 19:00 for 2. Pick a time and I'll book it. Salt and Ember Grill · London 4.8 ★ Mid-price DAY Wed 30 Sep Thu 1 Oct Fri 2 Oct Sat 3 Oct Sun 4 Oct Mon 5 Oct Tue 6 Oct Wed 7 Oct Thu 8 Oct Fri 9 Oct Sat 10 Oct Sun 11 Oct Mon 12 Oct 
+> I'd like to book a cooking class for 2 on Saturday
+  [items:experiences] 7 things to do in London. Cooking class is the most booked.
+  SHOWN: Searched 7 things to do Priced with your points 7 things to do in London. Cooking class is the most booked. Cooking class London 4.7 3 hours £52 per person or 5,200 pts Old town walking tour London 4.9 2 hours Small group £24 per person or 2,400 pts Sunset boa
+> cinema tickets for tonight
+  [items:tickets] 1 event. Cinema: 2 for 1 this week: card offer.
+  SHOWN: Searched 5 events Priced with your points 1 event. Cinema: 2 for 1 this week: card offer. Cinema: 2 for 1 this week Reel House, London Card offer £11.99 for two or 1,199 pts
+> I want to invest all my points in gold
+  [invest] Here's what you can grow points into. I give information, not advice; a licensed partner handles the investment itself.
+  SHOWN: Here's what you can grow points into. I give information, not advice; a licensed partner handles the investment itself. Gold Index fund Savings Digital gold Held in a vault by the partner; sell any time · £68 per gram Before you invest The price of gold goes d
+> transfer all my points to Northway
+  [programmes] You have 48,210 pts. Transfers to these programmes can't be undone.
+  SHOWN: You have 48,210 pts. Transfers to these programmes can't be undone. To Northway Miles 1,000 points = 500 miles · Usually within 2 days 1,000 5,000 10,000 20,000 You have 48,210 points. After this: 38,210. I understand a transfer can't be undone. Transfer 10,00
+> what's the weather in Lisbon
+  [suggest] I can't check the weather. I can help with the trip itself: flights, stays, things to do and travel cover.
+  SHOWN: I can't check the weather. I can help with the trip itself: flights, stays, things to do and travel cover. Travel insurance Things to do there
+> tell me a joke
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+  SHOWN: I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. Flights Book, change, cancel Stays Hotels and rooms Airport Lounges, fast track Rides and rail Cabs, trains, car
+> who are you
+  [suggest] I'm Gratifi, the bank's assistant for your card and points. I'm an AI, not a person. I can bring in someone from the bank whenever you want.
+  SHOWN: I'm Gratifi, the bank's assistant for your card and points. I'm an AI, not a person. I can bring in someone from the bank whenever you want. Talk to a person What can you do?
+> are you a robot
+  [suggest] I'm Gratifi, the bank's assistant for your card and points. I'm an AI, not a person. I can bring in someone from the bank whenever you want.
+  SHOWN: I'm Gratifi, the bank's assistant for your card and points. I'm an AI, not a person. I can bring in someone from the bank whenever you want. Talk to a person What can you do?

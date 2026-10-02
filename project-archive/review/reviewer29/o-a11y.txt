@@ -1,0 +1,9 @@
+home {"btnNoName":[],"inNoLabel":[],"imgNoAlt":0,"svgs":1,"live":[],"small":[],"h1":1,"lang":"en-GB/ltr"}
+explore {"btnNoName":[],"inNoLabel":[],"imgNoAlt":0,"svgs":0,"live":[],"small":[],"h1":1,"lang":"en-GB/ltr"}
+chat-flights {"btnNoName":[],"inNoLabel":[],"imgNoAlt":0,"svgs":0,"live":["DIV.app-sr:polite","DIV.gr-steps:polite"],"small":[],"h1":1,"lang":"en-GB/ltr"}
+seats {"btnNoName":[],"inNoLabel":[],"imgNoAlt":0,"svgs":0,"live":["DIV.app-sr:polite","DIV.gr-steps:polite","DIV.gr-steps:polite","OUTPUT.:polite"],"small":[],"h1":1,"lang":"en-GB/ltr"}
+me {"btnNoName":[],"inNoLabel":[],"imgNoAlt":0,"svgs":1,"live":[],"small":[],"h1":1,"lang":"en-GB/ltr"}
+wallet {"btnNoName":[],"inNoLabel":[],"imgNoAlt":0,"svgs":0,"live":[],"small":[],"h1":1,"lang":"en-GB/ltr"}
+TAB Explore > Gratifi > Wallet > My card > Good evening Amit UK[NOFOCUSRING] > UK > Alerts > Use points > Transfer > Show ideas > Not now > Flights to Lisbon th
+
+## a11y-UK clean

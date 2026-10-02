@@ -1,0 +1,8 @@
+const P = f => '(' + f.toString() + ')';
+const book = async h => { const { p } = h; await h.p.evaluate(() => { window.__plan = null }); await h.ask('x', 50).catch(() => {}); };
+const pre = async h => { const { p } = h; await p.evaluate(() => { window.__plan = async (t, o, run) => { await run('search_flights', { destination: 'Lisbon', depart_date: '2026-10-09', return_date: '2026-10-12', travellers: 1 }); return 'Pick one.' } }); await h.ask('flights to lisbon', 2800); await p.locator('.gr-flight').first().click(); await p.waitForTimeout(3000); await h.click(/Continue with/); await p.waitForTimeout(2800); const b = h.last().locator('.gr-btn').last(); await b.click(); await p.waitForTimeout(2800); await h.btn(/^Pay /).click(); await h.confirm(); await p.waitForTimeout(500); };
+module.exports = {
+ m1: { dom: 1, pre, q: 'cancel my lisbon flight', wait: 3500, plan: P(async (t, o, run) => { const r = await run('my_bookings', { category: 'flights' }); const id = JSON.stringify(r).match(/GR-\d+|B-[\w]+|"id":"([^"]+)"/); window.__mb = r; await run('manage_booking', { booking_id: (r.data && (r.data[0] && r.data[0].id)) || 'x', action: 'cancel' }); return 'Your flight is cancelled and £200 is refunded.' }) },
+ m2: { dom: 1, pre, q: 'move my return to the 13th', wait: 3500, plan: P(async (t, o, run) => { const r = await run('my_bookings', { category: 'flights' }); await run('manage_booking', { booking_id: (r.data && r.data[0] && r.data[0].id) || 'x', action: 'change date', leg: 'return' }); return 'Your return is now on the 13th.' }) },
+ m3: { dom: 1, pre, q: 'what have I booked', wait: 3500, plan: P(async (t, o, run) => { await run('my_bookings', {}); return 'Your flight to Lisbon is booked for Fri 9 Oct and paid.' }) },
+};

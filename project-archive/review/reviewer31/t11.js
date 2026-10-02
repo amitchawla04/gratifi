@@ -1,0 +1,10 @@
+const H=require('./h.js');
+H.run({market:'UK',name:'home'},async h=>{const p=h.p;
+await p.getByRole('button',{name:'See flights'}).first().click(); await p.waitForTimeout(900); h.log('banner->', (await h.lastText()).slice(0,300));
+await h.nav(1); await p.getByRole('button',{name:'Show ideas'}).click(); await p.waitForTimeout(900); h.log('ideas->', (await h.lastText()).slice(0,400)); await h.full('ideas');
+await h.nav(1); const tiles=p.locator('.gr-tile, .gr-feat, [class*=feat]'); h.log('feat', await tiles.count());
+await p.getByText('Tidewater House').first().click(); await p.waitForTimeout(900); h.log('featured->', (await h.lastText()).slice(0,300));
+await h.nav(1); await p.getByRole('button',{name:'Add'}).first().click(); await p.waitForTimeout(500); h.log('offer add ->', await p.evaluate(()=>document.querySelector('.app').dataset.tab), (await p.locator('.app-main').innerText()).slice(0,200).replace(/\s+/g,' '));
+await h.nav(1); await p.locator('[aria-label*=otif], [aria-label*=essages], [aria-label*=lert]').first().click().catch(e=>h.log('nobell')); await p.waitForTimeout(500); await h.sh('bell');
+await p.keyboard.press('Escape'); await h.nav(1); await p.getByRole('button',{name:'UK'}).click().catch(e=>h.log('nouk')); await p.waitForTimeout(400); await h.sh('uk');
+});

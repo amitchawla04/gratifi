@@ -1,0 +1,23 @@
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+SHEET Confirm and pay | 13-inch laptop, 16GB · Byte Store | Price | £999.00 | On your card | £999.00 | Nothing is paid until you confirm | Pay with Face ID
+STATE laptop by card pts 49209 card 1905.98 13-inch laptop, 16GB:confirmed:0/999
+
+[Transfer points to miles] => You have 49,209 pts. Transfers to these programmes can't be undone. | To Northway Miles | 1,000 points = 500 miles · Usually within 2 days | 1,000 | 5,000 | 10,000 | 20,000 | You have 49,209 points. After this: 39,209. | I understand a transfer can't be undone. | Transfer 10,000 points | To Coastline Club | 1,000 points = 400 miles · Usually instant | 1,000 | 5,000 | 10,000 | 20,000 | You have 49,209 points. After this: 39,209. | I understand a transfer can't be undone. | Transfer 10,000 points | To Stayvale Points | 1,000 points = 1,000 hotel points · Usually within 3 days | 1,000 | 5,000 | 10,000 | 20,000 | You have 49,209 points. After this: 39,209. | I understand a transfer can't be undo
+XFER CARD What's your Northway Miles membership number? The points go to that account, and transfers can't be undone. | Continue
+
+[Donate 48000 points to charity] => Pick a cause. Every point goes to the charity; the bank pays any fees. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 48,000 pts | 48,000 pts = £480.00 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give points | Books for Every Child | Reading packs for primary schools | 860,000 of 1,000,000 points given by members | Give points | Warm Homes | Heating help for older people | 410,000 of 1,500,000 points given by members | Give points | Local Food Bank Network | Food parcels near you | 2,100,000 of 2,500,000 points given by members | Give points
+Pick a cause. Every point goes to the charity; the bank pays any fees. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 48,000 pts | 48,000 pts = £480.00 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give poin
+STATE after donate pts 1209 card 1905.98 Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:confirmed:0/999
+
+[cancel my laptop] => You'd get back £999.00. The 999 pts earned on it come off. | Cancel 13-inch laptop, 16GB? | You paid | £999.00 | Points earned on it, taken off | -999 pts | You get back | £999.00 | Return within 14 days, unopened | Yes, cancel | Keep it
+STATE cancel ask pts 1209 card 1905.98 Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:confirmed:0/999
+CANCEL MSG Cancelled. £999.00 is back on your card; it can take 3 to 5 working days to show on your statement. The 999 pts you earned on it have been taken off. | 13-inch laptop, 16GB | Byte Store | Refunded | GR-90073 | Refunded £999.00
+STATE after cancel pts 210 card 906.98 Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:refunded:0/999
+
+[lower my credit limit to £1000] => Check the new limit, then confirm it's you.
+STATE limit lowered pts 210 card 906.98 Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:refunded:0/999
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+
+## s-money-UK ERRORS: SCRIPT locator.click: Timeout 30000ms exceeded.

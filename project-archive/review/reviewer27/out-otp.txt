@@ -1,0 +1,12 @@
+
+[pay ₹5000 off my card] => Check the amount, then confirm it's you.
+SHEET0 Pay your card bill | From your current account ending 7781 | Card bill | ₹5,000.00 | From your account | ₹5,000.00 | Enter the 6-digit code sent to your phone ending 45 | Send a new code | Confirm ₹5,000.00 | Demo: the one-time code is 482193
+TRY 0 Pay your card bill | From your current account ending 7781 | Card bill | ₹5,000.00 | From your account | ₹5,000.00 | Enter the 6-digit code sent to your phone ending 45 | That code isn't right. Check the text message and try again. | Send a new code | Confirm ₹5,000.00 | Demo: the one-time code is 482193
+TRY 1 Pay your card bill | From your current account ending 7781 | Card bill | ₹5,000.00 | From your account | ₹5,000.00 | Enter the 6-digit code sent to your phone ending 45 | That code isn't right. One more wrong code pauses codes for 15 minutes. | Send a new code | Confirm ₹5,000.00 | Demo: the one-time code is 482193
+TRY 2 Pay your card bill | From your current account ending 7781 | Card bill | ₹5,000.00 | From your account | ₹5,000.00 | Enter the 6-digit code sent to your phone ending 45 | Too many wrong codes, so codes are paused. Try again in 15 min, or call the bank if it can't wait. | Confirm ₹5,000.00 | Demo: the one-time code is 482193
+
+[pay ₹5000 off my card] => Check the amount, then confirm it's you.
+AFTER RELOAD Pay your card bill | From your current account ending 7781 | Card bill | ₹5,000.00 | From your account | ₹5,000.00 | Enter the 6-digit code sent to your phone ending 45 | Too many wrong codes, so codes are paused. Try again in 15 min, or call the bank if it can't wait. | Confirm ₹5,000.00 | Demo: the one-time code is 482193
+card 99770
+
+## s-otp-IN clean

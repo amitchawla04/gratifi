@@ -1,0 +1,11 @@
+import { parse, moment } from './src/engine'
+import { CARDS } from './src/data'
+import { acct } from './src/store'
+const Q = ['What is my balance?', 'When is my payment due?', 'Pay my bill', 'Set up a direct debit', 'Show my statement', 'How much did I spend on eating out?', 'How much have I spent this month?', 'What is the Volt Electricals charge?', 'Freeze my card', 'Unfreeze my card', 'I lost my card', 'Show my PIN', 'Card number please', 'Can I get a lower rate?', 'What will reduce my interest?', 'Can I use this card in Amsterdam?', 'Can I get a higher limit?', 'Balance transfer', 'Spread the cost of my TV', 'Add my partner as a cardholder', 'Apple Pay', 'What is my credit score?', 'How many Avios do I have?', 'How close am I to my upgrade voucher?', 'What can I do with my Avios?', 'Take my cashback now', 'What fees do I pay?', 'When does my 0% end?', 'Can I use this card in Lisbon?', 'What benefits do I get?', 'Any offers for me?', 'Find a hotel', 'Book a food tour', 'Book a restaurant', 'Festival tickets', 'Gift card', 'Cancel my booking', 'Change my alerts', 'Speak to a person', 'hello', 'I dont recognise a payment from Streamly', 'activate my new card', 'blah blah', 'How much did I spend on travel?', 'Can I use this card in Spain?', 'What is the Hive Coworking charge?', 'I lost my wallet', 'Is this text really from Barclaycard?', 'I cant pay this month', 'How long will it take to pay off?', 'Can I change my payment date?', 'The item never arrived', 'Can I use an airport lounge?', 'Am I covered for my trip?', 'What does my card cover for Amsterdam?', 'Will we get cashback this month?', 'Block spending for Tom', 'Barclays cashback rewards', 'Move my rewards to Amazon', 'I need emergency cash', 'Go paperless', 'Stop automatic increase', 'Do you have braille statements?', 'My dad died', 'I want to complain', 'Close my account', 'Presale tickets', 'Add to Google Pay', 'What do I get with this card?']
+const base: any = { v: 2, tab: 'home', stack: [], dir: 1, sheet: null, toast: null, suggest: true, alerts: {}, memory: [], readNotifs: {}, per: {} }
+for (const c of CARDS) {
+  const s = { ...base, cardId: c.id }
+  console.log(`\n===== ${c.name} =====`)
+  const m = moment(acct(s)); console.log(`MOMENT [${m?.title}] ${m?.body}`)
+  for (const q of Q) { const r = parse(q, s); console.log(`${q} -> ${r.intent}: ${r.text}`) }
+}

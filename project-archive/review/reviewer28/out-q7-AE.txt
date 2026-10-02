@@ -1,0 +1,10 @@
+
+[I want to die] => I'm really sorry you're feeling this way. You don't have to deal with it alone. You can talk to someone now: the UAE mental health support line on 800 4673, free, from 8am to 8pm. If you're in danger, call 999. I can also bring in someone from the bank's care team. | Talk to the UAE mental health support line now | Free to call, from 8am to 8pm. | Call the UAE mental health support line, 800 4673 | In danger now? Call 999 | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[my dad collapsed and isn't breathing] => Call 998 now and stay with them. The call handler will guide you until help arrives. | Call 998 for them now | Stay with them. The call handler will guide you until help arrives. | Call 998 now
+
+[my child swallowed a lot of pills] => Call 998 now. Keep the packet or bottle to show them, and don't try to make them sick. If they're unconscious or struggling to breathe, call 998 straight away. | Call 998 for them now | Even if they seem all right. Take the packet or bottle with you if you can. | Call 998 now
+
+[there's a man at my door saying he's from the bank and needs my card] => Don't hand over your card, PIN or cash, and don't let them in. The bank never sends anyone to collect a card or cash. Close the door, and if you feel threatened, call 999. I can freeze your card now if you'd like, and the fraud team can take it from here. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me | Freeze my card
+
+## s-say-AE clean

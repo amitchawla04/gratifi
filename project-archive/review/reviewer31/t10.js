@@ -1,0 +1,12 @@
+const H=require('./h.js');
+H.run({market:'UK',name:'demo2'},async h=>{const p=h.p;
+await h.nav(5); const s0=(await h.state())||{balance:48210,card:{balance:906.98}}; await p.getByRole('button',{name:/Points come in/}).click(); await p.waitForTimeout(300); await p.getByRole('button',{name:/A card payment/}).click(); await p.waitForTimeout(500); const s3=await h.state(); h.log('pts', s0.balance,'->', s3.balance, 'card', s0.card.balance,'->', s3.card.balance);
+h.log('tab', await p.evaluate(()=>document.querySelector('.app').dataset.tab));
+await h.sh('after-demo');
+await p.getByRole('button',{name:/Suspicious payment/}).click(); await p.waitForTimeout(700); h.log('tab', await p.evaluate(()=>document.querySelector('.app').dataset.tab)); h.log('susp', (await h.lastText()).slice(0,500)); await h.full('susp');
+const btns=await h.last().locator('button').allInnerTexts(); h.log(btns.join('|'));
+await h.click(/^Yes|It was me|That was me/).catch(e=>h.log('noyes')); h.log('after', (await h.lastText()).slice(0,300));
+await h.nav(5); await p.getByRole('button',{name:/Return window ends/}).click(); await p.waitForTimeout(500); h.log('rw', (await h.lastText()).slice(0,300));
+await h.nav(5); await p.getByRole('button',{name:/Cancel my next flight/}).click(); await p.waitForTimeout(500); h.log('cnf', (await h.lastText()).slice(0,300));
+await h.nav(5); await p.getByRole('button',{name:/Delay my order/}).click(); await p.waitForTimeout(500); h.log('delay', (await h.lastText()).slice(0,300));
+});

@@ -1,0 +1,12 @@
+const { open } = require('./h.js');
+(async () => { const h = await open('UK', { tag: 'demo' }); const { p } = h;
+ const chat = async (l) => { await h.nav(3); console.log(l, '::', (await h.lastText()).slice(0, 350)); };
+ const s0 = await h.st();
+ await h.nav(5); await h.click('Points come in (+5,000)'); await chat('points in'); let s = await h.st(); console.log(' bal', s.balance);
+ await h.nav(5); await h.click('A card payment'); await chat('card payment'); s = await h.st(); console.log(' card', s.card.balance, 'bal', s.balance);
+ await h.nav(5); await h.click('Return window ends'); await chat('return window');
+ await h.nav(5); await h.click('Deliver my order'); await chat('deliver');
+ await h.nav(5); await h.click('Delay my order'); await chat('delay');
+ await h.nav(5); await h.click('Cancel my next flight'); await chat('cancel flight');
+ await h.nav(5); await h.click('Reset demo'); await p.waitForTimeout(500); console.log('reset sheet?', await h.sheetText()); s = await h.st(); console.log('after reset bal', s && s.balance, s && s.chat.length);
+ await h.close() })();

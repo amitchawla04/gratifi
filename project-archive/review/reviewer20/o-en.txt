@@ -1,0 +1,182 @@
+> Book a ride to Heathrow tomorrow at 6:30am
+  [detail] A ride to Heathrow at 06:30, Thu 1 Oct. Prices are fixed when you book.
+  SHOWN: A ride to Heathrow at 06:30, Thu 1 Oct. Prices are fixed when you book. Ride: Standard London · pick-up 06:30 4 seats WHERE TO? Home Office Airport Now Schedule Wed 30 Sep Thu 1 Oct Fri 2 Oct Sat 3 Oct Sun 4 Oct Mon 5 Oct Tue 6 Oct Wed 7 Oct Thu 8 Oct Fri 9 Oc
+> taxi to the airport at 5pm
+  [detail] A ride to Heathrow Airport at 17:00. Prices are fixed when you book.
+  SHOWN: A ride to Heathrow Airport at 17:00. Prices are fixed when you book. Ride: Standard London · pick-up 17:00 4 seats WHERE TO? Home Office Airport Now Schedule Wed 30 Sep Thu 1 Oct Fri 2 Oct Sat 3 Oct Sun 4 Oct Mon 5 Oct Tue 6 Oct Wed 7 Oct Thu 8 Oct Fri 9 Oct S
+> Hire a car for 3 days from 9 October
+  [items:rides] Car hire from Heathrow, priced per day. I've set 3 days.
+  SHOWN: Car hire from Heathrow, priced per day. I've set 3 days. Car hire: compact automatic Pick up at the airport Unlimited miles Full-to-full fuel £38 per day or 3,800 pts
+> car hire in Lisbon from 12 to 15 October
+  [items:rides] Car hire from Lisbon Airport, priced per day. Pick your days on the next step.
+  SHOWN: Car hire from Lisbon Airport, priced per day. Pick your days on the next step. Car hire: compact automatic Pick up at the airport Unlimited miles Full-to-full fuel £38 per day or 3,800 pts
+> flights to Paris from 21 to 25 October for 2 adults and a child aged 5
+  [flights,suggest] 6 flights to Paris on Wed 21 Oct, back Sun 25 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £95 one way per person; a Standard return with the cheapest direct flight back is £202 per person.
+  SHOWN: Checked 6 flights from London Priced for 3 people with points 6 flights to Paris on Wed 21 Oct, back Sun 25 Oct, for 3 people. I'd pick the 07:25 Coastline: direct, £95 one way per person; a Standard return with the cheapest direct flight back is £202 per pers
+> fly to Barcelona on 3/11 returning 8/11
+  [flights,suggest] 6 flights to Barcelona on Tue 3 Nov, back Sun 8 Nov. I'd pick the 07:25 Coastline: direct, £124 one way per person; a Standard return with the cheapest direct flight back is £243 per person.
+  SHOWN: Checked 6 flights from London Priced for 1 person with points 6 flights to Barcelona on Tue 3 Nov, back Sun 8 Nov. I'd pick the 07:25 Coastline: direct, £124 one way per person; a Standard return with the cheapest direct flight back is £243 per person. CL Coas
+> Lisbon next Friday morning, back Sunday evening
+  [flights,suggest] 4 morning flights to Lisbon on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, £134 one way per person; a Standard return with the cheapest direct flight back is £278 per person.
+  SHOWN: Checked 4 flights from London Priced for 1 person with points 4 morning flights to Lisbon on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, £134 one way per person; a Standard return with the cheapest direct flight back is £278 per person. C
+> return flight to Rome 14th October to 18th October
+  [places] I can't book flights to Rome yet. From London I can book these.
+  SHOWN: I can't book flights to Rome yet. From London I can book these. Lisbon Barcelona Paris Edinburgh New York
+> one way to Paris tomorrow evening
+  [flights,suggest] 2 evening flights to Paris on Thu 1 Oct, one way. I'd pick the 17:50 Aurora Air: direct, £104 one way per person.
+  SHOWN: Checked 2 flights from London Priced for 1 person with points 2 evening flights to Paris on Thu 1 Oct, one way. I'd pick the 17:50 Aurora Air: direct, £104 one way per person. AU Aurora Air AU 283 Best for you 17:50 LHR 1h 25m Direct 20:15 CDG Cabin bag £104 o
+> flights to lisbon for me, my wife and our baby born 2026-03-01
+  [calendar] That date has already passed. Which day would you like?
+  SHOWN: That date has already passed. Which day would you like? October 2026 M T W T F S S 1 £106 2 £110 3 £106 4 £90 5 £107 6 £91 7 £113 8 £131 9 £117 10 £98 11 £114 12 £122 13 £131 14 £110 15 £103 16 £114 17 £114 18 £90 19 £124 20 £102 21 £117 22 £110 23 £87 24 £91 
+> flights to New York
+  [flights,suggest] 7 flights to New York on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £398 one way per person; a Standard return with the cheapest direct flight back is £760 per person.
+  SHOWN: Checked 7 flights from London Priced for 1 person with points 7 flights to New York on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £398 one way per person; a Standard return with the cheapest direct flight back is £760 per person. CL Coast
+> a hotel in Paris for 3 nights from 21 October for 4 people
+  [items:stays] 4 places to stay in Paris, Wed 21 Oct for 3 nights. Tidewater Suites is my pick: 3× points on your card. Prices are for 2 double rooms.
+  SHOWN: Searched 4 places to stay Priced with your points 4 places to stay in Paris, Wed 21 Oct for 3 nights. Tidewater Suites is my pick: 3× points on your card. Prices are for 2 double rooms. Tidewater Suites 3× points City centre, Paris 4.4 Pool Breakfast £870 3 ni
+> a suite in Lisbon for 2 nights from 9 Oct
+  [items:stays] 4 places to stay in Lisbon, Fri 9 Oct for 2 nights. Lantern Suites is my pick. Prices are for 1 suite, each sleeping up to 4.
+  SHOWN: Searched 4 places to stay Priced with your points 4 places to stay in Lisbon, Fri 9 Oct for 2 nights. Lantern Suites is my pick. Prices are for 1 suite, each sleeping up to 4. Lantern Suites By the water, Lisbon 4.6 Rooftop bar £456 2 nights, suite, taxes in o
+> hotel in Barcelona for 35 nights
+  [conciergeform] Stays can be booked for up to 30 nights here. For longer, the concierge team can help.
+  SHOWN: Stays can be booked for up to 30 nights here. For longer, the concierge team can help. WHAT DO YOU NEED? A table that's fully booked Find and send a gift Tickets to a sold-out event Plan a special trip Help at home (cleaning, repairs) Send to the concierge
+> book a table for 13 at Harrow & Vine
+  [conciergeform] Tables for 13 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you.
+  SHOWN: Tables for 13 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you. WHAT DO YOU NEED? A table that's fully booked Find and send a gift Tickets to a sold-out event Plan a special trip Help at home (cleaning, r
+> table for 4 at 8pm tomorrow
+  [items:dining] 6 restaurants in London. Harrow & Vine has tables tomorrow around 20:00 for 4, with 15% off on your card.
+  SHOWN: Searched 6 restaurants 6 restaurants in London. Harrow & Vine has tables tomorrow around 20:00 for 4, with 15% off on your card. Harrow & Vine Modern European · London 4.7 Upmarket 15% off with your card Free to book Salt and Ember Grill · London 4.8 Mid-price
+> 2 tickets for the City derby
+  [conciergeform] This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there.
+  SHOWN: This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there. WHAT DO YOU NEED? A table that's fully booked Find and send a gift Tickets to a sold-out event Plan a special trip Help at home (cleaning, repairs) Send 
+> theatre on Friday for 2
+  [items:tickets] 1 event. The Glass Garden (theatre).
+  SHOWN: Searched 5 events Priced with your points 1 event. The Glass Garden (theatre). The Glass Garden (theatre) Royal Playhouse, London · evenings £42 per ticket or 4,200 pts
+> add 2 bananas and remove the bread
+  [grocery] Done: bananas (2), sourdough loaf removed. Anything else? It arrives in about 15 minutes.
+  SHOWN: Done: bananas (2), sourdough loaf removed. Anything else? It arrives in about 15 minutes. Milk, 2 litres £1.50 Sourdough loaf £2.99 Free-range eggs, 12 £3.99 Coffee beans, 500g £7.49 Greek yoghurt £2.49 Tomatoes, 500g £2.00 Chicken thighs, 1kg £5.99 Basmati ri
+> milk and 3 eggs
+  [grocery] Added milk, 3 × free-range eggs. Anything else? It arrives in about 15 minutes.
+  SHOWN: Checked the nearest store: open, 15 min Added milk, 3 × free-range eggs. Anything else? It arrives in about 15 minutes. Sourdough loaf £2.99 Bananas, 6 £1.00 Coffee beans, 500g £7.49 Greek yoghurt £2.49 Tomatoes, 500g £2.00 Chicken thighs, 1kg £5.99 Basmati ri
+> gift card for Sam £50
+  [detail,items:giftcards] Here's a £50 gift card. Add their name, or pick another shop below.
+  SHOWN: Here's a £50 gift card. Add their name, or pick another shop below. Harbour & Co Homeware Harbour & Co £50 Homeware AMOUNT £25 £50 £100 £200 WHO IS IT FOR? Someone else Me Delivered instantly. Valid for 12 months. Not refundable once sent. £50 or 5,000 pts Add
+> £30 Harbour gift card for sam@example.com
+  [detail,items:giftcards] Gift cards come in £25, £50, £100, £200, so I've picked the closest. Here's a gift card for sam@example.com. Add their name, or pick another shop below.
+  SHOWN: Gift cards come in £25, £50, £100, £200, so I've picked the closest. Here's a gift card for sam@example.com. Add their name, or pick another shop below. Harbour & Co Homeware Harbour & Co £25 Homeware AMOUNT £25 £50 £100 £200 WHO IS IT FOR? Someone else Me Del
+> cancel Screenly
+  [suggest] You don't have Screenly on at the moment.
+  SHOWN: You don't have Screenly on at the moment. Turn on Screenly
+> what am I paying for
+  [suggest] You don't have any subscriptions through Gratifi yet. Tunewave comes free with your card whenever you want it.
+  SHOWN: You don't have any subscriptions through Gratifi yet. Tunewave comes free with your card whenever you want it. Turn on Tunewave Show subscriptions
+> what's included with my card
+  [benefits] Everything that comes with your card, including Tunewave music at no cost.
+  SHOWN: Read your card terms Everything that comes with your card, including Tunewave music at no cost. Airport lounges 2 free visits left this year 2 left Purchase protection Things you buy with the card are covered for 120 days against theft and accidental damage Ex
+> what's my credit limit
+  [balance,suggest] Your credit limit is £8,000 and you have £7,093.02 available to spend.
+  SHOWN: Your credit limit is £8,000 and you have £7,093.02 available to spend. Gratifi Card •••• 4821 Balance £906.98 Available £7,093 Due £906.98 · Fri 9 Oct Raise my limit What do I owe?
+> lower my limit to £3000
+  [] Check the new limit, then confirm it's you.
+  SHEET: Lower your credit limit Card ending 4821 · raising it again needs a check by the bank Limit now £8,000 New limit £3,000 New limit £3,000 This checks it's you be
+  SHOWN: Check the new limit, then confirm it's you.
+> increase my limit
+  [handoff] Limit changes are decided by the bank after a short check. Nothing changes until you both agree.
+  SHOWN: Limit changes are decided by the bank after a short check. Nothing changes until you both agree. P Priya from the customer team Usually joins within 2 minutes Already has this conversation You won't need to repeat anything. Priya can see what we've covered. Ch
+> why was my card declined
+  [controls,suggest] Nothing on your card is blocking payments: it isn't frozen, online and abroad payments are on, and you have £7,093 available. A declined payment is usually the shop's terminal, a wrong PIN, or a security check. Try again with chip and PIN, or tell me if it keeps happening and a person will look at it.
+  SHOWN: Nothing on your card is blocking payments: it isn't frozen, online and abroad payments are on, and you have £7,093 available. A declined payment is usually the shop's terminal, a wrong PIN, or a security check. Try again with chip and PIN, or tell me if it kee
+> will my card work in Japan
+  [controls] Yes: payments abroad are on, so your card works wherever the card network is accepted. There's no foreign transaction fee on this card. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead; it's usually cheaper.
+  SHOWN: Yes: payments abroad are on, so your card works wherever the card network is accepted. There's no foreign transaction fee on this card. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead; it's usually cheap
+> split my last purchase into instalments
+  [handoff] You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree.
+  SHOWN: You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree. P Priya from the customer team Usually joins within 2 minutes Already has this conversation You won't need to repeat anything. Priya can see what we
+> add my wife as a cardholder
+  [handoff] Additional cardholders are set up by the bank after a few checks. A person can start that with you now.
+  SHOWN: Additional cardholders are set up by the bank after a few checks. A person can start that with you now. P Priya from the customer team Usually joins within 2 minutes Already has this conversation You won't need to repeat anything. Priya can see what we've cove
+> I've moved house
+  [suggest] Your home address is changed in the bank's app, after a quick check. For a delivery, you can send it to any address at checkout.
+  SHOWN: Your home address is changed in the bank's app, after a quick check. For a delivery, you can send it to any address at checkout. Talk to a person
+> dispute a charge
+  [handoff] If a shop won't refund something you paid for with this card, the bank's disputes team can raise a chargeback, and for purchases over £100 Section 75 may also apply. I'll pass it to them; they can see our conversation and will ask which payment it is.
+  SHOWN: If a shop won't refund something you paid for with this card, the bank's disputes team can raise a chargeback, and for purchases over £100 Section 75 may also apply. I'll pass it to them; they can see our conversation and will ask which payment it is. P Priya 
+> my parcel never arrived
+  [handoff] Sorry about that. I can't see a Gratifi order on its way, so if you bought it elsewhere with this card, the bank's disputes team can try to get your money back with a chargeback. I'll pass it to them; they can see our conversation.
+  SHOWN: Sorry about that. I can't see a Gratifi order on its way, so if you bought it elsewhere with this card, the bank's disputes team can try to get your money back with a chargeback. I'll pass it to them; they can see our conversation. P Priya from the customer te
+> statement for August
+  [statement] Older statements aren't held here, so I can't show August's. Here's the latest one; the bank's app keeps every past statement.
+  SHOWN: Older statements aren't held here, so I can't show August's. Here's the latest one; the bank's app keeps every past statement. Statement 30 Aug to 29 Sep Statement balance £906.98 Minimum payment £27.21 Payment due Fri 9 Oct Current balance £906.98 Your full P
+> how much did I spend on dining
+  [txns:Dining] You've spent £85.99 on dining in the last 30 days, across 2 payments.
+  SHOWN: You've spent £85.99 on dining in the last 30 days, across 2 payments. C Café Lune Dining 24 Sep £13.99 +14 pts T Table Collective Dining 14 Sep £72.00 +72 pts
+> pay my minimum
+  [paybill] You owe £906.98, due Fri 9 Oct. The minimum is £27.21.
+  SHOWN: You owe £906.98, due Fri 9 Oct. The minimum is £27.21. PAYMENT DUE 9 Oct £906.98 Minimum £27.21 by 9 Oct Full balance £906.98 Minimum £27.21 Another amount Pay £906.98 Set up Direct Debit
+> set up direct debit
+  [paybill] You owe £906.98, due Fri 9 Oct. The minimum is £27.21.
+  SHOWN: You owe £906.98, due Fri 9 Oct. The minimum is £27.21. PAYMENT DUE 9 Oct £906.98 Minimum £27.21 by 9 Oct Full balance £906.98 Minimum £27.21 Another amount Pay £906.98 Set up Direct Debit
+> freeze my card
+  [controls] Card frozen. New payments are blocked; direct debits and refunds still work.
+  SHOWN: Card frozen. New payments are blocked; direct debits and refunds still work. Freeze card Blocks new payments. Direct debits and refunds still work. Online payments Paused while the card is frozen Payments abroad Paused while the card is frozen Contactless Paus
+> unfreeze my card
+  [controls] Your card isn't frozen.
+  SHOWN: Your card isn't frozen. Freeze card Blocks new payments. Direct debits and refunds still work. Online payments Shopping on websites and apps Payments abroad Using the card in other countries Contactless Tap to pay in shops Cash withdrawals Taking cash from mac
+> turn off contactless
+  [controls] Contactless is off.
+  SHOWN: Contactless is off. Freeze card Blocks new payments. Direct debits and refunds still work. Online payments Shopping on websites and apps Payments abroad Using the card in other countries Contactless Tap to pay in shops Cash withdrawals Taking cash from machine
+> block online payments
+  [controls] Online payments are off.
+  SHOWN: Online payments are off. Freeze card Blocks new payments. Direct debits and refunds still work. Online payments Shopping on websites and apps Payments abroad Using the card in other countries Contactless Tap to pay in shops Cash withdrawals Taking cash from ma
+> what's my balance
+  [balance] Your card balance is £906.98, with £7,093 available.
+  SHOWN: Your card balance is £906.98, with £7,093 available. Gratifi Card •••• 4821 Balance £906.98 Available £7,093 Due £906.98 · Fri 9 Oct
+> how many points expire
+  [points] You have 48,210 pts, worth about £482. 3,860 pts expire on 31 Oct.
+  SHOWN: You have 48,210 pts, worth about £482. 3,860 pts expire on 31 Oct. 48,210 POINTS Worth about £482 Expiring on 31 Oct 3,860 Points from card spend +1,840 Balance brought forward +46,370
+> transfer 5000 points to Coastline
+  [member] What's your Coastline Club membership number? The points go to that account, and transfers can't be undone.
+  SHOWN: What's your Coastline Club membership number? The points go to that account, and transfers can't be undone. Continue
+> invest 2000 points in the index fund
+  [invest] Before you put 2,000 pts into the global index fund: the risks, and a tick to confirm it's your own decision.
+  SHOWN: Before you put 2,000 pts into the global index fund: the risks, and a tick to confirm it's your own decision. Gold Index fund Savings Global index fund Thousands of companies worldwide in one fund · £25 minimum Before you invest Investments go down as well as 
+> donate 500 points to Warm Homes
+  [] Check the details, then confirm it's you.
+  SHEET: Confirm your gift Gift to Warm Homes Charity Warm Homes Points given 500 pts Worth £5.00 Points 500 pts Nothing moves until you confirm Confirm with Face ID
+  SHOWN: Check the details, then confirm it's you.
+> visa for Lisbon
+  [visa] For Lisbon, entry rules depend on your passport. Here's what applies and where to check it.
+  SHOWN: For Lisbon, entry rules depend on your passport. Here's what applies and where to check it. Portugal: check before you book Entry rules depend on your passport. Most visitors need a passport valid for at least 6 months, and some need an e-visa or travel author
+> travel insurance
+  [insurance] Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up.
+  SHOWN: Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up. Travel cover with your card With your card When you pay for the trip with the card Medical abroad Cancellation Lost bags Trips you didn't pay for wit
+> esim for Lisbon
+  [esim] Data abroad without roaming charges. It installs in about a minute.
+  SHOWN: Data abroad without roaming charges. It installs in about a minute. eSIM: 5GB for 15 days Works in 120+ countries £8.99 or 899 pts eSIM: 10GB for 30 days Works in 120+ countries £14.99 or 1,499 pts eSIM: Unlimited for 7 days Works in 120+ countries £22 or 2,20
+> what does my card cover abroad
+  [insurance] Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up.
+  SHOWN: Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up. Travel cover with your card With your card When you pay for the trip with the card Medical abroad Cancellation Lost bags Trips you didn't pay for wit
+> book fast track
+  [items:airport] 1 airport service. You have 2 free lounge visits left.
+  SHOWN: Searched 6 airport services Priced with your points 1 airport service. You have 2 free lounge visits left. Fast track security Heathrow T5 £8.99 per person or 899 pts
+> meet and greet at Lisbon airport
+  [items:airport] Airport services here are at Heathrow for now. 1 airport service. You have 2 free lounge visits left.
+  SHOWN: Searched 6 airport services Priced with your points Airport services here are at Heathrow for now. 1 airport service. You have 2 free lounge visits left. Meet and greet on arrival Heathrow · greeter at the gate Help through arrivals and bags £85 per group or 8
+> a sleep pod
+  [items:airport] 1 airport service. You have 2 free lounge visits left.
+  SHOWN: Searched 6 airport services Priced with your points 1 airport service. You have 2 free lounge visits left. Sleep pod, 4 hours Heathrow airside £45 per pod or 4,500 pts
+> things to do in Rome tomorrow
+  [places] I can't book things to do in Rome yet. These cities are available.
+  SHOWN: I can't book things to do in Rome yet. These cities are available. Lisbon Barcelona Paris Edinburgh New York
+> cooking class in Lisbon for 2 on 10 October
+  [items:experiences] 7 things to do in Lisbon. Cooking class is the most booked.
+  SHOWN: Searched 7 things to do Priced with your points 7 things to do in Lisbon. Cooking class is the most booked. Cooking class Lisbon 4.8 3 hours £52 per person or 5,200 pts Old town walking tour Lisbon 4.5 2 hours Small group £24 per person or 2,400 pts Sunset boa
+> concierge: get me tickets to a sold out show
+  [conciergeform] This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there.
+  SHOWN: This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there. WHAT DO YOU NEED? A table that's fully booked Find and send a gift Tickets to a sold-out event Plan a special trip Help at home (cleaning, repairs) Send 
+> talk to a person
+  [handoff] I'll bring in a person who can decide this. They'll see our conversation.
+  SHOWN: I'll bring in a person who can decide this. They'll see our conversation. P Priya from the customer team Usually joins within 2 minutes Already has this conversation You won't need to repeat anything. Priya can see what we've covered. Chat now Call me
+> I want to complain
+  [handoff] I'm sorry something went wrong. I'll bring in a person from the bank who can look into it; they'll see our conversation.
+  SHOWN: I'm sorry something went wrong. I'll bring in a person from the bank who can look into it; they'll see our conversation. P Priya from the customer team Usually joins within 2 minutes Already has this conversation You won't need to repeat anything. Priya can se

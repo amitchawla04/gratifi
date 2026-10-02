@@ -1,0 +1,26 @@
+
+[a taxi to Manchester now] => A ride to Manchester now. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £19.59 | or 1,959 pts | fixed price | Continue
+
+[a ride to Edinburgh] => A ride to Edinburgh. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £19.59 | or 1,959 pts | fixed price | Continue
+
+[cab to Paris] => A ride to Paris. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £19.59 | or 1,959 pts | fixed price | Continue
+
+[a ride to Gatwick] => A ride to Gatwick. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £44.77 | or 4,477 pts | fixed price | Continue
+
+[a ride to the office at 8am tomorrow] => A ride to Office, 1 Harbour Square at 08:00, Thu 1 Oct. Prices are fixed when you book. | Ride: Standard | London · pick-up 08:00 | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Pick-up from your location at 08:00, Thu 1 Oct. | Free to cancel until the driver ar
+
+[add 5 packs of paracetamol] => Checked the nearest store: open, 15 min | Added 2 × paracetamol. Medicines like paracetamol are limited to 2 packs per order. Anything else? It arrives in about 15 minutes. | Milk, 2 litres | £1.50 | Sourdough loaf | £2.99 | Free-range eggs, 12 | £3.99 | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Nappies, pack of 40 | £9.49 | Dishwasher tablets | £6.49 | Baby wipes | £2.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500g | £1.00 | Crisps
+
+[add ibuprofen to my basket] => Checked the nearest store: open, 15 min | Here's what can reach you in about 15 minutes. Tap to add. | Milk, 2 litres | £1.50 | Sourdough loaf | £2.99 | Free-range eggs, 12 | £3.99 | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Nappies, pack of 40 | £9.49 | Dishwasher tablets | £6.49 | Baby wipes | £2.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500g | £1.00 | Crisps | £1.50 | Paracetamol, 16 | £1.50 | 2 | Includes £2.00 delivery · arriv
+
+[how many paracetamol can i take a day] => For how much to take, follow the packet or ask a pharmacist, or call NHS 111. If someone has taken too much, call 999 now.
+
+[remove the paracetamol] => Done: paracetamol removed. Anything else? It arrives in about 15 minutes. | Tap items to add them. Your basket and total show here; delivery takes about 15 minutes. | Milk, 2 litres | £1.50 | Sourdough loaf | £2.99 | Free-range eggs, 12 | £3.99 | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Paracetamol, 16 | £1.50 | Nappies, pack of 40 | £9.49 | Dishwasher tablets | £6.49 | Baby wipes | £2.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500
+
+[Book the cinema 2 for 1 for 3 people on Saturday] => Searched 5 events | Priced with your points | 1 event. Cinema: 2 for 1 this week: card offer. | Cinema: 2 for 1 this week | Reel House, London | Card offer | £11.99 | for two | or 1,199 pts
+
+[cinema tickets for next Friday] => This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[cinema at 17:40 today] => Searched 5 events | Priced with your points | 1 event. Cinema: 2 for 1 this week: card offer. | Cinema: 2 for 1 this week | Reel House, London | Card offer | £11.99 | for two | or 1,199 pts
+
+## s-say-UK clean

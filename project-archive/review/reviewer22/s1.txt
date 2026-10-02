@@ -1,0 +1,35 @@
+hotel in Lisbon for 20 nights
+hotel in Lisbon for 30 nights from 9 October
+hotel in Lisbon for 31 nights
+a suite in Paris for 2 nights next Friday for 5 people
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400); return await H.lastText()
+make it 3 nights
+table for 13 on Saturday
+table for 4 tomorrow at 8pm
+a gift card for my sister
+Leather trainers
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(-300)
+buy the rain shell jacket in medium
+buy the rain shell jacket
+milk, eggs and bread
+add 2 more milk, remove the bread and make the eggs 3
+actually no eggs
+what subscriptions come with my card
+what am I paying for
+remind me when prices to Paris drop
+remind me to pay my bill on Friday
+turn on the gambling block
+lower my credit limit to £3,000
+!await p.keyboard.press('Escape'); return 'esc'
+raise my limit
+set up a direct debit
+why was my payment declined
+will my card work in Japan
+I left my card at home
+my card got stuck in the ATM
+my card is damaged
+my card was stolen
+!await p.keyboard.press('Escape'); return 'esc'
+I want to add my wife as an additional cardholder
+I've moved house
+split my laptop purchase into instalments

@@ -1,0 +1,12 @@
+const setup = require('./h.js')
+;(async () => {
+  const H = await setup('AR', { tag: 'arscan', q: '&tab=chat' })
+  const { p, ask, btn, shot, tall, lastAnswer, confirmSheet, nav } = H
+  const seen = new Set()
+  const scan = async (where) => { const t = await p.evaluate(() => { const out = []; const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { const s = n.textContent.trim(); if (/[A-Za-z]{3,}/.test(s) && !n.parentElement.closest('script,style')) out.push(s) } document.querySelectorAll('[aria-label],[placeholder]').forEach(e => { const s = e.getAttribute('aria-label') || e.getAttribute('placeholder'); if (/[A-Za-z]{3,}/.test(s)) out.push('@' + s) }); return out }); t.forEach(s => { if (!seen.has(s)) { seen.add(s); console.log(where, '|', s.slice(0, 140)) } }) }
+  const phrases = process.env.QUICK ? ['رحلات إلى مسقط نهاية الأسبوع القادم لشخصين','ما رصيد بطاقتي','كم أنفقت على المطاعم','كشف الحساب','ارفع الحد','أوقف الدفع عبر الإنترنت','شغّل الدفع عبر الإنترنت','أريد استرداد','فقدت وظيفتي ولا أستطيع الدفع','تلقيت رسالة تطلب رمز التحقق','حوّل 100 درهم لصديقي','حول النقاط إلى نقود','ما الطقس في دبي','رقم بطاقتي','أين طلبي','الغ اشتراكي','ادفع الحد الأدنى','أريد إضافة حامل بطاقة إضافي','أريد الاعتراض على عملية','ابني يأخذ بطاقتي بالقوة'] : ['رحلات إلى مسقط نهاية الأسبوع القادم لشخصين', 'فندق في مسقط', 'طاولة لشخصين الليلة', 'حليب وبيض وخبز', 'سماعات', 'بطاقة هدية لصديق', 'اشتراكات', 'حفلات هذا الشهر', 'احجز صالة', 'سيارة الآن', 'أشياء للقيام بها في مسقط', 'جمّد بطاقتي', 'كم أدين؟', 'أين ذهبت أموالي؟', 'فقدت بطاقتي', 'حوّل النقاط إلى أميال', 'استثمر النقاط في الذهب', 'تبرع بالنقاط', 'طرق لكسب المزيد', 'هل أحتاج إلى تأشيرة لمسقط؟', 'تأمين السفر', 'شريحة eSIM', 'ما الذي تغطيه بطاقتي؟', 'عروض البطاقة', 'أريد تقديم شكوى', 'أفكر في إيذاء نفسي', 'زوجي توفي', 'اتصل بي شخص من البنك وطلب مني تحويل أموالي', 'ما حد بطاقتي', 'أوقف المقامرة', 'تقسيط', 'أريد التحدث مع شخص', 'شكرا', 'مرحبا', 'احجز لي مركبة فضائية', 'ألغِ تجميد بطاقتي']
+  for (const ph of phrases) { await ask(ph, 400); await scan('chat:' + ph.slice(0, 20)) }
+  await p.keyboard.press('Escape'); await p.waitForTimeout(300); for (const i of [1, 2, 4, 5]) { await nav(i); await scan('tab' + i) }
+  await nav(2); const n = await p.locator('.gr-cattile').count(); for (let i = 0; i < n; i++) { await p.locator('.gr-cattile').nth(i).click(); await p.waitForTimeout(250); await scan('cat' + i); await p.locator('.app-main [aria-label], .app-main .gr-ibtn').first().click(); await p.waitForTimeout(150) }
+  await H.done()
+})()

@@ -1,0 +1,12 @@
+const run=require('./h.js'); const m=process.argv[2]||'UK';
+run(`home-${m}`, m, async (h)=>{ const {p,shot,full,nav,ask,click,last,lastText,st,confirm,log}=h;
+  await p.getByRole('button',{name:/Alerts|Notifications/}).first().click(); await p.waitForTimeout(400); await shot('bell'); log('BELL', (await p.locator('body').innerText()).replace(/\s+/g,' ').slice(0,400));
+  await p.keyboard.press('Escape'); await nav(1);
+  await p.getByRole('button',{name:'UK',exact:true}).click(); await p.waitForTimeout(400); await shot('market'); log('MKT', (await p.locator('.app-main').innerText()).replace(/\s+/g,' ').slice(0,200));
+  await nav(1); await click('Show ideas'); await p.waitForTimeout(400); log('IDEAS', await lastText()); await full('ideas');
+  await nav(1); await click('Not now').catch(()=>log('no not now')); await p.waitForTimeout(300); await shot('notnow');
+  await click('Use points'); log('USE', await lastText());
+  await nav(1); await click('Transfer'); log('TR', await lastText());
+  await nav(1); await p.getByRole('button',{name:'Add'}).first().click(); await p.waitForTimeout(300); await shot('offer-add'); log('ADD', (await p.locator('.app-main').innerText()).replace(/\s+/g,' ').slice(0,900));
+  await nav(3); await click('Clear'); await p.waitForTimeout(300); await shot('clear'); const s=await st(); log('after clear chat len', s.chat.length, 'bk', s.bookings.length);
+});

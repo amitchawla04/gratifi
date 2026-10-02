@@ -1,0 +1,11 @@
+const { open } = require('./h.js');
+(async () => { const mode = process.argv[2]; const m = process.argv[3] || 'UK';
+ const h = await open(m, mode === 'dark' ? { theme: 'dark', tag: 'dk-' + m } : { zoom: '200%', tag: 'z2-' + m }); const { p } = h;
+ await h.shot('home'); await h.nav(5); await h.shot('me'); await h.nav(3);
+ await h.ask(m === 'AR' ? 'رحلات إلى مسقط الأسبوع القادم لشخصين' : 'Flights to Lisbon next weekend for two', 1000); await h.shot('flights');
+ await p.locator('.gr-flight').first().click(); await p.waitForTimeout(500); await h.shot('fares');
+ await h.ask(m === 'AR' ? 'فندق في مسقط' : 'A hotel in Lisbon', 900); await h.last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400); await h.shot('stay-detail');
+ await h.last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(500); await h.shot('checkout');
+ await h.btn(/^(Pay |ادفع )/).click(); await p.waitForTimeout(500); await h.shot('sheet');
+ const ov = await p.evaluate(() => document.documentElement.scrollWidth > window.innerWidth || document.querySelector('.app-main .app-scroll').scrollWidth > window.innerWidth); console.log('hscroll', ov);
+ await h.close() })();

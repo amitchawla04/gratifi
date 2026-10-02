@@ -1,0 +1,20 @@
+const H = require('./h.js')
+H.run(async (h) => {
+  const { p, ask, click, full, shot, confirm, money, log, sheet, nav } = h
+  await nav(3)
+  await ask('Start Screenly'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400); await full('screenly')
+  const cta = p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last(); log('cta', await cta.innerText()); await cta.click(); await p.waitForTimeout(400); await full('checkout')
+  const pb = p.getByRole('button', { name: /^Pay / }).last(); if (await pb.count()) { await pb.click(); await confirm() } await full('paid')
+  await ask('Add Tunewave'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(400); const c2 = p.locator('.gr-answer').last().locator('.gr-btn').last(); log('tunewave cta', await c2.innerText().catch(() => '-')); await c2.click().catch(() => {}); await p.waitForTimeout(400); const fb = p.locator('.gr-answer').last().locator('.gr-btn').last(); log('next', await fb.innerText().catch(() => '')); await full('tunewave')
+  await ask('what am I paying for'); await full('paying'); log('paying:', (await h.lastText()).slice(0, 300))
+  await ask("what's included"); log('incl:', (await h.lastText()).slice(0, 200))
+  await nav(4); await click('Subscriptions'); await full('wallet-subs')
+  await click('Pause'); await full('pause'); log('after pause', (await h.lastText()).slice(0, 300))
+  await nav(4); await click('Subscriptions'); await full('wallet-subs2')
+  await nav(3); await ask('resume screenly'); log('resume:', (await h.lastText()).slice(0, 300)); await full('resume')
+  await ask('cancel screenly'); log('cancel:', (await h.lastText()).slice(0, 400)); await full('cancel')
+  const y = p.getByRole('button', { name: /Yes, cancel|Cancel subscription/ }).last(); if (await y.count()) { await y.click(); await p.waitForTimeout(500); if (await p.$('.app-sheet')) await confirm() }
+  log('cancelled:', (await h.lastText()).slice(0, 300)); await full('cancelled')
+  await nav(4); await click('Subscriptions'); await full('wallet-subs3')
+  log('money', JSON.stringify(await money()))
+}, { m: 'UK', tag: 'subs' })

@@ -1,0 +1,20 @@
+const P = f => '(' + f.toString() + ')';
+module.exports = {
+ g1: { q: 'table for two tonight', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'dining', city: 'London', guests: 2 }); return "I've booked you a table at Harrow & Vine for 8pm tonight." }) },
+ g2: { q: 'is my card ok', plan: P(async () => 'Your card is now frozen.') },
+ g3: { q: 'freeze my card', plan: P(async (t, o, run) => { await run('card_control', { control: 'freeze', on: true }); return 'Done, your card is frozen. Your online payments are also switched off.' }) },
+ g4: { q: 'remind me when my bill is due', plan: P(async () => "I've set a reminder for when your bill is due.") },
+ g5: { m: 'AR', q: 'احجز طاولة لشخصين الليلة', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'dining', city: 'Dubai', guests: 2 }); return 'تم حجز الطاولة لك الساعة 8 مساءً.' }) },
+ g6: { q: 'pay £100 off my bill', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'pay £100' }); return 'Your payment of £100 has gone through and your new balance is £806.98.' }) },
+ g7: { q: 'lower my limit to 5000', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'lower my credit limit to 5000' }); return "I've lowered your limit to £5,000." }) },
+ g8: { q: 'refund my headphones', plan: P(async () => 'The refund is on its way back to your card.') },
+ g9: { q: 'hotels in lisbon', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'stays', city: 'Lisbon' }); return 'Absolutely! Great question. Here are some stunning hotels, perfect for your journey. Your booking is safe and secure. Let me know if you need anything else!' }) },
+ g10: { q: 'lounge please', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'airport' }); return "You're all set for the lounge. The driver is 4 minutes away." }) },
+ g11: { q: 'cancel my table', plan: P(async () => 'Your table has been cancelled and nothing was charged.') },
+ g12: { m: 'AR', q: 'جمد بطاقتي', plan: P(async () => 'جمدت بطاقتك الآن.') },
+ g13: { q: 'switch off online payments', plan: P(async (t, o, run) => { await run('card_control', { control: 'freeze', on: true }); return 'Your card is frozen and online payments are off.' }) },
+ g14: { q: 'hotel', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'stays', city: 'Lisbon' }); return "I've reserved a room at Tidewater House for you." }) },
+ g15: { q: 'gift card', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'giftcards' }); return 'The gift card is sent to Sam.' }) },
+ g16: { q: 'transfer', plan: P(async (t, o, run) => { await run('points_and_giving', { topic: 'transfer' }); return 'Your 10,000 points are now with Northwind.' }) },
+ g17: { q: 'ride', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'rides' }); return 'Your driver is on the way and will be with you in 4 minutes.' }) },
+};

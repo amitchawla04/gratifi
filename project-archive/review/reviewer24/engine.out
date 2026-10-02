@@ -1,0 +1,15 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.fill: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for locator('.gr-ask input')[22m
+[2m    - locator resolved to <input value="" aria-label="Ask Gratifi" placeholder="Ask Gratifi anything"/>[22m
+[2m    - fill("عندي مشكلة قمار")[22m
+[2m  - attempting fill action[22m
+[2m    - waiting for element to be visible, enabled and editable[22m
+
+    at /tmp/claude-0/-home-claude/d2529b2f-e36e-5c22-8d08-213fa2f214ae/scratchpad/reviewer24/engine.js:88:15
+
+Node.js v22.22.2

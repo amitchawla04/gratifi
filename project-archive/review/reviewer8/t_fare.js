@@ -1,0 +1,15 @@
+const setup = require('./h.js')
+;(async () => {
+  const H = await setup('UK', { tag: 'fare', q: '&tab=chat' })
+  const { p, ask, btn, shot, tall, lastAnswer, S, last } = H
+  await ask('flights to Lisbon on 9 October back 10 October for two')
+  await p.locator('.gr-flight').first().click(); await p.waitForTimeout(400)
+  const opts = lastAnswer().locator('button', { hasText: /more each|Chosen/ })
+  await opts.nth(3).click(); await p.waitForTimeout(300)
+  await lastAnswer().getByRole('radio').nth(2).click(); await p.waitForTimeout(300)
+  await shot('before', true)
+  await btn(/Continue with/); await p.waitForTimeout(300)
+  await p.locator('.gr-fares').last().scrollIntoViewIfNeeded(); await p.evaluate(() => document.querySelector('.app-main .app-scroll').scrollTop -= 200); await shot('after-continue')
+  await p.reload(); await p.waitForTimeout(600); await p.locator('.gr-fares').last().scrollIntoViewIfNeeded(); await p.evaluate(() => document.querySelector('.app-main .app-scroll').scrollTop -= 200); await shot('after-reload')
+  await H.done()
+})()

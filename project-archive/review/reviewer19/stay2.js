@@ -1,0 +1,15 @@
+require('./h.js')('UK', async (h) => {
+  const { p, ask, click, full, confirm, nav, st, log, ans, shot, sheet } = h
+  await nav(3)
+  await ask('a suite in Lisbon for 4 nights from 20 October for 5 people')
+  const listPrice = await ans().locator('.gr-itemrow').first().innerText(); log('LIST ' + listPrice.replace(/\n/g, ' | '))
+  await ans().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400)
+  log('DETAIL ' + (await h.lastText()).replace(/\n+/g, ' | ').replace(/\| (Mon|Tue|Wed|Thu|Fri|Sat|Sun) \d+ (Sep|Oct|Nov|Dec) /g, '').slice(0, 700))
+  await full('stay2-detail')
+  await ans().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400)
+  log('CHECKOUT ' + (await h.lastText()).replace(/\n+/g, ' | ').slice(0, 500))
+  await ask('a table tonight for two'); await ans().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400)
+  log('DINE ' + (await h.lastText()).replace(/\n+/g, ' | ').slice(0, 300)); await full('dine-tonight')
+  await ask('table for 6 at Salt and Ember on Saturday at 8pm')
+  await ask('book a table for 13 people tomorrow')
+}, { name: 'stay2', len: 500 })

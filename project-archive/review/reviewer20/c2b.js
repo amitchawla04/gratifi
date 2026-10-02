@@ -1,0 +1,23 @@
+const P = (cat, query, args, extra) => `async (t, o, run) => { const r = await run('search_catalogue', Object.assign({ category: ${JSON.stringify(cat)}, query: ${JSON.stringify(query)} }, ${JSON.stringify(extra||{})})); const d = r && r.data; window.__d = d; const ids = Array.isArray(d) ? d.map(x=>x.id) : ((d && (d.ids || (d.items||[]).map(x=>x.id))) || []); const id = ids[0]; await run('prepare_checkout', Object.assign({ id }, ${JSON.stringify(args)})); return 'Here it is. Confirm with the button.' }`
+module.exports = [
+ { say: 'gift card for sam no email', plan: P('giftcards', 'Harbour', { option: '£50', recipient: 'Sam' }) },
+ { say: 'gift card bad email', plan: P('giftcards', 'Harbour', { option: '£50', recipient: 'Sam', email: 'sam@@x' }) },
+ { say: 'gift card odd amount', plan: P('giftcards', 'Harbour', { option: '£37', recipient: 'Sam', email: 'sam@example.com' }) },
+ { say: 'gift card huge qty', plan: P('giftcards', 'Harbour', { option: '£200', quantity: 60, recipient: 'Sam', email: 'sam@example.com' }) },
+ { say: 'hotel 45 nights', plan: P('stays', 'Lisbon', { nights: 45, date: '2026-10-12' }, { city: 'Lisbon' }) },
+ { say: 'hotel 0 nights', plan: P('stays', 'Lisbon', { nights: 0, date: '2026-10-12' }, { city: 'Lisbon' }) },
+ { say: 'hotel past date', plan: P('stays', 'Lisbon', { nights: 2, date: '2026-09-01' }, { city: 'Lisbon' }) },
+ { say: 'hotel invalid date', plan: P('stays', 'Lisbon', { nights: 2, date: '2026-02-30' }, { city: 'Lisbon' }) },
+ { say: 'hotel 9 guests 1 room', plan: P('stays', 'Lisbon', { nights: 2, date: '2026-10-12', quantity: 9, rooms: 1 }, { city: 'Lisbon' }) },
+ { say: 'table for 14', plan: P('dining', 'table', { option: '19:00', quantity: 14 }) },
+ { say: 'table for 0', plan: P('dining', 'table', { option: '19:00', quantity: 0 }) },
+ { say: 'table at 03:00', plan: P('dining', 'table', { option: '03:00', quantity: 2 }) },
+ { say: 'headphones -2', plan: P('shopping', 'headphones', { quantity: -2 }) },
+ { say: 'headphones 1.5', plan: P('shopping', 'headphones', { quantity: 1.5 }) },
+ { say: 'laptops 30 on card', plan: P('shopping', 'laptop', { quantity: 30 }) },
+ { say: 'ride scheduled yesterday', plan: P('rides', 'ride', { destination: 'Heathrow', pickup_time: '2026-09-29 10:00' }) },
+ { say: 'ride at 25:00', plan: P('rides', 'ride', { destination: 'Heathrow', pickup_time: '25:00' }) },
+ { say: 'car hire 40 days', plan: P('rides', 'car hire', { quantity: 40 }) },
+ { say: 'concert 0 tickets', plan: P('tickets', 'concert', { quantity: 0 }) },
+ { say: 'subs tunewave pay', plan: P('subs', 'Tunewave', {}) },
+]

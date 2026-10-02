@@ -1,0 +1,3 @@
+STATE card {"last4":"6624","limit":44800,"balance":5079,"due":5079,"min":152.37,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 15000 Kuala Lumpur to Penang:confirmed:650:65000/0
+LAST Done. You're on the 09:40 on Fri 9 Oct at no cost, with the same seats where the plane allows. Your booking is updated. | Kuala Lumpur to Penang | AU 864 · Standard · Fri 9 Oct 09:40 · back Sun 11 Oct 20:30 | Confirmed | GR-76961 | 65,000 pts | Boarding pass | Change date | Change seats | Cancel | Check compensation
+MY flight clean

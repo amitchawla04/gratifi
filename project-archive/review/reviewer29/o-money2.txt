@@ -1,0 +1,22 @@
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+STATE laptop pts 49209 card 1905.98 limit 8000 13-inch laptop, 16GB:confirmed:0/999
+
+[Donate 48000 points to charity] => Pick a cause. Every point goes to the charity; the bank pays any fees. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 48,000 pts | 48,000 pts = £480.00 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give points | Books for Every Child | Reading packs for primary schools | 860,000 of 1,000,000 points given by members | Give points | Warm Homes | Heating help for older people | 410,000 of 1,500,000 points given by members | Give points | Local Food Bank Network | Food parcels near you | 2,100,000 of 2,500,000 points given by members | Give points
+
+[Donate 1000 points to charity] => Pick a cause. Every point goes to the charity; the bank pays any fees. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 1,000 pts = £10.00 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give points | Books for Every Child | Reading packs for primary schools | 860,000 of 1,000,000 points given by members | Give points | Warm Homes | Heating help for older people | 410,000 of 1,500,000 points given by members | Give points | Local Food Bank Network | Food parcels near you | 2,100,000 of 2,500,000 points given by members | Give points
+STATE after donate pts 209 card 1905.98 limit 8000 Gift to Clean Seas Trust:confirmed:1000/0; Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:confirmed:0/999
+
+[cancel my laptop] => You'd get back £999.00. The 209 pts you earned on it would be taken off. | Cancel 13-inch laptop, 16GB? | You paid | £999.00 | Points earned on it, taken off | -209 pts | Earned points already used, written off | 790 pts | You get back | £999.00 | Return within 14 days, unopened | Yes, cancel | Keep it
+CANCEL MSG Cancelled. £999.00 is back on your card; it can take 3 to 5 working days to show on your statement. The 209 pts you earned on it have been taken off. 790 pts earned on it had already been used, so they're written off. | 13-inch laptop, 16GB | Byte Store | Refunded | GR-45532 | Refunded £999.00
+STATE after cancel pts 0 card 906.98 limit 8000 Gift to Clean Seas Trust:confirmed:1000/0; Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:refunded:0/999
+
+[lower my credit limit to £1000] => Check the new limit, then confirm it's you.
+STATE limit pts 0 card 906.98 limit 1000 Gift to Clean Seas Trust:confirmed:1000/0; Gift to Clean Seas Trust:confirmed:48000/0; 13-inch laptop, 16GB:refunded:0/999
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+CHECKOUT 13-inch laptop, 16GB | Byte Store | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Total | £999.00 | Return within 14 days, unopened | Points | 99,900 pts · 99,900 more than you have | Points and card | 0 pts + £999 | Card | £999 on card ending 4821 | That's more than your available credit of £93.02. Paying off some of your balance frees up credit. | Pay £999.00
+pay enabled? false
+CHECKOUT2 13-inch laptop, 16GB | Byte Store | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Total | £999.00 | Return within 14 days, unopened | Points | 99,900 pts · 99,900 more than you have | Points and card | 0 pts + £999 | Card | £999 on card ending 4821 | That's more than your available credit of £93.02. Paying off some of your balance frees up credit. | Pay £999.00
+
+## money2-UK clean

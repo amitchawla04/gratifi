@@ -1,0 +1,8 @@
+module.exports = async (H) => { const { p, nav, say, full, click } = H;
+ await p.addStyleTag({ content: 'html{font-size:200% !important}' });
+ const ov = async (t) => { const r = await p.evaluate(() => { const W = document.documentElement.clientWidth; const bad = []; document.querySelectorAll('body *').forEach(e => { const b = e.getBoundingClientRect(); if (b.width > 0 && (b.right > W + 2 || b.left < -2) && getComputedStyle(e).position !== 'fixed' && !e.closest('[class*=scroll-x], .gr-chips, .gr-slots, .gr-hscroll, [style*="overflow-x"]')) { let a = e, clip = false; while (a && a !== document.body) { const cs = getComputedStyle(a); if (/(auto|scroll|hidden)/.test(cs.overflowX) && a !== e) { clip = true; break } a = a.parentElement } if (!clip) bad.push((e.className || e.tagName).toString().slice(0, 40) + ':' + (e.innerText || '').slice(0, 30).replace(/\n/g, ' ')) } }); return { sw: document.documentElement.scrollWidth, W, bad: [...new Set(bad)].slice(0, 8) } }); console.log('OVERFLOW', t, JSON.stringify(r)) };
+ await full('home'); await ov('home'); await nav(2); await ov('explore'); await nav(4); await ov('wallet'); await nav(5); await full('me'); await ov('me');
+ await nav(3); await say(H.market === 'AR' ? 'رحلات إلى مسقط يوم الجمعة الجاية لشخصين' : 'Flights to Lisbon next Friday for two'); await full('flights'); await ov('flights');
+ await p.locator('.gr-flight').first().click(); await p.waitForTimeout(500); await full('fares'); await ov('fares');
+ await say(H.market === 'AR' ? 'ادفع فاتورتي' : 'pay my bill'); await ov('bill'); await p.getByRole('button', { name: /^Pay |^ادفع/ }).last().click(); await p.waitForTimeout(500); await full('sheet'); await ov('sheet');
+}

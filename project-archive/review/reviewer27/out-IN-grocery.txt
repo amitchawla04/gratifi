@@ -1,0 +1,3 @@
+STATE card {"last4":"5512","limit":880000,"balance":99770,"due":99770,"min":2993.1,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 196400 Groceries:refunded:269:1076/0
+LAST Cancelled. 1,076 pts are back in your balance. | Groceries | 3 items · Home | Refunded | GR-34894 | Refunded 1,076 pts
+IN grocery clean

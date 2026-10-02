@@ -1,0 +1,23 @@
+const {setup}=require('./h.js');
+(async()=>{const H=await setup(process.argv[2]||'UK',{fake:true,len:500,tag:'ai4'});const p=H.p;
+await p.waitForTimeout(800);
+const plan=async(fn,t,w=900)=>{await p.evaluate(s=>{window.__plan=eval(s); window.__res=[]},fn); const r=await H.say(t,w); const res=await p.evaluate(()=>JSON.stringify((window.__res||[]).map(x=>typeof x==='string'?x:{n:x.n,a:x.a,note:x.r&&x.r.note, s:x.r&&x.r.shown_to_customer, ids:x.r&&x.r.ids}))); console.log('   TOOLS:',res.slice(0,700)); const sh=await H.sheetText(); if(sh){console.log('   SHEET',sh.slice(0,200)); await p.keyboard.press('Escape')} return r};
+const G=a=>`async(t,o,run)=>{await run('groceries',${JSON.stringify(a)});return 'ok'}`;
+await plan(G({items:'milk, eggs and bread'}),'g1');
+await plan(G({items:'add 3 bananas and remove the milk'}),'g2');
+await plan(G({items:'3 bananas'}),'g3');
+await plan(G({items:'remove the eggs'}),'g4');
+await plan(G({items:'no bread'}),'g5');
+await plan(G({items:'caviar'}),'g6');
+await plan(`async(t,o,run)=>{await run('card_control',{control:'gambling',on:true}); return 'ok'}`,'block gambling');
+await plan(`async(t,o,run)=>{await run('card_control',{control:'gambling',on:false}); return 'ok'}`,'lift gambling');
+await plan(`async(t,o,run)=>{await run('talk_to_person',{reason:'wants to die',at_risk:true}); return 'I am here'}`,'at risk');
+await plan(`async(t,o,run)=>{await run('talk_to_person',{reason:'fraud call',fraud:true}); return 'ok'}`,'fraud');
+await plan(`async(t,o,run)=>{const r=await run('search_flights',{destination:'Lisbon',depart_date:'2026-10-16',return_date:'2026-10-19',travellers:2,children:1,infants:1}); return 'ok'}`,'family');
+await plan(`async(t,o,run)=>{const r=await run('search_catalogue',{category:'giftcards'}); const id=(r.ids||[])[0]; await run('prepare_checkout',{id, option:'£50', recipient:'Sam'}); return 'ok'}`,'gift no email');
+await plan(`async(t,o,run)=>{const r=await run('search_catalogue',{category:'giftcards'}); const id=(r.ids||[])[0]; await run('prepare_checkout',{id, option:'£50', recipient:'Sam', email:'sam@example.com'}); return 'ok'}`,'gift email');
+await plan(`async(t,o,run)=>{await run('card_and_account',{topic:'increase my limit to 20000'}); return 'ok'}`,'limit up');
+await plan(`async(t,o,run)=>{await run('card_and_account',{topic:'lower my limit to 3000'}); return 'ok'}`,'limit down');
+await plan(`async(t,o,run)=>{await run('card_and_account',{topic:'will my card work in Japan'}); return 'ok'}`,'abroad');
+await plan(`async(t,o,run)=>{await run('card_and_account',{topic:'why was my payment declined'}); return 'ok'}`,'declined');
+await H.done()})()

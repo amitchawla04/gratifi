@@ -1,0 +1,9 @@
+module.exports=[
+{name:'claim: limit lower passive', q:'lower my limit to 5000', plan: async (t,o,run)=>{await run('card_and_account',{topic:'lower my credit limit to 5000'}); return "Your limit is now £5,000. Your payment has been sent."}},
+{name:'claim: placed/secured/set up', q:'order milk', plan: async (t,o,run)=>{await run('groceries',{items:'milk'}); return "I've placed your order for milk. I've set up Direct Debit too. I've secured you a table. Payment went through."}},
+{name:'claim: arranged replacement', q:'I lost my card', plan: async (t,o,run)=>{await run('card_and_account',{topic:'lost card'}); return "I've arranged a replacement card and it will arrive in 3 days. I've submitted your claim."}},
+{name:'claim: arabic', q:'احجز فندق', plan: async (t,o,run)=>{await run('search_catalogue',{category:'stays',city:'Lisbon'}); return "حجزت لك الفندق. لقد تم الحجز بنجاح. أكدت الحجز."}},
+{name:'claim: alert + claim', q:'alert me when Lisbon drops and book the hotel', plan: async (t,o,run)=>{await run('set_alert',{what:'when prices to Lisbon drop'}); const r=await run('search_catalogue',{category:'stays',city:'Lisbon'}); return "I've booked Tidewater House for you and set the alert."}},
+{name:'gift no recipient', q:'gift card', plan: async (t,o,run)=>{const r=await run('search_catalogue',{category:'giftcards'}); const id=(r.shown_to_customer||r.items||[])[0]?.id||JSON.stringify(r).match(/"id":"([^"]+)"/)[1]; await run('prepare_checkout',{id, option:'50'}); return 'Here it is.'}},
+{name:'gift bad email', q:'gift card for Sam', plan: async (t,o,run)=>{const r=await run('search_catalogue',{category:'giftcards'}); const id=JSON.stringify(r).match(/"id":"([^"]+)"/)[1]; await run('prepare_checkout',{id, option:'50', recipient:'Sam', email:'sam@example'}); return 'Here it is.'}},
+];

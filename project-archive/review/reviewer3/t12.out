@@ -1,0 +1,147 @@
+> can you get me to barcelona friday morning, me and my wife
+   [flights@2026-10-02-2026-10-04 x2,suggest] 5 flights to Barcelona on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £122 each way per person.
+> flights to lisbon 3rd to 7th november
+   [flights@2026-11-03-2026-11-07 x1,suggest] 5 flights to Lisbon on Tue 3 Nov, back Sat 7 Nov. I'd pick the 07:25 Coastline: direct, £125 each way per person.
+> fly to paris next sunday one way
+   [flights@2026-10-04 x1,suggest] 4 flights to Paris on Sun 4 Oct, one way. I'd pick the 06:10 Northway Air: direct, £92 each way per person.
+> book a flight to Tokyo
+   [places] I can't book flights to Tokyo yet. From London I can book these.
+> I need a flight to new york for 4 adults on 12 dec returning 19 dec
+   [flights@2026-12-12-2026-12-19 x4,suggest] 5 flights to New York on Sat 12 Dec, back Sat 19 Dec. I'd pick the 07:25 Coastline: direct, £418 each way per person.
+> cheapest flight to edinburgh this weekend
+   [flights@2026-10-02-2026-10-04 x1,suggest] 7 flights to Edinburgh on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £67 each way per person.
+> whats the cheapest day to fly to paris
+   [flights@2026-10-02-2026-10-04 x1,suggest] 7 flights to Paris on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 each way per person.
+> hotel in barcelona 12-15 oct
+   [items:stays@2026-10-12] 4 places to stay in Barcelona, Mon 12 Oct for 3 nights. Garden Rooms is my pick: 3× points on your card.
+> somewhere to stay in paris tonight
+   [items:stays@2026-09-29] 4 places to stay in Paris, Tue 29 Sep. Lantern House is my pick: 3× points on your card.
+> a 5 star hotel in lisbon with spa
+   [items:stays] 4 places to stay in Lisbon. Cedar Hotel is my pick: 3× points on your card.
+> book dinner for 2 at 7:30 tonight
+   [items:dining x2 t19:30] 6 restaurants in London. Harrow & Vine has tables tonight around 19:30 for 2, with 15% off on your card.
+> table at kanji friday 9pm for 6
+   [detail@2026-10-02 x6 t21:00] 
+> italian restaurant near me
+   [items:dining x1] 6 restaurants in London. Harrow & Vine has tables tonight, with 15% off on your card.
+> get me a cab to the airport
+   [items:rides] 6 ways to get there. Prices are fixed when you book.
+> taxi home
+   [items:rides] 6 ways to get there. Prices are fixed when you book.
+> uber to king's cross
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> i need milk and paracetamol
+   [grocery] Added milk, paracetamol. Anything else? It arrives in about 15 minutes.
+> order a pizza
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> buy an iphone
+   [items:shopping] 8 products. Noise-cancelling headphones is the closest match, with free delivery.
+> i want to buy a laptop
+   [items:shopping] 8 products. 13-inch laptop, 16GB is the closest match, with free delivery.
+> gift card for mum £50 amazon
+   [items:giftcards] 8 gift cards. They arrive instantly.
+> cancel netflix
+   [suggest] You don't have any active bookings to cancel.
+> add spotify
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> tickets for coldplay
+   [items:tickets] 5 events. Arlo Grey live is the one to catch: presale for cardholders.
+> anything on this weekend
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> move my points to BA avios
+   [programmes] You have 48,210 pts. Transfers to these programmes can't be undone.
+> how much are my points worth
+   [items:mixed,cats,suggest] You have 48,210 pts, worth about £482. Travel gets the most from them; these are good places to start.
+> i want to invest my points in bitcoin
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> donate 500 points
+   [charities] Pick a cause. Every point goes to the charity; the bank pays any fees.
+> do I need a visa for the US
+   [places] Where are you going? I'll check the entry rules for your passport.
+> is my card covered for car hire excess
+   [items:rides] 6 ways to get there. Prices are fixed when you book.
+> my card was stolen
+   [controls,state] I've frozen your card so nobody can use it. Do you want a replacement sent to your home address?
+> I think someone's using my card
+   [balance] Your card balance is £906.98, with £7,093 available.
+> raise my limit
+   [handoff] Limit changes are decided by the bank after a short check. Nothing changes until you both agree.
+> whats my credit score
+   [] Your credit score comes from the bank's credit reference partner. It isn't connected in this demo, and nothing here affects your score.
+> pay off my card
+   [paybill] You owe £906.98, due Wed 7 Oct. The minimum is £27.21.
+> set up direct debit
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> show my last 5 transactions
+   [spend,txns] Here's where your money went this month.
+> how much did I spend on dining this month
+   [balance] Your card balance is £906.98, with £7,093 available.
+> what's my apr
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> can I get cash back
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> I'm going abroad next week
+   [controls] Your card has no foreign transaction fee, so paying by card abroad is usually cheapest. Cash machines may charge their own fee.
+> turn off contactless
+   [controls] Contactless is off.
+> block gambling
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> change my address
+   [suggest] You don't have anything booked yet, so there's nothing to change.
+> what's my card number
+   [balance] Your card balance is £906.98, with £7,093 available.
+> i feel suicidal
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> I've lost my job and can't pay
+   [handoff] A person from the bank handles this. They can see our conversation.
+> my mum is in hospital and I manage her card
+   [balance] Your card balance is £906.98, with £7,093 available.
+> speak to a human
+   [handoff] I'll bring in a person who can decide this. They'll see our conversation.
+> you're useless
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> tell me a joke
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> what's the time
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> what are you
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> cancel everything
+   [suggest] You don't have any active bookings to cancel.
+> refund
+   [suggest] You don't have any active bookings to cancel.
+> where's my stuff
+   [suggest] You have no orders on the way.
+> book a spa day
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> lounge access in dubai
+   [items:airport] These are at Heathrow, where your flights leave from. 6 airport services. You have 2 free lounge visits left.
+> Vegan food tonight
+   [detail] 
+> I want to go somewhere warm in November
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> surprise me
+   [conciergeform] This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there.
+> plan a weekend in paris
+   [flights@2026-10-02-2026-10-04 x1,suggest] 7 flights to Paris on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 each way per person.
+> rent a car in lisbon for 3 days
+   [items:rides] 6 ways to get there. Prices are fixed when you book.
+> train to london tomorrow
+   [items:rides] I can't book trains to London yet; train to edinburgh is available. 6 ways to get there. Prices are fixed when you book.
+> flight + hotel lisbon
+   [flights@2026-10-02-2026-10-04 x1,suggest] 7 flights to Lisbon on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 each way per person.
+> what's included with my card
+   [benefits] Everything that comes with your card, including Tunewave music at no cost.
+> upgrade my card
+   [balance] Your card balance is £906.98, with £7,093 available.
+> close my account
+   [handoff] A person from the bank handles this. They can see our conversation.
+> dispute a transaction
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> I was charged twice
+   [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+> pause all subscriptions
+   [items:subs] 6 subscriptions. Tunewave is already included with your card.
+> use my points to pay my bill
+   [paybill] You owe £906.98, due Wed 7 Oct. The minimum is £27.21.
+[]

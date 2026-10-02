@@ -1,0 +1,18 @@
+module.exports=[
+{say:'block gambling', plan:`await run('card_control',{control:'gambling',on:true}); return 'Gambling payments are blocked now.'`},
+{say:'unblock gambling', plan:`await run('card_control',{control:'gambling',on:false}); return 'Gambling block is off now.'`},
+{say:'freeze my card', plan:`await run('card_control',{control:'freeze',on:true}); return 'I have frozen your card.'`},
+{say:'unfreeze my card', plan:`await run('card_control',{control:'freeze',on:false}); return 'Your card is unfrozen now and ready to use.'`},
+{say:'turn off online payments', plan:`await run('card_control',{control:'online',on:false}); return 'Online payments are off now. Contactless is also off.'`},
+{say:'lower my limit to 2000', plan:`const r=await run('card_and_account',{topic:'lower my credit limit to 2000'}); window.__r0=r; return 'Your new limit is £2,000.'`},
+{say:'pay my bill in full', plan:`await run('card_and_account',{topic:'pay my bill in full'}); return 'Paid. Your balance is now £0.'`},
+{say:'set up direct debit minimum', plan:`await run('card_and_account',{topic:'set up direct debit for the minimum'}); return 'Direct Debit is set up for the minimum from today.'`},
+{say:'remind me when lisbon drops', plan:`await run('set_alert',{what:'when prices to Lisbon drop'}); return 'Alert set. I will tell you when prices to Lisbon drop.'`},
+{say:'transfer 10000000 points to NW', plan:`await run('points_and_giving',{topic:'transfer',points:10000000,to:'Northway'}); return 'Transferred 10,000,000 points to Northway.'`},
+{say:'invest 5000 in gold', plan:`await run('points_and_giving',{topic:'invest',points:5000,to:'gold'}); return 'Done, 5,000 points are now in gold.'`},
+{say:'donate 100 points', plan:`await run('points_and_giving',{topic:'donate',points:100}); return 'Thank you, 100 points donated.'`},
+{say:'what is my balance', plan:`await run('card_and_account',{topic:'balance'}); return 'Your balance is £906.98 and your payment is all set up.'`},
+{say:'arabic claim', plan:`return 'تم حجز رحلتك إلى لشبونة وتم الدفع.'`},
+{say:'claim with hedge', plan:`return 'Your flight is booked, and I have charged £522 to your card.'`},
+{say:'gulf claim', plan:`return 'أبشر، حجزتلك الطاولة الساعة 8.'`},
+];

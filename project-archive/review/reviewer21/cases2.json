@@ -1,0 +1,7 @@
+[
+ ["cab to the office now", [["prepare_checkout", {"id":"GT-1","destination":"Office"}]], "Confirm."],
+ ["cab to 1 harbour square now", [["prepare_checkout", {"id":"GT-1","destination":"1 Harbour Square"}]], "Confirm."],
+ ["cab to heathrow now", [["prepare_checkout", {"id":"GT-1","destination":"Heathrow Airport"}]], "Confirm."],
+ ["cab home now", [["prepare_checkout", {"id":"GT-1","destination":"home"}]], "Confirm."],
+ ["cab to gatwick now", [["prepare_checkout", {"id":"GT-1","destination":"Gatwick"}]], "Confirm."]
+]

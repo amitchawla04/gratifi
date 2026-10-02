@@ -1,0 +1,3 @@
+module.exports = async (H) => { const { p, nav, say, last, full } = H; await nav(3);
+ for (const q of ['a hotel in Barcelona for 3 nights from 20 October for 5 people', 'a lounge for 4 people on friday']) { await say(q); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(500); console.log('DETAIL:', (await last()).replace(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun) \d+ (Oct|Nov|Dec|Sep) \| /g, '').slice(0, 600)); await full('det'); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(500); console.log('CHECKOUT:', (await last()).slice(0, 600)) }
+}

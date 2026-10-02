@@ -1,0 +1,16 @@
+[fl] "6 flights to Penang on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, RM162 each way per person." flights,suggest
+Pay RM265.00 + 61,700 pts
+SHEET Confirm and pay | Kuala Lumpur to Penang · Fri 9 Oct 07:25 · back Sun 11 Oct 14:15 | Kuala Lumpur to Penang (2 travellers) | RM882.00 | Points used (61,700 pts) | −RM617.00 | On your card | RM265.00 | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+[paid] "Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet." receipt,suggest
+booking 882 61700 265 265 bal 18565
+PAID Pay RM549.00 || SHEET: Confirm and pay | Harbour Residence · Fri 2 Oct to Sun 4 Oct | Harbour Residence (2 guests) | RM549.00 | On your card | RM549.00 | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+[stay] "Booked. The hotel has your name, and your confirmation is in Wallet." receipt,suggest
+PAID Pay 2,996 pts || SHEET: Confirm and pay | Groceries | Groceries | RM29.96 | Points used (2,996 pts) | −RM29.96 | Points | 2,996 pts | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+[groc] "Ordered. It's being packed now." receipt,suggest
+PAID Pay 10,000 pts || SHEET: Confirm and pay | Harbour & Co gift card | Harbour & Co gift card | RM100.00 | Points used (10,000 pts) | −RM100.00 | Points | 10,000 pts | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+[gift] "Sent to Mei at mei@example.com. A copy of the code is in your Wallet." receipt,suggest
+PAID Pay RM146.00 + 7,200 pts || SHEET: Confirm and pay | Arlo Grey live | Arlo Grey live | RM218.00 | Points used (7,200 pts) | −RM72.00 | On your card | RM146.00 | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+[hc] "You'd get back RM549.00." confirmcancel
+[hc2] "Cancelled. RM549.00 goes back to your card in 3 to 5 working days. The 162 pts you earned on it have been taken off." booking
+ledger Points earned on Harbour Residence, reversed -162 | Arlo Grey live -7200 | Points on card spend: Arlo Grey live 146 | Harbour & Co gift card -10000 | Groceries -2996 | Points on card spend (3×): Harbour Residence 1647 | Kuala Lumpur to Penang -61700 | Points on card spend: Kuala Lumpur to Penang 265
+[]

@@ -1,0 +1,54 @@
+  SHEET Pay your card bill | From your current account ending 7781 | Card bill | £27.21 | From your account | £27.21 | Nothing is paid until you confirm | Pay with Face ID
+[paid] "Paid £27.21 from your current account. It shows on your balance now." balance
+  card 879.77 879.77 27.21
+== owe-min: pts 0, card -27.21, bookings 0, lounge 0
+  SHEET Confirm transfer | Transfer to Northway Miles | To | Northway Miles | Points sent | 10,000 pts | They receive | 5,000 miles | Arrives | Usually within 2 days | Points | 10,000 pts | Nothing moves until you confirm | Confirm with Face ID
+[xfer-done] "Sent 10,000 pts to Northway Miles. Usually within 2 days." receipt,suggest
+== xfer: pts -10000, card 0.00, bookings 1, lounge 0
+[xundo] "You don't have any active bookings to cancel." suggest
+== xfer-undo: pts 0, card 0.00, bookings 0, lounge 0
+[down-fl] "The airlines aren't answering right now." state
+== down-flight: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay 9,500 pts || SHEET: Confirm and pay | Leather trainers | Leather trainers | £95.00 | Points used (9,500 pts) | −£95.00 | Points | 9,500 pts | Nothing is paid until you confirm | Pay with Face ID
+[down-pay] "The supplier isn't answering." state
+== down-shop: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay 9,500 pts || SHEET: Confirm and pay | Leather trainers | Leather trainers | £95.00 | Points used (9,500 pts) | −£95.00 | Points | 9,500 pts | Nothing is paid until you confirm | Pay with Face ID
+[down-dine] "The supplier isn't answering." state
+== down-free: pts 0, card 0.00, bookings 0, lounge 0
+[down-donate] "The supplier isn't answering." state
+== down-xfer: pts 0, card 0.00, bookings 0, lounge 0
+[down-conc] "The concierge desk isn't answering right now, so nothing was sent." state
+== down-concierge: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay £95.00 || SHEET: Confirm and pay | Leather trainers | Leather trainers | £95.00 | On your card | £95.00 | Nothing is paid until you confirm | Pay with Face ID
+[decl] "Your card was declined." state
+== decline: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay 9,500 pts || SHEET: Confirm and pay | Leather trainers | Leather trainers | £95.00 | Points used (9,500 pts) | −£95.00 | Points | 9,500 pts | Nothing is paid until you confirm | Pay with Face ID
+[decl-pts-done] "Done. It's in your Wallet." receipt,suggest
+== decline-pts: pts -9500, card 0.00, bookings 1, lounge 0
+  sheet open? false
+[rise] "The price changed before you paid, so I stopped." state
+== rise: pts 0, card 0.00, bookings 0, lounge 0
+  draft 95 [["Size","6"],["Quantity","1"]]
+   PAID Pay 15,012 pts || SHEET: Confirm and pay | Cabin suitcase | Cabin suitcase | £150.12 | Points used (15,012 pts) | −£150.12 | Points | 15,012 pts | Nothing is paid until you confirm | Pay with Face ID
+[rise-done] "Done. It's in your Wallet." receipt,suggest
+  booking total 150.12 15012 0
+== rise-continue: pts -15012, card 0.00, bookings 1, lounge 0
+   PAID Pay £11.49 || SHEET: Confirm and pay | Groceries | Groceries | £11.49 | On your card | £11.49 | Nothing is paid until you confirm | Pay with Face ID
+== groc: pts 11, card 11.49, bookings 1, lounge 0
+[late] "Your groceries are running late: the courier is stuck in traffic. New estimate in 20 minutes. You can wait, or cancel now for a full refund." tracker,state
+[late-refund] "Cancelled. £11.49 goes back to your card in 3 to 5 working days. The 11 pts you earned on it have been taken off." booking
+== late: pts -11, card -11.49, bookings 0, lounge 0
+[late2] "Your Cabin suitcase is running late: the courier is stuck in traffic. New estimate in 20 minutes. You can wait, or cancel now for a full refund." tracker,state
+== late2: pts 0, card 0.00, bookings 0, lounge 0
+[fraud] "Did you just try to pay £649.00 to an online electronics shop abroad? It didn't look like you, so I've frozen your card and blocked the payment." state
+[fraud2] "I've frozen your card and I'm bringing in the fraud team now. Never share a code or move money because someone called you." handoff
+== fraud: pts 0, card 0.00, bookings 0, lounge 0
+[cardpay] "Demo: a card payment of £42.00 at Café Lune came in and earned 42 points. Turn on Every card payment under Messages to get a note each time." 
+== cardpay: pts 42, card 42.00, bookings 0, lounge 0
+  ledger Points from card spend 5000
+== ptsin: pts 5000, card 0.00, bookings 0, lounge 0
+!! invest-sell locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.
+== invest-sell: pts -5000, card 0.00, bookings 1, lounge 0
+  after reset 48210 0 0 {"priceRise":false,"supplierDown":false,"decline":false}
+== reset: pts 34470, card -14.79, bookings -5, lounge 0
+[]

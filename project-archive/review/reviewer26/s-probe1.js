@@ -1,0 +1,1 @@
+module.exports = async (h) => { await h.nav(3); const Q = process.env.Q.split('||'); for (const q of Q) { await h.say(q); const s = await h.sheet(); if (s) { console.log('   SHEET: ' + s.slice(0, 400)); await h.p.keyboard.press('Escape'); await h.p.waitForTimeout(300) } } if (process.env.SHOT) await h.full('end') }

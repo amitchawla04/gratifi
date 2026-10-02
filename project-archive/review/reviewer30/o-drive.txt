@@ -1,0 +1,21 @@
+IN stays clean
+IN shopping clean
+IN grocery clean
+IN bank clean
+IN flight clean
+MY rides clean
+MY grocery clean
+MY stays clean
+MY flight clean
+MY gift clean
+AR concierge clean
+AR grocery clean
+AR flight clean
+AR bank clean
+SG dining clean
+AR points clean
+AE airport clean
+EU flight clean
+card balance after all 5643
+AR manage clean
+ALLDONE

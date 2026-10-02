@@ -1,0 +1,3 @@
+STATE card {"last4":"5512","limit":880000,"balance":99770,"due":99770,"min":2993.1,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 95640 Hush 700 noise-cancelling headphones:confirmed:25190:100760/0
+LAST 
+IN shopping clean

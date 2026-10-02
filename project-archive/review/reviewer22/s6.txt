@@ -1,0 +1,4 @@
+Flights to Lisbon from 9 Oct to 12 Oct for 1 adult and a child aged 15
+Flights to Lisbon from 9 Oct to 12 Oct for 1 adult and a baby
+!const s=await H.state(); return JSON.stringify(s.chat.slice(-1)[0].blocks.filter(b=>b.kind==='flights').map(b=>({pax:b.pax,kids:b.kids,inf:b.inf})))
+!await p.locator('.gr-flight').first().click(); await p.waitForTimeout(400); const s=await H.state(); return JSON.stringify(s.chat.slice(-1)[0].blocks.map(b=>({k:b.kind,pax:b.pax,kids:b.kids,inf:b.inf})))

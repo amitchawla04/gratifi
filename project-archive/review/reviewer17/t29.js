@@ -1,0 +1,20 @@
+const H = require('./h.js');
+(async () => {
+  await H.run('arfl', { m: 'AR' }, async (h) => { const { p, nav, ask, answers, btns, click, log, S, sheet, auth, full, page } = h;
+    await nav(3); await ask('رحلات إلى مسقط يوم 16 أكتوبر والعودة 19 أكتوبر لشخصين وطفل عمره 5 سنوات', 1300); log('RES', (await answers(1)).split('\n').slice(0, 5).join(' | ')); await full('res', 2000);
+    await p.locator('.gr-flight').first().click(); await p.waitForTimeout(800); log('FARE', (await answers(1)).split('\n').slice(0, 3).join(' | ')); await full('fare', 2200);
+    log(await btns());
+    await p.locator('.gr-answer').last().locator('button', { hasText: /^تابع/ }).last().click(); await p.waitForTimeout(800);
+    const ins = p.locator('.gr-answer').last().locator('input'); log('n inputs', await ins.count());
+    await ins.nth(1).fill('Fatima Ali'); await ins.nth(2).fill('Omar Ali'); await ins.nth(3).fill('2021-03-01'); await p.waitForTimeout(300); await full('trav', 2200);
+    log('trav btns', (await btns()).slice(-2));
+    await ins.nth(1).fill('فاطمة علي'); await p.waitForTimeout(300); log('arabic name btn', (await p.locator('.gr-answer').last().locator('.gr-btn').last().innerText()));
+    await ins.nth(1).fill('Fatima Ali'); await p.waitForTimeout(300);
+    await p.locator('.gr-answer').last().locator('.gr-btn').last().click(); await p.waitForTimeout(900);
+    log('CHK', (await answers(1)).replace(/\n/g, ' | ')); await full('chk', 2200);
+    await p.locator('.gr-answer').last().locator('button', { hasText: /^ادفع/ }).last().click(); await p.waitForTimeout(600); log('SHEET', (await sheet()).replace(/\n/g, ' | ')); await h.shot('sheet');
+    await auth(); log('RCPT', (await answers(1)).replace(/\n/g, ' | ')); await full('rcpt', 2200);
+    await nav(4); await page('wallet'); await p.locator('button', { hasText: 'بطاقة الصعود' }).first().click().catch(e => log('nopass')); await p.waitForTimeout(600); await page('pass');
+    await nav(4); await p.locator('button', { hasText: /^إلغاء$|^ألغِ$|^إلغ/ }).first().click().catch(e => log('nocancel')); await p.waitForTimeout(900); log('CANCEL', (await answers(1)).replace(/\n/g, ' | ')); await full('cancel', 1800);
+  });
+})();

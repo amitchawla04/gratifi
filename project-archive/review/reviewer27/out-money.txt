@@ -1,0 +1,42 @@
+STATE[start] none
+
+[an espresso machine] => Searched 12 products | Priced with your points | 1 product. Espresso machine is the closest match, with delivery in 3 days. | Espresso machine | Home & Hearth | 4.7 | Delivery in 3 days | 2-year warranty | £349 | or 34,900 pts
+CHECKOUT: Espresso machine | Home & Hearth | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Total | £349.00 | Return within 30 days | Points | 34,900 pts · you have 48,210 | Points and card | 24,400 pts + £105 | Card | £349 on card ending 4821 | Pay £349.00
+SHEET: Confirm and pay | Espresso machine · Home & Hearth | Price | £349.00 | On your card | £349.00 | Nothing is paid until you confirm | Pay with Face ID
+RESULT: Done. It's in your Wallet. | Confirmed | GR-74307 | Order | Espresso machine | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Paid | £349.00 on card ending 4821 | Points earned | +349 | Return within 30 days. | Track my order
+STATE[after espresso card] cardBal=1255.98 due=906.98 min=27.21 pts=48559 | Espresso machine:confirmed:tot349:pts0:card349:earn349
+
+[what do I owe?] => You owe £906.98, due Fri 9 Oct. The minimum is £27.21. Spending since the statement, £349.00, goes on your next one. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit
+
+[pay £300 off my card] => Check the amount, then confirm it's you.
+SHEET Pay your card bill | From your current account ending 7781 | Card bill | £300.00 | From your account | £300.00 | Nothing is paid until you confirm | Pay with Face ID
+STATE[after £300] cardBal=955.98 due=606.98 min=0 pts=48559 | Espresso machine:confirmed:tot349:pts0:card349:earn349
+
+[what do I owe?] => You owe £606.98, due Fri 9 Oct. You've paid the minimum for this statement. Spending since the statement, £349.00, goes on your next one. | PAYMENT DUE | 9 Oct | £606.98 | Minimum paid; the rest is due by 9 Oct | Full balance | £606.98 | Another amount | Pay £606.98 | Set up Direct Debit
+
+[pay the minimum] => You owe £606.98, due Fri 9 Oct. You've paid the minimum for this statement. Spending since the statement, £349.00, goes on your next one. | PAYMENT DUE | 9 Oct | £606.98 | Minimum paid; the rest is due by 9 Oct | Full balance | £606.98 | Another amount | Pay £606.98 | Set up Direct Debit
+
+[Use my expiring points on a gift card] => Searched 10 gift cards | Priced with your points | 8 gift cards. They arrive instantly. | Harbour & Co | Homeware | From £25 | Bloom | Flowers | From £25 | Northway Air | Flights | From £25 | Reel House | Cinema | From £25 | Pantry Market | Groceries | From £25 | Stride Outdoor | Outdoor | From £25 | Lumen Books | Books | From £25 | Glow Beauty | Beauty | From £25
+CHECKOUT: Harbour & Co gift card | Homeware | Amount | £200 | For | Sam (sam@example.com) | Total | £200.00 | Delivered instantly. Valid for 12 months. Not refundable once sent. | Points | 20,000 pts · you have 48,559 | Points and card | 14,000 pts + £60 | Card | £200 on card ending 4821 | Pay 20,000 pts
+SHEET: Confirm and pay | Harbour & Co gift card · Homeware | Price | £200.00 | Points used (20,000 pts) | −£200.00 | Points | 20,000 pts | Delivered instantly. Valid for 12 months. Not refundable once sent. | Pay with Face ID
+RESULT: Sent to Sam at sam@example.com. A copy of the code is in your Wallet. | Confirmed | GR-80843 | Order | Harbour & Co gift card | Amount | £200 | For | Sam (sam@example.com) | Paid | 20,000 pts | Delivered instantly. Valid for 12 months. Not refundable once sent. | What else can I do?
+STATE[after gift] cardBal=955.98 due=606.98 min=0 pts=28559 | Harbour & Co gift card:confirmed:tot200:pts20000:card0:earn0; Espresso machine:confirmed:tot349:pts0:card349:earn349
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+CHECKOUT: 13-inch laptop, 16GB | Byte Store | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Total | £999.00 | Return within 14 days, unopened | Points | 99,900 pts · 71,341 more than you have | Points and card | 14,200 pts + £857 | Card | £999 on card ending 4821 | POINTS | 14,200 | ON YOUR CARD | £857.00 | You have 28,559 points | 1 point = £0.01 | Pay £857.00 + 14,200 pts
+SHEET: Confirm and pay | 13-inch laptop, 16GB · Byte Store | Price | £999.00 | Points used (14,200 pts) | −£142.00 | On your card | £857.00 | Nothing is paid until you confirm | Pay with Face ID
+RESULT: Done. It's in your Wallet. | Confirmed | GR-83772 | Order | 13-inch laptop, 16GB | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Paid | 14,200 pts + £857.00 on card ending 4821 | Points earned | +857 | Return within 14 days, unopened. | Track my order
+STATE[after laptop pts] cardBal=1812.98 due=606.98 min=0 pts=15216 | 13-inch laptop, 16GB:confirmed:tot999:pts14200:card857:earn857; Harbour & Co gift card:confirmed:tot200:pts20000:card0:earn0; Espresso machine:confirmed:tot349:pts0:card349:earn349
+
+[cancel my espresso machine] => You'd get back £349.00. The 349 pts earned on it come off. | Cancel Espresso machine? | You paid | £349.00 | Points earned on it, taken off | -349 pts | You get back | £349.00 | Return within 30 days | Yes, cancel | Keep it
+CANCEL: Cancelled. £349.00 is back on your card; it can take 3 to 5 working days to show on your statement. The 349 pts you earned on it have been taken off. | Espresso machine | Home & Hearth | Refunded | GR-74307 | Refunded £349.00
+STATE[after cancel] cardBal=1463.98 due=606.98 min=0 pts=14867 | 13-inch laptop, 16GB:confirmed:tot999:pts14200:card857:earn857; Harbour & Co gift card:confirmed:tot200:pts20000:card0:earn0; Espresso machine:refunded:tot349:pts0:card349:earn349
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+plus count 1
+OVERLIMIT CHECKOUT: 13-inch laptop, 16GB | Byte Store | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 8 | Total | £7,992.00 | Return within 14 days, unopened | Points | 799,200 pts · 784,333 more than you have | Points and card | 14,800 pts + £7,844 | Card | £7,992 on card ending 4821 | Pay £7,992.00
+pay disabled? false
+OVERLIMIT SHEET null
+STATE[after overlimit] cardBal=1463.98 due=606.98 min=0 pts=14867 | 13-inch laptop, 16GB:confirmed:tot999:pts14200:card857:earn857; Harbour & Co gift card:confirmed:tot200:pts20000:card0:earn0; Espresso machine:refunded:tot349:pts0:card349:earn349
+
+## s-money-UK clean

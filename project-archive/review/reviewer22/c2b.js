@@ -1,0 +1,1 @@
+module.exports=require("./c2.js").filter(x=>["train today past slot","experience today past slot","shirt no size","car hire 4 days","flight child alone","flight infants > adults","transfer 1234 pts"].includes(x.name))

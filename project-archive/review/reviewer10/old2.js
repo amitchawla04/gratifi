@@ -1,0 +1,10 @@
+const run=require('./h.js'); const book=require('./book.js');
+run(`old2-UK`, 'UK', async (h)=>{ const {p,shot,full,nav,ask,click,last,lastText,st,confirm,log}=h;
+  await nav(3); await book(h, 'Flights to Paris on 20 Oct back 23 Oct for 1', []);
+  await p.reload(); await p.waitForTimeout(800); await nav(3);
+  const fare=p.locator('.gr-answer').nth(1); 
+  await fare.getByText('Flex',{exact:true}).first().click({force:true}).catch(e=>log('noflex',e.message.slice(0,80)));
+  await fare.getByText('20:30',{exact:true}).first().click({force:true}).catch(e=>log('no2030'));
+  await p.waitForTimeout(300); await fare.screenshot({path:'shots/old2-fare.png'});
+  log('msgs', await p.locator('.gr-answer').count(), (await lastText()).slice(0,200));
+});

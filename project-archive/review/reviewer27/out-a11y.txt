@@ -1,0 +1,11 @@
+A11Y home {"noName":[],"inputs":[],"imgsNoAlt":0,"low":[],"small":[],"lang":"en-GB","dir":"ltr"}
+A11Y me {"noName":[],"inputs":[],"imgsNoAlt":0,"low":[],"small":[],"lang":"en-GB","dir":"ltr"}
+
+[Flights to Lisbon next Friday for two] => Checked 7 flights from London | Priced for 2 people with points | 7 flights to Lisbon on Fri 9 Oct, back Sun 11 Oct, for 2 people. I'd pick the 07:25 Coastline: direct, £134 one way per person; a Standard return with the cheapest direct flight back is £278 per person. It leaves at a more convenient time; the 20:30 is £17 cheaper. I've assumed you come back 2 days later; tell me the return date, or say one way. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 39m | Direct | 10:04 | LIS | Cabin bag | £134 | or 13,400 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:16 · Northway Air | 1 stop, OPO · 5h 06m | £135 | or 13,500 pts | 09:40 → 12:16 · Aurora Air
+A11Y flights {"noName":[],"inputs":[],"imgsNoAlt":0,"low":[],"small":[],"lang":"en-GB","dir":"ltr"}
+A11Y seats {"noName":[],"inputs":[],"imgsNoAlt":0,"low":[],"small":[],"lang":"en-GB","dir":"ltr"}
+DIALOG {"dialog":true,"modal":"true","label":"Confirm and pay","inert":2,"focusIn":true,"active":"<div class=\"gr-sheet\" role=\"dialog\" aria-modal=\"true\" tabindex=\"-1\" data-state=\""}
+focus after tabs in sheet true
+focus returned to <button class="gr-btn gr-btn-primary gr-btn-lg gr-btn-block"><svg class="gr-icon " width="18" height
+
+## s-a11y-UK clean

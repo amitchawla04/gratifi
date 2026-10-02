@@ -1,0 +1,533 @@
+Sitemap
+Everything a customer can do by talking to Gratifi in the Barclaycard app, in twelve areas. Each area breaks into sections, then journeys, then the detail of each journey: what customers say, what Gratifi does, what it shows, the actions it offers, and the rules it follows. Items marked Business apply to business cards only.
+1 Front door and settings
+1.1 Ways in
+Ask bar on every screen
+Sits above the tab bar on tab screens and at the foot of every other screen
+Placeholder changes by screen: "Ask about this payment" on a payment, "Ask about your statement" on a statement
+Opens the conversation with the screen's context already attached, so "can I split this?" knows which payment
+Microphone
+Press to talk, release to send; live words shown as the customer speaks
+Falls back to typing with a short note if speech isn't available
+Note on Home
+One note at a time, from Proactive notes (area 10)
+Tapping the button acts; tapping the note opens a conversation about it
+"Ask about this"
+On every payment, statement, benefit, offer and booking
+Opens with a suggested question, for example "Tell me about the Volt Electricals payment"
+Notifications
+A push note opens straight into a conversation with the answer already there
+In-app search
+Typing in search answers the question at the top, with matching screens underneath
+Deep links from the bank
+Emails and texts from the bank can open a Gratifi conversation on a set topic, never with a login link in the message
+1.2 The conversation screen
+First open
+Greeting with the customer's first name and today's date
+One line on what Gratifi can do: "Ask about your balance, payments, benefits, rewards or offers, or ask me to book something. I won't spend anything without asking you."
+Three suggested questions chosen for this card, plus "When's my payment due?" and "Freeze my card"
+Label: "Gratifi, an AI assistant" with a link to how it works
+A reply
+Steps line ("Checked your statement")
+Answer line, one or two sentences, numbers in bold
+Card: the real component for the job (payment card, transaction, offer, hotel, plan table)
+Up to three buttons, the main one filled
+Source line where it helps ("From your September statement")
+Follow-ups
+Suggested next questions under the last reply
+"That's not what I meant" chip, which offers the three likeliest alternatives
+Conversation controls
+Clear conversation
+Copy or share an answer (numbers only, no personal data in shared text)
+Read aloud
+Rate an answer (thumbs up or down, optional reason)
+History
+Past conversations by date, searchable
+Kept for the period the bank sets; the customer can delete any of them
+1.3 What Gratifi remembers
+Memory list
+Grouped: Travel, Food and drink, Plans, Shopping, Money habits
+Each item shows where it came from: "You told Gratifi" or "From your card"
+Forget one, with undo; forget everything
+How memory is added
+Only when the customer says something lasting ("I always sit by the window") or agrees to a suggestion ("Shall I remember you prefer small hotels?")
+Never health, money worries or other sensitive details, even if said
+Suggestions switch
+On: notes and offers based on spending
+Off: Gratifi answers questions only, and no spending-based notes
+1.4 Settings
+Gratifi on or off
+Off hides the ask bar and notes; the app works exactly as before
+Voice
+Voice replies on or off; speaking speed
+Language and reading
+Plain English level; larger text follows the phone's settings
+Consent and privacy
+What data Gratifi uses, in plain words
+Download my Gratifi data
+Delete my Gratifi data
+Alerts
+Links to Alerts (area 10)
+About Gratifi
+How answers are made: "Numbers come from your account. The assistant only chooses the words."
+Which model tier the bank uses is not shown to customers
+1.5 Card switching
+More than one card
+"Which card?" asked only when the question could mean either
+Card chip at the top of the conversation to switch
+Additional cardholders
+See their own spending and card controls only, never the main cardholder's balance, unless the bank allows it
+2 Money today
+2.1 Balance and available credit
+What's my balance?
+Says: "What do I owe?", "How much can I spend?", "Can I afford a £400 flight?"
+Does: reads the live balance, pending payments and limit
+Shows: balance card with used-limit bar, available credit, pending total
+Actions: See spending · Make a payment · Change my limit
+Rules: "Can I afford" answers with available credit only, never advice on whether to buy; if the purchase would take them over 90% of the limit, say so plainly
+Pending payments
+Explains why a payment is pending and when it usually settles
+Additional cardholders' spending
+Main cardholder can ask "How much has Alex spent?"
+2.2 What's due
+When's my payment due?
+Shows: payment card with minimum, statement balance, due date, Direct Debit status
+Charge card: the full statement amount, never a minimum
+Actions: Pay minimum · Pay in full · Change Direct Debit
+Rules: the minimum follows the bank's rule (the higher of 1% plus interest and fees, or £5); plans and fees shown as part of it
+Why is my minimum this amount?
+Breaks the minimum into its parts: 1%, interest, fees, plan instalments
+Will I pay interest?
+Yes or no from the rules engine, with the amount that avoids it: "Pay £3,812.40 by Mon 12 Oct and there's no interest on purchases"
+Promotional balances
+What sits at 0%, until when, and what it will cost after
+2.3 Make a payment
+Pay now
+Says: "Pay my bill", "Pay £200", "Clear the lot"
+Does: fills the payment screen with the right amount and the saved bank account
+Shows: payment options (minimum, statement balance, full balance, other amount, the 0% plan amount on Platinum)
+Confirm: amount, from account, Face ID
+Done: receipt with reference; balance updates as pending
+Rules: can't pay more than the balance; charge card offers the statement balance and full balance only
+Pay from abroad or by bank transfer
+Shows the bank's sort code, account and reference to use
+Payment didn't go through
+Reads the status and explains; offers to try again or change account
+2.4 Direct Debit
+Set up or change
+Options: statement balance, minimum, fixed amount (charge card: statement balance only)
+Rules: a fixed amount under the minimum takes the minimum instead; changes take effect from the next statement if close to the due date
+Is my Direct Debit enough?
+Compares the Direct Debit with what's needed (for example the Platinum 0% plan) and offers a top-up
+Cancel
+Confirms, reminds of the due date, offers undo
+2.5 Payment date
+Change my payment date
+Shows current date and day choices
+Rules: up to twice in 12 months; not if changed in this or the last statement period; this month's due date doesn't move
+Done: request sent, reply within 24 hours
+2.6 Credit balance
+I've overpaid
+Shows the credit balance; offers to send it back to a UK bank account (within 5 working days)
+3 Spending and statements
+3.1 Where the money went
+How much did I spend?
+Says: "How much did I spend on eating out?", "What did I spend in September?", "Biggest payments this month"
+Does: totals by category, merchant or period from the transaction data
+Shows: total, category bar, the payments behind it
+Actions: See all · Set a monthly spend alert · Offers for this category
+Rules: purchases only; payments, refunds, fees and transfers excluded unless asked
+Compare
+"Did I spend more than last month?" answers with both totals and the difference
+Subscriptions
+Lists payments that repeat monthly, with the next expected date
+Categories
+Customer can re-file a payment ("that's not shopping, it's a gift"); Gratifi remembers the merchant for next time
+3.2 A single payment
+What's this payment?
+Says: "What's the Volt Electricals charge?", "I don't recognise this"
+Shows: payment card with merchant name, logo, date, place, online or in person, status
+Actions: Spread the cost (£100 to £5,000) · Report a problem · Ask about this
+Merchant I don't know
+Shows the cleaned merchant name and what the business is, from merchant data
+Payment on another card
+"There's no Streamly payment on this card" and offers to check the others
+3.3 Statements
+Latest statement
+Shows: balance, previous balance, payments, new spending, interest, minimum, due date
+Actions: Download PDF · Pay · Ask about this statement
+Past statements
+Seven years of statements; "Show me March" opens that month
+Explain my statement
+Walks through each line in plain words; highlights anything new, such as a fee or a rate change
+Paperless or paper
+Switches the setting; paper copies free
+Yearly statement
+Anniversary summary, including any rate changes
+Business
+CSV export for accounting
+3.4 Search
+Find a payment
+Plain words: "the taxi in Amsterdam", "anything over £500 in August"
+Shows matching payments with totals
+4 Card and security
+4.1 Card controls
+Freeze and unfreeze
+Says: "Freeze my card", "I can't find my card", "Unfreeze"
+Does: freezes straight away (no Face ID needed to freeze; Face ID to unfreeze)
+Shows: card with the frozen state; what still works (Direct Debits, refunds)
+Rules: "I can't find my card" offers freeze first, then lost card
+PIN
+View PIN after Face ID, shown for ten seconds
+Locked PIN: unlock in the app or at a UK cash machine
+Change PIN: at any UK cash machine
+Card details
+Full number, expiry and security code after Face ID, for paying online; shown by the bank's own secure component, never in chat text
+Pay with your phone
+Apple Pay or Google Pay by card (Amazon: Google Pay only; Visa cards: Barclaycard Contactless Mobile on Android)
+Contactless limit explained (£100)
+4.2 Lost, stolen or damaged
+Report a card
+Choices: lost, stolen, damaged
+Lost or stolen: blocks now; new card details in the app within 24 hours (Amazon: straight away); card within 7 working days; same PIN
+Damaged: old card keeps working until the new one is activated
+Stolen: offers to go through recent payments together
+Activate a new card
+One tap and Face ID; confirms the PIN is unchanged
+Card expiring
+Replacement arrives three to six weeks before; Gratifi reminds the customer to update subscriptions
+4.3 Approvals and codes
+Approve a payment
+Push note: "£24.00 to Northway Air. Is this you?" with Yes or No
+Yes: Face ID, then the payment goes through
+No: declined; offers freeze and a call to the fraud team
+Mobile PINsentry code
+After Face ID; the code shows once, with "never read it out to anyone who calls you"
+Log in with Face ID
+Setting shown; managed by the bank's app
+4.4 Fraud and scams
+I don't recognise a payment
+Finds the payment, offers to report it and to freeze the card
+Rules: fraud goes to the bank's fraud process, never handled only in chat; the customer is told they'll get the money back, plus interest, if it's fraud
+Is this message really from Barclaycard?
+Checks against the bank's rules: never asks for PIN, login details or full passcode; emails never have a login link
+If the customer shared details: freeze, then connect to the fraud team straight away
+Scam advice
+Take Five guidance in two lines; links to the bank's fraud pages
+Fraud line
+Personal: 0800 318 665, from abroad +44 1452 828 309 · Business: 0800 015 9059
+4.5 Cardholders
+Add a cardholder
+Up to four, over 18, close family at the same address, free
+Their spending is on the main cardholder's statement
+Remove a cardholder
+Hands off to the bank's process (phone) with the details prefilled
+Business
+Employee cards: see area 12
+5 Credit
+5.1 Credit limit
+Can I have a higher limit?
+Does: the bank's decision engine decides; Gratifi only asks and shows the answer
+Shows: current limit, the new amount chosen, decision (now or within 24 hours), any smaller offer
+Rules: wait 4 months after an increase, 6 after a decrease, 1 month after a refusal; Forward from £50 to £1,200; never suggests more credit to a customer showing signs of difficulty
+Lower my limit
+Down to the current balance at most; done straight away
+Limit increase preferences
+Increase automatically, ask me each time, or don't offer
+5.2 Balance and money transfers
+Transfer a balance
+Shows: the customer's offer (0% period, fee), amount field, the most they can move (90% of available credit), from which card
+Rules: from £100; within 60 days for the offer rate; not from a Barclaycard or Barclays card; promo ends early if a payment is late or the limit is passed
+Send money to my bank account
+Money transfer offer and fee (typically 1.9% to 2.9%)
+Clear my 0% balance in time
+Monthly amount to clear it before the rate changes, shown as a plan by month; checks the Direct Debit covers it
+5.3 Instalment Plans
+Spread the cost
+Says: "Split my TV over a year", "Spread the Volt payment"
+Shows: the purchase, 3, 6, 12 or 24 months, monthly amount, one-off fee (1% to 8%), total
+Rules: purchases from £100 to £5,000; up to 10 plans; joins the minimum from the next statement
+My plans
+Each plan: months left, monthly amount, total left
+Spread a booking at checkout
+Partner bookings over £100 offer a plan at checkout (area 7)
+5.4 Rates and fees
+What rate do I pay?
+Purchase rate, cash rate, promo rates and end dates, representative APR
+Why was I charged a fee?
+Names the fee (late, over limit, cash, foreign) and the rule behind it
+Rules: fees are never waived by Gratifi; a request goes to the team with the details
+How payments are used
+Highest-rate balances first, then promo balances ending soonest
+5.5 Paying it down
+Repayment calculator
+Balance and monthly amount in; months to clear and interest out; compared with paying only the minimum
+Paying mostly interest
+After 18 months of low payments, explains the bank's persistent-debt help and a suggested payment
+5.6 Credit score
+What's my score?
+Free Experian score, updated every 60 days; what's helping and hurting it
+Rules: the bank can't see the score; the customer can opt out
+Price Promise (Forward)
+Due dates paid on time so far, how many to go, the rate after year one and year two
+6 Rewards
+6.1 Avios (Avios Plus, Avios)
+How many Avios do I have?
+Balance in the British Airways account, Avios collected this month, when they move across
+What can I do with them?
+Barclaycard's example flights against the customer's balance ("you have enough" or "8,500 to go"); part-pay from 1,000 Avios; hotels, car hire, Nectar
+Actions: Book with British Airways (hand-off) · Plan my Avios
+Upgrade voucher
+Card-year spend so far, the target (£10,000 Avios Plus, £20,000 Avios), date the year ends, when they'll get there at their usual pace
+Voucher rules in plain words: cabins, one person return or one way, two people one way, UK departures, 24 months
+Choice at the end: voucher or 7,000 Avios
+Welcome bonus
+Spend to go, deadline, which payments count; nudges only with real purchases, never "spend to earn"
+Lounges (Avios Plus)
+Buy passes at £18.50; register in DragonPass; cancel 72 hours before
+Earning rules
+What earns and what doesn't (cash, gambling); cap of four times the limit per statement
+6.2 Cashback (Rewards)
+How much cashback?
+Built up this year at 0.25%; paid yearly or on request
+Take it now
+Face ID; comes off the balance; confirms the date it lands
+6.3 Amazon rewards
+How much have I earned?
+1% at Amazon, 0.5% elsewhere (0.25% after 12 months), 2% for Prime members at events
+Move to Amazon
+£5 steps; arrives within two hours; Face ID
+Welcome gift
+£20 Amazon gift card status
+6.4 Barclays Cashback Rewards (personal Visa)
+My retailer offers
+Up to 15% back; pending after about 5 working days, ready after about 35
+Use my cashback
+From £5: to the card, as an e-gift card, or to charity
+Missing cashback
+Claim within 60 working days
+6.5 Business cashback
+Premium Plus
+0.5% up to £400 a year; paid after the year ends
+Select Cashback
+1% uncapped, monthly; this month's spend against the £2,000 that reviews say is needed
+6.6 Everything earned in one place
+"What have I earned this year?"
+Card rewards plus Gratifi partner money back, in one total, each line with its source
+7 Offers and bookings
+This is the layer R360 adds: partner offers and bookings paid on the card, with money back on top of what the card earns.
+7.1 Offers
+Offers for me
+Matched to the customer's own spending, each with the reason ("You bought coffee here 4 times this month")
+Add an offer: applies when they pay with the card; money back within 30 days
+Rules: no reason, no personal claim; general offers say "Open to every cardholder"
+Offer I've added
+Progress, expiry, money back so far
+Offers in a category
+"Any deals on restaurants?" filters by category and location
+7.2 Hotels
+Find a hotel
+Says: "Find a hotel in Lisbon", "somewhere quiet near the river"
+Uses: trip dates from the card (flight bought), saved preferences (small hotels), budget if said
+Shows: up to three hotels as photo cards: price for the stay, rating, money back, free cancellation date
+Actions: See the hotel · Book · Show me more
+Hotel page
+Photos, what's included, room, cancellation, money back in £ or Avios
+Checkout
+Guest details prefilled; pay on card; spread the cost option over £100; Face ID
+Done: booking reference, calendar add, undo for a short time
+7.3 Experiences, dining, tickets, gift cards
+Experiences
+Tours, spa days, airport rides; tied to the trip dates where there is one
+Restaurant tables
+Free to book; money back when paying with the card
+Tickets
+Cinema and events; Barclaycard Entertainment presales (area 8) shown first
+Gift cards
+Arrive by email in minutes; money back
+7.4 Trips
+Plan my trip
+Starts from a flight on the card; builds a checklist: stay, airport ride, dinner, card tips abroad, insurance check (Premium Plus)
+Trip page
+Everything booked, what's missing, what the card gives abroad
+7.5 My bookings
+See bookings
+Each booking: reference, dates, amount, money back status
+Cancel
+Shows the cancellation terms first; pending charges removed, paid ones refunded to the card
+Something went wrong
+Contacts the partner; if unresolved, opens a dispute (area 8)
+7.6 Rules for this area
+Gratifi never books without Face ID
+Prices, availability and money back come from the partner feed, never the model
+Partner content is labelled "Added by Gratifi" so it's never mistaken for the bank's own benefit
+8 Benefits and protection
+8.1 Everything with my card
+What do I get with this card?
+The card's own items from the entitlement catalogue (24 to 47 depending on card), grouped: Rewards, Offers and entertainment, Protection, Travel, Credit and payments, Card and security, Alerts and statements, Business tools, Help and support
+Each item: one line, terms, what to do, a Gratifi note where useful, where it's published
+Is X included?
+Yes or no from the catalogue, never guessed: "This card doesn't include travel insurance. Section 75 protects purchases from £100 to £30,000."
+Which card is better for this?
+For customers with two cards: which card to use abroad, for a big purchase, for Avios
+8.2 Getting money back
+Something went wrong with a purchase
+Says: "It never arrived", "It's broken", "The shop went bust"
+Does: finds the payment; works out which route applies (Section 75 for £100 to £30,000 bought directly; chargeback for any amount, usually within 120 days)
+Shows: the route, what the customer needs (proof, dates), what happens next
+Actions: Start a claim (prefilled) · Talk to the team
+Wrong amount or charged twice
+Report a problem on the payment; claim reference shown
+Claim status
+Open claims, reference, next step, expected date
+8.3 Insurance and cover
+Am I covered? (Premium Plus)
+Travel insurance only when the whole trip is paid on the card; trip check: flights, hotel, what's missing
+Cover limits, who's covered, claim within 45 days
+Purchase protection (business cards)
+Limits per item, per claim and per year
+Misuse cover (business cards)
+Per cardholder and per year
+8.4 Entertainment and extras
+Barclaycard Entertainment
+Festivals with early access and 10% off; radio events; O2 Academy food and drink
+"Tell me when a presale opens" switch
+Lounges, competitions and partner programmes
+As they apply to the card
+8.5 Know your rights
+Plain-English guides
+Section 75, chargeback, fraud refunds, complaints, what the bank must tell you
+9 Travel
+9.1 Before the trip
+Can I use my card in Spain?
+Yes, with this card's fee in other currencies (Rewards none, Premium Plus 0.99%, others 2.99%) and the cash fee
+What it costs on a typical trip, worked out from the fee
+No need to tell the bank; keep the mobile number up to date
+Trip checklist
+Built from a flight on the card: stay, airport ride, insurance check, lounge (Avios Plus), Avios or money back on each booking
+Which card to take
+For customers with more than one card
+9.2 While away
+Pay in pounds or local currency?
+Local currency, with one line on why
+Cash abroad
+Fee, and when interest starts
+Card declined abroad
+Checks frozen state, limit, approvals waiting; offers to fix or call
+9.3 If something goes wrong
+Lost or stolen abroad
+Block now; new details in the app; emergency cash up to £1,000 a week and a temporary card within three working days (personal cards)
+Call from abroad: +44 1604 230 230, 24/7
+Travel delay or cancellation (Premium Plus)
+What the insurance pays and how to claim within 45 days
+9.4 After the trip
+What did the trip cost?
+Trip spend total, fees paid, money back and Avios earned
+10 Proactive notes
+10.1 The note on Home
+One note at a time
+Chosen by a rules engine from the moments below, ranked by money at stake and deadline
+Each note: a title with the number, one or two lines, one main button and one second button
+"Not now" hides it until something changes; the choice is remembered
+Moments by card (examples from the concept)
+Avios Plus: £1,840 to the upgrade voucher by Wed 3 Feb 2027, and when at the usual pace
+Avios: £360 to the 5,000 Avios welcome bonus by Sun 1 Nov
+Rewards: Lisbon in 18 days, no fees abroad, no hotel yet
+Amazon: 0% ends Tue 10 Nov, clear the balance first
+Platinum: £561 a month clears the 0% transfer; the Direct Debit falls short
+Forward: 5 due dates to go for a lower rate
+Premium Plus: put the hotel on the card so the trip is covered
+Select Cashback: £816.70 to £2,000 this month
+Select Charge: full statement due Mon 12 Oct
+10.2 Moment types
+Deadlines: payment due, promo ending, bonus deadline, voucher year ending, offer expiring
+Goals: voucher, welcome bonus, Price Promise, cashback threshold
+Trips: flight bought, trip coming up, back home
+Savings: a fee avoided, a better way to pay, an unused benefit that fits a recent purchase
+Protection: unusual payment, card still frozen, card expiring, subscription price rise
+Care: signs of difficulty lead to a gentle, private note with help, never an offer
+10.3 Notifications
+Push
+Only for moments the customer has allowed; opens straight into the answer
+Quiet hours
+No notes overnight, except fraud and approvals
+Frequency
+A cap per week set by the bank; care and security notes don't count against it
+10.4 Alerts
+Six free alerts (personal cards)
+Weekly balance on a chosen day, payment received, statement ready, payment due, balance limit, monthly spend limit
+By text, email or both
+Always on
+Near or over the limit, account changes, promo ending, Direct Debit amount
+Set by talking
+"Tell me when I've spent £500 this month" creates the alert, with the setting shown to confirm
+11 Help and care
+11.1 Talk to a person
+Hand over
+Says: "Speak to someone", "This isn't helping", or Gratifi can't do it
+Does: chat with the team in the app, or a call; the agent receives the conversation and a short summary, so the customer never repeats it
+Shows: expected wait, opening hours (0800 151 0900, Mon to Fri 7am to 8pm, Sat 9am to 5pm; business 0800 008 008, 24/7)
+Always visible
+"Talk to a person" in every conversation's menu
+11.2 Money worries
+I'm struggling to pay
+Does: no sales, no offers, no limit increases; a calm answer with the bank's support lines (0800 056 1411; missed a payment 0800 161 5205) and free advice from StepChange, National Debtline, MoneyHelper and Citizens Advice
+Offers: talk to the team now, a repayment plan view, the calculator
+Rules: signs of difficulty switch off all promotional notes for that customer until the bank's team says otherwise
+11.3 Customers who may need more care
+Signals
+Words about illness, bereavement, job loss, confusion, or someone else directing them
+What Gratifi does
+Slows down, uses shorter sentences, offers a person, never pushes an action; flags to the bank's vulnerable-customer process with consent
+11.4 Bereavement and Power of Attorney
+Someone has died
+A kind first line; the Death Notification Service or 0800 161 5199; what happens to the account
+Managing an account for someone
+How to register a Power of Attorney
+11.5 Accessibility
+Formats
+Braille, large print, audio (0800 161 5326); British Sign Language through SignVideo; Text Relay 18001 0800 161 5276
+In the app
+Screen reader labels on every card; answers read aloud; larger text
+11.6 Complaints
+Make a complaint
+Captures what happened in the customer's words, sends it to the team, gives a reference
+Timeline: reply within 24 hours, update at 4 weeks, final response by 8 weeks, then the Financial Ombudsman Service
+Rules: Gratifi never argues or defends; it records and routes
+11.7 Close the account
+I want to close my card
+Asks why (optional), shows what's left to pay and any rewards to use first, then hands to the team
+Rules: no retention offers unless the bank has approved them for this case
+12 Business tools
+Business cards (Premium Plus, Select Cashback, Select Charge) get everything that applies from areas 1 to 11, plus these.
+12.1 Employee cards
+Add an employee card
+Name, monthly limit; free
+Rules: only the account administrator can add, change or remove cards
+Who spent what?
+Spending by cardholder and category; "How much has Priya spent this month?"
+Change a limit or freeze a card
+Face ID for the administrator; the cardholder gets a note
+12.2 MyControls
+Where each card works
+Online, in shops, cash machines on or off per card
+Block types of spending per card
+Says: "Stop Tom's card working at cash machines"
+12.3 Expenses and accounting
+Export
+Statements as PDF or CSV
+Receipts
+Photo a receipt and attach it to the payment (for a pilot with the bank's expense tools)
+Accounting
+FreshBooks offer; QuickBooks feed set-up guide
+12.4 Business benefits
+Business Rewards
+Mastercard Business Savings offers, how each one pays back
+Insurance and protection
+Travel insurance (Premium Plus), purchase protection, misuse cover
+Business travel
+Trip checklist with invoices sent to the business for partner bookings
+12.5 Business rules
+Company-level balance and payments shown only to administrators
+Cardholders see their own card and spending only
+Help routes to the business cardholder line (0800 008 008) and fraud line (0800 015 9059)

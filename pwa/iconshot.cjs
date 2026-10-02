@@ -1,0 +1,10 @@
+const { chromium } = require('playwright');
+const fs=require('fs');
+(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const svg=fs.readFileSync('src/assets/app-icon.svg','utf8');
+const mk=async(size,pad,bg,out)=>{const p=await b.newPage({viewport:{width:size,height:size}});
+await p.setContent(`<html><body style="margin:0;background:${bg};display:flex;align-items:center;justify-content:center;width:${size}px;height:${size}px"><div style="width:${size-pad*2}px;height:${size-pad*2}px">${svg.replace('<svg','<svg width="100%" height="100%"')}</div></body></html>`);
+await p.screenshot({path:out,omitBackground:false});await p.close();};
+await mk(192,0,'#141416','public/icons/icon-192.png');await mk(512,0,'#141416','public/icons/icon-512.png');
+await mk(512,64,'#141416','public/icons/maskable-512.png');await mk(180,0,'#141416','public/icons/apple-touch-icon.png');await mk(64,0,'#141416','public/favicon.png');
+await b.close();})();

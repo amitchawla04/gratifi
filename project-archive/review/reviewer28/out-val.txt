@@ -1,0 +1,168 @@
+
+=== stays 45n {"id":"ST-Lisbon-0","nights":45}
+ RES {"s":["detail"],"n":"Stays can be booked for up to 30 nights here. For longer, the concierge team can help."}
+ CARD Confirm with the button. | Tidewater House | City centre, Lisbon | 4.8 ★ | Pool | Breakfast | CHECK IN | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 No
+
+=== stays past {"id":"ST-Lisbon-0","date":"2026-09-20","nights":2}
+ RES {"s":[],"n":"Sun 20 Sep has already passed. Which date would you like?"}
+ CARD Confirm with the button.
+
+=== stays today {"id":"ST-Lisbon-0","date":"2026-09-30","nights":2}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Tidewater House | City centre, Lisbon · Wed 30 Sep to Fri 2 Oct | Dates | Wed 30 Sep to Fri 2 Oct | Nights | 2 | Guests | 1 | Total | £218.00 | Non-refundable for this date: free cancellation ends 3 days before | Points | 21,800 pts · you have 48,210 | Points and card | 15,200 pts + £66 | Card | £218 on card ending 4821 | Pay 21,800 pts
+
+=== stays 5 guests {"id":"ST-Lisbon-0","quantity":5,"nights":2}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Tidewater House | City centre, Lisbon · Fri 9 Oct to Sun 11 Oct | Dates | Fri 9 Oct to Sun 11 Oct | Nights | 2 | Rooms | 3 | Guests | 5 | Total | £654.00 | Free cancellation until 3 days before | Points | 65,400 pts · 17,190 more than you have | Points and card | 24,100 pts + £413 | Card | £654 on card ending 4821 | POINTS | 24,100 | ON YOUR CARD | £413.00 | You have 48,210 points | 1 point = £0.01 | Pay £413.00 + 24,100 pts
+
+=== stays suite text {"id":"ST-Lisbon-0","option":"suite","nights":3,"quantity":4}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Tidewater House | City centre, Lisbon · Suite · Fri 9 Oct to Mon 12 Oct | Room | Suite | Dates | Fri 9 Oct to Mon 12 Oct | Nights | 3 | Guests | 4 | Total | £458.00 | Free cancellation until 3 days before | Points | 45,800 pts · you have 48,210 | Points and card | 32,000 pts + £138 | Card | £458 on card ending 4821 | Pay 45,800 pts
+
+=== dining 14 {"id":"DN-London-0","quantity":14,"option":"19:00"}
+ RES {"s":["conciergeform"],"n":"Tables for 14 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you."}
+ CARD Confirm with the button. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+=== dining past time {"id":"DN-London-0","quantity":2,"date":"2026-09-30","option":"07:00"}
+ RES {"s":["detail"],"n":"Harrow & Vine has times . Which would you like?"}
+ CARD Confirm with the button. | Harrow & Vine | Modern European · London | 4.7 ★ | Upmarket | 15% off with your card | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | No tables left toda
+
+=== dining 3am {"id":"DN-London-0","quantity":2,"date":"2026-10-02","option":"03:00"}
+ RES {"s":["detail"],"n":"Harrow & Vine has times 18:30, 19:00, 19:30, 20:00, 20:30, 21:00. Which would you like?"}
+ CARD Confirm with the button. | Harrow & Vine | Modern European · London | 4.7 ★ | Upmarket | 15% off with your card | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | TIME | 18:30 | 19:0
+
+=== jacket no size {"id":"SH-4"}
+ RES {"s":["detail"],"n":"Which size would you like? Rain shell jacket comes in S, M, L, XL."}
+ CARD Confirm with the button. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+
+=== jacket size XXXL {"id":"SH-4","option":"XXXL"}
+ RES {"s":["detail"],"n":"Rain shell jacket has sizes S, M, L, XL. Which would you like?"}
+ CARD Confirm with the button. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+
+=== jacket size M {"id":"SH-4","option":"M"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Rain shell jacket | Stride Outdoor · Size M | Size | M | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Total | £120.00 | Return within 30 days | Points | 12,000 pts · you have 48,210 | Points and card | 8,400 pts + £36 | Card | £120 on card ending 4821 | Pay 12,000 pts
+
+=== trainers size 44 {"id":"SH-5","option":"44"}
+ RES {"s":["detail"],"n":"Leather trainers has sizes 6, 7, 8, 9, 10, 11. Which would you like?"}
+ CARD Confirm with the button. | Leather trainers | Stride Outdoor | 4.4 ★ | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | 6 | 7 | 8 | 9 | 10 | 11 | QUANTITY | 1 | Return within 30 days | £95 | or 9,500 pts | Pick a size
+
+=== gift no email {"id":"GC-0","option":"50","recipient":"Sam"}
+ RES {"s":["detail"],"n":"A gift card for Sam is sent by email, and it can't be refunded once sent. What's their email address? You can also type it here."}
+ CARD Confirm with the button. | Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+
+=== gift bad email {"id":"GC-0","option":"50","recipient":"Sam","email":"sam@"}
+ RES {"s":["detail"],"n":"A gift card for Sam is sent by email, and it can't be refunded once sent. What's their email address? You can also type it here."}
+ CARD Confirm with the button. | Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+
+=== gift odd amount {"id":"GC-0","option":"37","recipient":"Sam","email":"sam@example.com"}
+ RES {"s":["detail"],"n":"Gift cards come in £25, £50, £100, £200. Which amount would you like?"}
+ CARD Confirm with the button. | Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+
+=== gift ok {"id":"GC-0","option":"50","recipient":"Sam","email":"sam@example.com"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Harbour & Co gift card | Homeware | Amount | £50 | For | Sam (sam@example.com) | Total | £50.00 | Delivered instantly. Valid for 12 months. Not refundable once sent. | Points | 5,000 pts · you have 48,210 | Points and card | 3,500 pts + £15 | Card | £50 on card ending 4821 | Pay 5,000 pts
+
+=== cinema 3 {"id":"ET-4","quantity":3}
+ RES {"s":["detail"],"n":"17:40 has already gone today. Pick another day."}
+ CARD Confirm with the button. | Cinema: 2 for 1 this week | Reel House, London | Card offer | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | SHOWING | 17:40 | 19:15 | 20:50 | PEOPLE | 3 | Refund up to 1 hour before | £23.98 | or 2,398 pts | £11.99 for every two people | Continue
+
+=== cinema 4 {"id":"ET-4","quantity":4}
+ RES {"s":["detail"],"n":"17:40 has already gone today. Pick another day."}
+ CARD Confirm with the button. | Cinema: 2 for 1 this week | Reel House, London | Card offer | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | SHOWING | 17:40 | 19:15 | 20:50 | PEOPLE | 4 | Refund up to 1 hour before | £23.98 | or 2,398 pts | £11.99 for every two people | Continue
+
+=== cinema next wk {"id":"ET-4","quantity":2,"date":"2026-10-09"}
+ RES {"s":["detail"],"n":"This offer runs until Tue 6 Oct. Pick a day before then."}
+ CARD Confirm with the button. | Cinema: 2 for 1 this week | Reel House, London | Card offer | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | SHOWING | 17:40 | 19:15 | 20:50 | PEOPLE | 2 | Refund up to 1 hour before | £11.99 | or 1,199 pts | £11.99 for every two people | Continue
+
+=== cinema sat {"id":"ET-4","quantity":2,"date":"2026-10-03"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Cinema: 2 for 1 this week | Reel House, London · Sat 3 Oct, 17:40 | Venue | Reel House, London | When | Sat 3 Oct, 17:40 | People | 2 | Total | £11.99 | Refund up to 1 hour before | Points | 1,199 pts · you have 48,210 | Points and card | 800 pts + £3.99 | Card | £11.99 on card ending 4821 | Pay 1,199 pts
+
+=== cinema today 10:00 {"id":"ET-4","quantity":2,"date":"2026-09-30","option":"10:00"}
+ RES {"s":["detail"],"n":"Cinema: 2 for 1 this week has showings . Which would you like?"}
+ CARD Confirm with the button. | Cinema: 2 for 1 this week | Reel House, London | Card offer | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | No more showings today. Pick another day. | PEOPLE | 2 | Refund up to 1 hour before | £11.99 | or 1,199 pts | £11.99 for every two people | Continue
+
+=== concert 50 {"id":"ET-1","quantity":50}
+ RES {"s":["conciergeform"],"n":"Up to 8 can be booked at once here. For a group of 50, the concierge team can arrange it."}
+ CARD Confirm with the button. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+=== concert -2 {"id":"ET-1","quantity":-2}
+ RES {"s":["detail"],"n":"Quantity has to be at least 1. Set it here."}
+ CARD Confirm with the button. | Arlo Grey live | Arena, London · Sat 24 Oct | Presale for cardholders | AREA | Standing | Seated, upper | Seated, lower (+£30) | PEOPLE | 1 | No refunds unless the event is cancelled or moved | £65 | or 6,500 pts | per ticket | Continue
+
+=== concert 1.5 {"id":"ET-1","quantity":1.5}
+ RES {"s":["detail"],"n":"Quantity has to be a whole number. Set it here."}
+ CARD Confirm with the button. | Arlo Grey live | Arena, London · Sat 24 Oct | Presale for cardholders | AREA | Standing | Seated, upper | Seated, lower (+£30) | PEOPLE | 2 | No refunds unless the event is cancelled or moved | £130 | or 13,000 pts | 2 × £65 | Continue
+
+=== lounge 4 {"id":"AP-1","quantity":4}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Lounge visit | Heathrow T5 · The Orchard · Wed 30 Sep | When | Wed 30 Sep | People | 4 | Free visits used | 2 free, 2 paid | Total | £64.00 | Card visits come back if the lounge can't take you | Points | 6,400 pts · you have 48,210 | Points and card | 4,400 pts + £20 | Card | £64 on card ending 4821 | Pay 6,400 pts
+
+=== lounge past {"id":"AP-1","quantity":1,"date":"2026-09-01"}
+ RES {"s":[],"n":"Tue 1 Sep has already passed. Which date would you like?"}
+ CARD Confirm with the button.
+
+=== ride heathrow {"id":"GT-1","destination":"Heathrow"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Ride: Standard | To Heathrow · Now | To | Heathrow | When | Now | Total | £44.77 | Free to cancel until the driver arrives | Points | 4,477 pts · you have 48,210 | Points and card | 3,100 pts + £13.77 | Card | £44.77 on card ending 4821 | Pay 4,477 pts
+
+=== ride home {"id":"GT-1","destination":"home"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Ride: Standard | To Home, 12 Garden Row · Now | To | Home, 12 Garden Row | When | Now | Total | £13.99 | Free to cancel until the driver arrives | Points | 1,399 pts · you have 48,210 | Points and card | 900 pts + £4.99 | Card | £13.99 on card ending 4821 | Pay 1,399 pts
+
+=== ride office from home {"id":"GT-1","destination":"office","pickup":"home"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Ride: Standard | To Office, 1 Harbour Square · Now | From | Home, 12 Garden Row | To | Office, 1 Harbour Square | When | Now | Total | £13.99 | Free to cancel until the driver arrives | Points | 1,399 pts · you have 48,210 | Points and card | 900 pts + £4.99 | Card | £13.99 on card ending 4821 | Pay 1,399 pts
+
+=== ride manchester {"id":"GT-1","destination":"Manchester"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Ride: Standard | To Manchester · Now | To | Manchester | When | Now | Total | £19.59 | Free to cancel until the driver arrives | Points | 1,959 pts · you have 48,210 | Points and card | 1,300 pts + £6.59 | Card | £19.59 on card ending 4821 | Pay 1,959 pts
+
+=== ride 25:00 {"id":"GT-1","destination":"Heathrow","pickup_time":"25:00","date":"2026-10-01"}
+ RES {"s":["detail"],"n":"That isn't a valid time. Pick the pick-up time here."}
+ CARD Confirm with the button. | Ride: Standard | London | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oc
+
+=== ride past time {"id":"GT-1","destination":"Heathrow","pickup_time":"06:00","date":"2026-09-30"}
+ RES {"s":["detail"],"n":"06:00 has passed today. Pick a later time or another day."}
+ CARD Confirm with the button. | Ride: Standard | London | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oc
+
+=== ride tmrw 07:00 {"id":"GT-1","destination":"Heathrow","pickup_time":"07:00","date":"2026-10-01"}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Ride: Standard | To Heathrow · Thu 1 Oct 07:00 | From | Your location | To | Heathrow | When | Thu 1 Oct 07:00 | Total | £44.77 | Free to cancel until the driver arrives | Points | 4,477 pts · you have 48,210 | Points and card | 3,100 pts + £13.77 | Card | £44.77 on card ending 4821 | Pay 4,477 pts
+
+=== car 4 days {"id":"GT-4","days":4}
+ RES {"s":["detail"],"n":"Car hire is sold for 1, 2, 3, 5 or 7 days. Pick the days here."}
+ CARD Confirm with the button. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | PICK-UP DAY | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 3
+
+=== car 7 days {"id":"GT-4","days":7}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Car hire: compact automatic | Pick up at the airport · Fri 9 Oct to Fri 16 Oct | Days | 7 | When | Fri 9 Oct to Fri 16 Oct | Total | £266.00 | Free cancellation up to 48 hours before | Points | 26,600 pts · you have 48,210 | Points and card | 18,600 pts + £80 | Card | £266 on card ending 4821 | Pay 26,600 pts
+
+=== car 30 days {"id":"GT-4","days":30}
+ RES {"s":["detail"],"n":"Car hire is sold for 1, 2, 3, 5 or 7 days. Pick the days here."}
+ CARD Confirm with the button. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | PICK-UP DAY | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 3
+
+=== train 3 {"id":"GT-R1","quantity":3}
+ RES {"s":["checkout"],"n":""}
+ CARD Confirm with the button. | Train to Manchester | Standard class, reserved seat · Thu 1 Oct, 07:15 | When | Thu 1 Oct, 07:15 | Passengers | 3 | Total | £102.00 | Changes before departure for a fee | Points | 10,200 pts · you have 48,210 | Points and card | 7,100 pts + £31 | Card | £102 on card ending 4821 | Pay 10,200 pts
+
+=== exp past {"id":"EX-London-0","date":"2026-09-01","quantity":2}
+ RES {"s":[],"n":"Tue 1 Sep has already passed. Which date would you like?"}
+ CARD Confirm with the button.
+
+=== exp 2031 {"id":"EX-London-0","date":"2031-09-01","quantity":2}
+ RES {"s":[],"n":"That's too far ahead to book here. Pick a date before Sun 23 Jan 2028."}
+ CARD Confirm with the button.
+
+=== sub included {"id":"SB-2"}
+ RES {"s":["freeconfirm"],"n":""}
+ CARD Confirm with the button. | Tunewave | Plan | Included with your card | To pay | Free with your card | Included for as long as you hold the card | Turn it on
+
+=== bad id {"id":"XX-9"}
+ RES {"s":[],"n":"There's no item with that id. Use an id from search_catalogue."}
+ CARD Confirm with the button.
+
+=== groc meds Checked the nearest store: open, 15 min | Basket ready. | Sourdough loaf | £2.99 | Free-range eggs, 12 | £3.99 | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Nappies, pack of 40 | £9.49 | Dishwasher tablets | £6.49 | Baby wipes | £2.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500g | £1.00 | Crisps | £1.50 | Milk, 2 litres | £1.50 | 2 | Paracetamol, 16 | £1.50 | 2 | Includes £2.00 delivery · arrives in about 15 minutes | Total | £8 | or 800 pts | Checkout
+
+## s-val-UK-ai clean

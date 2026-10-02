@@ -1,0 +1,3 @@
+STATE card {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 48210 Groceries:refunded:10.48:1048/0
+LAST Cancelled. 1,048 pts are back in your balance. | Groceries | 3 items · Home | Refunded | GR-95879 | Refunded 1,048 pts
+UK grocery clean

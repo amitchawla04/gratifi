@@ -1,0 +1,3 @@
+STATE card {"last4":"6624","limit":44800,"balance":5079,"due":5079,"min":152.37,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 16200 Garden Suites:confirmed:638:63800/0
+LAST Booked. The hotel has your name, and your confirmation is in Wallet. | Confirmed | GR-76921 | Stay | Garden Suites, George Town, Penang | Room | Double | Dates | Fri 9 Oct to Sun 11 Oct | Nights | 2 | Guests | 2 | Paid | 63,800 pts | Free cancellation until 3 days before. | Things to do there | Book a table | Travel insurance
+MY stays clean

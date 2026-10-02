@@ -1,0 +1,18 @@
+SEARCH {"shown_to_customer":["flights"],"note":"5 flights to Lisbon on Fri 16 Oct, back Tue 20 Oct, for 3 people and 1 infant on a lap. I'd pick the 07:25 Coastline: direct, £114 one way per person; a Standard return with the cheapest direct flight back is £258 per person. It's the cheapest direct flight. An infant under 2 travels on a lap for 10% of the adult fare.","data":{"city":"Lisbon","date":"2026-10-16","back":"2026-10-20","pax":3,"options":[{"id":"FL-LIS-2026-10-16-1-o","shown":"first, as the recommended flight","dep":"07:25","arr":"10:07","airline":"Coastline","stops":0,"price_each_way":114}
+CHOOSE {"shown_to_customer":["fares"],"note":"I've matched it with the cheapest direct flight back, the 07:25 on Tue 20 Oct; you can pick another below. Pick a fare; prices are per person, return."}
+SEATCARD Now names and seats. I've kept you together, on the aisle as you prefer. | TRAVELLERS, AS ON THEIR PASSPORTS | Child's date of birth | Infant's date of birth (under 2 when you fly) | Your infant sits on Amit's lap, so they don't need a seat. Exit rows aren't open to that adult. | Flight out | Flight back | Amit · 16C | Traveller 2 · 16B | Child 1 · 16A | A | B | C | D | E | F | 12 | 13 | ◂ EXIT | EXIT ▸ | 14 | 15 | C | T | 16 | Amit | Taken | Your group | Extra legroom £28 | Free | Outbound 16C, 16B, 16A · Return 15D, 15E, 15F | Checked bag | £32 each, per flight (2 flights) | 0 | Add everyone's full name
+INPUTS [
+  'text|Traveller 1 full name|Amit Chawla',
+  'text|Traveller 2 full name|',
+  'text|Child 1 full name|',
+  'date||',
+  'text|Infant 1 full name|',
+  'date||'
+]
+AFTER BAD Now names and seats. I've kept you together, on the aisle as you prefer. | TRAVELLERS, AS ON THEIR PASSPORTS | Child's date of birth | They're 16 or over on the day you fly, so they travel as an adult. Search again with them as an adult. | Infant's date of birth (under 2 when you fly) | Your infant sits on Amit's lap, so they don't need a seat. Exit rows aren't open to that adult. | Flight out | Flight back | Amit · 16C | Sam · 16B | Sam · 16A | A | B | C | D | E | F | 12 | 13 | ◂ EXIT | EXIT ▸ | 14 | 15 | S | S | 16 | Amit | Taken | Your group | Extra legroom £28 | Free | Outbound 16C, 16B, 16A · Return 15D, 15E, 15F | Checked bag | £32 each, per flight (2 flights) | 0 | They're 16 or over on the day you fly, so they travel as an adult. Search again with them as an adult. | Check the dates of birth
+BTN Check the dates of birth false
+click fail
+LAST Now names and seats. I've kept you together, on the aisle as you prefer. | TRAVELLERS, AS ON THEIR PASSPORTS | Child's date of birth | They're 16 or over on the day you fly, so they travel as an adult. Search again with them as an adult. | Infant's date of birth (under 2 when you fly) | Your infant sits on Amit's lap, so they don't need a seat. Exit rows aren't open to that adult. | Flight out | Flight back | Amit · 16C | Sam · 16B | Sam · 16A | A | B | C | D | E | F | 12 | 13 | ◂ EXIT | EXIT ▸ 
+LAST2 Here's the total. Pay with points, card, or both. | London to Lisbon | CL 217 · Standard · Fri 16 Oct 07:25 · back Tue 20 Oct 07:25 | Outbound | CL 217 · Fri 16 Oct 07:25 → 10:07 | Return flight | CL 416 · Tue 20 Oct 07:25 → 10:06 | Standard fare, 3 × £258 | £774.00 | Infant on a lap, 1 × £26 | £26.00 | Travellers | Amit Chawla, Sam Taylor, Sam Taylor (child), Sam Taylor (infant) | Seats 16C, 16B, 16A; return 15D, 15E, 15F | Free | Total | £800.00 | Free date change; cancel for a 30% fee | Points | 80,000 pts · 31,790 more than you have | Points and card | 24,100 pts + £559 | Card | £800 on card ending 4821 | POINTS | 24,100 | ON YOUR CARD | £559.00 | You have 48,210 points | 1 point = £0.01
+
+## dob-UK-ai clean

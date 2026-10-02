@@ -1,0 +1,104 @@
+
+### [slop]
+  TEXT: Searched 4 places to stay | Priced with your points | Here are some hotels, good for your trip. | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £218 | 2 nights, taxes in | or 21,800 pts | Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £272 | 2 nights, taxes in 
+  SHEET: -
+  DIFF: pts undefined->48210; card undefined->906.98; frozen->false
+  RES: [{"n":"search_catalogue","a":{"category":"stays","city":"Lisbon"},"shown":["items"],"note":"4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card."}]
+
+### [slop2]
+  TEXT: Tidewater House is a gem with views;
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [slop3]
+  TEXT: Here are your options: Option one Option two.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [flights to lisbon 9 oct back 11 oct for 2]
+  TEXT: Checked 7 flights from London | Priced for 2 people with points | The 20:30 is the cheapest direct. | NW | Northway Air | NW 229 | Best for you | 20:30 | LHR | 2h 38m | Direct | 23:08 | LIS | Cabin ba
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-10-09","return_date":"2026-10-11","travellers":2},"shown":["flights"],"note":"7 flights to Lisbon on Fri 9 Oct, back Sun 11 Oct, for 2 people. I'd pick the 20:30 Northway Air: direct, £117 one way per person; a Standard return with the cheapest direct flight back is £261 per person. It's the cheapest direct flight."}]
+FID FL-LIS-2026-10-09-4-o
+
+### [the second one]
+  TEXT: Checked fare rules | Pick a fare. | 14:15 | London LHR | CL | CL 400 | 2h 41m | Economy | 16:56 | Lisbon LIS | 20:30 | Lisbon LIS | NW | NW 443 | 2h 40m | Economy | 23:10 | London LHR | RETURN ON SUN 11 OCT | 07:25 | Coastline | Direct, 2h 36m | £3 more each | 09:40 | Aurora Air | Direct, 2h 43m | £23 more each | 14:15 | Coastline | Direct, 2h 40m | £28 more each | 20:30 | Northway Air | Direct, 2
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"choose_flight","a":{"flight_id":"FL-LIS-2026-10-09-4-o"},"shown":["fares"],"note":"I've matched it with the cheapest direct flight back, the 20:30 on Sun 11 Oct; you can pick another below. Pick a fare; prices are per person, return."}]
+BOOKED Bwsfdsd4b GR-23418 London to Lisbon Fri 9 Oct 14:15 · back Sun 11 Oct 20:30
+
+### [what have i booked]
+  TEXT: You have a flight to Lisbon booked for Friday. | London to Lisbon | CL 400 · Standard · Fri 9 Oct 14:15 · back Sun 11 Oct 20:30 | Confirmed | GR-23418 | 24,100 pts + £297.00 | Boarding pass | Change date | Change seats | Cancel
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"my_bookings","a":{},"shown":["booking"],"note":"You have 1 active."}]
+
+### [move my return to the 12th]
+  TEXT: Pick a new date for your return. | Change London to Lisbon | Flight out | Flight back | Now: NW 443 · Sun 11 Oct 20:30 | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 8 Nov | Mon 9 Nov | Tue 10 Nov | Wed 11 Nov | Thu 12 Nov | Fri 13 Nov | Sat 14 Nov | Sun 15 Nov | Mon 16 
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"manage_booking","a":{"booking_id":"Bwsfdsd4b","action":"change date","leg":"return"},"shown":["changeflight"],"note":"Pick a new date. You pay only the fare difference, if there is one."}]
+
+### [change my seat]
+  TEXT: Your seat is changed to 12A. | Flight out | Flight back | Amit · 16C | Sam · 16B | A | B | C | D | E | F | 12 | 13 | ◂ EXIT | EXIT ▸ | 14 | 15 | S | 16 | Amit | Taken | Sam | Extra legroom £28 | Free | Save seats
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"manage_booking","a":{"booking_id":"Bwsfdsd4b","action":"change seat"},"shown":["seatchange"],"note":"Pick new seats. Standard seats are free to change; extra legroom in row 14 is £28 a seat, per flight."}]
+
+### [and a hotel there]
+  TEXT: Searched 4 places to stay | Priced with your points | Here are hotels for your trip. | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £218 | 2 nights, taxes in | or 21,800 pts | Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £272 | 2 nights, taxes in | or 27,200 pts | Lantern Suites | By the water, Lisbon | 4.6 | Rooftop bar | £326 | 2 nights, taxes in | or 32
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_catalogue","a":{"category":"stays","city":"Lisbon"},"shown":["items"],"note":"4 places to stay in Lisbon, Fri 9 Oct for 2 nights. Tidewater House is my pick: 3× points on your card."}]
+
+### [cancel my flight]
+  TEXT: Nothing is booked, paid or changed until you confirm it yourself. | Cancel London to Lisbon? | You paid | 24,100 pts + £297.00 | Airline cancellation fee (30%) | 7,230 pts + £89.10 | Points earned on it, taken off | -208 pts | You get back, net | 16,662 pts + £207.90 | Free date change; cancel for a 30% fee | Yes, cancel | Keep it
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"manage_booking","a":{"booking_id":"Bwsfdsd4b","action":"cancel"},"shown":["confirmcancel"],"note":"You'd get back 16,870 pts + £207.90; the airline keeps a 30% fee. The 208 pts you earned on it would be taken off."}]
+
+### [pay my bill]
+  TEXT: Nothing has been booked, paid or changed. | PAYMENT DUE | 10 Oct | £906.98 | Minimum £27.21 by 10 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm. | Pay £27.21 | Set up Direct Debit
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"card_and_account","a":{"topic":"pay the minimum"},"shown":["paybill"],"note":"You owe £906.98, due Sat 10 Oct. The minimum is £27.21. Spending since the statement, £297.00, goes on your next one."}]
+SHEET null
+
+### [lower my limit to 2000]
+  TEXT: Nothing is booked, paid or changed until you confirm it yourself.
+  SHEET: Lower your credit limit | Card ending 4821 · raising it again needs a check by the bank | Limit now | £8,000 | New limit | £2,000 | This checks it's you before anything changes | Confirm with Face ID
+  DIFF: none
+  RES: [{"n":"card_and_account","a":{"topic":"lower my credit limit to 2000"},"shown":[],"note":"Check the new limit, then confirm it's you."}]
+SHEET Lower your credit limit | Card ending 4821 · raising it again needs a check by the bank | Limit now | £8,000 | New limit | £2,000 | This checks it's you before anything changes | Confirm with Face ID
+
+### [invest 5000 in gold]
+  TEXT: Tick the box and confirm. | Gold | Index fund | Savings | Digital gold | Held in a vault by the partner; sell any time · £68 per gram | Before you invest | The price of gold goes down as well as up. | You may get back less than you put in. | Selling may carry a small spread. | Provided by a licensed partner (demo). Gratifi gives information, not advice. | 1,000 pts | 5,000 pts | 10,000 pts | 20,00
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"points_and_giving","a":{"topic":"invest","points":5000,"to":"gold"},"shown":["invest"],"note":"Before you put 5,000 pts into digital gold: the risks, and a tick to confirm it's your own decision."}]
+
+### [send 3000 points to northway]
+  TEXT: Confirm the transfer. | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"points_and_giving","a":{"topic":"transfer","points":3000,"to":"Northway"},"shown":["member"],"note":"What's your Northway Miles membership number? The points go to that account, and transfers can't be undone."}]
+SHEET null
+
+### [unfreeze my card]
+  TEXT: Nothing has been booked, paid or changed. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Shopping on websites and apps | Payments abroad | Using the card in other countries | Contactless | Tap to pay in shops | Cash withdrawals | Taking cash from machi
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"card_control","a":{"control":"freeze","on":false},"shown":["controls"],"note":"Your card isn't frozen."}]
+
+### [lift gambling block]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"card_control","a":{"control":"gambling","on":false},"shown":[],"note":"There isn't a gambling block on your card."}]
+SHEET null
+
+## s-ai4-UK-ai clean

@@ -1,0 +1,122 @@
+== res: Checked 6 flights from Kuala Lumpur | Priced for 2 people with points | 6 flights to Penang on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, RM162 each way per person. | CL | Coastline | CL 663 | Best for you | 07:25 | KUL | 1h 01m | Direct | 08:26 | PEN | Small bag only | RM162 | or 16,200 pts | Price each way, per person | NW | Northway Air | NW 625 | 11:40 | KUL | 1h | Direct | 12:40 | PEN | Cabin bag | RM204 | or 20,400 pts | Price each way, per person | NW | Northway Air | NW 875 | 20:30 | KUL | 1h 03m | Direct | 21:33 | PEN | Cabin bag | RM206 | or 20,600 pts | Price each way, per person | NW | Northway Air | NW 346 | 3 left at this price | 06:10 | KUL | 1h 03m | Direct | 07:13 | PEN | Cabin bag | RM228 | or 22,800 pts | Price each way, per person | AU | Aurora Air | AU 267 | 09:40 | KUL | 1h 09m | Direct | 10:49 | PEN | Cabin bag | RM261 | or 26,100 pts | Price
+== fares: Checked fare rules | Good choice. I've matched it with the 17:50 back on Sun 11 Oct. Pick a fare; prices are per person, return. | 07:25 | Kuala Lumpur KUL | CL | CL 663 | 1h 01m | Economy | 08:26 | Penang PEN | 17:50 | Penang PEN | AU | AU 721 | 1h 08m | Economy | 18:58 | Kuala Lumpur KUL | Light | Small bag | Cabin bag | Seat choice | Changes | RM353 | or 35,300 pts | Most picked | Standard | Small bag | Cabin bag | Standard seats | Free date change | RM430 | or 43,000 pts | Flex | Cabin + checked bag | Any seat | Full refund | Fast track | RM624 | or 62,400 pts | Per person, return. 2 travellers: RM860 in total. | Continue with Standard
+== chk: Here's the total. Pay with points, card, or both. | Kuala Lumpur to Penang | CL 663 · Standard · Fri 9 Oct 07:25 · back Sun 11 Oct 17:50 | Outbound | CL 663 · Fri 9 Oct 07:25 → 08:26 | Return flight | AU 721 · Sun 11 Oct 17:50 → 18:58 | Standard fare, 2 × RM430 | RM860.00 | Seats 16C, 16B | Free | Total | RM860.00 | Free date change; cancel for a 30% fee | Points | 86,000 pts · 6,000 more than you have | Points and card | 60,100 pts + RM259 | Card | RM860 on card ending 6624 | Pay RM259.00 + 60,100 pts
+SHEET: Confirm and pay | Kuala Lumpur to Penang · Fri 9 Oct 07:25 · back Sun 11 Oct 17:50 | Kuala Lumpur to Penang | RM860.00 | Points used (60,100 pts) | −RM601.00 | On your card | RM259.00 | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+inputs 0 null
+AFTER CLICK: Confirm and pay | Kuala Lumpur to Penang · Fri 9 Oct 07:25 · back Sun 11 Oct 17:50 | Kuala Lumpur to Penang | RM860.00 | Points used (60,100 pts) | −RM601.00 | On your card | RM259.00 | We've sent a request to your banking app. Approve it there to finish. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+== receipt: Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet. | Confirmed | GR-43207 | Outbound | CL 663 · Fri 9 Oct 07:25 → 08:26 | Return flight | AU 721 · Sun 11 Oct 17:50 → 18:58 | Standard fare, 2 × RM430 | RM860.00 | Seats 16C, 16B | Free | Paid | 60,100 pts + RM259.00 | Points earned | +259 | Free date change; cancel for a 30% fee. | Add a hotel | Book a lounge | Airport ride
+{
+ "tag": "booked",
+ "balance": 20159,
+ "card": 5338,
+ "frozen": false,
+ "bookings": [
+  "GR-43207 flights Kuala Lumpur to Penang confirmed tot=860 pts=60100 card=259 earned=259"
+ ],
+ "ledger": [
+  "-60100 Kuala Lumpur to Penang",
+  "259 Points on card spend: Kuala Lumpur to Penang",
+  "1840 Points from card spend",
+  "78160 Balance brought forward"
+ ],
+ "txns": [
+  "259 Kuala Lumpur to Penang 259",
+  "358 Pantry Market 358",
+  "1042 Northway Air 1042",
+  "78 Café Lune 78"
+ ]
+}
+== dine LIST: Checked 6 restaurants | Priced with your points | 6 restaurants in Kuala Lumpur. Harrow & Vine has tables tonight for 2, with 15% off on your card. | Harrow & Vine | Modern European · Kuala Lumpur | 4.5 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · Kuala Lumpur | 4.7 | Mid-price | Free | to book | The Green Table | Vegetarian · Kuala Lumpur | 4.4 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · Kuala Lumpur | 4.3 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · Kuala Lumpur | 4.7 | Mid-price | Free | to book | Little Olive | Mediterranean · Kuala Lumpur | 4.7 | Mid-price | Terrace | Free | to book
+== dine DETAIL: Harrow & Vine | Modern European · Kuala Lumpur | 4.5 ★ | Upmarket | 15% off with your card | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+CTA: Choose this time
+== dine CHECKOUT: Harrow & Vine | When | Tue 29 Sept, 18:30 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+PAYBTN: Book the table
+!! NO SHEET
+== dine DONE: Table booked. The restaurant has your name. | Confirmed | GR-95574 | When | Tue 29 Sept, 18:30 | Guests | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | What else can I do?
+{
+ "tag": "dine",
+ "balance": 20159,
+ "card": 5338,
+ "frozen": false,
+ "bookings": [
+  "GR-95574 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-43207 flights Kuala Lumpur to Penang confirmed tot=860 pts=60100 card=259 earned=259"
+ ],
+ "ledger": [
+  "-60100 Kuala Lumpur to Penang",
+  "259 Points on card spend: Kuala Lumpur to Penang",
+  "1840 Points from card spend",
+  "78160 Balance brought forward"
+ ],
+ "txns": [
+  "259 Kuala Lumpur to Penang 259",
+  "358 Pantry Market 358",
+  "1042 Northway Air 1042",
+  "78 Café Lune 78"
+ ]
+}
+== lounge LIST: Checked 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Lounge visit | KLIA T1 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | KLIA T1 | RM50 | per person | or 5,000 pts | Meet and greet on arrival | KLIA · greeter at the gate | Help through arrivals and bags | RM476 | per group | or 47,600 pts | Porter and buggy | KLIA | RM140 | per booking | or 14,000 pts | Sleep pod, 4 hours | KLIA airside | RM252 | per pod | or 25,200 pts | Baggage wrap and storage | KLIA | RM67 | per bag | or 6,700 pts
+== lounge DETAIL: Lounge visit | KLIA T1 · The Orchard | Up to 3 hours before your flight | Free with your card · 2 visits left this year | Card visits come back if the lounge can't take you | Use a free visit
+CTA: Use a free visit
+== lounge CHECKOUT: Lounge visit | People | 1 | To pay | Free with your card | Card visits come back if the lounge can't take you | Confirm
+PAYBTN: Confirm
+!! NO SHEET
+== lounge DONE: Booked with a free card visit. Your pass is in Wallet. | Confirmed | GR-20831 | People | 1 | Card visits come back if the lounge can't take you. | What else can I do?
+{
+ "tag": "lounge",
+ "balance": 20159,
+ "card": 5338,
+ "frozen": false,
+ "bookings": [
+  "GR-20831 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-95574 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-43207 flights Kuala Lumpur to Penang confirmed tot=860 pts=60100 card=259 earned=259"
+ ],
+ "ledger": [
+  "-60100 Kuala Lumpur to Penang",
+  "259 Points on card spend: Kuala Lumpur to Penang",
+  "1840 Points from card spend",
+  "78160 Balance brought forward"
+ ],
+ "txns": [
+  "259 Kuala Lumpur to Penang 259",
+  "358 Pantry Market 358",
+  "1042 Northway Air 1042",
+  "78 Café Lune 78"
+ ]
+}
+== shop LIST: Checked 12 products | Priced with your points | 6 products. Noise-cancelling headphones is the closest match, with free delivery. | Noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | RM1,282 | or 128,200 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | RM1,562 | or 156,200 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | RM5,594 | or 559,400 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | RM672 | or 67,200 pts | Leather trainers | Stride Outdoor | 4.4 | RM532 | or 53,200 pts | Skincare set | Glow Beauty | 4.6 | RM325 | or 32,500 pts
+== shop DETAIL: Noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | RM1,282 | or 128,200 pts | Continue
+CTA: Continue
+== shop CHECKOUT: Noise-cancelling headphones | Byte Store · Black | Colour | Black | Quantity | 1 | Total | RM1,282.00 | Return within 30 days | Points | 128,200 pts · 108,041 more than you have | Points and card | 20,100 pts + RM1,081 | Card | RM1,282 on card ending 6624 | Pay RM1,081.00 + 20,100 pts
+PAYBTN: Pay RM1,081.00 + 20,100 pts
+SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | RM1,282.00 | Points used (20,100 pts) | −RM201.00 | On your card | RM1,081.00 | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+== shop DONE: Done. It's in your Wallet. | Confirmed | GR-88512 | Colour | Black | Quantity | 1 | Paid | 20,100 pts + RM1,081.00 | Points earned | +1,081 | Return within 30 days. | Track my order
+{
+ "tag": "shop",
+ "balance": 1140,
+ "card": 6419,
+ "frozen": false,
+ "bookings": [
+  "GR-88512 shopping Noise-cancelling headphones confirmed tot=1282 pts=20100 card=1081 earned=1081",
+  "GR-20831 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-95574 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-43207 flights Kuala Lumpur to Penang confirmed tot=860 pts=60100 card=259 earned=259"
+ ],
+ "ledger": [
+  "-20100 Noise-cancelling headphones",
+  "1081 Points on card spend: Noise-cancelling headphones",
+  "-60100 Kuala Lumpur to Penang",
+  "259 Points on card spend: Kuala Lumpur to Penang",
+  "1840 Points from card spend",
+  "78160 Balance brought forward"
+ ],
+ "txns": [
+  "1081 Noise-cancelling headphones 1081",
+  "259 Kuala Lumpur to Penang 259",
+  "358 Pantry Market 358",
+  "1042 Northway Air 1042"
+ ]
+}
+== owe: You owe RM5,079.00, due Wed 7 Oct. The minimum is RM152.37. | PAYMENT DUE | 7 Oct | RM5,079.00 | Minimum RM152.37 by 7 Oct | Full balance | RM5,079.00 | Half | RM2,539.50 | Minimum | RM152.37 | Pay RM5,079.00 | Set up auto-debit
+MY s_mkt clean

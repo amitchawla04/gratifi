@@ -1,0 +1,14 @@
+require('./h.js')('UK', async (h) => {
+  const { p, ask, click, full, confirm, nav, st, log, ans, shot, sheet } = h
+  const audit = async (tag) => { const r = await p.evaluate(() => { const name = e => (e.getAttribute('aria-label') || e.getAttribute('aria-labelledby') && document.getElementById(e.getAttribute('aria-labelledby'))?.innerText || e.innerText || e.getAttribute('title') || (e.labels && e.labels[0] && e.labels[0].innerText) || e.getAttribute('placeholder') || '').trim(); const out = { noname: [], inputsNoLabel: [], smallTargets: [], imgs: 0 }; document.querySelectorAll('button,[role=button],a,[role=radio],[role=switch],[role=tab]').forEach(e => { if (!name(e)) out.noname.push(e.outerHTML.slice(0, 120)); const b = e.getBoundingClientRect(); if (b.width && b.height && (b.width < 24 || b.height < 24)) out.smallTargets.push((name(e) || e.className).slice(0, 30) + ' ' + Math.round(b.width) + 'x' + Math.round(b.height)) }); document.querySelectorAll('input,textarea,select').forEach(e => { const lab = e.getAttribute('aria-label') || (e.labels && e.labels.length) || e.getAttribute('aria-labelledby'); if (!lab) out.inputsNoLabel.push(e.outerHTML.slice(0, 140)) }); out.dialog = [...document.querySelectorAll('[role=dialog]')].map(d => d.getAttribute('aria-modal') + ' ' + (d.getAttribute('aria-labelledby') || d.getAttribute('aria-label'))); out.inert = [...document.querySelectorAll('[inert]')].length; out.focus = document.activeElement?.outerHTML.slice(0, 100); out.seats = [...document.querySelectorAll('.gr-seat')].slice(0, 3).map(s => s.tagName + ' ' + s.getAttribute('aria-label') + ' ' + s.getAttribute('aria-pressed')); out.lang = document.documentElement.lang; return out }); log(tag, JSON.stringify(r).slice(0, 1800)) }
+  await audit('home'); await nav(2); await audit('explore')
+  await nav(3); await ask('Flights to Lisbon next weekend for two'); await audit('flights')
+  await ans().locator('.gr-flight').first().click(); await p.waitForTimeout(400); await audit('fares')
+  await click(/Continue with/); await audit('seats')
+  await ans().locator('input').nth(1).fill('Sam Taylor'); await ans().locator('.gr-btn').last().click(); await p.waitForTimeout(500)
+  await p.getByRole('button', { name: /^Pay / }).last().click(); await p.waitForTimeout(500); await audit('sheet')
+  // Tab order inside sheet
+  const seq = []; for (let i = 0; i < 6; i++) { await p.keyboard.press('Tab'); seq.push(await p.evaluate(() => (document.activeElement?.innerText || document.activeElement?.getAttribute('aria-label') || document.activeElement?.tagName).slice(0, 30) + '|in sheet=' + !!document.activeElement?.closest('[role=dialog]'))) } log('TAB ' + seq.join(' ; '))
+  await p.keyboard.press('Escape'); await p.waitForTimeout(300); log('focus after esc ' + await p.evaluate(() => document.activeElement?.outerHTML.slice(0, 100)))
+  await nav(5); await audit('me')
+}, { name: 'a11y', len: 100 })

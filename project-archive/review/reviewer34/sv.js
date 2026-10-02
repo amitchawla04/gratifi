@@ -1,0 +1,23 @@
+const P = f => '(' + f.toString() + ')';
+module.exports = {
+ v1: { q: 'gift card', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GC-0', option: '50', recipient: 'Sam' }); return 'Confirm with the button.' }) },
+ v2: { q: 'jacket', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'SH-4' }); return 'Confirm with the button.' }) },
+ v3: { q: 'table', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'DN-London-0', quantity: 13, date: '2026-10-03', option: '19:00' }); return 'x' }) },
+ v4: { q: 'cinema', dom: true, plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'ET-4', quantity: 3, option: '19:15' }); return 'x' }) },
+ v5: { q: 'cinema', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'ET-4', quantity: 2, option: '17:40', date: '2026-10-01' }); return 'x' }), wait: 3000 },
+ v6: { q: 'cinema next week', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'ET-4', quantity: 2, option: '19:15', date: '2026-10-09' }); return 'x' }) },
+ v7: { q: 'ride to manchester', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GT-1', destination: 'Manchester' }); return 'x' }) },
+ v8: { q: 'car 4 days', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GT-4', days: 4 }); return 'x' }) },
+ v9: { q: 'lounge 4', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'AP-1', quantity: 4 }); return 'x' }), dom: true },
+ v10: { q: 'flight kid alone', plan: P(async (t, o, run) => { await run('search_flights', { destination: 'Lisbon', depart_date: '2026-10-09', travellers: 1, children: 1 }); return 'x' }) },
+ v11: { q: 'hotel 31 nights', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'ST-Lisbon-0', date: '2026-10-20', nights: 31 }); return 'x' }) },
+ v12: { q: 'hotel 6 guests 1 room', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'ST-Lisbon-0', date: '2026-10-20', nights: 2, quantity: 6, rooms: 1 }); return 'x' }) },
+ v13: { q: 'paracetamol x5', plan: P(async (t, o, run) => { await run('groceries', { items: '5 packs of paracetamol' }); return 'x' }), dom: true },
+ v14: { q: 'pay 50000', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'pay £50000 off my bill' }); return 'x' }) },
+ v15: { q: 'lower limit to 0', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'lower my credit limit to 0' }); return 'x' }) },
+ v16: { q: 'past date ride', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GT-1', destination: 'airport', date: '2026-09-29', pickup_time: '06:00' }); return 'x' }) },
+ v17: { q: 'ride now later today in past', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GT-1', destination: 'airport', date: '2026-10-01', pickup_time: '03:00' }); return 'x' }) },
+ v18: { q: 'gift card for me', dom: true, plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GC-0', option: '50', recipient: 'me' }); return 'x' }) },
+ v19: { q: 'train 3 at 07:15 today', plan: P(async (t, o, run) => { await run('prepare_checkout', { id: 'GT-R1', option: '07:15', quantity: 3, date: '2026-10-01' }); return 'x' }) },
+ v20: { q: 'invest more than', plan: P(async (t, o, run) => { await run('points_and_giving', { topic: 'invest', points: 40000, to: 'gold' }); return 'x' }), dom: true },
+};

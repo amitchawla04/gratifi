@@ -1,0 +1,43 @@
+toggled supplier
+
+[Noise-cancelling headphones] => Searched 12 products | Priced with your points | 1 product. Hush 700 noise-cancelling headphones is the closest match, with free delivery. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts
+STATE pre-supplier: pts=48210 card=906.98 frozen=false bk=
+SUP SHEET null
+SUP RESULT The supplier isn't answering. | Nothing has moved | Nothing has been booked or charged. Try again in a minute. | Try again
+STATE post-supplier: pts=48210 card=906.98 frozen=false bk=
+toggled supplier off
+old pay count 1 false
+
+[Noise-cancelling headphones] => Searched 12 products | Priced with your points | 1 product. Hush 700 noise-cancelling headphones is the closest match, with free delivery. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts
+STATE bought hp: pts=25310 card=906.98 frozen=false bk=GR-88941:shopping:confirmed
+pay buttons after reload 1
+ pay 0 Pay 22,900 pts disabled false
+SHEET after old pay Confirm and pay | Hush 700 noise-cancelling headphones · Byte Store · Black | Price | £229.00 | Points used (22,900 pts) | −£229.00 | Points | 22,900 pts | Nothing is paid until you confirm | Pay with Face ID
+STATE after old pay: pts=25310 card=906.98 frozen=false bk=GR-88941:shopping:confirmed
+
+[DEMO Points come in] => Demo: 5,000 pts came in from the bank. Your balance is now 30,310 pts.
+STATE pts in: pts=30310 card=906.98 frozen=false bk=GR-88941:shopping:confirmed
+
+[DEMO A card payment] => Demo: a card payment of £42.00 at Café Lune came in and earned 42 points. Turn on Every card payment under Messages to get a note each time.
+STATE card pay: pts=30352 card=948.98 frozen=false bk=GR-88941:shopping:confirmed
+
+[DEMO Delay my order] => Your Hush 700 noise-cancelling headphones order is running a day late: the courier has a backlog. It should now arrive on Sun 4 Oct. You can wait, or cancel now for a full refund. | Hush 700 noise-cancelling headphones | Byte Store · Black · GR-88941 | Sun 4 Oct | Order placed | Packed | Out for delivery | Delivered | Cancel | Delivery is late | Nothing more is charged if you cancel. | Cancel for a full refund | Keep waiting
+
+[DEMO Deliver my order] => Your Hush 700 noise-cancelling headphones order was delivered. | Hush 700 noise-cancelling headphones | Byte Store · Black | Delivered | GR-88941 | 22,900 pts | Return | Report a problem
+STATE delivered: pts=30352 card=948.98 frozen=false bk=GR-88941:shopping:delivered
+
+[return my headphones] => Returns for Hush 700 noise-cancelling headphones: return within 30 days. I'll book a free collection. | Return Hush 700 noise-cancelling headphones | Home | 12 Garden Row | Office | 1 Harbour Square | A courier collects it for free. Your refund goes back the way you paid once the courier scans it. | Book free collection
+RETURN => Collection booked for today; the courier comes within the hour. Your refund goes back the way you paid as soon as the courier scans it. | Hush 700 noise-cancelling headphones | Byte Store · Black · GR-88941 | Today, within the hour | Collection booked | Collected | Refunded
+STATE return started: pts=30352 card=948.98 frozen=false bk=GR-88941:shopping:delivered
+STATE after 36s: pts=53252 card=948.98 frozen=false bk=GR-88941:shopping:refunded
+LAST after wait The courier has collected Hush 700 noise-cancelling headphones. 22,900 pts are back in your balance. | Hush 700 noise-cancelling headphones | Byte Store · Black | Refunded | GR-88941 | Refunded 22,900 pts
+
+[DEMO Return window ends] => No partner purchases are waiting for their return window to end, so there are no points to land.
+
+[DEMO Suspicious payment] => Did you just try to pay £649.00 to an online electronics shop abroad? It didn't look like you, so I've frozen your card and blocked the payment. | Payment blocked | Nothing left your account. | It was me | It wasn't me
+STATE susp: pts=53252 card=948.98 frozen=true bk=GR-88941:shopping:refunded
+SUSP2 => Your card is already frozen, so nothing more can go through. I'm bringing in the fraud team now; they'll check your account and can send you a new card with a new number. If anyone contacts you about it, don't share a code or move money. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me | Send a replacement card
+STATE susp2: pts=53252 card=948.98 frozen=true bk=GR-88941:shopping:refunded
+after reset 53252 1
+
+## s-demo-UK clean

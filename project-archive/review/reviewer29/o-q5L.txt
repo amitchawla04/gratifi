@@ -1,0 +1,82 @@
+
+[I've been charged twice for the same thing] => If a payment shows twice, the second is often a hold that drops off within a few days. If both have gone through, the disputes team can get one back; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[I cancelled my gym but they still charged me] => If a company keeps charging after you cancelled, the bank can stop future payments and dispute the ones since. A person will pick this up; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[the shop said they refunded me but i can't see it] => Shop refunds usually show within 5 working days of the shop sending them. If it has been longer, or the shop won't refund you, the disputes team can help; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[how do i activate my new card] => New cards are activated in the bank's app. Once it's active, it works here straight away with the same points balance. | Talk to a person
+
+[add my card to apple pay] => Add the card to Apple Pay or Google Pay from the bank's app. Payments made that way count the same as card payments, points included.
+
+[when does my card expire] => The bank sends a new card before the old one expires, and your points stay with the account. If the new one hasn't arrived a week before, a person can check. | Talk to a person
+
+[my new card hasn't arrived] => A person can track your card and send another if it's lost in the post. They can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[can i do a balance transfer] => Balance transfers are set up by the bank after a check. A person can tell you what's available; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[will my card work in Japan] => Yes: payments abroad are on, so your card works wherever the card network is accepted. There's no foreign transaction fee on this card. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead; it's usually cheaper. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Shopping on websites and apps | Payments abroad | Using the card in other countries | Contactless | Tap to pay in shops | Cash withdrawals | Taking cash from machines | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on
+
+[why was my payment declined] => Nothing on your card is blocking payments: it isn't frozen, online and abroad payments are on, and you have £7,093 available. A declined payment is usually the shop's terminal, a wrong PIN, or a security check. Try again with chip and PIN, or tell me if it keeps happening and a person will look at it. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Shopping on websites and apps | Payments abroad | Using the card in other countries | Contactless | Tap to pay in shops | Cash withdrawals | Taking cash from machines | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | It keeps happening | Payments I don't recognis
+
+[what's the fee if i use my card abroad] => There's no foreign transaction fee on this card, so spending abroad costs the same as at home. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead: their conversion rate is usually worse. Cash from a machine on a credit card is a cash advance: on this card that's a 3% fee (at least £3), and interest from the day you take it. | Airport lounges | 2 free visits left this year | 2 left | Purchase protection | Things you buy with the card are covered for 120 days against theft and accidental damage | Extended warranty | An extra year on top of the maker's warranty | Travel insurance | When you pay for the trip with the card: medical, cancellati
+
+[how much to take cash out on my card] => Cash from a machine on a credit card is a cash advance: on this card that's a 3% fee (at least £3), and interest from the day you take it. A cash machine may add its own fee too. Paying by card is cheaper, and abroad there's no foreign transaction fee.
+
+[my card got stuck in the ATM] => I've frozen your card. A card kept by a cash machine is destroyed by the machine's owner, so it can't be handed back. I can send you a new one. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement
+
+[my card snapped in half] => I can send a replacement card to your home address. Your current card is frozen; the new one has a new number. | Replacement card | Usually arrives in 3 to 5 working days. | Send a replacement
+
+[i left my card at home] => If you know where it is, there's nothing to do. You can pay with your phone if the card is in your phone wallet. If you're not sure where it is, you can freeze it now and unfreeze it when it turns up.
+
+[my card was stolen] => Your card is frozen so nobody can use it. A stolen card is cancelled for good; the new one has a new number. Direct debits and refunds carry on. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement | Payments I don't recognise
+
+[lower my credit limit to £5000] => Check the new limit, then confirm it's you.
+  SHEET: Lower your credit limit | Card ending 4821 · raising it again needs a check by the bank | Limit now | £8,000 | New limit | £5,000 | This checks it's you before anything changes | Confirm with Face ID
+
+[increase my limit] => Limit changes are decided by the bank after a short check. Nothing changes until you both agree. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[can i spread the cost of my laptop] => You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[add my wife as a cardholder] => Additional cardholders are set up by the bank after a few checks. A person can start that with you now. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[i've moved house] => Your home address is changed in the bank's app, after a quick check. For a delivery, you can send it to any address at checkout. | Talk to a person
+
+[pay £200 off my bill] => Check the amount, then confirm it's you.
+  SHEET: Pay your card bill | From your current account ending 7781 | Card bill | £200.00 | From your account | £200.00 | Nothing is paid until you confirm | Pay with Face ID
+
+[pay the minimum] => You owe £906.98, due Fri 9 Oct. The minimum is £27.21. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm. | Pay £27.21 | Set up Direct Debit
+
+[set up a direct debit for the minimum] => Check the details, then confirm it's you.
+  SHEET: Set up Direct Debit | From your current account ending 7781 | Pays | The minimum each month | First payment | Fri 9 Oct | Mandate | Direct Debit | This checks it's you before anything changes | Confirm with Face ID
+
+[cancel my direct debit] => There's no automatic payment set up for this card, so there's nothing to cancel. | Direct Debit | Off. You pay each bill yourself. | Full balance | Minimum
+
+[what's my statement] => Your latest statement, and where the money went. | Statement 30 Aug to 29 Sep | Statement balance | £906.98 | Minimum payment | £27.21 | Payment due | Fri 9 Oct | Current balance | £906.98 | Your full PDF statement is in the bank's app. | Last 30 days, after refunds | £597 | Travel | £186 | Shopping | £135 | Groceries | £102 | Dining | £86 | Transport | £77 | Subscriptions | £11 | P | Pantry Market | Groceries | 28 Sep | £64.00 | +64 pts | N | Northway Air | Travel | 27 Sep | £186.00 | +186 pts | C | Café Lune | Dining | 25 Sep | £13.99 | +14 pts | B | Byte Store | Shopping | 22 Sep | £89.00 | +89 pts | R | Ride Now | Transport | 20 Sep | £22.00 | +22 pts | C | Cloudbox | Subscriptions | 18 
+
+[how much did i spend on eating out] => You've spent £85.99 on dining in the last 30 days, across 2 payments. | C | Café Lune | Dining | 25 Sep | £13.99 | +14 pts | T | Table Collective | Dining | 15 Sep | £72.00 | +72 pts
+
+[block gambling] => You can block gambling payments on your card now. It takes effect straight away, and lifting it takes 48 hours, so there's time to change your mind. | Gambling block | Blocks betting sites, casinos and lotteries. | Block gambling payments
+
+[lift the gambling block] => There isn't a gambling block on your card.
+
+[remind me when my bill is due] => Saved: an alert when your bill is due. It's listed under Alerts on My card, where you can remove it. | When your bill is due | Alert on | Remove
+
+[what am i paying for] => You don't have any subscriptions through Gratifi yet. Tunewave comes free with your card whenever you want it. | Turn on Tunewave | Show subscriptions
+
+[what's included with my card] => Read your card terms | Everything that comes with your card, including Tunewave music at no cost. | Airport lounges | 2 free visits left this year | 2 left | Purchase protection | Things you buy with the card are covered for 120 days against theft and accidental damage | Extended warranty | An extra year on top of the maker's warranty | Travel insurance | When you pay for the trip with the card: medical, cancellation, lost bags | No fees abroad | No foreign transaction fee on purchases | Dining offers | 15% off at partner restaurants | Presales | Tickets 48 hours before general sale | Getting money back | For purchases between £100 and £30,000 on a credit card, Section 75 makes the bank join
+
+[pause my screenly] => You don't have Screenly on at the moment. | Turn on Screenly
+
+[cancel pagebound] => You don't have Pagebound on at the moment. | Turn on Pagebound
+
+[what's my available credit] => Your credit limit is £8,000 and you have £7,093.02 available to spend. | Gratifi Card | •••• 4821 | Frozen: new payments are blocked | Balance | £906.98 | Available £7,093 | Due £906.98 · Fri 9 Oct | Raise my limit | What do I owe?
+
+[unfreeze my card] => Confirm it's you to unfreeze.
+  SHEET: Unfreeze card | Card ending 4821 | This checks it's you before anything changes | Confirm with Face ID
+
+[dispute a charge from amazon] => If a shop won't refund something you paid for with this card, the bank's disputes team can raise a chargeback, and for purchases over £100 Section 75 may also apply. I'll pass it to them; they can see our conversation and will ask which payment it is. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[my order from another website never arrived] => Sorry about that. I can't see a Gratifi order on its way, so if you bought it elsewhere with this card, the bank's disputes team can try to get your money back with a chargeback. I'll pass it to them; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+## q5L-UK clean

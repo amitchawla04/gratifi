@@ -1,0 +1,26 @@
+
+[What do I owe?] => You owe £906.98, due Fri 9 Oct. The minimum is £27.21. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit
+STATE start: pts=48210 card=906.98 due=906.98 min=27.21 limit=8000 frozen=false bookings=
+
+[13-inch laptop] => Searched 12 products | Priced with your points | 1 product. 13-inch laptop, 16GB is the closest match, with free delivery. | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+CHECKOUT: 13-inch laptop, 16GB | Byte Store | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 8 | Total | £7,992.00 | Return within 14 days, unopened | Points | 799,200 pts · 750,990 more than you have | Points and card | 48,200 pts + £7,510 | Card | £7,992 on card ending 4821 | POINTS | 48,200 | ON YOUR CARD | £7,510.00 | You have 48,210 points | 1 point = £0.01 | That's more than your available credit of £7,093.02. Use more points, or pay less on the card. | Pay £7,510.00 + 48,200 pts
+pay opts 3
+pay btn Pay £7,992.00 disabled=true
+STATE after-laptop: pts=48210 card=906.98 due=906.98 min=27.21 limit=8000 frozen=false bookings=
+
+[Noise-cancelling headphones] => Searched 12 products | Priced with your points | 1 product. Hush 700 noise-cancelling headphones is the closest match, with free delivery. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts
+SHEET HP: Confirm and pay | Hush 700 noise-cancelling headphones · Byte Store · Black | Price | £229.00 | On your card | £229.00 | Nothing is paid until you confirm | Pay with Face ID
+HP RECEIPT: Done. It's in your Wallet. | Confirmed | GR-95984 | Order | Hush 700 noise-cancelling headphones | Colour | Black | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Paid | £229.00 on card ending 4821 | Points earned | +229 | Return within 30 days. | Track my order
+STATE after-hp-card: pts=48439 card=1135.98 due=906.98 min=27.21 limit=8000 frozen=false bookings=GR-95984:confirmed:229
+
+[donate 48389 points to charity] => Pick a cause. Every point goes to the charity; the bank pays any fees. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 48,389 pts | 48,389 pts = £483.89 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give points | Books for Every Child | Reading packs for primary schools | 860,000 of 1,000,000 points given by members | Give points | Warm Homes | Heating help for older people | 410,000 of 1,500,000 points given by members | Give points | Local Food Bank Network | Food parcels near you | 2,100,000 of 2,500,000 points given by members | Give points
+DONATE LAST: Pick a cause. Every point goes to the charity; the bank pays any fees. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 48,389 pts | 48,389 pts = £483.89 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give points | Books for Every Child | Reading packs for primary schools | 860,000 of 1,000,000 points given b
+DON SHEET: Confirm your gift | Gift to Clean Seas Trust | Charity | Clean Seas Trust | Points given | 48,389 pts | Worth | £483.89 | Points | 48,389 pts | A gift to charity can't be taken back | Confirm with Face ID
+STATE after-donate: pts=50 card=1135.98 due=906.98 min=27.21 limit=8000 frozen=false bookings=GR-48144:confirmed:483.89,GR-95984:confirmed:229
+
+[cancel my headphones] => You'd get back £229.00. The 50 pts you earned on it would be taken off. | Cancel Hush 700 noise-cancelling headphones? | You paid | £229.00 | Points earned on it, taken off | -50 pts | Earned points already used, written off | 179 pts | You get back | £229.00 | Return within 30 days | Yes, cancel | Keep it
+CANCEL: Cancelled. £229.00 is back on your card; it can take 3 to 5 working days to show on your statement. The 50 pts you earned on it have been taken off. 179 pts earned on it had already been used, so they're written off. | Hush 700 noise-cancelling headphones | Byte Store · Black | Refunded | GR-95984 | Refunded £229.00
+STATE after-cancel: pts=0 card=906.98 due=906.98 min=27.21 limit=8000 frozen=false bookings=GR-48144:confirmed:483.89,GR-95984:refunded:229
+LEDGER/KEYS [{"id":"5nsbdc35","at":1790793000487,"label":"Points earned on Hush 700 noise-cancelling headphones, reversed","pts":-50},{"id":"3eyab5jy","at":1790792995026,"label":"Gift to Clean Seas Trust","pts":-48389},{"id":"wsot5758","at":1790792987522,"label":"Points on card spend: Hush 700 noise-cancelling headphones","pts":229},{"id":"5c26zr6q","at":1790360976341,"label":"Points on card spend","pts":1840},{"id":"xht6mkdi","at":1788200976341,"label":"Balance brought forward","pts":46370}]
+
+## s-money-UK clean

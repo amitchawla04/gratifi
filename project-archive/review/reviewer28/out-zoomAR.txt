@@ -1,0 +1,4 @@
+home {"sw":420,"W":420,"bad":[]}
+flights {"sw":420,"W":420,"bad":[]}
+
+## s-zoom-AR ERRORS: SCRIPT locator.click: Timeout 30000ms exceeded.

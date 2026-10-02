@@ -1,0 +1,12 @@
+
+[Leather trainers] => Searched 12 products | Priced with your points | 1 product. Leather trainers is the closest match. | Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts
+PAID Done. It's in your Wallet. | Confirmed | GR-32321 | Order | Leather trainers | Size | 8 | Deliver to | Home, 12 Garden Row | Arrives | Fri 2 Oct | Quantity | 1 | Paid | 9,500 pts | Return within 30 da
+
+[Fast track security] => Searched 6 airport services | Priced with your points | 1 airport service. | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts
+before reload pts 38710 card 906.98
+pay buttons after reload 1 [["Pay 899 pts",false,null]]
+SHEET 0 Confirm and pay | Fast track security · Heathrow T5 · Wed 30 Sep | Price | £8.99 | Points used (899 pts) | −£8.99 | Points | 899 pts | Nothing is paid until you confirm | Pay with Face ID
+-> Booked. Your pass is in Wallet. | Confirmed | GR-73201 | Booked | Fast track security · Heathrow T5 | When | Wed 30 Sep | People | 1 | Paid | 899 pts | Full refund if not delivered. | What else can I do?
+after pts 37811 card 906.98 Fast track security:confirmed; Leather trainers:confirmed
+
+## s-reload-UK clean

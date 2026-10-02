@@ -1,0 +1,11 @@
+const run=require('./h.js'); const m=process.argv[2]||'UK';
+run(`a11y2-${m}`, m, async (h)=>{ const {p,shot,full,nav,ask,click,last,lastText,st,confirm,log}=h;
+  await nav(3); await ask('A hotel in Lisbon with a pool'); await last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(300);
+  log('slots', JSON.stringify(await p.evaluate(()=>[...document.querySelectorAll('.gr-answer:last-child .gr-slot, .gr-detail .gr-slot')].slice(0,4).map(e=>e.outerHTML.slice(0,200)))));
+  log('slot parents', JSON.stringify(await p.evaluate(()=>[...new Set([...document.querySelectorAll('.gr-detail .gr-slot')].map(e=>e.parentElement.outerHTML.slice(0,160)))])));
+  await last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400);
+  log('payopts', JSON.stringify(await p.evaluate(()=>[...document.querySelectorAll('.gr-opt, [role=radio]')].slice(-4).map(e=>e.outerHTML.slice(0,160)))));
+  await click(/^Pay /); await p.waitForTimeout(500);
+  log('sheet ancestors', JSON.stringify(await p.evaluate(()=>{ let e=document.querySelector('.app-sheet'), out=[]; while(e&&e!==document.body){ out.push(e.tagName+'.'+e.className+' role='+e.getAttribute('role')+' modal='+e.getAttribute('aria-modal')+' lab='+(e.getAttribute('aria-labelledby')||e.getAttribute('aria-label'))); e=e.parentElement } return out })));
+  log('bg inert', await p.evaluate(()=>{ const m=document.querySelector('.app-main'); return m.inert+' '+m.getAttribute('aria-hidden') }));
+});

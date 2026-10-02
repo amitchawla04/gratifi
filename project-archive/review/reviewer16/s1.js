@@ -1,0 +1,17 @@
+const setup = require('./h.js')
+module.exports = async () => { const h = await setup('UK', { tag: 'ukf' }); const { p, shot, nav, ask, btn, confirm, st, lastText, last } = h
+  await nav(3)
+  await ask('Flights to Lisbon 16 Oct back 20 Oct for 2 adults and a child born 3 May 2019')
+  await p.locator('.gr-flight').first().click(); await p.waitForTimeout(500)
+  await btn(/Continue with/)
+  const ins = last().locator('input'); await ins.nth(1).fill('Priya Chawla'); await ins.nth(2).fill('Anya Chawla')
+  await ins.nth(3).fill('2019-05-03'); await p.waitForTimeout(300)
+  await last().locator('[role=radio]').nth(1).click(); await last().locator('button[aria-label^="Seat 14D"]').click(); await p.waitForTimeout(200)
+  await last().getByRole('button', { name: 'More Checked bag' }).click()
+  await btn('Continue', { exact: true }); console.log('CO', await lastText()); await shot('checkout', true)
+  const s0 = await st(); console.log('bal', s0.card.balance, 'pts', s0.points)
+  await btn(/^Pay /); const t = await confirm(); console.log('SHEET', t)
+  console.log('RC', await lastText()); await shot('receipt', true)
+  const s1 = await st(); console.log('bal', s1.card.balance, 'pts', s1.points, JSON.stringify(s1.bookings[0]).slice(0, 1500))
+  await nav(4); await shot('wallet', true); await nav(5); await shot('me', true)
+  await h.close() }

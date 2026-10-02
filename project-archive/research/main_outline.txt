@@ -1,0 +1,199 @@
+mjrr0de69p8.5793 h=95c2d1fe # Plug-and-Play Engagement Layer — Product Doc
+.43 h=588da410 2026-09-27 · @Amit Chawla
+.5853 h=a718e5a7 This is a white-label customer engagement platform. An enterprise puts its own brand on it, plugs it into its apps, and it's live for its customers straight away. Everything runs on the company's own business: its products, its rewards, its program structure and its data. The customer sees the brand's world, not ours. R360's content (our catalogue, travel, experiences, delivery and cash payouts) sits on top as an add-on the brand can switch on whenever it wants more to offer.
+.30366 h=0e16f9d8 A brand that wants a proper engagement program today has to buy software, stitch it into its systems, hire a team to run it, and wait months to go live. We give it a platform it owns, on its own brand, live in days, with AI agents that do the day-to-day work of a loyalty team. When it wants more to offer members, it switches on our content, built on 17 years of buying, delivering and paying out rewards across India, the Gulf and Singapore.
+.30710 h=c37f4cc0 We'll sell first to three kinds of company: those launching or rebuilding a program, Indian brands that reward shopkeepers and tradespeople, and big programs whose members have gone quiet.
+.44474 h=275603ca ## What we need from the team
+.44501 h=376e6f47 Please read the whole doc, then answer the question for your area as a comment on the section it's about. Anyone can also flag something we've got wrong or a target we've missed.
+TABLE .57538 h=e99ff696
+   ROW .57539: Owner | Please check | The question we need answered
+   ROW .57592: CTO | Phase 1: exactly what we build, the product stack, the build plan | Can we build the white-label platform core in three months, and which parts of our current systems can we reuse?
+   ROW .57779: Product lead | Playbooks, go-live steps, targets | Which two playbooks do we build first, and are the 7-day and 2-to-3-week targets realistic?
+   ROW .57922: CFO | How we make money | What should the platform fees be, what margin do we need on the content and payout add-ons, and how big should a brand's deposit be?
+   ROW .58081: Head of sales, India | Who we sell to first, and the Deal scores tab | Which of the India targets do we already know someone at? Add the warm-introduction points
+   ROW .58243: Head of growth, International | Gulf and Singapore targets | Which Gulf and Singapore targets do we already know? And which content-only deals should R360's content team pick up?
+   ROW .58422: Head of legal | Rules we must follow | What's missing for each market, especially gift card rules, tax on partner rewards and privacy?
+   ROW .58557: Head of risk | Fraud checks and agent spend limits | What limits and checks must be in place before the first pilot goes live?
+.43235 h=b58c00ec ## Terms used in this doc
+LIST .56388 h=5ce5aaa3
+   - .56389: Platform: The white-label product itself. It carries the brand's name, lives inside the brand's apps, and runs on the brand's products, rewards, rules and data.
+   - .56551: Content add-on: R360's catalogue, travel, experiences, delivery and cash payouts. A brand switches it on inside the platform when it wants more to offer.
+   - .56706: Playbook: A ready-made program for one audience, say electricians, with the rules, screens and messaging already built.
+   - .56827: Agents: There are six. The setup agent designs a program and launches it. The run agent manages offers day to day and wins back members who've gone quiet. The member agent handles every conversation with members on WhatsApp or in-app, in their own language. The guard agent catches fraud. The insight agent answers the brand's questions on demand. The switch agent migrates members and points from a brand's old vendor.
+   - .57248: Control room: Where the brand's loyalty and finance teams, and our program team, approve what the agents propose, set spend limits, track results and roll back actions.
+   - .57418: Active member: Anyone who earned or spent points at least once in the calendar month. Opening a message doesn't count.
+.31980 h=61f50ab0 ## Why we're building it this way
+.6617 h=d717a23a Six things we learned in the research shaped this product. The details are in the other tabs.
+TABLE .32011 h=3be23abd
+   ROW .32012: What we learned | So we decided
+   ROW .32045: The biggest reward budgets aren't for shoppers. They go to the people who sell or recommend a brand. In India, rewards for dealers and tradespeople alone are estimated at ₹26,800 crore a year. That estimate comes from a supplier in the market | We serve every group a company rewards, not just its shoppers
+   ROW .32353: Many of our best targets already have a program, like Etihad Guest, e& Smiles, KrisFlyer and Zillion. What they lack is good things for members to spend points on | The platform runs on whatever rewards they already have. Our content is an add-on they switch on when they want more
+   ROW .32584: Shopkeepers and tradespeople want cash, and they want it on WhatsApp. Payouts straight to bank accounts are up 60%. More than 70% want to redeem on WhatsApp, and 78% prefer vouchers they can use at many brands (Almonds report) | Members choose cash or a reward. WhatsApp and local languages come first
+   ROW .32887: New programs often launch with very little to offer. Akasa's points only buy flights, ADCOOP only gives discounts, and Cenomi has two partners | The content add-on can be switched on from the first day
+   ROW .33081: Fraud and tax can make or break a program. AI shopping agents are now draining points quickly (TrustSphere), and India takes 10% tax on rewards to business partners above ₹20,000 a year | Fraud checks and tax are built in from the start
+   ROW .33319: Many target brands already run their program with another supplier, and they won't rebuild from scratch | Moving to us has to be easy. We aim to move members and points across in a day
+.7966 h=60c3907e ## Who it's for
+.7979 h=a26cc83d Any company that uses rewards to change what people do. One system handles all seven groups below, so a brand can reward its shoppers and its shopkeepers from the same place.
+TABLE .8155 h=322669a8
+   ROW .8156: Who gets rewarded | Example companies | What the company wants | What the person wants | Where we reach them
+   ROW .8263: Shoppers and app users | Lulu, Zepto, McDonald's India | Buy again, use the app | Points, vouchers, experiences | App, web, WhatsApp, AI shopping assistants
+   ROW .8418: Shopkeepers and dealers | Coca-Cola India, HUL, Udaan | Stock and sell more | Cash to bank, multi-brand vouchers, store credit | WhatsApp, the brand's ordering app
+   ROW .8580: Tradespeople who recommend (electricians, painters, mechanics, farm shops) | Polycab, Birla Opus, UPL, Mahindra | Recommend and use the brand | Cash to bank, vouchers, insurance | WhatsApp, a code scanned from the pack
+   ROW .8797: Agents and sales staff | LIC, Emaar brokers, phone-shop promoters | Sell more | Trips, cash, recognition | App, WhatsApp
+   ROW .8916: Riders and drivers | Swiggy, Rapido, Urban Company | Stay on and work the busy hours | Cash bonuses, insurance, vouchers | Driver app
+   ROW .9038: Policyholders and patients | Aditya Birla Health, Sukoon, Healthy 365 | Stay healthy, renew | Premium back, wellness vouchers | Insurer or health app
+   ROW .9186: Members of an existing program | Etihad Guest, e& Smiles, KrisFlyer | Give members more to spend points on | A bigger, better reward shop | Their own app, with our catalogue inside
+.44091 h=8588e207 ## Where the white space is
+.9382 h=bfa0021d Here's what a company runs into today when it wants a proper rewards program. It waits 3 to 18 months to go live. It has to find rewards and delivery separately. And whatever it builds needs a team to run it every day. That's the white space.
+.9572 h=e8c3234f Five things customers can't get today, and we can give them:
+LIST .59520 h=178ea11d
+   - .59521: Live in days, not months. Setting up a program today takes 3 to 18 months (Brandmovers). A business with stores, an app, shopkeepers and partners should be live in days.
+   - .59692: Their brand, their business. The platform carries the company's name and runs on its own products, rewards, structure and data. Nothing gets replaced, and the customer never sees us.
+   - .59876: More to offer, when they want it. Most platforms stop at software. With us, a brand can switch on a world of content (rewards, travel, experiences, delivery, cash payouts) across India, the Gulf and Singapore, without signing up anyone new.
+   - .60118: Agents that actually run the program. Today's AI helps marketers build campaigns faster. It doesn't chat with each shopkeeper on WhatsApp in their own language, answer their questions and win back the ones who've gone quiet. Our agents do.
+   - .60359: Rewards that AI shopping assistants can see. When ChatGPT or Gemini shops for someone, it can't see a brand's points or offers unless they're set up for it (Talon.One). Gap already sells inside Gemini, but its points aren't there (Gap Inc.).
+.60602 h=f0c933ec ## What we sell
+.10605 h=e43b73c3 The platform is the product. A company either launches a new program on it or moves an existing program onto it. Content and payouts are add-ons it switches on as it needs them.
+TABLE .60615 h=61a459ce
+   ROW .60616:  | Platform: new program | Platform: existing program | Content add-on | Payout add-on
+   ROW .60701: What they get | A complete program on their brand: points engine, screens inside their apps, agents, control room | Our engine and agents take over their current program. Members and points move across | R360's catalogue, travel and experiences, priced in the brand's own points, with delivery handled | Cash to bank for members, with tax worked out
+   ROW .61049: Who it's for | Companies starting or rebuilding a program | Programs whose members have gone quiet | Any platform customer that wants more to offer | Shopkeeper and tradesperson programs
+   ROW .61234: Examples from our list | Vi ("Vi Stars"), Polycab ("Polyratna"), Udaan, Cenomi | McDonald's India (3.7M monthly users from 55M downloads), Coca-Cola India, Shoppers Stop, Sukoon | Akasa Air, IKEA India, ADCOOP | Polycab, UPL, Coca-Cola India
+   ROW .61474: What they give us | Customer list, sales, rewards, and the app or WhatsApp number | Members, sales, points, rewards, and permission to message members | Nothing extra; it's switched on inside the platform | Members' bank details, collected by the platform
+   ROW .61728: Target time to go live | About 7 days | 2 to 3 weeks | Same day | Same day
+   ROW .61801: How we earn | A setup fee and a monthly fee for each active member | A monthly fee for each active member | Our margin on each reward | A fee on each payout
+   ROW .61956: Ready from | End of month 3 | End of month 3 | Day 1, on the platform | Day 1, on the platform
+.62049 h=a69002d7 Programs that only want our content, like Etihad Guest, e& Smiles and KrisFlyer, can buy it from R360's content team on its own. Those deals are good business, but they don't count as platform customers.
+.44151 h=149970c7 ## The product stack
+.11778 h=5a5a3e34 The stack has six layers, with a control room across all of them. The brand brings only the bottom layer, its own systems.
+.11914 h=06fdb87b <embed {'caption': 'product stack · 6 layers and a control room', 'ref': 'node/a70162c3-83f9'}>[EMBED {'id': '.11914', 'rev': '14', 'h': '06fdb87b', 'caption': 'product stack · 6 layers and a control room', 'ref': 'node/a70162c3-83f9'}]
+.11915 h=9e50459f Several pieces of the stack come straight out of the research:
+LIST .36279 h=814138d5
+   - .36280: Cash to bank sits next to vouchers. Shopkeepers and tradespeople prefer cash, and payouts by bank transfer are up 60%.
+   - .36400: WhatsApp comes first. For shopkeepers and tradespeople it's the main way in, and it works in their own language.
+   - .36514: Pack codes, bill uploads and distributor systems are part of the Connect layer. That's how shopkeepers and mechanics earn points.
+   - .36635: The core engine handles tax. Neither the member nor the brand has to work it out.
+   - .36720: The insight agent lets a brand ask "which dealers went quiet this month?" and get a straight answer instead of a dashboard.
+   - .36845: The switch agent moves members and points across from an old supplier, ideally in a day, so changing to us is easy.
+.12570 h=3974fe06 ## Ready-made playbooks
+.12591 h=90fd880a Playbooks are what make us fast. Each one arrives with its rules, screens, messages, fraud checks and legal wording for each market already done. The setup agent picks one and adjusts it for the brand.
+TABLE .12782 h=6100d1d2
+   ROW .12783: Playbook | Who gets rewarded | How they earn | What they get | First targets
+   ROW .12858: Shopper club | Shoppers, app users | Buying, app visits, referrals | Points, vouchers, experiences | Zepto, McDonald's India, Lulu
+   ROW .12987: Paid membership | Members paying monthly | They pay a monthly fee and get perks worth more than it | Partner perks, cashback | Careem Plus, Zepto Club, talabat pro
+   ROW .13137: Shopkeeper rewards | Shopkeepers, dealers | Orders, sales targets, displays | Cash to bank, multi-brand vouchers, store credit | Coca-Cola India, HUL, Udaan, Jumbotail
+   ROW .13303: Tradesperson rewards | Electricians, painters, mechanics, farm shops | Scanning codes in packs they use or sell | Cash to bank, vouchers, insurance | Polycab, UPL, Birla Opus, Mahindra
+   ROW .13486: Pack scan-to-earn | Buyers of packaged goods | Scanning a pack code or uploading a bill | Vouchers, prize draws, brand products | Nestlé, P&G, Mondelez in India (none run one for shoppers yet)
+   ROW .13677: Wellness rewards | Policyholders, residents | Steps, check-ups, healthy habits | Premium back, wellness vouchers | Aditya Birla Health, Sukoon, Healthy 365
+   ROW .13831: Agent and broker rewards | Agents, brokers, shop promoters | Sales and targets | Trips, cash, recognition tiers | Emaar, LIC, phone-shop promoters
+   ROW .13976: Rider and driver rewards | Riders, drivers, service partners | Busy-hour shifts, ratings, staying on | Cash bonuses, insurance, vouchers | Swiggy, Rapido, Urban Company
+   ROW .14143: Content add-on only | Members of an existing program | Spending points they already have | Our catalogue inside their app | Etihad Guest, e& Smiles, KrisFlyer, Zillion
+.14313 h=9b09e84f ## How a program goes live
+.14337 h=08e28b83 For a full program, we're aiming to go live in about 7 days. Today it takes 3 to 18 months. Seven days is still a target, not a fact. The first three pilots have to prove it.
+LIST .37570 h=ccb5319f
+   - .37571: Check the data (before signing). Our agents spend a day looking at a sample of the brand's data. If it's too messy, we tell them straight away and quote for cleaning it up.
+   - .37745: Connect (day 1). The brand gives us access to its customer list, sales data, and app or WhatsApp number. For shopkeepers and tradespeople we also connect the distributor system or the pack codes. If there's an old supplier, the switch agent moves members and points across.
+   - .38020: Set the goal and pick a playbook (day 1). The brand tells us what it wants, for example "get electricians to scan 20% more packs this quarter." The setup agent drafts the rules, the rewards and what it's likely to cost.
+   - .38241: Choose the rewards (day 2). The brand's own, ours, cash to bank, or a mix.
+   - .38317: Approve (days 2 to 3). The brand reviews the program, the cost estimate, sample screens and messages, and how tax will work. A person signs off the legal terms.
+   - .38479: Test with a small group (days 3 to 5). About 1% of members. The guard agent watches for fraud and unexpected costs.
+   - .38596: Go live (by day 7). The run and member agents take over, and the brand keeps an eye on things from the control room.
+.15515 h=ef67c7c7 Moving an existing program onto the platform follows steps 1, 2, 3, 5, 6 and 7, and takes 2 to 3 weeks. The content and payout add-ons can be switched on at step 4 for any program.
+.15619 h=6b71e23f ## How we make money
+.15637 h=844c1577 Customers pay for the platform: a setup fee for a new program, and a monthly fee for each active member. Content and payouts are add-ons, charged only when they're used.
+TABLE .62448 h=5752bbff
+   ROW .62449: What we charge | Who pays | Why it makes sense
+   ROW .62496: A one-time setup fee | New programs on the platform | Covers the data check and setting everything up
+   ROW .62598: A monthly fee for each active member | Every platform customer | Brands pay only for members who earned or spent points that month, not for their whole list
+   ROW .62755: Our margin on each reward | Brands using the content add-on | Grows as members redeem more
+   ROW .62846: A fee on each cash payout | Brands using the payout add-on | Set so that a rupee paid out in cash earns us about the same as a voucher
+   ROW .62981: A share of the extra sales (optional) | Brands that want our fee tied to what we deliver | Measured against a group of members who got no offers. Pampers Club measured it this way and saw 47% more sales (Iris)
+.16378 h=cb33e7c1 The CFO sets prices once we know what the first three pilots actually cost us.
+.16456 h=331122ee ## Who we sell to first
+.63507 h=85e0dd22 In the first 90 days we sign three paying pilots for the platform and put them live as phase 1 finishes. The scores come from @file/aa8eff97-9670. They're out of 100, and a warm introduction adds up to 10 more.
+TABLE .63700 h=c709d926
+   ROW .63701: Group | What they buy | Top targets (score) | Owner
+   ROW .63752: India: companies launching or rebuilding a program | Platform, new program | Vi (83), Polycab (80), Udaan (73), Akasa Air (73) | Head of sales, India
+   ROW .63901: India: big programs with quiet members | Platform, existing program | McDonald's India (83), Coca-Cola India (83), Shoppers Stop (73) | Head of sales, India
+   ROW .64057: Gulf and Singapore: new or rebuilt programs | Platform, new or existing program | Tabby (76), Cenomi (73), Sukoon (73), Etiqa Singapore (73) | Head of growth, International
+   ROW .64229: Programs that only want more content | Content add-on, sold on its own by R360's content team | Etihad Guest (83), e& Smiles (83), KrisFlyer (83), stc Qitaf (76), BonusLink (76) | Head of growth, International
+.17214 h=c286b4f6 Other high scorers, like Lulu, Majid Al Futtaim, Zepto and ADNOC Distribution, have only just launched or changed their programs. We'll go to them once the first pilots give us proof. Before anyone picks up the phone, the sales team adds points for warm introductions, because knowing the person who decides matters more than anything else.
+.17433 h=82c71bbb ## Build plan
+.17444 h=0d10b2cd First we build the smallest thing that can win a paying pilot. Then we make it fast. Then we take it to more markets. No phase starts until we've passed the checkpoint before it.
+.17587 h=b23a8737 <embed {'caption': 'build plan · 4 phases, 3 gates', 'ref': 'node/b245184b-a18a'}>[EMBED {'id': '.17587', 'rev': '19', 'h': 'b23a8737', 'caption': 'build plan · 4 phases, 3 gates', 'ref': 'node/b245184b-a18a'}]
+.17588 h=5b81f786 Phase 1 builds the platform core: white-label screens that sit inside the brand's apps, the points engine running on the brand's own products, rewards and data, the member and guard agents, and the first two playbooks. The content and payout add-ons plug in from day one because R360 already runs them. A small, separate team builds it, with its own budget and P&L owner, so the bank business isn't disturbed.
+.64438 h=55bd37d9 ## Phase 1: exactly what we build
+.26778 h=358df832 This is what the first three pilots run on, so it's spelled out in full. The CTO owns it. The target is the first pilot live by the end of month 3.
+TABLE .64469 h=1d4c0757
+   ROW .64470: Question | How it works
+   ROW .64495: How the brand makes it its own | Its name, colours, logo and domain. Screens drop into the brand's app as a widget, or run as pages the brand links to
+   ROW .64647: How members get in | Inside the brand's app, on the web, or on WhatsApp
+   ROW .64720: How they sign in | The brand's app passes the member to us, so there is no second login. On WhatsApp, they get a one-time code on their phone
+   ROW .64863: What runs on the brand's own setup | Its products, rewards, tiers, rules and customer data. We replace nothing it already has
+   ROW .64990: What a point is worth | The brand sets how points are earned and what they're worth
+   ROW .65075: Content add-on | The brand switches on R360's catalogue, travel and experiences. Every item shows its price in the brand's own points, and we handle delivery
+   ROW .65234: Payout add-on | Cash to members' bank accounts, with tax worked out and deducted where the law needs it
+   ROW .65339: Who pays, and when | Platform fees monthly. Content and payouts draw from a deposit the brand keeps with us, with a monthly statement and a warning before it runs low
+   ROW .65507: Failed or cancelled rewards | Points go back to the member automatically, and the member agent tells them
+   ROW .65614: What the brand's team does | Connects its customer list, sales and rewards, and adds the widget to its app
+   ROW .65722: Checks before launch | A 1% test group, fraud limits switched on, and the brand's finance team signs off
+.17885 h=c91b3127 ## How we know it works
+.17906 h=2d88a230 We track six numbers and show them to every brand in the control room. These are starting targets. The product lead tests them in the first three pilots and resets them afterwards.
+TABLE .18037 h=33fa078f
+   ROW .18038: Number | What it means | Starting target
+   ROW .18079: Time to go live | From contract signed to members earning | 7 days for a new program, 2 to 3 weeks for an existing one
+   ROW .18181: Active members | Share of members who earn or spend in a month. Today fewer than half are active in most programs (5W) | Up 10 percentage points from where the brand started, within 90 days
+   ROW .18360: Extra sales | Sales from members who got offers, against a group that got none | Positive, and reported every month
+   ROW .18474: Quiet members won back | Members inactive 60+ days who come back | More than in the group that got no offers
+   ROW .18565: Fraud caught | How much fraud we stop before any reward is paid out | Less than 1% of reward value lost
+   ROW .18673: Answered by agents | Member questions solved without a person stepping in | 8 in 10
+.18745 h=613429df ## Rules we must follow
+.18766 h=a2f7e473 The rules are built into the playbooks, so a brand can't break them by accident. The head of legal keeps a rule pack for each market and updates it whenever a rule changes.
+TABLE .50814 h=ffa6e617
+   ROW .50815: Rule | Where | What the product does
+   ROW .50852: 10% tax on rewards to business partners above ₹20,000 a year (Almonds) | India | The engine calculates and deducts it, and the member agent explains it on WhatsApp
+   ROW .51016: New draft rules for gift cards, April 2026 (Vinod Kothari) | India | Our vouchers will follow the final rules, and we won't count on income from unused balances
+   ROW .51177: Possible cap on rewards to insurance agents (Cafemutual) | India | The agent playbook keeps rewards inside the limit
+   ROW .51294: No gifts to doctors (Medical Dialogues) | India | Pharma programs never reward doctors. Chemist programs are allowed
+   ROW .51411: No promotion of infant formula (LiveLaw) | India | Pack scan-to-earn excludes infant formula
+   ROW .51504: No liquor advertising to consumers | India | Alcohol brands only get trade programs
+   ROW .51588: The competition regulator is investigating Pernod Ricard's deals that traded store support for shelf space, May 2026 (Arise) | India | Alcohol trade programs go ahead only after legal review, and no reward is ever tied to shelf share
+   ROW .51822: Data protection laws (India DPDP Act, UAE PDPL, Singapore PDPA) | All three | We ask before messaging anyone, and members can see and delete their data
+.19802 h=aa6d76c2 ## Risks, fixes and owners
+.19826 h=4550fe06 The biggest risk is messy data at the brand's end, which would break our promise of going live in days. Every risk below has a fix and one person who owns it.
+TABLE .66205 h=74e2e21c
+   ROW .66206: Risk | Fix | Owner
+   ROW .66225: The platform core takes longer than three months to build | Reuse R360's existing engine, catalogue and payout systems. If needed, cut phase 1 to one playbook. The CTO reports progress every week | CTO
+   ROW .66427: The brand's data is messy, so we can't go live in days | Check the data for a day before signing. Brands that fail pay for the clean-up | CTO
+   ROW .66569: Our 7-day and 2-to-3-week targets aren't proven yet | Test them in the first three pilots, share the real times and reset the targets | Product lead
+   ROW .66718: Customers see us as a rewards supplier, not a platform | Lead every pitch with the platform running on the customer's own brand and business. Bring content in as an add-on, after | Head of sales, India
+   ROW .66920: We have no non-bank references yet | Turn the first three pilots into case studies quickly. Until then, pitch our bank scale with one line: same fulfilment, different points currency | CEO
+   ROW .67109: Sales promises agents before they're built | Promise only what phase 1 delivers. Demo only what's live | Head of sales, India
+   ROW .67235: Shopkeepers and tradespeople want cash, not vouchers | Offer the payout add-on from day one, and set its fee so cash earns us about as much as a voucher | CFO
+   ROW .67394: The brand already works with another supplier | Run the platform on top of the current setup first. When the brand is ready, the switch agent moves members and points across | Head of sales, India
+   ROW .67591: The old supplier won't hand over member data | Members rejoin in one tap and get bonus points. The brand's own records fill the gaps | Head of sales, India
+   ROW .67747: An agent makes an expensive mistake | Every agent action has a spend limit. The brand approves anything above it, and every action is logged and can be rolled back in one tap | CTO
+   ROW .67928: Bots, AI agents and fake scans drain points | The guard agent is on from day one. Limit claims per code, per phone and per day, and check who is redeeming | Head of risk
+   ROW .68098: Government and state-owned companies buy through tenders (BPCL, LIC, Healthy 365) | Set up a small tender team, bid with a partner where needed, and don't count on these in the first 90 days | Head of growth, International
+   ROW .68321: A head office abroad makes the decision (IKEA, Bayer, Uber) | Pitch our market as the test. If it works, offer the same program for the Gulf and South-East Asia | Head of growth, International
+   ROW .68514: Rules change (gift cards, agent rewards, tax, privacy) | Keep a rule pack for each market and review it every quarter | Head of legal
+   ROW .68648: A brand runs up rewards it can't pay for | Show costs live, and hold a deposit for content and payouts | CFO
+   ROW .68757: The project pulls R360's people away from bank work | Run it as a small, separate team with its own budget and P&L owner | CEO
+.21495 h=caf85b08 ## Sources
+.56227 h=dbcdb3d5 The full research sits in the other tabs: @file/e3acc49b-3a13 (categories and budgets), @file/aa8eff97-9670 (99 companies scored), @file/b32088af-009a (what was searched), @file/871d0d4b-bc73 (the first list) and @file/52191086-061c (for sales only).
+LIST .21666 h=ef33a1b9
+   - .21667: Storyboard18: India's dealer and tradesperson rewards, ₹26,800 crore
+   - .21715: Almonds Channel Loyalty Report 2026
+   - .21752: Almonds: the 10% tax on partner rewards
+   - .21793: Brandmovers: launch times by platform type
+   - .21875: Talon.One: shopping done by AI agents
+   - .21904: Gap Inc.: selling inside Google Gemini
+   - .21944: TrustSphere: AI agents and points fraud
+   - .21985: 5W: fewer than half of members active
+   - .22024: Iris: Pampers Club results
+   - .22052: Vinod Kothari: draft gift card rules
+   - .22090: Cafemutual: insurance agent reward cap
+   - .22130: Medical Dialogues: pharma gift rules
+   - .22168: LiveLaw: infant formula rules
+LIST .56181 h=9d627094
+   - .56182: Arise: competition probe into Pernod Ricard

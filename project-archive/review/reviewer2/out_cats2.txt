@@ -1,0 +1,147 @@
+== exp LIST: Checked 7 things to do | Priced with your points | 6 things to do in Lisbon. Old town walking tour is the most booked. | Old town walking tour | Lisbon | 4.5 | 2 hours | Small group | £24 | per person | or 2,400 pts | Sunset boat trip | Lisbon | 4.6 | 90 min | £45 | per person | or 4,500 pts | Food market tour | Lisbon | 4.8 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Cooking class | Lisbon | 4.8 | 3 hours | £52 | per person | or 5,200 pts | Museum with skip-the-line entry | Lisbon | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Day trip to the coast | Lisbon | 4.4 | Full day | Pick-up | £68 | per person | or 6,800 pts
+== exp DETAIL: Old town walking tour | Lisbon | 4.5 ★ | 2 hours | Small group | DAY | Wed 30 Sept | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | TIME | 09:00 | 11:00 | 14:00 | 17:30 | PEOPLE | 1 | Free cancellation until 24 hours before | £24 | or 2,400 pts | per person | Continue
+CTA: Continue
+== exp CHECKOUT: Old town walking tour | Lisbon · Wed 30 Sept, 09:00 | When | Wed 30 Sept, 09:00 | People | 1 | Total | £24.00 | Free cancellation until 24 hours before | Points | 2,400 pts · you have 48,210 | Points and card | 1,600 pts + £8 | Card | £24 on card ending 4821 | Pay 2,400 pts
+PAYBTN: Pay 2,400 pts
+SHEET: Confirm and pay | Old town walking tour · Wed 30 Sept, 09:00 | Old town walking tour | £24.00 | Points used (2,400 pts) | −£24.00 | Points | 2,400 pts | Nothing is paid until you confirm | Pay with Face ID
+== exp DONE: Done. It's in your Wallet. | Confirmed | GR-29320 | When | Wed 30 Sept, 09:00 | People | 1 | Paid | 2,400 pts | Free cancellation until 24 hours before. | What else can I do?
+{
+ "tag": "exp",
+ "balance": 45810,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-29320 experiences Old town walking tour confirmed tot=24 pts=2400 card=0 earned=0"
+ ],
+ "ledger": [
+  "-2400 Old town walking tour",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== dine LIST: Checked 6 restaurants | Priced with your points | 6 restaurants in London. Harrow & Vine has tables tonight for 2, with 15% off on your card. | Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book | The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · London | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+== dine DETAIL: Harrow & Vine | Modern European · London | 4.7 ★ | Upmarket | 15% off with your card | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+CTA: Choose this time
+== dine CHECKOUT: Harrow & Vine | When | Tue 29 Sept, 18:30 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+PAYBTN: Book the table
+!! NO SHEET
+== dine DONE: Table booked. The restaurant has your name. | Confirmed | GR-26134 | When | Tue 29 Sept, 18:30 | Guests | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | What else can I do?
+{
+ "tag": "dine",
+ "balance": 45810,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-26134 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-29320 experiences Old town walking tour confirmed tot=24 pts=2400 card=0 earned=0"
+ ],
+ "ledger": [
+  "-2400 Old town walking tour",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== shop LIST: Checked 12 products | Priced with your points | 6 products. Noise-cancelling headphones is the closest match, with free delivery. | Noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | £279 | or 27,900 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | £120 | or 12,000 pts | Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts | Skincare set | Glow Beauty | 4.6 | £58 | or 5,800 pts
+== shop DETAIL: Noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | £229 | or 22,900 pts | Continue
+CTA: Continue
+== shop CHECKOUT: Noise-cancelling headphones | Byte Store · Black | Colour | Black | Quantity | 1 | Total | £229.00 | Return within 30 days | Points | 22,900 pts · you have 45,810 | Points and card | 16,000 pts + £69 | Card | £229 on card ending 4821 | Pay 22,900 pts
+PAYBTN: Pay 22,900 pts
+SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | £229.00 | Points used (22,900 pts) | −£229.00 | Points | 22,900 pts | Nothing is paid until you confirm | Pay with Face ID
+== shop DONE: Done. It's in your Wallet. | Confirmed | GR-72735 | Colour | Black | Quantity | 1 | Paid | 22,900 pts | Return within 30 days. | Track my order
+{
+ "tag": "shop",
+ "balance": 22910,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-72735 shopping Noise-cancelling headphones confirmed tot=229 pts=22900 card=0 earned=0",
+  "GR-26134 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-29320 experiences Old town walking tour confirmed tot=24 pts=2400 card=0 earned=0"
+ ],
+ "ledger": [
+  "-22900 Noise-cancelling headphones",
+  "-2400 Old town walking tour",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== aff LIST: Checked 12 products | Priced with your points | These shops pay extra points when you buy on their own site through Gratifi. | Shop at Lumen Books | On their own site · 10× points | 10× points | Shop at Stride Outdoor | On their own site · 5× points | 5× points
+== aff DETAIL: Lumen Books works on their own site. Shop through this link and you earn 10× points; points land after the 30-day return window. | Lumen Books | Shop on their own site | 10× points | Tracked when you use this link | Points land after the 30-day return window | Go to their site
+CTA: Go to their site
+== aff CHECKOUT: Opening Lumen Books. Pay with your card and your 10× points is tracked. Points show as pending within a day and land after the 30-day return window.
+!! no pay button
+== aff DONE: Opening Lumen Books. Pay with your card and your 10× points is tracked. Points show as pending within a day and land after the 30-day return window.
+{
+ "tag": "aff",
+ "balance": 22910,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-72735 shopping Noise-cancelling headphones confirmed tot=229 pts=22900 card=0 earned=0",
+  "GR-26134 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-29320 experiences Old town walking tour confirmed tot=24 pts=2400 card=0 earned=0"
+ ],
+ "ledger": [
+  "-22900 Noise-cancelling headphones",
+  "-2400 Old town walking tour",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== tix LIST: Checked 5 events | Priced with your points | 5 events. Arlo Grey live is the one to catch: presale for cardholders. | Arlo Grey live | Arena, London · Sat 24 Oct | Presale for cardholders | £65 | per ticket | or 6,500 pts | City derby | National Stadium, London · Sun 1 Nov | £48 | per ticket | or 4,800 pts | The Glass Garden (theatre) | Royal Playhouse, London · evenings | £42 | per ticket | or 4,200 pts | Cinema: 2 for 1 this week | Reel House, London | Card offer | £11.99 | for two | or 1,199 pts | Riverside food festival | London · 7 to 8 Nov | £17.99 | day pass | or 1,799 pts
+== tix DETAIL: Arlo Grey live | Arena, London · Sat 24 Oct | Presale for cardholders | AREA | Standing | Seated, upper | Seated, lower (+£30) | PEOPLE | 1 | No refunds unless the event is cancelled or moved | £65 | or 6,500 pts | per ticket | Continue
+CTA: Continue
+== tix CHECKOUT: Arlo Grey live | Arena, London · Sat 24 Oct · Standing | Area | Standing | People | 1 | Total | £65.00 | No refunds unless the event is cancelled or moved | Points | 6,500 pts · you have 22,910 | Points and card | 4,500 pts + £20 | Card | £65 on card ending 4821 | Pay 6,500 pts
+PAYBTN: Pay 6,500 pts
+SHEET: Confirm and pay | Arlo Grey live | Arlo Grey live | £65.00 | Points used (6,500 pts) | −£65.00 | Points | 6,500 pts | Nothing is paid until you confirm | Pay with Face ID
+== tix DONE: Booked. Your tickets are in Wallet. | Confirmed | GR-59760 | Area | Standing | People | 1 | Paid | 6,500 pts | No refunds unless the event is cancelled or moved. | What else can I do?
+{
+ "tag": "tix",
+ "balance": 16410,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-59760 tickets Arlo Grey live confirmed tot=65 pts=6500 card=0 earned=0",
+  "GR-72735 shopping Noise-cancelling headphones confirmed tot=229 pts=22900 card=0 earned=0",
+  "GR-26134 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-29320 experiences Old town walking tour confirmed tot=24 pts=2400 card=0 earned=0"
+ ],
+ "ledger": [
+  "-6500 Arlo Grey live",
+  "-22900 Noise-cancelling headphones",
+  "-2400 Old town walking tour",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+UK s_cats2 clean

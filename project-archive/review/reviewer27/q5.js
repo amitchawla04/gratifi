@@ -1,0 +1,1 @@
+module.exports = [ "flights to Paris on 12 Nov for my son who is 8", "flights to Paris on 12 Nov for two children", "flights to Paris on 12 Nov for my kids", "flights to Paris next thursday", "fly to Barcelona on 16/10 returning 20/10", "Barcelona 16th to 20th October for 3", "move my return to the 8th" ]

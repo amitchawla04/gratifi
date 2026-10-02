@@ -1,0 +1,122 @@
+== res: Checked 7 flights from Singapore | Priced for 2 people with points | 7 flights to Bali on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, S$241 each way per person. | NW | Northway Air | NW 827 | 20:30 | SIN | 2h 48m | Direct | 23:18 | DPS | Cabin bag | S$184 | or 18,400 pts | Price each way, per person | NW | Northway Air | NW 808 | 3 left at this price | 06:10 | SIN | 5h 14m | 1 stop · KUL | 11:24 | DPS | Cabin bag | S$224 | or 22,400 pts | Price each way, per person | CL | Coastline | CL 591 | Best for you | 07:25 | SIN | 2h 48m | Direct | 10:13 | DPS | Small bag only | S$241 | or 24,100 pts | Price each way, per person | AU | Aurora Air | AU 689 | 4 left at this price | 09:40 | SIN | 2h 52m | Direct | 12:32 | DPS | Cabin bag | S$249 | or 24,900 pts | Price each way, per person | AU | Aurora Air | AU 768 | 17:50 | SIN | 4h 39m | 1 stop · KUL | 22:29 | DPS | Cabin bag
+== fares: Checked fare rules | Good choice. I've matched it with the 17:50 back on Sun 11 Oct. Pick a fare; prices are per person, return. | 20:30 | Singapore SIN | NW | NW 827 | 2h 48m | Economy | 23:18 | Bali DPS | 17:50 | Bali DPS | AU | AU 758 | 4h 40m | Economy | 22:30 | Singapore SIN | Light | Small bag | Cabin bag | Seat choice | Changes | S$341 | or 34,100 pts | Most picked | Standard | Small bag | Cabin bag | Standard seats | Free date change | S$416 | or 41,600 pts | Flex | Cabin + checked bag | Any seat | Full refund | Fast track | S$603 | or 60,300 pts | Per person, return. 2 travellers: S$832 in total. | Continue with Standard
+== chk: Here's the total. Pay with points, card, or both. | Singapore to Bali | NW 827 · Standard · Fri 9 Oct 20:30 · back Sun 11 Oct 17:50 | Outbound | NW 827 · Fri 9 Oct 20:30 → 23:18 | Return flight | AU 758 · Sun 11 Oct 17:50 → 22:30 | Standard fare, 2 × S$416 | S$832.00 | Seats 16C, 16B | Free | Total | S$832.00 | Free date change; cancel for a 30% fee | Points | 83,200 pts · 18,900 more than you have | Points and card | 58,200 pts + S$250 | Card | S$832 on card ending 0418 | Pay S$250.00 + 58,200 pts
+SHEET: Confirm and pay | Singapore to Bali · Fri 9 Oct 20:30 · back Sun 11 Oct 17:50 | Singapore to Bali | S$832.00 | Points used (58,200 pts) | −S$582.00 | On your card | S$250.00 | Nothing is paid until you confirm | Pay with Face ID
+inputs 0 null
+AFTER CLICK: Confirm and pay | Singapore to Bali · Fri 9 Oct 20:30 · back Sun 11 Oct 17:50 | Singapore to Bali | S$832.00 | Points used (58,200 pts) | −S$582.00 | On your card | S$250.00 | Checking it's you… | Pay with Face ID
+== receipt: Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet. | Confirmed | GR-61178 | Outbound | NW 827 · Fri 9 Oct 20:30 → 23:18 | Return flight | AU 758 · Sun 11 Oct 17:50 → 22:30 | Standard fare, 2 × S$416 | S$832.00 | Seats 16C, 16B | Free | Paid | 58,200 pts + S$250.00 | Points earned | +250 | Free date change; cancel for a 30% fee. | Add a hotel | Book a lounge | Airport ride
+{
+ "tag": "booked",
+ "balance": 6350,
+ "card": 1809.99,
+ "frozen": false,
+ "bookings": [
+  "GR-61178 flights Singapore to Bali confirmed tot=832 pts=58200 card=250 earned=250"
+ ],
+ "ledger": [
+  "-58200 Singapore to Bali",
+  "250 Points on card spend: Singapore to Bali",
+  "1840 Points from card spend",
+  "62460 Balance brought forward"
+ ],
+ "txns": [
+  "250 Singapore to Bali 250",
+  "110 Pantry Market 110",
+  "320 Northway Air 320",
+  "24 Café Lune 24"
+ ]
+}
+== dine LIST: Checked 6 restaurants | Priced with your points | 6 restaurants in Singapore. Harrow & Vine has tables tonight for 2, with 15% off on your card. | Harrow & Vine | Modern European · Singapore | 4.8 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · Singapore | 4.4 | Mid-price | Free | to book | The Green Table | Vegetarian · Singapore | 4.8 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · Singapore | 4.7 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · Singapore | 4.9 | Mid-price | Free | to book | Little Olive | Mediterranean · Singapore | 4.9 | Mid-price | Terrace | Free | to book
+== dine DETAIL: Harrow & Vine | Modern European · Singapore | 4.8 ★ | Upmarket | 15% off with your card | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+CTA: Choose this time
+== dine CHECKOUT: Harrow & Vine | When | Tue 29 Sept, 18:30 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+PAYBTN: Book the table
+!! NO SHEET
+== dine DONE: Table booked. The restaurant has your name. | Confirmed | GR-83752 | When | Tue 29 Sept, 18:30 | Guests | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | What else can I do?
+{
+ "tag": "dine",
+ "balance": 6350,
+ "card": 1809.99,
+ "frozen": false,
+ "bookings": [
+  "GR-83752 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-61178 flights Singapore to Bali confirmed tot=832 pts=58200 card=250 earned=250"
+ ],
+ "ledger": [
+  "-58200 Singapore to Bali",
+  "250 Points on card spend: Singapore to Bali",
+  "1840 Points from card spend",
+  "62460 Balance brought forward"
+ ],
+ "txns": [
+  "250 Singapore to Bali 250",
+  "110 Pantry Market 110",
+  "320 Northway Air 320",
+  "24 Café Lune 24"
+ ]
+}
+== lounge LIST: Checked 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Lounge visit | Changi T3 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | Changi T3 | S$15.49 | per person | or 1,549 pts | Meet and greet on arrival | Changi · greeter at the gate | Help through arrivals and bags | S$146 | per group | or 14,600 pts | Porter and buggy | Changi | S$43 | per booking | or 4,300 pts | Sleep pod, 4 hours | Changi airside | S$77 | per pod | or 7,700 pts | Baggage wrap and storage | Changi | S$21 | per bag | or 2,100 pts
+== lounge DETAIL: Lounge visit | Changi T3 · The Orchard | Up to 3 hours before your flight | Free with your card · 2 visits left this year | Card visits come back if the lounge can't take you | Use a free visit
+CTA: Use a free visit
+== lounge CHECKOUT: Lounge visit | People | 1 | To pay | Free with your card | Card visits come back if the lounge can't take you | Confirm
+PAYBTN: Confirm
+!! NO SHEET
+== lounge DONE: Booked with a free card visit. Your pass is in Wallet. | Confirmed | GR-24608 | People | 1 | Card visits come back if the lounge can't take you. | What else can I do?
+{
+ "tag": "lounge",
+ "balance": 6350,
+ "card": 1809.99,
+ "frozen": false,
+ "bookings": [
+  "GR-24608 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-83752 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-61178 flights Singapore to Bali confirmed tot=832 pts=58200 card=250 earned=250"
+ ],
+ "ledger": [
+  "-58200 Singapore to Bali",
+  "250 Points on card spend: Singapore to Bali",
+  "1840 Points from card spend",
+  "62460 Balance brought forward"
+ ],
+ "txns": [
+  "250 Singapore to Bali 250",
+  "110 Pantry Market 110",
+  "320 Northway Air 320",
+  "24 Café Lune 24"
+ ]
+}
+== shop LIST: Checked 12 products | Priced with your points | 6 products. Noise-cancelling headphones is the closest match, with free delivery. | Noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | S$394 | or 39,400 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | S$480 | or 48,000 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | S$1,718 | or 171,800 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | S$206 | or 20,600 pts | Leather trainers | Stride Outdoor | 4.4 | S$163 | or 16,300 pts | Skincare set | Glow Beauty | 4.6 | S$100 | or 10,000 pts
+== shop DETAIL: Noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | S$394 | or 39,400 pts | Continue
+CTA: Continue
+== shop CHECKOUT: Noise-cancelling headphones | Byte Store · Black | Colour | Black | Quantity | 1 | Total | S$394.00 | Return within 30 days | Points | 39,400 pts · 33,050 more than you have | Points and card | 6,300 pts + S$331 | Card | S$394 on card ending 0418 | Pay S$331.00 + 6,300 pts
+PAYBTN: Pay S$331.00 + 6,300 pts
+SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | S$394.00 | Points used (6,300 pts) | −S$63.00 | On your card | S$331.00 | Nothing is paid until you confirm | Pay with Face ID
+== shop DONE: Done. It's in your Wallet. | Confirmed | GR-69841 | Colour | Black | Quantity | 1 | Paid | 6,300 pts + S$331.00 | Points earned | +331 | Return within 30 days. | Track my order
+{
+ "tag": "shop",
+ "balance": 381,
+ "card": 2140.99,
+ "frozen": false,
+ "bookings": [
+  "GR-69841 shopping Noise-cancelling headphones confirmed tot=394 pts=6300 card=331 earned=331",
+  "GR-24608 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-83752 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-61178 flights Singapore to Bali confirmed tot=832 pts=58200 card=250 earned=250"
+ ],
+ "ledger": [
+  "-6300 Noise-cancelling headphones",
+  "331 Points on card spend: Noise-cancelling headphones",
+  "-58200 Singapore to Bali",
+  "250 Points on card spend: Singapore to Bali",
+  "1840 Points from card spend",
+  "62460 Balance brought forward"
+ ],
+ "txns": [
+  "331 Noise-cancelling headphones 331",
+  "250 Singapore to Bali 250",
+  "110 Pantry Market 110",
+  "320 Northway Air 320"
+ ]
+}
+== owe: You owe S$1,559.99, due Wed 7 Oct. The minimum is S$46.80. | PAYMENT DUE | 7 Oct | S$1,559.99 | Minimum S$46.80 by 7 Oct | Full balance | S$1,559.99 | Half | S$780.00 | Minimum | S$46.80 | Pay S$1,559.99 | Set up GIRO
+SG s_mkt clean

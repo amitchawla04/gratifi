@@ -1,0 +1,28 @@
+const H=require('./h.js');
+H('UK','s4', async (h)=>{ const {p,shot,full,nav,ask,click,st,money,log,url,lastText,last}=h;
+  const buy = async (q, method, n=0) => { await ask(q); await p.locator('.gr-answer').last().locator('.gr-itemrow').nth(n).click(); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); if(method){ await p.locator('.gr-answer').last().getByText(method,{exact:true}).click(); await p.waitForTimeout(200)} await p.getByRole('button',{name:/^Pay /}).last().click(); await h.faceConfirm(); };
+  await nav(3);
+  await buy('Rain shell jacket','Points and card'); log('jacket', await last(1));
+  await buy('Noise-cancelling headphones','Card'); log('hp', await last(1));
+  log('m0', JSON.stringify(await money()));
+  await nav(5); await click('Deliver my order'); log('deliver1', await last(1)); await nav(5); await click('Deliver my order'); log('deliver2', await last(1));
+  await nav(3); await ask('return my jacket'); log('return ask', await lastText()); await full('return-ask');
+  const rb = p.locator('.gr-answer').last().locator('.gr-btn').last(); log('return btn', await rb.innerText()); await rb.click(); await p.waitForTimeout(500); log('return booked', await last(1)); await full('return-booked');
+  await ask('my headphones arrived broken'); log('claim ask', await lastText()); await full('claim-form');
+  const a=p.locator('.gr-answer').last(); log('claim buttons', await a.locator('button').allInnerTexts());
+  await click('Send claim'); log('claim sent', await last(1)); await full('claim-sent');
+  await ask('return my jacket'); log('return again', await last(1));
+  await ask('my headphones arrived broken'); log('claim again', await last(1));
+  await p.goto(url()); await p.waitForTimeout(500); await nav(3);
+  log('waiting 45s'); await p.waitForTimeout(46000);
+  log('after wait', await last(3)); await full('after-timers');
+  log('m1', JSON.stringify(await money())); const s=await st(); log('ledger', JSON.stringify(s.ledger.slice(0,6).map(l=>l.label+' '+l.pts))); log('txns', JSON.stringify(s.txns.slice(0,5).map(t=>t.merchant+' '+t.amount+(t.refund?' R':''))));
+  // affiliate
+  await ask('Earn extra points shopping'); await full('aff-list'); log('aff', await lastText());
+  await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(300); await full('aff-detail'); log('aff detail', await lastText());
+  const btns = await p.locator('.gr-answer').last().locator('button').allInnerTexts(); log('aff buttons', JSON.stringify(btns));
+  await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); log('after shop link', await last(1)); await full('aff-link');
+  await click(/I bought something there/); log('bought', await last(1)); log('pending', JSON.stringify((await st()).pending));
+  await nav(4); await full('wallet-pending'); await nav(5); await click('Return window ends'); log('landed', await last(1)); log(JSON.stringify(await money()));
+  await nav(4); await full('wallet-end');
+});

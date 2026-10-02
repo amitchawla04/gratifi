@@ -1,0 +1,530 @@
+
+# Deal scores
+92 companies are scored. 22 score 75 or more, which means call this week. Ten share the top score of 83: Coca-Cola India, Lulu, Majid Al Futtaim, Zepto, ADNOC Distribution, Vi, McDonald's India, Etihad Guest, Singapore Airlines KrisFlyer and e& Smiles.
+The score shows how ready each company looks from public facts. It is not a promise. Real odds depend most on whether we know the person who decides, and only your team knows that, so no one scores above 83 yet. Big spenders like Asian Paints and Havells score lower only because I found no public move in the last year. A warm introduction can change that.
+## How the score works
+Each company gets up to 100 points across five parts. Every point has to come from a fact with a source; no source, no points.
+|ROW || 
+Part || 
+What it asks || 
+Points
+|ROW || 
+Money || 
+Do they spend a lot on rewards? || 
+25 = published spend or a huge member base; 15 = big program, no spend figure; 5 = small or unknown
+|ROW || 
+Timing || 
+Did they do something public in the last 12 months? (launch, relaunch, new partners, complaints, boss naming it a priority) || 
+25 = in the last 3 months; 15 = in the last 12 months; 5 = nothing found
+|ROW || 
+Fit || 
+Do they need what only we bring together: rewards, delivery, agents, fraud guard? || 
+20 = need all of it; 10 = need some; 5 = software only
+|ROW || 
+Open door || 
+Can an outsider get in? || 
+15 = no vendor, or unhappy with one; 8 = uses vendors, could switch; 3 = locked in with a rival, builds in-house, or buys by public tender
+|ROW || 
+Our markets || 
+Is it decided in India, UAE or Singapore? || 
+15 = decided in India, UAE or Singapore; 8 = rest of the Gulf or South-East Asia, or a head office abroad decides; 3 = outside these regions
+What the score means: 75 or more = call this week. 60 to 74 = worth a pitch. Under 60 = watch for now.
+What it can't tell you: whether we know the person who decides. That usually matters most, and only your team knows it. Add up to 10 points for a warm introduction.
+## Scored list
+Points are shown in order: Money · Timing · Fit · Open door · Our markets. The company name links to the main source.
+### Call this week (75 or more)
+|ROW || 
+# || 
+Company || 
+Where || 
+Who they reward || 
+Score || 
+Points || 
+Why
+|ROW || 
+1 || 
+Coca-Cola India (HCCB) || 
+India || 
+Shopkeepers || 
+83 || 
+25·15·20·8·15 || 
+10 lakh+ shops on its app; rewards today run by Almonds
+|ROW || 
+2 || 
+Lulu || 
+UAE, Gulf || 
+Shoppers || 
+83 || 
+25·25·10·8·15 || 
+8.4M members drive two-thirds of sales; Qatar hit 1M members Jun 2026
+|ROW || 
+3 || 
+Majid Al Futtaim (SHARE, VOX) || 
+UAE, Saudi || 
+Shoppers || 
+83 || 
+25·15·20·8·15 || 
+Launched in Saudi May 2026; adding gift cards and partners this year
+|ROW || 
+4 || 
+Zepto || 
+India || 
+Shoppers || 
+83 || 
+25·25·10·8·15 || 
+Launched Zepto Club Jul 2026, its third try at a paid plan
+|ROW || 
+5 || 
+ADNOC Distribution || 
+UAE || 
+Drivers || 
+83 || 
+25·25·10·8·15 || 
+2.5M members; began selling brands access to them Jul 2026
+|ROW || 
+6 || 
+Vi || 
+India || 
+Prepaid users || 
+83 || 
+15·25·20·8·15 || 
+Testing "Vi Stars" points now; rewards not yet set
+|ROW || 
+7 || 
+McDonald's India (Westlife) || 
+India || 
+App users || 
+83 || 
+15·25·20·8·15 || 
+55M downloads but 3.7M monthly users; loyalty named the focus Jul 2026
+|ROW || 
+8 || 
+Etihad Guest || 
+UAE || 
+Flyers, Indian shoppers || 
+83 || 
+25·15·20·8·15 || 
+13M+ members, 250,000 new a month from India; added Flipkart, Swiggy, Shoppers Stop Jan 2026. Pointspay runs its reward shop
+|ROW || 
+9 || 
+Singapore Airlines KrisFlyer || 
+Singapore || 
+Flyers, shoppers || 
+83 || 
+25·25·10·8·15 || 
+11.8M members; Kris+ at a record 631 shops incl. gift cards (Sep 2026)
+|ROW || 
+10 || 
+e& Smiles || 
+UAE || 
+Phone customers, app users || 
+83 || 
+25·25·10·8·15 || 
+5M+ members, 6,500 brands; launched card-linked points 20 Sep 2026
+|ROW || 
+11 || 
+Polycab || 
+India || 
+Electricians || 
+80 || 
+15·15·20·15·15 || 
+Planning "Polyratna," one AI-run program for 2.5 lakh+ electricians
+|ROW || 
+12 || 
+Saarathi Healthcare || 
+India || 
+Patients || 
+80 || 
+15·25·10·15·15 || 
+Formed 26 Sep 2026; runs 160+ patient programs for drug makers. A partner route, not a buyer
+|ROW || 
+13 || 
+Akasa Air || 
+India || 
+Flyers || 
+80 || 
+5·25·20·15·15 || 
+Program launched Aug 2026; points only buy flights
+|ROW || 
+14 || 
+BPCL || 
+India || 
+Drivers || 
+78 || 
+15·25·20·3·15 || 
+New app Aug 2026, rewards not built; buys by tender
+|ROW || 
+15 || 
+FairPrice / NTUC Link || 
+Singapore || 
+Shoppers || 
+78 || 
+25·25·10·3·15 || 
+2.4M members; linking with Frasers Property's program (Jul 2026). Runs itself
+|ROW || 
+16 || 
+Healthy 365 (Health Promotion Board) || 
+Singapore || 
+Residents || 
+78 || 
+15·25·20·3·15 || 
+1.74M app users; new points bonus Jun 2026; uses outside vendors for eVouchers. Government, buys by tender
+|ROW || 
+17 || 
+Tabby || 
+Saudi, UAE || 
+App users || 
+76 || 
+15·25·20·8·8 || 
+25M users; cashback-only account launched Jul 2026
+|ROW || 
+18 || 
+Telkomsel || 
+Indonesia || 
+Subscribers || 
+76 || 
+15·25·20·8·8 || 
+Added 150+ retail brands as reward partners Sep 2026
+|ROW || 
+19 || 
+AirAsia rewards || 
+Malaysia || 
+Flyers || 
+76 || 
+15·25·20·8·8 || 
+Openly wants more ways to spend points; promo Sep 2026
+|ROW || 
+20 || 
+Thai Airways || 
+Thailand || 
+Flyers || 
+76 || 
+15·25·20·8·8 || 
+Relaunched Jul 2026 with a new experiences menu
+|ROW || 
+21 || 
+BonusLink || 
+Malaysia || 
+Shoppers, drivers || 
+76 || 
+15·25·20·8·8 || 
+Launched a hotel booking shop for points, 3 Sep 2026
+|ROW || 
+22 || 
+The 1 (Central Group) || 
+Thailand || 
+Shoppers || 
+76 || 
+25·25·10·8·8 || 
+22M members; perks abroad (Oct 2025) and new tie-in Sep 2026
+### Worth a pitch (60 to 74)
+|ROW || 
+# || 
+Company || 
+Where || 
+Score || 
+Points || 
+Why
+|ROW || 
+23 || 
+Aditya Birla Health || 
+India || 
+73 || 
+15·15·20·8·15 || 
+Pays up to 100% of premium back; new plan May 2026
+|ROW || 
+24 || 
+Emaar || 
+UAE || 
+73 || 
+15·15·20·8·15 || 
+Rewards top brokers with trips; also relaunched U by Emaar Feb 2026
+|ROW || 
+25 || 
+Emirates Skywards || 
+UAE || 
+73 || 
+25·15·10·8·15 || 
+38M+ members; 400+ UAE brands in Skywards Everyday
+|ROW || 
+26 || 
+Zillion (was PAYBACK India) || 
+India || 
+73 || 
+25·5·20·8·15 || 
+130M+ customers (2023); coins spent on brand vouchers, supplier not named
+|ROW || 
+27 || 
+Udaan || 
+India || 
+73 || 
+5·25·20·8·15 || 
+Raised $160M Jul 2026 ahead of listing; has a shop rewards page
+|ROW || 
+28 || 
+Jumbotail || 
+India || 
+73 || 
+15·15·20·8·15 || 
+250,000+ kirana shops; NEC invested Mar 2026
+|ROW || 
+29 || 
+Urban Company || 
+India || 
+73 || 
+15·15·20·8·15 || 
+Added life cover and pensions for service partners Feb 2026
+|ROW || 
+30 || 
+Sukoon Insurance || 
+UAE || 
+73 || 
+5·25·20·8·15 || 
+Extended its loyalty program to health customers 19 Sep 2026
+|ROW || 
+31 || 
+Etiqa Insurance Singapore || 
+Singapore || 
+73 || 
+5·25·20·8·15 || 
+Launched tiered travel rewards 27 Sep 2026
+|ROW || 
+32 || 
+UPL || 
+India || 
+73 || 
+5·25·20·8·15 || 
+Shop rewards app; improved redemption Jul 2026
+|ROW || 
+33 || 
+ITC Hotels (Club ITC) || 
+India || 
+73 || 
+15·15·20·8·15 || 
+Program rebuilt Oct 2025; already redeems through vouchers
+|ROW || 
+34 || 
+Swiggy || 
+India || 
+73 || 
+25·15·10·8·15 || 
+Big rider bonuses Dec 2025, but mostly paid in cash
+|ROW || 
+35 || 
+Eternal (Zomato, Blinkit) || 
+India || 
+73 || 
+25·15·10·8·15 || 
+₹5,728 Cr delivery costs FY25; festive rider bonuses, mostly cash
+|ROW || 
+36 || 
+Rapido || 
+India || 
+73 || 
+25·15·10·8·15 || 
+Raised $240M May 2026, partly to grow its driver base
+|ROW || 
+37 || 
+Talabat || 
+Gulf || 
+73 || 
+25·15·10·8·15 || 
+$100M+ into grocery and paid membership in 2026
+|ROW || 
+38 || 
+Cenomi || 
+Saudi || 
+73 || 
+15·15·20·15·8 || 
+New mall program; promised rewards shelf still thin
+|ROW || 
+39 || 
+Careem || 
+UAE || 
+73 || 
+15·25·10·8·15 || 
+Raised membership price 53% Jul 2026; must add value
+|ROW || 
+40 || 
+Shoppers Stop || 
+India || 
+73 || 
+25·15·10·8·15 || 
+13.5M members bring 83% of sales
+|ROW || 
+41 || 
+Vishal Mega Mart || 
+India || 
+73 || 
+25·15·10·8·15 || 
+175M loyalty customers bring 95% of revenue
+|ROW || 
+42 || 
+IndiGo || 
+India || 
+73 || 
+15·25·10·8·15 || 
+Adding reward partners (Accor, Jul 2026)
+|ROW || 
+43 || 
+HUL || 
+India || 
+70 || 
+15·5·20·15·15 || 
+1.4M shops on its ordering app; no rewards layer found
+|ROW || 
+44 || 
+LIC || 
+India || 
+68 || 
+25·15·10·3·15 || 
+14 lakh agents; a new law may cap agent rewards; buys by tender
+|ROW || 
+45 || 
+Uber India || 
+India || 
+66 || 
+25·15·10·8·8 || 
+₹2,516 Cr incentives and discounts FY25; ₹2,921 Cr new money in early 2026. Mostly cash
+|ROW || 
+46 || 
+Qatar Airways Privilege Club || 
+Qatar || 
+66 || 
+15·25·10·8·8 || 
+New earning partner Aug 2026
+|ROW || 
+47 || 
+Ooredoo Qatar (Nojoom) || 
+Qatar || 
+66 || 
+15·15·20·8·8 || 
+Already relies on outside gift cards for points
+|ROW || 
+48 || 
+Oman Air || 
+Oman || 
+66 || 
+5·25·20·8·8 || 
+Hiring a new head over its loyalty program, Sep 2026
+|ROW || 
+49 || 
+IKEA India || 
+India || 
+66 || 
+15·15·20·8·8 || 
+New program, rewards are IKEA products only
+|ROW || 
+50 || 
+McDonald's Malaysia || 
+Malaysia || 
+66 || 
+15·15·20·8·8 || 
+New program, press called its rewards thin
+|ROW || 
+51 || 
+Groww || 
+India || 
+63 || 
+15·15·10·8·15 || 
+Listed Nov 2025; ₹487 Cr marketing FY25
+|ROW || 
+52 || 
+CRED || 
+India || 
+63 || 
+25·5·10·8·15 || 
+Gave ₹50 Cr+ of rewards in one 3-day event
+|ROW || 
+53 || 
+Mahindra (eMpower) || 
+India || 
+63 || 
+15·5·20·8·15 || 
+Mechanic program, run by BigCity
+|ROW || 
+54 || 
+Birla Opus || 
+India || 
+63 || 
+15·15·10·8·15 || 
+4.5 lakh painters; pays them cash to bank
+|ROW || 
+55 || 
+UltraTech || 
+India || 
+63 || 
+15·5·20·8·15 || 
+App reviews say redemption fails
+|ROW || 
+56 || 
+ITC || 
+India || 
+63 || 
+15·5·20·8·15 || 
+Shopkeeper app, 10 lakh+ downloads
+|ROW || 
+57 || 
+Apollo HealthCo || 
+India || 
+63 || 
+25·5·10·8·15 || 
+~10M paying members
+|ROW || 
+58 || 
+Nykaa || 
+India || 
+63 || 
+15·15·10·8·15 || 
+Stated goal is more repeat buying
+|ROW || 
+59 || 
+ADCOOP || 
+UAE || 
+63 || 
+5·15·20·8·15 || 
+New program, discounts only
+|ROW || 
+60 || 
+Tata Motors trucks || 
+India || 
+63 || 
+15·5·20·8·15 || 
+Points for truck owners; program is old
+|ROW || 
+61 || 
+Riyadh Air || 
+Saudi || 
+63 || 
+5·15·20·15·8 || 
+New program, no partners named
+|ROW || 
+62 || 
+Rewa || 
+UAE || 
+63 || 
+5·15·20·8·15 || 
+Rent-rewards app; rewards are the product
+|ROW || 
+63 || 
+Castrol India || 
+India || 
+61 || 
+25·15·10·3·8 || 
+In-house today; new owner coming by end 2026
+|ROW || 
+64 || 
+Manappuram || 
+India || 
+60 || 
+5·15·10·15·15 || 
+New owner (Bain Capital) Apr 2026; no program found
+|ROW || 
+65 || 
+Sheng Siong || 
+Singapore || 
+60 || 
+5·5·20·15·15 || 
+No points program at all (blog source)
+Watch for now (under 60): Al-Futtaim Blue (58, runs on Capillary), Muthoot Finance (58), Shriram Finance (58), Ola Electric (58), JSW MG Motor (58), Mobily Neqaty (56), stc Qitaf (56), Cinepolis India (56), Bayer CropScience India (56), Havells, Asian Paints, Kalyan Jewellers, Jio, Grab, PhonePe, Xiaomi India, PVR INOX, Ola, Porter, Alkem (53 each), Saudia AlFursan (51, Merit holds it exclusively), Sweetgreen (51), Amul (50), HPCL (48), Bajaj Finance (48), Amway India (46).
+Left out on purpose: Tata group (Air India, Taj hotels, Rallis) and Reliance group (METRO Wholesale), which run their own programs, and Prince Retail, which signed with Capillary in Aug 2026.

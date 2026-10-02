@@ -1,0 +1,18 @@
+IN-light-200 home scrollW 420 gr-card app-promo:688 app-promo-ph:672 :672 app-promo-st:511 gr-sticker:513 gr-col:672
+IN-light-200 explore scrollW 420 
+IN-light-200 wallet scrollW 420 
+IN-light-200 me scrollW 420 
+IN-light-200 flights scrollW 420 
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.gr-flight').first()[22m
+
+    at /tmp/claude-0/-home-claude/d2529b2f-e36e-5c22-8d08-213fa2f214ae/scratchpad/reviewer36/big.js:14:41 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.22.2

@@ -1,0 +1,30 @@
+dir rtl ar-AE
+LATIN[home] Gratifi | Table Collective | Northway Air | Pantry Market | Byte Store
+LATIN[explore] 
+LATIN[ex-fl] DXB
+LATIN[chat] Gratifi
+[fl] "5 flights to Muscat on الجمعة، 9 أكتوبر, back الأحد، 11 أكتوبر. I'd pick the 07:25 Coastline: direct, ‏465 د.إ.‏ each way per person." flights,suggest
+LATIN[fares] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air
+LATIN[seats] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air
+LATIN[checkout] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air
+pay ادفع ‏612.00 د.إ.‏ + 71,400 نقطة
+SHEET التأكيد والدفع | دبي إلى مسقط · الجمعة، 9 أكتوبر 07:25 · والعودة الأحد، 11 أكتوبر 14:15 | دبي إلى مسقط (مسافران) | ‏2,040.00 د.إ.‏ | النقاط المستخدمة (71,400 نقطة) | ‏‎-1,428.00 د.إ.‏ | على بطاقتك | ‏612.00 د.إ.‏ | لن يُدفع شيء قبل تأكيدك | الدفع عبر Face ID
+[paid] "Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet." receipt,suggest
+LATIN[receipt] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air | GR-
+[owe] "You owe ‏4,265.00 د.إ.‏, due الأربعاء، 7 أكتوبر. The minimum is ‏127.95 د.إ.‏." paybill
+LATIN[owe] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air | GR-
+[dine] "6 restaurants in Dubai. Harrow & Vine has tables tonight for 2, with 15% off on your card." items
+LATIN[dine] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air | GR- | Harrow & Vine | Salt and Ember | The Green Table | Kanji | Masala Room | Little Olive
+[groc] "Added milk, sourdough loaf, free-range eggs. Anything else? It arrives in about 15 minutes." grocery
+LATIN[groc] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air | GR- | Harrow & Vine | Salt and Ember | The Green Table | Kanji | Masala Room | Little Olive
+[freeze] "Each switch works straight away." controls
+LATIN[freeze] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air | GR- | Harrow & Vine | Salt and Ember | The Green Table | Kanji | Masala Room | Little Olive
+[cancel] "You'd get back 49,980 نقطة + ‏428.40 د.إ.‏; the airline keeps a 30% fee." confirmcancel
+LATIN[cancel] Gratifi | Coastline | DXB | MCT | Northway Air | DOH | Aurora Air | GR- | Harrow & Vine | Salt and Ember | The Green Table | Kanji | Masala Room | Little Olive | the airline keeps a | fee.
+[en-in-ar] "4 places to stay in Istanbul. Harbour Residence is my pick: 3× points on your card." items
+LATIN[wallet] GR-
+no pass btn
+LATIN[pass] GR-
+LATIN[me] Gratifi
+MISSING 7 ستسترد 49,980 نقطة + ‏428.40 د.إ.‏; the airline keeps a 30% fee. || I want a hotel in Istanbul for 2 nights || 4 أماكن إقامة في إسطنبول. أنصح بـ Harbour Residence: 3× نقاط على بطاقتك. || Harbour Residence || Palm Rooms || Cedar House || Garden Hotel
+[]

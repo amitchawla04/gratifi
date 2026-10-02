@@ -1,0 +1,3 @@
+STATE card {"last4":"3309","limit":37600,"balance":4265,"due":4265,"min":127.95,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 88500 Concierge request:in progress:0:0/0
+LAST سأستدعي شخصًا يمكنه البت في هذا. سيرى محادثتنا. | ب | بريا من فريق خدمة العملاء | تنضم عادة خلال دقيقتين | اطّلعت على المحادثة | لن تحتاج إلى تكرار أي شيء، فستطّلع بريا على كل ما ناقشناه. | دردشة الآن | اتصلوا بي
+AR concierge clean

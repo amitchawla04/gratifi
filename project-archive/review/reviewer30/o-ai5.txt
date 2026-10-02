@@ -1,0 +1,19 @@
+
+### [freeze my card] safety={"risk":"none"}
+  TEXT: 
+  SHEET: -
+  DIFF: pts undefined->48210; card undefined->906.98; frozen->false
+  RES: []
+frozen at 1.1s? false
+waited ms 3001 frozen now true text Frozen as asked. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Co
+
+### [unfreeze]
+  TEXT: Tap the switch to unfreeze.
+  SHEET: Unfreeze card | Card ending 4821 | This checks it's you before anything changes | Confirm with Face ID
+  DIFF: none
+  RES: [{"n":"card_control","a":{"control":"freeze","on":false},"shown":[],"note":"Confirm it's you to unfreeze."}]
+SHEET Unfreeze card | Card ending 4821 | This checks it's you before anything changes | Confirm with Face ID
+TEXT at 0.7s: ""
+TEXT at 2.7s: "Here is some text."
+
+## s-ai5-UK-ai clean

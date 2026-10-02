@@ -1,0 +1,8 @@
+
+[A gift card for a friend] => Searched 10 gift cards | Priced with your points | 8 gift cards. They arrive instantly. | Harbour & Co | Homeware | From RM50 | Bloom | Flowers | From RM50 | Northway Air | Flights | From RM50 | Reel House | Cinema | From RM50 | Pantry Market | Groceries | From RM50 | Stride Outdoor | Outdoor | From RM50 | Lumen Books | Books | From RM50 | Glow Beauty | Beauty | From RM50
+SHEET Confirm and pay | Harbour & Co gift card · Homeware | Price | RM100.00 | Points used (10,000 pts) | −RM100.00 | Points | 10,000 pts | Tap below and we'll send a request to your banking app. | Approve in your banking app | Demo: tapping the button approves as if in the bank app
+SHEET2 Confirm and pay | Harbour & Co gift card · Homeware | Price | RM100.00 | Points used (10,000 pts) | −RM100.00 | Points | 10,000 pts | Waiting for you to approve it in your banking app… | Approve in your banking app
+SHEET3 null
+Sent to Sam at sam@example.com. A copy of the code is in your Wallet. | Confirmed | GR-16742 | Order | Harbour & Co gift card | Amount | RM100 | For | Sam (sam@example.com) | Paid | 10,000 pts | Delivered instantly. Valid for 12 months. Not refundable once sent. | What else can I do?
+
+## myauth-MY clean

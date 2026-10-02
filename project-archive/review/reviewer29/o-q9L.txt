@@ -1,0 +1,69 @@
+
+[How much do I owe?] => You owe £906.98, due Fri 9 Oct. The minimum is £27.21. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit
+
+[what's my credit limit] => Your credit limit is £8,000 and you have £7,093.02 available to spend. | Gratifi Card | •••• 4821 | Balance | £906.98 | Available £7,093 | Due £906.98 · Fri 9 Oct | Raise my limit | What do I owe?
+
+[make my limit £3000] => Limit changes are decided by the bank after a short check. Nothing changes until you both agree. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[pay £100 towards my card] => Check the amount, then confirm it's you.
+  SHEET: Pay your card bill | From your current account ending 7781 | Card bill | £100.00 | From your account | £100.00 | Nothing is paid until you confirm | Pay with Face ID
+
+[pay the full balance] => You owe £906.98, due Fri 9 Oct. The minimum is £27.21. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit
+
+[pay my bill with points] => Points can't pay the card bill here. The bill is paid from your bank account; points go further on travel, gift cards and shopping. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit | What can I do with my points?
+
+[set up direct debit for the full amount] => Check the details, then confirm it's you.
+  SHEET: Set up Direct Debit | From your current account ending 7781 | Pays | The full balance each month | First payment | Fri 9 Oct | Mandate | Direct Debit | This checks it's you before anything changes | Confirm with Face ID
+
+[change my direct debit to the minimum] => Check the details, then confirm it's you.
+  SHEET: Set up Direct Debit | From your current account ending 7781 | Pays | The minimum each month | First payment | Fri 9 Oct | Mandate | Direct Debit | This checks it's you before anything changes | Confirm with Face ID
+
+[show my direct debit] => No automatic payment is set up. | Direct Debit | Off. You pay each bill yourself. | Full balance | Minimum
+
+[why did my card get declined at Tesco] => Nothing on your card is blocking payments: it isn't frozen, online and abroad payments are on, and you have £7,093 available. A declined payment is usually the shop's terminal, a wrong PIN, or a security check. Try again with chip and PIN, or tell me if it keeps happening and a person will look at it. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Shopping on websites and apps | Payments abroad | Using the card in other countries | Contactless | Tap to pay in shops | Cash withdrawals | Taking cash from machines | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | It keeps happening | Payments I don't recognis
+
+[I don't recognise a payment] => I've frozen your card. I'm bringing in the fraud team now; they'll check the payment and can send you a new card with a new number. If anyone contacts you about it, don't share a code or move money. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me | Send a replacement card
+
+[freeze my card] => Card frozen. New payments are blocked; direct debits and refunds still work. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on
+
+[turn off contactless] => Contactless is off. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on
+
+[stop online payments] => Online payments are off. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on
+
+[turn off cash withdrawals] => Cash from a machine on a credit card is a cash advance: on this card that's a 3% fee (at least £3), and interest from the day you take it. A cash machine may add its own fee too. Paying by card is cheaper, and abroad there's no foreign transaction fee.
+
+[turn my card back on] => A person from the bank can help with that; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[I lost my card] => Your card is frozen so nobody can use it. If it turns up, you can unfreeze it; if not, I can send a replacement to your home address. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement | Found it
+
+[my card was taken by the cashpoint] => Your card is frozen so nobody can use it. A stolen card is cancelled for good; the new one has a new number. Direct debits and refunds carry on. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement | Payments I don't recognise
+
+[my wallet was stolen] => Your card is frozen so nobody can use it. A stolen card is cancelled for good; the new one has a new number. Direct debits and refunds carry on. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement | Payments I don't recognise
+
+[I can't find my card, it's probably at home] => Your card is frozen so nobody can use it. If it turns up, you can unfreeze it; if not, I can send a replacement to your home address. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement | Found it
+
+[remind me when my statement is ready] => Saved: an alert when your statement is ready. It's listed under Alerts on My card, where you can remove it. | When your statement is ready | Alert on | Remove
+
+[show my alerts] => You have 1 alert. Remove any you don't need. | When your statement is ready | Alert on | Remove
+
+[how much did I spend last month] => I can see the last 30 days of payments, not a full statement month. You've spent £596.98 in the last 30 days. | Last 30 days, after refunds | £597 | Travel | £186 | Shopping | £135 | Groceries | £102 | Dining | £86 | Transport | £77 | Subscriptions | £11 | P | Pantry Market | Groceries | 28 Sep | £64.00 | +64 pts | N | Northway Air | Travel | 27 Sep | £186.00 | +186 pts | C | Café Lune | Dining | 25 Sep | £13.99 | +14 pts | B | Byte Store | Shopping | 22 Sep | £89.00 | +89 pts | R | Ride Now | Transport | 20 Sep | £22.00 | +22 pts | C | Cloudbox | Subscriptions | 18 Sep | £10.99 | +11 pts | T | Table Collective | Dining | 15 Sep | £72.00 | +72 pts | P | Pantry Market | Groceries | 13 Sep | £
+
+[what's the interest rate] => Your interest rate is set by the bank and shown in your credit agreement. A person can tell you the exact rate. | Talk to a person | What do I owe?
+
+[can I get a cash advance] => Cash from a machine on a credit card is a cash advance: on this card that's a 3% fee (at least £3), and interest from the day you take it. A cash machine may add its own fee too. Paying by card is cheaper, and abroad there's no foreign transaction fee.
+
+[do you charge for spending in euros] => There's no foreign transaction fee on this card, so spending abroad costs the same as at home. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead: their conversion rate is usually worse. Cash from a machine on a credit card is a cash advance: on this card that's a 3% fee (at least £3), and interest from the day you take it. | Airport lounges | 2 free visits left this year | 2 left | Purchase protection | Things you buy with the card are covered for 120 days against theft and accidental damage | Extended warranty | An extra year on top of the maker's warranty | Travel insurance | When you pay for the trip with the card: medical, cancellati
+
+[I want to cancel my card] => A person from the bank handles this. They can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[I want to complain] => I'm sorry something went wrong. I'll bring in a person from the bank who can look into it; they'll see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[talk to a human] => I'll bring in a person who can decide this. They'll see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[can I split my £600 purchase into instalments] => You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[add my son as an additional cardholder] => Additional cardholders are set up by the bank after a few checks. A person can start that with you now. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[change my address to 5 High Street] => Your home address is changed in the bank's app, after a quick check. For a delivery, you can send it to any address at checkout. | Talk to a person
+
+## q9L-UK clean

@@ -1,0 +1,32 @@
+const { chromium } = require('/home/claude/.npm-global/lib/node_modules/playwright');
+const BASE = 'file://' + __dirname + '/../gratifi/review/';
+exports.run = async (name, market, fn, o = {}) => {
+  const b = await chromium.launch();
+  const ctx = await b.newContext({ viewport: { width: 420, height: 880 }, deviceScaleFactor: 1, ...(o.ctx || {}) });
+  const p = await ctx.newPage();
+  const errs = []; p.on('pageerror', e => errs.push('PAGE ' + e.message)); p.on('console', m => { if (m.type() === 'error') errs.push('CON ' + m.text()) });
+  const file = o.file || 'test.html';
+  const url = (x = '') => `${BASE}${file}?m=${market}&theme=${o.theme || 'light'}${x}`;
+  if (o.init) await p.addInitScript(o.init);
+  await p.goto(url()); if (!o.keep) { await p.evaluate(() => localStorage.clear()); await p.goto(url(o.q || '')); } await p.waitForTimeout(500);
+  let n = 0;
+  const H = { p, errs, url, market };
+  H.shot = async (nm) => { await p.waitForTimeout(350); await p.screenshot({ path: `shots/${name}-${String(++n).padStart(2, '0')}-${nm}.png` }) };
+  H.full = async (nm) => { await p.waitForTimeout(350); if (await p.$('.app[data-tab=chat]')) { await p.setViewportSize({ width: 420, height: 1300 }); await p.waitForTimeout(200); await p.evaluate(() => { const e = document.querySelector('.app-main .app-scroll'); e.scrollTop = e.scrollHeight }); await p.waitForTimeout(600); await p.screenshot({ path: `shots/${name}-${String(++n).padStart(2, '0')}-${nm}.png` }); await p.setViewportSize({ width: 420, height: 880 }); return } const el = await p.$('.app-main .app-scroll'); const h = el ? await el.evaluate(e => e.scrollHeight) : 880; await p.setViewportSize({ width: 420, height: Math.min(6000, h + 200) }); await p.waitForTimeout(250); await p.screenshot({ path: `shots/${name}-${String(++n).padStart(2, '0')}-${nm}.png` }); await p.setViewportSize({ width: 420, height: 880 }) };
+  H.nav = async (i) => { await p.click(`.gr-nav button:nth-child(${i})`); await p.waitForTimeout(300) };
+  H.ask = async (t, w = 700) => { await p.fill('.gr-ask input', t); await p.press('.gr-ask input', 'Enter'); await p.waitForTimeout(w) };
+  H.btn = (text, exact) => p.getByRole('button', { name: text, exact: !!exact }).last();
+  H.click = async (text, opt = {}) => { const l = p.getByRole('button', { name: text, exact: !!opt.exact }).last(); await l.scrollIntoViewIfNeeded({ timeout: 4000 }); await l.click({ timeout: 4000 }); await p.waitForTimeout(450) };
+  H.has = async (text) => (await p.getByRole('button', { name: text }).count()) > 0;
+  H.st = () => p.evaluate(() => JSON.parse(localStorage.getItem('gratifi-state-v3-' + new URLSearchParams(location.search).get('m'))));
+  H.last = async () => { const s = await H.st(); const m = s.chat[s.chat.length - 1]; return { text: m.text || '', kinds: (m.blocks || []).map(b => b.kind), blocks: m.blocks } };
+  H.lastText = async () => p.evaluate(() => { const a = [...document.querySelectorAll('.gr-answer')].pop(); return a ? a.innerText : '' });
+  H.sheetText = async () => p.evaluate(() => { const s = document.querySelector('.app-sheet'); return s ? s.innerText : null });
+  H.confirm = async (code = '482193', snap) => { await p.waitForTimeout(300); const s = await p.$('.app-sheet'); if (!s) { errs.push('NO SHEET'); return false } if (snap) await H.shot(snap); const ins = await p.$$('.app-sheet input'); if (ins.length >= 6) { for (let i = 0; i < 6; i++) await ins[i].fill(code[i]) } else if (ins.length) await ins[0].fill(code); await p.locator('.app-sheet .gr-btn').last().click(); await p.waitForSelector('.app-sheet', { state: 'detached', timeout: 9000 }).catch(() => errs.push('SHEET STUCK')); await p.waitForTimeout(400); return true };
+  H.money = async () => { const s = await H.st(); return { pts: s.balance, card: s.card.balance, bookings: s.bookings.map(b => `${b.ref}:${b.cat}:${b.status}:${b.total}:${b.pts}+${b.card}`) } };
+  H.log = (...a) => console.log(`[${name}]`, ...a);
+  try { await fn(H) } catch (e) { errs.push('SCRIPT ' + e.message.split('\n')[0]); await H.shot('fail') }
+  const e2 = await p.evaluate(() => window.__errs || []).catch(() => []);
+  console.log(`[${name}]`, (errs.length || e2.length) ? 'ERRORS: ' + [...errs, ...e2].join(' | ').slice(0, 1500) : 'clean');
+  await b.close();
+};

@@ -1,0 +1,1 @@
+for s in tabs flight stays dining grocery shopping gift subs tickets airport rides experiences bank points docs concierge problems explore manage; do timeout 170 node drive.js ${1:-UK} $s ${2:-light}; done

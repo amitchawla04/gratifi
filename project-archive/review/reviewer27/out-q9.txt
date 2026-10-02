@@ -1,0 +1,10 @@
+
+[a man at the door says he's from the bank and wants my card] => That's very likely a scam. The bank, the police and the tax office never call or message to ask you to pay today, move savings or keep it secret. Hang up and don't send anything. If you've already paid or shared your card details, tell me and I'll freeze your card. | I already paid | Freeze my card
+
+[I think I'm being scammed on a dating site, they want £2000] => MODEL REACHED
+
+[my son is threatening me for money] => MODEL REACHED
+
+[I swallowed a battery] => MODEL REACHED
+
+## q9-UK-ai clean

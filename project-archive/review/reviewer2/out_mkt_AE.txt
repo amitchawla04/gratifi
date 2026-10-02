@@ -1,0 +1,122 @@
+== res: Checked 5 flights from Dubai | Priced for 2 people with points | 5 flights to Muscat on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, AED 455 each way per person. | CL | Coastline | CL 512 | Best for you | 07:25 | DXB | 1h 14m | Direct | 08:39 | MCT | Small bag only | AED 455 | or 22,750 pts | Price each way, per person | AU | Aurora Air | AU 234 | 17:50 | DXB | 3h 17m | 1 stop · DOH | 21:07 | MCT | Cabin bag | AED 455 | or 22,750 pts | Price each way, per person | NW | Northway Air | NW 312 | 3 left at this price | 06:10 | DXB | 3h 44m | 1 stop · DOH | 09:54 | MCT | Cabin bag | AED 565 | or 28,250 pts | Price each way, per person | AU | Aurora Air | AU 718 | 09:40 | DXB | 1h 14m | Direct | 10:54 | MCT | Cabin bag | AED 580 | or 29,000 pts | Price each way, per person | NW | Northway Air | NW 792 | 11:40 | DXB | 1h 18m | Direct | 12:58 | MCT | Cabin bag | AED 605 | or
+== fares: Checked fare rules | Good choice. I've matched it with the 20:30 back on Sun 11 Oct. Pick a fare; prices are per person, return. | 07:25 | Dubai DXB | CL | CL 512 | 1h 14m | Economy | 08:39 | Muscat MCT | 20:30 | Muscat MCT | NW | NW 575 | 1h 11m | Economy | 21:41 | Dubai DXB | Light | Small bag | Cabin bag | Seat choice | Changes | AED 873 | or 43,650 pts | Most picked | Standard | Small bag | Cabin bag | Standard seats | Free date change | AED 1,065 | or 53,250 pts | Flex | Cabin + checked bag | Any seat | Full refund | Fast track | AED 1,545 | or 77,250 pts | Per person, return. 2 travellers: AED 2,130 in total. | Continue with Standard
+== chk: Here's the total. Pay with points, card, or both. | Dubai to Muscat | CL 512 · Standard · Fri 9 Oct 07:25 · back Sun 11 Oct 20:30 | Outbound | CL 512 · Fri 9 Oct 07:25 → 08:39 | Return flight | NW 575 · Sun 11 Oct 20:30 → 21:41 | Standard fare, 2 × AED 1,065 | AED 2,130.00 | Seats 16C, 16B | Free | Total | AED 2,130.00 | Free date change; cancel for a 30% fee | Points | 106,500 pts · 18,000 more than you have | Points and card | 74,500 pts + AED 640 | Card | AED 2,130 on card ending 3309 | Pay AED 640.00 + 74,500 pts
+SHEET: Confirm and pay | Dubai to Muscat · Fri 9 Oct 07:25 · back Sun 11 Oct 20:30 | Dubai to Muscat | AED 2,130.00 | Points used (74,500 pts) | −AED 1,490.00 | On your card | AED 640.00 | Nothing is paid until you confirm | Pay with Face ID
+inputs 0 null
+AFTER CLICK: Confirm and pay | Dubai to Muscat · Fri 9 Oct 07:25 · back Sun 11 Oct 20:30 | Dubai to Muscat | AED 2,130.00 | Points used (74,500 pts) | −AED 1,490.00 | On your card | AED 640.00 | Checking it's you… | Pay with Face ID
+== receipt: Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet. | Confirmed | GR-71308 | Outbound | CL 512 · Fri 9 Oct 07:25 → 08:39 | Return flight | NW 575 · Sun 11 Oct 20:30 → 21:41 | Standard fare, 2 × AED 1,065 | AED 2,130.00 | Seats 16C, 16B | Free | Paid | 74,500 pts + AED 640.00 | Points earned | +320 | Free date change; cancel for a 30% fee. | Add a hotel | Book a lounge | Airport ride
+{
+ "tag": "booked",
+ "balance": 14320,
+ "card": 4905,
+ "frozen": false,
+ "bookings": [
+  "GR-71308 flights Dubai to Muscat confirmed tot=2130 pts=74500 card=640 earned=320"
+ ],
+ "ledger": [
+  "-74500 Dubai to Muscat",
+  "320 Points on card spend: Dubai to Muscat",
+  "1840 Points from card spend",
+  "86660 Balance brought forward"
+ ],
+ "txns": [
+  "640 Dubai to Muscat 320",
+  "300 Pantry Market 150",
+  "875 Northway Air 438",
+  "65 Café Lune 33"
+ ]
+}
+== dine LIST: Checked 6 restaurants | Priced with your points | 6 restaurants in Dubai. Harrow & Vine has tables tonight for 2, with 15% off on your card. | Harrow & Vine | Modern European · Dubai | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · Dubai | 4.6 | Mid-price | Free | to book | The Green Table | Vegetarian · Dubai | 4.7 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · Dubai | 4.7 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · Dubai | 4.4 | Mid-price | Free | to book | Little Olive | Mediterranean · Dubai | 4.3 | Mid-price | Terrace | Free | to book
+== dine DETAIL: Harrow & Vine | Modern European · Dubai | 4.7 ★ | Upmarket | 15% off with your card | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+CTA: Choose this time
+== dine CHECKOUT: Harrow & Vine | When | Tue 29 Sep, 18:30 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+PAYBTN: Book the table
+!! NO SHEET
+== dine DONE: Table booked. The restaurant has your name. | Confirmed | GR-10962 | When | Tue 29 Sep, 18:30 | Guests | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | What else can I do?
+{
+ "tag": "dine",
+ "balance": 14320,
+ "card": 4905,
+ "frozen": false,
+ "bookings": [
+  "GR-10962 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-71308 flights Dubai to Muscat confirmed tot=2130 pts=74500 card=640 earned=320"
+ ],
+ "ledger": [
+  "-74500 Dubai to Muscat",
+  "320 Points on card spend: Dubai to Muscat",
+  "1840 Points from card spend",
+  "86660 Balance brought forward"
+ ],
+ "txns": [
+  "640 Dubai to Muscat 320",
+  "300 Pantry Market 150",
+  "875 Northway Air 438",
+  "65 Café Lune 33"
+ ]
+}
+== lounge LIST: Checked 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Lounge visit | Dubai T3 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | Dubai T3 | AED 42.50 | per person | or 2,125 pts | Meet and greet on arrival | Dubai · greeter at the gate | Help through arrivals and bags | AED 400 | per group | or 20,000 pts | Porter and buggy | Dubai | AED 120 | per booking | or 6,000 pts | Sleep pod, 4 hours | Dubai airside | AED 210 | per pod | or 10,500 pts | Baggage wrap and storage | Dubai | AED 55 | per bag | or 2,750 pts
+== lounge DETAIL: Lounge visit | Dubai T3 · The Orchard | Up to 3 hours before your flight | Free with your card · 2 visits left this year | Card visits come back if the lounge can't take you | Use a free visit
+CTA: Use a free visit
+== lounge CHECKOUT: Lounge visit | People | 1 | To pay | Free with your card | Card visits come back if the lounge can't take you | Confirm
+PAYBTN: Confirm
+!! NO SHEET
+== lounge DONE: Booked with a free card visit. Your pass is in Wallet. | Confirmed | GR-98918 | People | 1 | Card visits come back if the lounge can't take you. | What else can I do?
+{
+ "tag": "lounge",
+ "balance": 14320,
+ "card": 4905,
+ "frozen": false,
+ "bookings": [
+  "GR-98918 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-10962 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-71308 flights Dubai to Muscat confirmed tot=2130 pts=74500 card=640 earned=320"
+ ],
+ "ledger": [
+  "-74500 Dubai to Muscat",
+  "320 Points on card spend: Dubai to Muscat",
+  "1840 Points from card spend",
+  "86660 Balance brought forward"
+ ],
+ "txns": [
+  "640 Dubai to Muscat 320",
+  "300 Pantry Market 150",
+  "875 Northway Air 438",
+  "65 Café Lune 33"
+ ]
+}
+== shop LIST: Checked 12 products | Priced with your points | 6 products. Noise-cancelling headphones is the closest match, with free delivery. | Noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | AED 1,075 | or 53,750 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | AED 1,310 | or 65,500 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | AED 4,695 | or 234,750 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | AED 565 | or 28,250 pts | Leather trainers | Stride Outdoor | 4.4 | AED 445 | or 22,250 pts | Skincare set | Glow Beauty | 4.6 | AED 275 | or 13,750 pts
+== shop DETAIL: Noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | AED 1,075 | or 53,750 pts | Continue
+CTA: Continue
+== shop CHECKOUT: Noise-cancelling headphones | Byte Store · Black | Colour | Black | Quantity | 1 | Total | AED 1,075.00 | Return within 30 days | Points | 53,750 pts · 39,430 more than you have | Points and card | 14,300 pts + AED 789 | Card | AED 1,075 on card ending 3309 | Pay AED 789.00 + 14,300 pts
+PAYBTN: Pay AED 789.00 + 14,300 pts
+SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | AED 1,075.00 | Points used (14,300 pts) | −AED 286.00 | On your card | AED 789.00 | Nothing is paid until you confirm | Pay with Face ID
+== shop DONE: Done. It's in your Wallet. | Confirmed | GR-52756 | Colour | Black | Quantity | 1 | Paid | 14,300 pts + AED 789.00 | Points earned | +395 | Return within 30 days. | Track my order
+{
+ "tag": "shop",
+ "balance": 415,
+ "card": 5694,
+ "frozen": false,
+ "bookings": [
+  "GR-52756 shopping Noise-cancelling headphones confirmed tot=1075 pts=14300 card=789 earned=395",
+  "GR-98918 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-10962 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-71308 flights Dubai to Muscat confirmed tot=2130 pts=74500 card=640 earned=320"
+ ],
+ "ledger": [
+  "-14300 Noise-cancelling headphones",
+  "395 Points on card spend: Noise-cancelling headphones",
+  "-74500 Dubai to Muscat",
+  "320 Points on card spend: Dubai to Muscat",
+  "1840 Points from card spend",
+  "86660 Balance brought forward"
+ ],
+ "txns": [
+  "789 Noise-cancelling headphones 395",
+  "640 Dubai to Muscat 320",
+  "300 Pantry Market 150",
+  "875 Northway Air 438"
+ ]
+}
+== owe: You owe AED 4,265.00, due Wed 7 Oct. The minimum is AED 127.95. | PAYMENT DUE | 7 Oct | AED 4,265.00 | Minimum AED 127.95 by 7 Oct | Full balance | AED 4,265.00 | Half | AED 2,132.50 | Minimum | AED 127.95 | Pay AED 4,265.00 | Set up direct debit
+AE s_mkt clean

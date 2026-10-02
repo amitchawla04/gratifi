@@ -1,0 +1,12 @@
+[the shop said they refunded me but I can't see it] => Gold | Index fund | Savings | Global index fund | Thousands of companies worldwide in one fund · £25 minimum | Before you invest | Investments go down as well as up. | Best held for 5 years or more. | Past performance is not a guide to the future. | Provided b
+[missing refund from a shop] => Talk to a person | Money back on a purchase
+[refund not showing] => Book a flight | A table tonight
+[I returned something to a shop and the refund hasn't come through] => P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+[charged twice] => P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+[card work abroad] => Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Shopping on websites and apps | Payments abroad | Using the card in other countries | Contactless | Tap to pay in shops | Cash withdrawals | Taking cash from machines 
+[what is the foreign transaction fee] => Airport lounges | 2 free visits left this year | 2 left | Purchase protection | Things you buy with the card are covered for 120 days against theft and accidental damage | Extended warranty | An extra year on top of the maker's warranty | Travel insurance | Wh
+[cash advance fee] => I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. | Flights | Book, change, cancel | Stays | Hotels and rooms | Airport | Lounges, fast track | Rides and rail | C
+[card expiry date] => Talk to a person
+[my card was eaten by the cash machine] => Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while t
+
+## s-cat-UK-ai clean

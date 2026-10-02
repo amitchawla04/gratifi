@@ -1,0 +1,3 @@
+STATE card {"last4":"4821","limit":8000,"balance":0,"due":0,"min":0,"dueDate":"2026-10-09","frozen":true,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 48210 Replacement card:confirmed:0:0/0
+LAST Your card is already frozen, so nothing more can go through. I'm bringing in the fraud team now; they'll check the payment and can send you a new card with a new number. If anyone contacts you about it, don't share a code or move money. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me
+UK bank clean

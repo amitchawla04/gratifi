@@ -1,0 +1,36 @@
+
+[a hotel in Barcelona for 3 nights from 20 October for 5 people] => Searched 4 places to stay | Priced with your points | 4 places to stay in Barcelona, Tue 20 Oct for 3 nights. Tidewater Hotel is my pick: 3× points on your card. Prices are for 3 double rooms. | Tidewater Hotel | 3× points | City centre, Barcelona | 4.4 | Pool | Breakfast | £1,125 | 3 nights, 3 rooms, taxes in | or 112,500 pts | Riverside Suites | Old town, Barcelona | 4.3 | Breakfast | £1,278 | 3 nights, 3 rooms, taxes in | or 127,800 pts | Lantern Residence | By the water, Barcelona | 4.4 | Rooftop bar | £1,710 | 3 nights, 3 rooms, taxes in | or 171,000 pts | Harbour Rooms | Near the station, Barcelona | 4.5 | Gym | Spa | £1,998 | 3 nights, 3 rooms, taxes in | or 199,800 pts
+
+[a suite in Lisbon for 2 nights] => Searched 4 places to stay | Priced with your points | 4 places to stay in Lisbon, for 2 nights. Lantern Suites is my pick. Prices are for 1 suite, each sleeping up to 4. | Lantern Suites | By the water, Lisbon | 4.6 | Rooftop bar | £456 | 2 nights, suite, taxes in | or 45,600 pts | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £305 | 2 nights, suite, taxes in | or 30,500 pts | Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £381 | 2 nights, suite, taxes in | or 38,100 pts | Harbour Residence | Near the station, Lisbon | 4.7 | Gym | Spa | £524 | 2 nights, suite, taxes in | or 52,400 pts
+
+[hotel in paris for 45 nights] => Stays can be booked for up to 30 nights here. For longer, the concierge team can help. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[a ride to Heathrow] => A ride to Heathrow. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £44.77 | or 4,477 pts | fixed price | Continue
+
+[a taxi to Canary Wharf] => A ride to Canary Wharf. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £19.59 | or 1,959 pts | fixed price | Continue
+
+[a cab to Oxford] => Oxford is too far for a ride. Rides here cover London and the airport. For a car all the way, the concierge team can arrange a driver. | Ask the concierge
+
+[a taxi to Manchester tomorrow at 8am] => Manchester is too far for a ride. Rides here cover London and the airport. There's a train to Manchester. For a car all the way, the concierge team can arrange a driver. | Train to Manchester | Standard class, reserved seat | £34 | per person | or 3,400 pts | Ask the concierge
+
+[cab from the office to home at 18:00 today] => A ride to Home, 12 Garden Row at 06:00. Prices are fixed when you book. | Ride: Standard | London · pick-up 06:00 | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Pick-up from Office, 1 Harbour Square at 06:00, Thu 1 Oct. | Free to cancel until the driver arrives
+
+[hire a car for 4 days] => Car hire from Heathrow, priced per day. It's sold for 1, 2, 3, 5 or 7 days, so I've set 5. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts
+
+[hire a car for a week] => Car hire from Heathrow, priced per day. I've set 7 days. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts
+
+[train to Edinburgh] => Train to Edinburgh, standard class, reserved seat. Pick a departure on the next step. | Train to Edinburgh | Standard class, reserved seat | £42 | per person | or 4,200 pts
+
+[trains to Manchester later today] => Train to Manchester, standard class, reserved seat. For Thu 1 Oct. Pick a departure on the next step. | Train to Manchester | Standard class, reserved seat | £34 | per person | or 3,400 pts
+
+[a lounge for 4 people on friday] => Searched 6 airport services | Priced with your points | 1 airport service. You have 2 free lounge visits left. | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person
+
+[fast track for 3] => Searched 6 airport services | Priced with your points | 1 airport service. | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts
+
+[book a table for 13 on saturday] => Tables for 13 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[book a table for 2 at 3am tomorrow] => Searched 6 restaurants | 6 restaurants in London. Harrow & Vine has tables tomorrow from 18:30 (the earliest sitting) for 2, with 15% off on your card. | Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book | The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · London | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+
+[things to do in Lisbon on Saturday for 3] => Searched 7 things to do | Priced with your points | 7 things to do in Lisbon. Old town walking tour is the most booked. | Old town walking tour | Lisbon | 4.5 | 2 hours | Small group | £24 | per person | or 2,400 pts | Sunset boat trip | Lisbon | 4.6 | 90 min | £45 | per person | or 4,500 pts | Food market tour | Lisbon | 4.8 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Cooking class | Lisbon | 4.8 | 3 hours | £52 | per person | or 5,200 pts | Museum with skip-the-line entry | Lisbon | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Day trip to the coast | Lisbon | 4.4 | Full day | Pick-up | £68 | per person | or 6,800 pts | Theme park day | Lisbon | 4.6 | Full day | £58 | 
+
+## mix-UK clean

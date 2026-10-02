@@ -1,0 +1,3 @@
+STATE card {"last4":"4821","limit":8000,"balance":1221.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 24425 London to Lisbon:confirmed:556:24100/315
+LAST Done. You're on the 09:40 on Fri 9 Oct at no cost, with the same seats where the plane allows. Your booking is updated. | London to Lisbon | AU 594 · Standard · Fri 9 Oct 09:40 · back Sun 11 Oct 20:30 | Confirmed | GR-90476 | 24,100 pts + £315.00 | Boarding pass | Change date | Change seats | Cancel | Check compensation
+UK flight clean

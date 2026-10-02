@@ -1,0 +1,18 @@
+
+[where is my refund] => I can't see a refund in the last 30 days. If a shop outside Gratifi owes you money, the bank's disputes team can help. | Talk to a person
+
+[i'm still waiting for a refund from a shop] => Shop refunds usually show within 5 working days of the shop sending them. If it has been longer, or the shop won't refund you, the disputes team can help; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[the shop refunded me last week but it's not on my card] => Shop refunds usually show within 5 working days of the shop sending them. If it has been longer, or the shop won't refund you, the disputes team can help; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[how long do refunds take] => Refunds for Gratifi bookings go back at once: points straight away, and card refunds can take 3 to 5 working days to show on your statement. A refund from another shop usually shows within 5 working days of the shop sending it. | Where is my refund?
+
+[fundraiser for my school] => School and personal fundraisers aren't set up here yet. You can give points to these charities. | HOW MANY POINTS | 500 pts | 1,000 pts | 2,500 pts | 5,000 pts | 1,000 pts = £10.00 to the charity | Clean Seas Trust | Clearing plastic from coastlines | 1,240,000 of 2,000,000 points given by members | Give points | Books for Every Child | Reading packs for primary schools | 860,000 of 1,000,000 points given by members | Give points | Warm Homes | Heating help for older people | 410,000 of 1,500,000 points given by members | Give points | Local Food Bank Network | Food parcels near you | 2,100,000 of 2,500,000 points given by members | Give points
+
+[golden hour boat trip in Lisbon] => Searched 7 things to do | Priced with your points | 7 things to do in Lisbon. Old town walking tour is the most booked. | Old town walking tour | Lisbon | 4.5 | 2 hours | Small group | £24 | per person | or 2,400 pts | Sunset boat trip | Lisbon | 4.6 | 90 min | £45 | per person | or 4,500 pts | Food market tour | Lisbon | 4.8 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Cooking class | Lisbon | 4.8 | 3 hours | £52 | per person | or 5,200 pts | Museum with skip-the-line entry | Lisbon | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Day trip to the coast | Lisbon | 4.4 | Full day | Pick-up | £68 | per person | or 6,800 pts | Theme park day | Lisbon | 4.6 | Full day | £58 | 
+
+[Goldsmiths tickets] => I can't sell Goldsmiths tickets here. The concierge team can try to find some and come back with prices. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[savings on hotels] => Searched 4 places to stay | Priced with your points | You didn't say where, so here's Lisbon; tell me the city if you meant somewhere else. 4 places to stay in Lisbon. Riverside Hotel is my pick. | Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £272 | 2 nights, taxes in | or 27,200 pts | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £218 | 2 nights, taxes in | or 21,800 pts | Lantern Suites | By the water, Lisbon | 4.6 | Rooftop bar | £326 | 2 nights, taxes in | or 32,600 pts | Harbour Residence | Near the station, Lisbon | 4.7 | Gym | Spa | £374 | 2 nights, taxes in | or 37,400 pts
+
+## q6L-UK clean

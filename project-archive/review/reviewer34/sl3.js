@@ -1,0 +1,1 @@
+module.exports={"a0":{"m":"AR","q":"ابي طاولة الليلة","plan":"(async (t,o,run)=>{ await run(\"search_catalogue\",{category:\"dining\",city:\"Dubai\",guests:2}); return \"طاولتك جاهزة الساعة ٨.\" })","dom":true}}

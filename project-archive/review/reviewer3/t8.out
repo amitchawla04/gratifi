@@ -1,0 +1,15 @@
+[fl] "5 flights to Goa on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, ₹3,690 each way per person." flights,suggest
+Pay ₹16,280.00
+SHEET Confirm and pay | Mumbai to Goa · Fri 9 Oct 07:25 · back Sun 11 Oct 14:15 | Mumbai to Goa (2 travellers) | ₹16,280.00 | On your card | ₹16,280.00 | Enter the 6-digit code sent to your phone ending 45 | Send a new code | Confirm ₹16,280.00 | Demo: the one-time code is 482193
+wrong 0 Confirm and pay | Mumbai to Goa · Fri 9 Oct 07:25 · back Sun 11 Oct 14:15 | Mumbai to Goa (2 travellers) | ₹16,280.00 | On your card | ₹16,280.00 | Enter the 6-digit code sent to your phone ending 45 | That code isn't right. Check the text message and try again. | Send a new code | Confirm ₹16,280.00 | Demo: the one-time code is 482193
+wrong 1 Confirm and pay | Mumbai to Goa · Fri 9 Oct 07:25 · back Sun 11 Oct 14:15 | Mumbai to Goa (2 travellers) | ₹16,280.00 | On your card | ₹16,280.00 | Enter the 6-digit code sent to your phone ending 45 | That code isn't right. Check the text message and try again. | Send a new code | Confirm ₹16,280.00 | Demo: the one-time code is 482193
+wrong 2 Confirm and pay | Mumbai to Goa · Fri 9 Oct 07:25 · back Sun 11 Oct 14:15 | Mumbai to Goa (2 travellers) | ₹16,280.00 | On your card | ₹16,280.00 | Enter the 6-digit code sent to your phone ending 45 | Too many wrong codes. Close this and start again, or call the bank. | Send a new code | Confirm ₹16,280.00 | Demo: the one-time code is 482193
+bookings after wrong 0 card 99770
+sheet after close null
+SHEET2 Confirm and pay | Mumbai to Goa · Fri 9 Oct 07:25 · back Sun 11 Oct 14:15 | Mumbai to Goa (2 travellers) | ₹16,280.00 | On your card | ₹16,280.00 | Enter the 6-digit code sent to your phone ending 45 | Send a new code | Confirm ₹16,280.00 | Demo: the one-time code is 482193
+[paid] "Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet." receipt,suggest
+booking [ 16280, 0, 16280, 651 ] card 116050
+PAID Pay 1,900 pts || SHEET: Confirm and pay | Groceries | Groceries | ₹475.00 | Points used (1,900 pts) | −₹475.00 | Points | 1,900 pts | Enter the 6-digit code sent to your phone ending 45 | Send a new code | Confirm 1,900 pts | Demo: the one-time code is 482193
+BILL SHEET Pay your card bill | From your current account ending 7781 | Card bill | ₹99,770.00 | From your account | ₹99,770.00 | Enter the 6-digit code sent to your phone ending 45 | Send a new code | Confirm ₹99,770.00 | Demo: the one-time code is 482193
+[bill] "Paid ₹99,770.00 from your current account. It shows on your balance now." balance
+[]

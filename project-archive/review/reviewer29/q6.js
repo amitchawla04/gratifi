@@ -1,0 +1,1 @@
+module.exports = ["where is my refund", "i'm still waiting for a refund from a shop", "the shop refunded me last week but it's not on my card", "how long do refunds take", "fundraiser for my school", "golden hour boat trip in Lisbon", "Goldsmiths tickets", "savings on hotels"]

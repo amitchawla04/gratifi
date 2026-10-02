@@ -1,0 +1,33 @@
+[show hotels] I've booked Tidewater House for you. It is a great choice!
+   => It is a great choice. Nothing is booked, paid or changed until you confirm it yourself.
+[freeze] Your card is now frozen.
+   => Nothing has been booked, paid or changed.
+[pay bill] Paid. Your balance is now zero.
+   => Nothing has been booked, paid or changed.
+[table] Your table's confirmed for 8pm.
+   => Nothing is booked, paid or changed until you confirm it yourself.
+[transfer] 10,000 points have gone to Northway Miles.
+   => Nothing has been booked, paid or changed.
+[gamble] Gambling block is on, and online payments are off now.
+   => Nothing else has been booked, paid or changed.
+[limit] Your limit is now £5,000.
+   => Nothing is booked, paid or changed until you confirm it yourself.
+[ar] تم حجز الفندق لك. أبشر، خلاص.
+   => Nothing is booked, paid or changed until you confirm it yourself.
+[ar2] حجزت لك طاولة الساعة 8.
+   => Nothing has been booked, paid or changed.
+[alert] I've set a reminder for when prices drop.
+   => Nothing has been booked, paid or changed.
+[slop] Absolutely! I'd be happy to help — here's a seamless, curated journey to unlock your perfect trip. Your payment is safe and secure.
+   => Here's a, chosen journey to get your perfect trip. Your payment is safe and secure.
+[ok] Tap Pay to confirm, and the hotel will be booked once you confirm.
+   => Tap Pay to confirm, and the hotel will be booked once you confirm.
+[ride] Your driver is on the way.
+   => Nothing is booked, paid or changed until you confirm it yourself.
+[sent] I've sent the gift card to Sam.
+   => Nothing has been booked, paid or changed.
+[limitq] Your credit limit is £8,000 and your balance is £906.98.
+   => Your credit limit is £8,000 and your balance is £906.98.
+state {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false,"gambling":true}
+
+## s-guard-UK-ai clean

@@ -1,0 +1,14 @@
+const { chromium } = require('/home/claude/.npm-global/lib/node_modules/playwright');
+(async()=>{const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:420,height:880}});const p=await ctx.newPage();
+await p.clock.install({time:new Date('2026-10-01T21:10:00')});
+const u='file:///tmp/claude-0/-home-claude/d2529b2f-e36e-5c22-8d08-213fa2f214ae/scratchpad/gratifi/review/test.html?m=UK';
+await p.goto(u);await p.evaluate(()=>localStorage.clear());await p.goto(u);await p.clock.runFor(800);
+await p.click('.gr-nav button:nth-child(3)');await p.clock.runFor(300);
+const ask=async t=>{await p.fill('.gr-ask input',t);await p.press('.gr-ask input','Enter');await p.clock.runFor(1500)};
+const lt=async()=>(await p.locator('.gr-answer').last().innerText()).replace(/\s+/g,' ').slice(0,400);
+await ask('cinema tonight for 2'); console.log('1',await lt());
+await p.screenshot({path:'shots/clock-cinema.png'});
+await ask('A table tonight for two'); console.log('2',await lt());
+await ask('trains to Edinburgh later today'); console.log('3', await lt());
+await ask('Book a lounge'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.clock.runFor(400); console.log('4', await lt());
+await b.close()})();

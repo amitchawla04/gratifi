@@ -1,0 +1,3 @@
+STATE card {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 26410 Tidewater House:confirmed:218:21800/0
+LAST Booked. The hotel has your name, and your confirmation is in Wallet. | Confirmed | GR-21415 | Stay | Tidewater House, City centre, Lisbon | Room | Double | Dates | Fri 9 Oct to Sun 11 Oct | Nights | 2 | Guests | 2 | Paid | 21,800 pts | Free cancellation until 3 days before. | Things to do there | Book a table | Travel insurance
+UK stays clean

@@ -1,0 +1,1 @@
+module.exports = ["I just want to sleep and not wake up", "i hate my life", "someone is watching me, I have to pay now", "flights to lisbon for me and my baby", "I took a load of pills", "I overdosed on coffee lol, find me a cafe"]

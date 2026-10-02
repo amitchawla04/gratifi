@@ -1,0 +1,10 @@
+const { open } = require('./h.js');
+(async () => { const h = await open('UK', { tag: 'fl4' }); const { p } = h;
+ await h.nav(3); await h.ask('One way to Paris today in the evening', 1000); console.log('search:', (await h.lastText()).slice(0, 300));
+ await p.locator('.gr-flight').first().click(); await p.waitForTimeout(500); await h.click(/Continue with/); await p.waitForTimeout(400);
+ await h.full('seats');
+ const b = h.last().locator('.gr-btn').last(); console.log('cta', await b.innerText()); await b.click(); await p.waitForTimeout(500);
+ await h.btn(/^Pay /).click(); await h.confirm(); console.log('receipt:', (await h.lastText()).slice(0, 300));
+ await h.nav(4); await h.click(/Boarding pass|Show pass/); await p.waitForTimeout(400); await h.full('pass');
+ console.log('wallet:', (await p.locator('.app-main').innerText()).replace(/\s+/g, ' ').slice(0, 700));
+ await h.close() })();

@@ -1,0 +1,160 @@
+
+[table for 2 at Kanji tonight 8pm]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"DN-London-3","quantity":2,"option":"20:00"},"shown":["freeconfirm"],"note":"20:00 has passed today, so this is for tomorrow. Change the day if you'd rather."}]
+  SHEET: -
+  UI: Nothing is booked, paid or changed until you confirm it yourself. | Kanji | When | Thu 1 Oct, 20:00 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+
+[table for 14 at Kanji saturday]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"DN-London-3","quantity":14,"date":"2026-10-03","option":"20:00"},"shown":["conciergeform"],"note":"Tables for 14 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you."}]
+  SHEET: -
+  UI: Here is your table. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[table for 13 at Kanji saturday]
+  TOOLS: [{"n":"show_item","a":{"id":"DN-London-3","guests":13},"shown":["detail"],"note":""}]
+  SHEET: -
+  UI: Here it is. | Kanji | Japanese · London | 4.4 ★ | Upmarket | Chef's counter | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | TIME | 20:00 | 20:30 | 21:00 | GUESTS | 12 | For more than 12, ask the concierge team: they arrange big tables with the restaurant. | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+
+[table for 0]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"DN-London-3","quantity":0,"option":"20:00"},"shown":["detail"],"note":"Guests has to be at least 1. Set it here."}]
+  SHEET: -
+  UI: Here. | Kanji | Japanese · London | 4.4 ★ | Upmarket | Chef's counter | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | TIME | 20:00 | 20:30 | 21:00 | GUESTS | 1 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+
+[table at 3am]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"DN-London-3","quantity":2,"option":"03:00"},"shown":["detail"],"note":"Kanji has times 18:30, 19:00, 19:30, 20:00, 20:30, 21:00. Which would you like?"}]
+  SHEET: -
+  UI: Here. | Kanji | Japanese · London | 4.4 ★ | Upmarket | Chef's counter | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | TIME | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+
+[table yesterday]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"DN-London-3","quantity":2,"date":"2026-09-29","option":"20:00"},"shown":[],"note":"Tue 29 Sep has already passed. Which date would you like?"}]
+  SHEET: -
+  UI: Here.
+
+[hotel lisbon 45 nights]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":45,"date":"2026-10-10"},"shown":["detail"],"note":"Stays can be booked for up to 30 nights here. For longer, the concierge team can help."}]
+  SHEET: -
+  UI: Here. | Tidewater House | City centre, Lisbon | 4.8 ★ | Pool | Breakfast | CHECK IN | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 8 Nov | Mon 9 Nov | Tue 10 Nov | Wed 11 Nov | Thu 12 Nov | Fri 13 Nov | Sat 14 Nov | Sun 15 Nov | Mon 16 Nov | Tue 17 Nov | Wed 18 Nov | Thu 19 Nov | Fri 20 Nov | Sat 21 Nov | Sun 22 Nov | Mon 23 Nov | Tue 24 Nov | Wed 25 Nov | Thu 26 Nov | Fri 27 Nov | Sat 28 Nov | Sun 29 Nov | Mon 30 Nov | Tue 1 Dec | Wed 2 Dec | Th
+
+[hotel lisbon 2.5 nights]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":2.5,"date":"2026-10-10"},"shown":["detail"],"note":"Nights has to be a whole number. Set it here."}]
+  SHEET: -
+  UI: Here. | Tidewater House | City centre, Lisbon | 4.8 ★ | Pool | Breakfast | CHECK IN | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 8 Nov | Mon 9 Nov | Tue 10 Nov | Wed 11 Nov | Thu 12 Nov | Fri 13 Nov | Sat 14 Nov | Sun 15 Nov | Mon 16 Nov | Tue 17 Nov | Wed 18 Nov | Thu 19 Nov | Fri 20 Nov | Sat 21 Nov | Sun 22 Nov | Mon 23 Nov | Tue 24 Nov | Wed 25 Nov | Thu 26 Nov | Fri 27 Nov | Sat 28 Nov | Sun 29 Nov | Mon 30 Nov | Tue 1 Dec | Wed 2 Dec | Th
+
+[hotel lisbon 5 guests 1 room]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":2,"quantity":5,"rooms":1,"date":"2026-10-10"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Tidewater House | City centre, Lisbon · Sat 10 Oct to Mon 12 Oct | Dates | Sat 10 Oct to Mon 12 Oct | Nights | 2 | Rooms | 3 | Guests | 5 | Total | £654.00 | Free cancellation until 3 days before | Points | 65,400 pts · 17,190 more than you have | Points and card | 24,100 pts + £413 | Card | £654 on card ending 4821 | POINTS | 24,100 | ON YOUR CARD | £413.00 | You have 48,210 points | 1 point = £0.01 | Pay £413.00 + 24,100 pts
+
+[hotel lisbon suite for 4 nights for 3 people]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":4,"quantity":3,"option":"Suite","date":"2026-10-10"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Tidewater House | City centre, Lisbon · Suite · Sat 10 Oct to Wed 14 Oct | Room | Suite | Dates | Sat 10 Oct to Wed 14 Oct | Nights | 4 | Guests | 3 | Total | £610.00 | Free cancellation until 3 days before | Points | 61,000 pts · 12,790 more than you have | Points and card | 24,100 pts + £369 | Card | £610 on card ending 4821 | POINTS | 24,100 | ON YOUR CARD | £369.00 | You have 48,210 points | 1 point = £0.01 | Pay £369.00 + 24,100 pts
+
+[gift card no email]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GC-1","option":"50","recipient":"Sam"},"shown":["detail"],"note":"A gift card for Sam is sent by email, and it can't be refunded once sent. What's their email address? You can also type it here."}]
+  SHEET: -
+  UI: Here. | Bloom | Flowers | Bloom | £50 | Flowers | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+
+[gift card bad email]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GC-1","option":"50","recipient":"Sam","email":"sam@"},"shown":["detail"],"note":"A gift card for Sam is sent by email, and it can't be refunded once sent. What's their email address? You can also type it here."}]
+  SHEET: -
+  UI: Here. | Bloom | Flowers | Bloom | £50 | Flowers | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+
+[gift card 37 pounds]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GC-1","option":"37","recipient":"Sam","email":"sam@example.com"},"shown":["detail"],"note":"Gift cards come in £25, £50, £100, £200. Which amount would you like?"}]
+  SHEET: -
+  UI: Here. | Bloom | Flowers | Bloom | £50 | Flowers | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+
+[gift card 50 for sam]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GC-1","option":"50","recipient":"Sam","email":"sam@example.com"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Nothing is booked, paid or changed until you confirm it yourself. | Bloom gift card | Flowers | Amount | £50 | For | Sam (sam@example.com) | Total | £50.00 | Delivered instantly. Valid for 12 months. Not refundable once sent. | Points | 5,000 pts · you have 48,210 | Points and card | 3,500 pts + £15 | Card | £50 on card ending 4821 | Pay 5,000 pts
+
+[jacket no size]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"SH-4"},"shown":["detail"],"note":"Which size would you like? Rain shell jacket comes in S, M, L, XL."}]
+  SHEET: -
+  UI: Here. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+
+[jacket size XXXL]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"SH-4","option":"XXXL"},"shown":["detail"],"note":"Rain shell jacket has sizes S, M, L, XL. Which would you like?"}]
+  SHEET: -
+  UI: Here. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+
+[jacket size M qty 500]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"SH-4","option":"M","quantity":500},"shown":["detail"],"note":"Up to 8 of one item per order."}]
+  SHEET: -
+  UI: Here. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+
+[lounge for 5]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"AP-1","quantity":5},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Lounge visit | Heathrow T5 · The Orchard · Wed 30 Sep | When | Wed 30 Sep | People | 5 | Free visits used | 2 free, 3 paid | Total | £96.00 | Card visits come back if the lounge can't take you | Points | 9,600 pts · you have 48,210 | Points and card | 6,700 pts + £29 | Card | £96 on card ending 4821 | Pay 9,600 pts
+
+[ride to heathrow at 6am tomorrow]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"Heathrow","date":"2026-10-01","pickup_time":"06:00"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Ride: Standard | To Heathrow · Thu 1 Oct 06:00 | From | Your location | To | Heathrow | When | Thu 1 Oct 06:00 | Total | £44.77 | Free to cancel until the driver arrives | Points | 4,477 pts · you have 48,210 | Points and card | 3,100 pts + £13.77 | Card | £44.77 on card ending 4821 | Pay 4,477 pts
+
+[ride at 9am today]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"office","date":"2026-09-30","pickup_time":"09:00"},"shown":["detail"],"note":"09:00 has passed today. Pick a later time or another day."}]
+  SHEET: -
+  UI: Here. | Ride: Standard | London | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Choose a pick-up time. | Free to cancel until the driver arrives | £13.99 | or 1,399 pts | across town; fixed when you book | Add where to
+
+[ride at 25:99]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"office","pickup_time":"25:99"},"shown":["detail"],"note":"That isn't a valid time. Pick the pick-up time here."}]
+  SHEET: -
+  UI: Here. | Ride: Standard | London · 4 min away | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Pick-up from where you are now. | Free to cancel until the driver arrives | £13.99 | or 1,399 pts | across town; fixed when you book | Add where to
+
+[car hire 4 days]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GT-4","days":4},"shown":["detail"],"note":"Car hire is sold for 1, 2, 3, 5 or 7 days. Pick the days here."}]
+  SHEET: -
+  UI: Here. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | PICK-UP DAY | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 8 Nov | Mon 9 Nov | Tue 10 Nov | Wed 11 Nov | Thu 12 Nov | Fri 13 Nov | Sat 14 Nov | DAYS | 1 | 2 | 3 | 5 | 7 | Free cancellation up to 48 hours before | £38 | or 3,800 pts | per day | Continue
+
+[car hire 3 days]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GT-4","days":3},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Car hire: compact automatic | Pick up at the airport · Fri 9 Oct to Mon 12 Oct | Days | 3 | When | Fri 9 Oct to Mon 12 Oct | Total | £114.00 | Free cancellation up to 48 hours before | Points | 11,400 pts · you have 48,210 | Points and card | 7,900 pts + £35 | Card | £114 on card ending 4821 | Pay 11,400 pts
+
+[train to edinburgh 3 people]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"GT-6","quantity":3,"date":"2026-10-02"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Train to Edinburgh | Standard class, reserved seat · Fri 2 Oct, 07:30 | When | Fri 2 Oct, 07:30 | Passengers | 3 | Total | £126.00 | Changes before departure for a fee | Points | 12,600 pts · you have 48,210 | Points and card | 8,800 pts + £38 | Card | £126 on card ending 4821 | Pay 12,600 pts
+
+[cinema 2 for 1, 3 people]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ET-4","quantity":3},"shown":["detail"],"note":"17:40 has already gone today. Later today: 20:50, or pick another day."}]
+  SHEET: -
+  UI: Here. | Cinema: 2 for 1 this week | Reel House, London | Card offer | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | SHOWING | 20:50 | PEOPLE | 3 | Refund up to 1 hour before | £23.98 | or 2,398 pts | £11.99 for every two people | Continue
+
+[cinema 2 for 1, next month]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ET-4","quantity":2,"date":"2026-10-20"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Cinema: 2 for 1 this week | Reel House, London · Tue 20 Oct, 17:40 | Venue | Reel House, London | When | Tue 20 Oct, 17:40 | People | 2 | Total | £11.99 | Refund up to 1 hour before | Points | 1,199 pts · you have 48,210 | Points and card | 800 pts + £3.99 | Card | £11.99 on card ending 4821 | Pay 1,199 pts
+
+[arlo grey 2 tickets on the 25th]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"ET-1","quantity":2,"date":"2026-10-25"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Here. | Arlo Grey live | Arena, London · Sat 24 Oct | Venue | Arena, London | When | Sat 24 Oct | People | 2 | Total | £130.00 | No refunds unless the event is cancelled or moved | Points | 13,000 pts · you have 48,210 | Points and card | 9,100 pts + £39 | Card | £130 on card ending 4821 | Pay 13,000 pts
+
+[subscribe screenly]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"SB-1"},"shown":["checkout"],"note":""}]
+  SHEET: -
+  UI: Nothing is booked, paid or changed until you confirm it yourself. | Screenly | Films and series | After this month | £10.99 a month on your card; cancel any time | Total | £10.99 | Cancel any time; access until your next billing date | Points | 1,099 pts · you have 48,210 | Points and card | 700 pts + £3.99 | Card | £10.99 on card ending 4821 | Pay 1,099 pts
+
+[laptop 9 of them]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"SH-3","quantity":9},"shown":["detail"],"note":"Up to 8 of one item per order."}]
+  SHEET: -
+  UI: Here. | 13-inch laptop, 16GB | Byte Store | 4.8 ★ | Free delivery | 1-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | QUANTITY | 8 | Return within 14 days, unopened | £7,992 | or 799,200 pts | 9 × £999 | Continue
+
+[invented id]
+  TOOLS: [{"n":"prepare_checkout","a":{"id":"SH-99"},"shown":[],"note":"There's no item with that id. Use an id from search_catalogue."}]
+  SHEET: -
+  UI: Here.
+
+[flight checkout via prepare]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-10-09","travellers":2},"shown":["flights"],"note":"7 flights to Lisbon on Fri 9 Oct, one way, for 2 people. I'd pick the 07:25 Coastline: direct, £134 one way per person. It leaves at a more convenient time; the 20:30 is £17 cheaper."},{"n":"prepare_checkout","a":{"id":"FL-LIS-2026-10-09-1-o"},"shown":[],"note":"There's no item with that id. Use an id from search_catalogue."}]
+  SHEET: -
+  UI: Checked 7 flights from London | Priced for 2 people with points | Here. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 39m | Direct | 10:04 | LIS | Cabin bag | £134 | or 13,400 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:16 · Northway Air | 1 stop, OPO · 5h 06m | £135 | or 13,500 pts | 09:40 → 12:16 · Aurora Air | Direct · 2h 36m | £161 | or 16,100 pts | 11:40 → 14:18 · Northway Air | Direct · 2h 38m | £160 | or 16,000 pts | 14:15 → 16:56 · Coastline | 4 left | Direct · 2h 41m | £125 | or 12,500 pts | 17:50 → 22:42 · Aurora Air | 2 left | 1 stop, OPO · 4h 52m | £128 | or 12,800 pts | 20:30 → 23:08 · Northway Air | Direct · 2h 38m | £117 | or 11,700 pts | Only direct | Cheaper dates? | Add a hotel
+
+STATE card {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 48210 lounge 2 
+ 
+
+## plansA-UK-ai clean

@@ -1,0 +1,565 @@
+<title>Gratifi System Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDEFF3; --surface:#FFFFFF; --surface-2:#F6F7F9; --ink:#131725; --muted:#5A6275; --line:#D4D8E0;
+  --teal:#0A7A6D; --teal-soft:#DDF1EE; --indigo:#3336A6; --indigo-soft:#E4E5F8; --amber:#B8700C; --amber-soft:#F8ECD9;
+  --good:#1E7F4E; --warn:#A65A00;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1119; --surface:#161A25; --surface-2:#1C2130; --ink:#E7E9F0; --muted:#9BA3B6; --line:#2B3142;
+    --teal:#3CC4B2; --teal-soft:#15302D; --indigo:#8D90F6; --indigo-soft:#23264A; --amber:#F0A542; --amber-soft:#3A2B15;
+    --good:#4CC98A; --warn:#F0A542;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1119; --surface:#161A25; --surface-2:#1C2130; --ink:#E7E9F0; --muted:#9BA3B6; --line:#2B3142;
+  --teal:#3CC4B2; --teal-soft:#15302D; --indigo:#8D90F6; --indigo-soft:#23264A; --amber:#F0A542; --amber-soft:#3A2B15;
+  --good:#4CC98A; --warn:#F0A542;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:32px 56px;display:flex;flex-direction:column;gap:28px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--indigo);outline-offset:2px;border-radius:6px}
+
+/* header */
+.top{display:flex;flex-direction:column;gap:10px;max-width:760px}
+.mark{display:flex;align-items:baseline;gap:10px}
+.wordmark{font-family:var(--display);font-weight:700;font-size:34px;letter-spacing:-0.02em;color:var(--indigo)}
+.by{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-0.02em;margin:0;text-wrap:balance}
+.lede{margin:0;color:var(--muted);font-size:16px;max-width:66ch}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between}
+.ctl-group{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ctl-label{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 13px;font-size:13.5px;cursor:pointer}
+.pill[aria-checked="true"]{background:var(--indigo);border-color:var(--indigo);color:#fff}
+:root[data-theme="dark"] .pill[aria-checked="true"]{color:#0E1119}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill[aria-checked="true"]{color:#0E1119}}
+.ghost{border:1px solid var(--line);background:transparent;border-radius:8px;padding:7px 12px;font-size:13.5px;cursor:pointer}
+.ghost:hover{background:var(--surface)}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.sw{width:22px;height:4px;border-radius:2px;display:inline-block}
+.sw.in{background:var(--teal)} .sw.core{background:var(--indigo)} .sw.add{background:var(--amber)}
+
+/* patch bay */
+.bay-scroll{overflow-x:auto}
+.bay{position:relative;display:grid;grid-template-columns:270px minmax(0,1fr) 250px;gap:76px;align-items:start;padding-block:6px}
+#cables{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:visible}
+.col{position:relative;z-index:1;display:flex;flex-direction:column;gap:10px}
+.col h2{font-family:var(--display);font-weight:700;font-size:20px;margin:0;letter-spacing:-0.01em}
+.col-in h2{color:var(--teal)} .col-add h2{color:var(--amber)}
+.colnote{margin:-6px 0 4px;font-size:13px;color:var(--muted)}
+.jacks{display:flex;flex-direction:column;gap:8px}
+.jack{position:relative;display:flex;align-items:center;gap:10px;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .2s, background .2s}
+.jack .plug{flex:none;width:30px;height:18px;border-radius:9px;background:var(--line);position:relative;transition:background .2s}
+.jack .plug::after{content:"";position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--surface);transition:transform .2s}
+.jack[aria-pressed="true"] .plug::after{transform:translateX(12px)}
+.jack-text{display:flex;flex-direction:column;min-width:0}
+.jack-name{font-weight:600;font-size:14px}
+.jack-sub{font-size:12.5px;color:var(--muted)}
+.jack .port{position:absolute;top:50%;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;border:2px solid var(--line);background:var(--bg)}
+.col-in .port{right:-6px} .col-add .port{left:-6px}
+.col-in .jack[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-soft)}
+.col-in .jack[aria-pressed="true"] .plug{background:var(--teal)}
+.col-in .jack[aria-pressed="true"] .port{border-color:var(--teal);background:var(--teal)}
+.col-add .jack[aria-pressed="true"]{border-color:var(--amber);background:var(--amber-soft)}
+.col-add .jack[aria-pressed="true"] .plug{background:var(--amber)}
+.col-add .jack[aria-pressed="true"] .port{border-color:var(--amber);background:var(--amber)}
+.jack.selected{box-shadow:0 0 0 2px var(--ink) inset}
+
+/* core */
+.col-core{background:var(--surface);border:2px solid var(--indigo);border-radius:16px;padding:16px;gap:8px}
+.core-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:2px}
+.core-name{font-family:var(--display);font-weight:700;font-size:26px;color:var(--indigo);letter-spacing:-0.02em}
+.core-tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.layer{display:flex;flex-direction:column;gap:3px;text-align:left;width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.layer:hover,.layer-title:hover{border-color:var(--indigo)}
+.layer.selected,.chip.selected,.layer-title.selected{box-shadow:0 0 0 2px var(--indigo) inset}
+.layer b,.layer-title b{font-size:14px;font-weight:600}
+.layer small,.layer-title small{font-size:12.5px;color:var(--muted)}
+.layer.band{background:var(--indigo-soft);border-color:transparent}
+.layer.star{background:var(--indigo-soft);border:2px solid var(--indigo)}
+.layer.star b{font-size:15px}
+.layer.gate{border:1.5px dashed var(--indigo)}
+.group{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.layer-title{display:flex;flex-direction:column;gap:2px;text-align:left;background:none;border:1px solid transparent;border-radius:8px;padding:2px 4px;margin:-2px -4px;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 9px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.chip.live .dot{background:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft)}
+.chip.active{border-color:var(--indigo);color:var(--indigo);font-weight:600}
+
+/* cables */
+.cable{fill:none}
+.cable.off{stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 6}
+.cable.on{stroke-width:2.6;stroke-dasharray:10 7;animation:flow 1.3s linear infinite}
+.cable.on.in{stroke:var(--teal)} .cable.on.add{stroke:var(--amber)}
+.socket.in{fill:var(--teal)} .socket.add{fill:var(--amber)}
+@keyframes flow{to{stroke-dashoffset:-34}}
+@media (prefers-reduced-motion: reduce){.cable.on{animation:none;stroke-dasharray:none}.jack,.jack .plug,.jack .plug::after{transition:none}}
+
+/* outcome */
+.outcome{display:grid;grid-template-columns:340px minmax(0,1fr);gap:32px;align-items:start}
+.outcome h2{font-family:var(--display);font-weight:700;font-size:22px;margin:0 0 12px;letter-spacing:-0.01em}
+.phone{width:300px;max-width:100%;border-radius:38px;padding:12px;background:#0B0D13;box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 18px 40px rgba(10,14,30,.18)}
+.screen{border-radius:28px;overflow:hidden;background:#F4F5F8;color:#141826;min-height:560px;display:flex;flex-direction:column;font-size:13px}
+.s-top{padding:14px 16px 16px;color:#fff;display:flex;align-items:center;gap:10px;transition:background .3s}
+.s-logo{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:15px}
+.s-brand{font-weight:600;font-size:14.5px;line-height:1.2}
+.s-sub{font-size:11.5px;opacity:.85}
+.s-tier{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:3px 8px;border-radius:999px}
+.s-body{padding:12px 14px;display:flex;flex-direction:column;gap:11px;flex:1}
+.s-card{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 2px rgba(20,24,38,.06)}
+.s-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7285}
+.s-bal{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.s-earn{font-size:12.5px;color:#3D4454;margin-top:4px}
+.s-earn.muted{color:#8A90A0;font-style:italic}
+.s-actions{display:flex;gap:8px;flex-wrap:wrap}
+.s-btn{flex:1 1 auto;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:600;text-align:center;border:1px solid #D9DCE3;background:#fff;color:#141826}
+.s-btn.primary{color:#fff;border-color:transparent}
+.s-offer{border-radius:12px;padding:10px 12px;font-size:12.5px;color:#141826;background:#FFF6E6;border:1px dashed #E5B864}
+.s-h{font-weight:600;font-size:12.5px;margin:2px 0 -2px}
+.s-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.s-tile{background:#fff;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;min-height:74px;box-shadow:0 1px 2px rgba(20,24,38,.06)}
+.s-tile b{font-size:12px;line-height:1.3}
+.s-src{margin-top:auto;display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#6B7285}
+.s-src i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.s-src.brand i{background:#0A7A6D} .s-src.r360 i{background:#B8700C}
+.s-empty{font-size:12px;color:#8A90A0;font-style:italic;grid-column:1/-1;padding:6px 2px}
+.s-note{font-size:11.5px;color:#3D4454}
+.s-note.warn{color:#A65A00}
+.s-asst{background:#fff;border-radius:14px;padding:11px 12px;box-shadow:0 1px 2px rgba(20,24,38,.06);border-left:3px solid #7C8394}
+.s-asst.off{border-left-color:#D9DCE3}
+.s-asst .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7285}
+.s-asst p{margin:4px 0 8px;font-size:12.5px;line-height:1.4;color:#141826}
+.s-asst.off p{color:#8A90A0;font-style:italic;margin-bottom:0}
+.s-asst .opts{display:flex;gap:6px;flex-wrap:wrap}
+.s-asst .opt{border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:600;border:1px solid #D9DCE3;background:#fff;color:#141826}
+.s-asst .mem{font-size:10.5px;color:#6B7285;margin-top:8px}
+.s-wa{align-self:flex-end;max-width:88%;background:#DCF8C6;color:#1B2A16;border-radius:12px 12px 2px 12px;padding:8px 10px;font-size:12.3px;position:relative}
+.s-wa small{display:block;font-size:10px;color:#4A6A3E;margin-bottom:2px;font-weight:600}
+.s-tab{display:flex;justify-content:space-around;border-top:1px solid #E3E6EC;padding:9px 6px 12px;background:#fff;font-size:10.5px;color:#6B7285}
+.s-tab span.on{font-weight:600}
+.illus{font-size:12px;color:var(--muted);margin:10px 0 0}
+
+.side{display:flex;flex-direction:column;gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.panel h3{font-family:var(--display);font-weight:700;font-size:19px;margin:0 0 6px;letter-spacing:-0.01em}
+.detail .kind{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.detail .kind.in{color:var(--teal)} .detail .kind.core{color:var(--indigo)} .detail .kind.add{color:var(--amber)}
+.detail p{margin:4px 0 10px;max-width:62ch}
+.detail ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
+.ready-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.ready-pill{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid currentColor}
+.ready-pill.go{color:var(--good)} .ready-pill.wait{color:var(--warn)}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px}
+.checks li{display:flex;gap:9px;align-items:flex-start}
+.tick{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;margin-top:1px}
+.tick.ok{background:var(--good);color:#fff} .tick.no{border:1.5px solid var(--line);color:transparent}
+.gets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:10px}
+.get b{display:block;font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-0.01em;color:var(--indigo)}
+.get span{font-size:13px;color:var(--muted)}
+.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.foot a{color:var(--indigo)}
+
+@media (max-width: 980px){
+  .bay{grid-template-columns:1fr;gap:18px}
+  #cables{display:none}
+  .col-core{order:2} .col-add{order:3}
+  .jack .port{display:none}
+  .outcome{grid-template-columns:1fr}
+  .phone{margin-inline:auto}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="mark"><span class="wordmark">Gratifi</span><span class="by">by R360 · working name</span></div>
+    <h1>Every customer gets their own assistant, in your brand's name.</h1>
+    <p class="lede">A white-label personal assistant for every customer, built as an expert in loyalty, rewards, deals, offers and privileges. It works the way Meta's Muse works for people: it knows the member, watches for what matters to them, and gets things done once they say yes. The brand plugs in what it already has, and it's live in days. R360's content plugs in as an add-on whenever the brand wants more to offer.</p>
+  </header>
+
+  <section class="controls" aria-label="Map controls">
+    <div class="ctl-group">
+      <span class="ctl-label" id="progLabel">Program</span>
+      <div class="pills" role="radiogroup" aria-labelledby="progLabel" id="personas"></div>
+    </div>
+    <div class="ctl-group">
+      <button class="ghost" id="allIn" type="button">Plug everything in</button>
+      <button class="ghost" id="empty" type="button">Unplug all</button>
+    </div>
+  </section>
+
+  <div class="legend" aria-hidden="true">
+    <span><i class="sw in"></i>The brand plugs in</span>
+    <span><i class="sw core"></i>The platform and each member's assistant</span>
+    <span><i class="sw add"></i>R360 add-ons</span>
+  </div>
+
+  <div class="bay-scroll">
+    <section class="bay" id="bay" aria-label="How the platform fits together">
+      <svg id="cables" aria-hidden="true"></svg>
+
+      <div class="col col-in">
+        <h2>You plug in</h2>
+        <p class="colnote">What the brand already has. Each one is a module: tap to plug in or out.</p>
+        <div class="jacks" id="inputs"></div>
+      </div>
+
+      <div class="col col-core" id="core">
+        <div class="core-head"><span class="core-name">The platform</span><span class="core-tag">your name on it</span></div>
+        <button class="layer band" type="button" data-core="control"><b>Control room</b><small>Your team approves, sets limits, watches results, rolls back</small></button>
+        <button class="layer" type="button" data-core="experience"><b>Where members meet it</b><small>Your app, web, WhatsApp, and AI shopping assistants</small></button>
+        <button class="layer star" type="button" data-core="assistant"><b>Each member's own assistant</b><small>Knows them, remembers, acts once they say yes</small></button>
+        <button class="layer gate" type="button" data-core="guard"><b>Guard: the gate</b><small>Nothing spends points or moves money unless it approves</small></button>
+        <div class="group">
+          <button class="layer-title" type="button" data-core="agents"><b>Agents for the brand</b><small>Do the day-to-day work of a loyalty team</small></button>
+          <div class="chips" id="agentChips"></div>
+        </div>
+        <div class="group">
+          <button class="layer-title" type="button" data-core="playbooks"><b>Playbooks</b><small>Ready-made programs, adjusted to the brand</small></button>
+          <div class="chips" id="playChips"></div>
+        </div>
+        <button class="layer" type="button" data-core="engine"><b>Core engine</b><small>One points bank, rules, tiers, offers, tax, live cost view</small></button>
+        <button class="layer" type="button" data-core="connect"><b>Connectors</b><small>Ready-made for 14 kinds of brand data, plus a developer kit</small></button>
+      </div>
+
+      <div class="col col-add">
+        <h2>R360 adds</h2>
+        <p class="colnote">Content and services, switched on when wanted.</p>
+        <div class="jacks" id="addons"></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="outcome">
+    <div>
+      <h2>What the member gets</h2>
+      <div class="phone"><div class="screen" id="screen" aria-live="polite"></div></div>
+      <p class="illus">Illustrative brand and member. The assistant and the app update as you plug things in and out.</p>
+    </div>
+    <div class="side">
+      <div class="panel detail" id="detail" aria-live="polite"></div>
+      <div class="panel" id="ready"></div>
+      <div class="panel">
+        <h3>What the brand gets</h3>
+        <p style="margin:0;color:var(--muted);font-size:14px">Our starting targets from the product doc, to be proven in the first pilots.</p>
+        <div class="gets-grid">
+          <div class="get"><b>About 7 days</b><span>to launch a new program, against 3 to 18 months today</span></div>
+          <div class="get"><b>+10 points</b><span>in active members within 90 days</span></div>
+          <div class="get"><b>Under 1%</b><span>of reward value lost to fraud</span></div>
+          <div class="get"><b>8 in 10</b><span>member questions answered by agents</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Gratifi is a working name; Muse is Meta's assistant, used here only as the model for how ours works. Brands and members shown are illustrative. Full detail is in the <a href="https://claude.ai/code/artifact/19bfb967-3831-43cc-aa7b-1e70712e47af" target="_blank" rel="noopener">product doc</a>.</p>
+</div>
+
+<script>
+(function(){
+  const INPUTS = [
+    {id:'identity', name:'Your brand', sub:'Name, logo, colours, domain',
+      body:'The platform carries the brand\'s name, logo, colours and domain. Customers see the brand everywhere: in its app, on the web and on WhatsApp. They never see us.',
+      ex:['Logo, colours and fonts','The brand\'s own domain','The brand\'s tone in every message']},
+    {id:'customer', name:'Customer data', sub:'CRM, member list, segments',
+      body:'The brand\'s customer list and segments, from its CRM or app. Each member\'s assistant knows them from day one, so offers and messages are personal.',
+      ex:['CRM or member database','App sign-ups','Existing segments']},
+    {id:'sales', name:'Sales and orders', sub:'Stores, website, app',
+      body:'Purchases from the brand\'s stores, website and app. Earn rules run on real sales, so points land as soon as someone buys.',
+      ex:['Store tills','Online orders','App events']},
+    {id:'trade', name:'Trade systems', sub:'Distributors, pack codes, bills',
+      body:'Distributor systems, invoices, codes inside packs and bill uploads. This is how shopkeepers, electricians and mechanics earn from what they sell or use.',
+      ex:['Distributor management system','QR codes inside packs','Photos of bills']},
+    {id:'products', name:'Your products', sub:'Catalogue, prices, launches',
+      body:'The brand\'s own products and prices. The platform builds offers around them, like double points on a new launch or a slow-moving line.',
+      ex:['Product feed','Prices and margins','New launches']},
+    {id:'rewards', name:'Your rewards and rules', sub:'Points, tiers, perks, partners',
+      body:'Whatever the brand already offers: points, tiers, perks and partner deals. The platform runs that structure as it is. Nothing gets replaced.',
+      ex:['Existing tiers','Own perks and discounts','Partner deals']},
+    {id:'channels', name:'Your channels', sub:'App, web, WhatsApp number',
+      body:'The brand\'s app, website and WhatsApp number. The assistant drops into the app as a widget and talks to people on WhatsApp in their own language.',
+      ex:['Widget inside the app','Branded web pages','WhatsApp business number']}
+  ];
+  const ADDONS = [
+    {id:'catalogue', name:'Rewards catalogue', sub:'Vouchers and merchandise',
+      body:'Vouchers and merchandise from R360\'s catalogue, priced in the brand\'s own points. It comes from 17 years of running reward commerce for banks across India, the Gulf and Singapore.',
+      ex:['Brand vouchers','Electronics and home','Everyday essentials']},
+    {id:'travel', name:'Travel', sub:'Flights and hotels',
+      body:'Flights and hotels members can book with the brand\'s points, without the brand signing up a single travel partner.',
+      ex:['Flights','Hotels','Holiday packages']},
+    {id:'experiences', name:'Experiences', sub:'Dining, events, lifestyle',
+      body:'Dining, events and lifestyle experiences that members can book with points.',
+      ex:['Dining','Concerts and events','Wellness']},
+    {id:'payouts', name:'Cash payouts', sub:'To bank, tax handled',
+      body:'Points turned into cash in members\' bank accounts, with tax worked out and deducted where the law needs it. Shopkeepers and tradespeople often prefer cash.',
+      ex:['Bank and UPI transfers','Tax deducted and reported','Payout history in the app']},
+    {id:'fulfilment', name:'Delivery', sub:'Fulfilment and tracking',
+      body:'R360 delivers every reward and tracks it. If an order fails or is cancelled, points go back to the member automatically and their assistant tells them.',
+      ex:['Order tracking','Returns and refunds','Points returned on failure']}
+  ];
+  const CORE = {
+    control:{name:'Control room', body:'Where the brand\'s loyalty and finance teams, and our program team, approve what the agents propose, set spend limits, watch results and roll back any action. Data stays in each country and rules are set per market.', ex:['Approvals and spend limits','Full log and one-tap roll back','Rules per market']},
+    assistant:{name:'Each member\'s own assistant', body:'Every member gets a personal AI assistant in the brand\'s name. It knows their points, tier, offers, deals and privileges; speaks up before points expire or a target is missed; and redeems, books, claims missing points or cashes out once they say yes. It remembers what they like, and they can see and wipe it. Each one runs in its own walled-off space.', ex:['Knows the whole membership','Acts once the member says yes','Memory the member controls']},
+    guard:{name:'Guard: the gate', body:'Modelled on the gatekeeper in Meta\'s Muse. Nothing an assistant does spends points, moves money or leaves the platform unless the guard approves it. It also catches fake scans, bots and points drain, inside the spend limits the brand sets.', ex:['Approves every spend','Stops fraud before payout','Every action logged']},
+    experience:{name:'Where members meet it', body:'The screens, messages and feeds customers actually see: inside the brand\'s app, on the web, on WhatsApp, and in a form AI shopping assistants like ChatGPT and Gemini can read.', ex:['Screens inside the app','WhatsApp in local languages','Points visible to AI assistants']},
+    agents:{name:'Agents for the brand', body:'Six agents in all. The member agent is each member\'s assistant and the guard agent is the gate; the other four do the day-to-day work a loyalty team would otherwise do. Tap one to see what it handles.', ex:['Setup, run and member','Guard, insight and switch']},
+    playbooks:{name:'Playbooks', body:'Ready-made programs. Each comes with its rules, screens, messages, fraud checks and legal wording for each market. The setup agent starts from one and adjusts it to the brand.', ex:['Pick one, adjust, launch','Legal wording per market','Fraud checks built in']},
+    engine:{name:'Core engine', body:'One points bank for every kind of member, from shoppers to electricians. It holds the brand\'s rules, tiers and offers, works out tax, and shows live what outstanding points will cost.', ex:['Points bank and ledger','Rules, tiers and offers','Live cost view']},
+    connect:{name:'Connectors', body:'Ready-made connectors for 14 kinds of brand data, from CRM and store tills to trade systems, pack codes, bookings and telecom billing, plus a kit so the brand\'s own developers can add more. Agents map the brand\'s systems in hours, not months. A one-day data check before signing shows exactly what\'s ready.', ex:['One-day data check','Maps CRM, sales and trade systems','Moves members from an old supplier']}
+  };
+  const AGENTS = [
+    {id:'setup', name:'Setup', body:'Designs the program from the brand\'s goal, drafts the rules, rewards and expected cost, and takes it live.'},
+    {id:'run', name:'Run', body:'Runs offers every day and wins back members who have gone quiet.'},
+    {id:'member', name:'Member', body:'Is each member\'s personal assistant, on WhatsApp or in the app, in their own language: balances, reminders, claims, redemptions and payouts, done once they say yes.'},
+    {id:'guard', name:'Guard', body:'The gate: approves anything that spends points or moves money, and catches fake scans, bots and points drain before any reward is paid out.'},
+    {id:'insight', name:'Insight', body:'Answers the brand\'s questions on demand, like "which dealers went quiet this month?"'},
+    {id:'switch', name:'Switch', body:'Moves members and points across from a brand\'s old supplier.'}
+  ];
+  const PLAYS = [
+    {id:'shopper', name:'Shopper club'},{id:'paid', name:'Paid membership'},{id:'shopkeeper', name:'Shopkeeper rewards'},
+    {id:'electrician', name:'Tradesperson rewards'},{id:'pack', name:'Pack scan-to-earn'},{id:'wellness', name:'Wellness rewards'},
+    {id:'agent', name:'Agent and broker rewards'},{id:'rider', name:'Rider and driver rewards'}
+  ];
+  const PERSONAS = {
+    electrician:{label:'Electricians', play:'electrician', trade:true, brand:'Voltline Cables', init:'VC', color:'#B42318', member:'Imran', unit:'Volt Points', tier:'Pro',
+      bal:'3,150', earn:'+150 points from 3 scans today', offer:'Scan 10 coils of the new fire-safe range this week for 2x points',
+      own:['Crimping tool kit','Site safety gear'], scan:'Scan a pack', cash:'Rs 1,575',
+      asstCash:'Your 3,150 points are worth Rs 1,575. Want me to send it to your bank?', yesCash:'Send to bank',
+      asstReward:'You are 850 points from the crimping tool kit. Two more jobs like today should get you there.', yes:'Remind me', mem:'prefers cash, chats in Hindi',
+      wa:'Imran bhai, aaj ke 3 scan se 150 points mile. Total 3,150. Bank mein bhejein?'},
+    shopkeeper:{label:'Shopkeepers', play:'shopkeeper', trade:true, brand:'Sunrise Foods', init:'SF', color:'#1D4ED8', member:'Lakshmi Stores', unit:'Sunrise Coins', tier:'Platinum store',
+      bal:'8,900', earn:'Order target: 82% of Rs 60,000 this month', offer:'Put up the new display this week and earn 500 bonus coins',
+      own:['Free display rack','Extra 1% margin next month'], scan:'Upload a bill', cash:'Rs 4,450',
+      asstReward:'Rs 10,800 more in orders unlocks this month\'s bonus. Shall I place your usual Monday order?', yes:'Place order', mem:'orders on Mondays',
+      wa:'Lakshmi ji, Rs 10,800 more in orders unlocks this month\'s bonus. Shall I send the order list?'},
+    shopper:{label:'Shoppers', play:'shopper', trade:false, brand:'Harbor Mart', init:'HM', color:'#1C6B4F', member:'Meera', unit:'Harbor Points', tier:'Gold',
+      bal:'2,480', earn:'+120 points from today\'s order', offer:'Double points on breakfast items this week, picked for you',
+      own:['Free delivery for a month','Rs 200 off your next basket'], scan:null, cash:'Rs 1,240',
+      asstReward:'Your 2,480 points cover most of this week\'s usual basket. Apply them at checkout?', yes:'Apply points', mem:'vegetarian, shops on Fridays',
+      wa:'Meera, you have 2,480 points. Want to see what they can get you this weekend?'},
+    wellness:{label:'Policyholders', play:'wellness', trade:false, brand:'Kavach Health', init:'KH', color:'#0E7490', member:'Arjun', unit:'Kavach Points', tier:'Active',
+      bal:'1,920', earn:'8,400 steps today, +40 points', offer:'Book your free annual check-up and earn 300 points',
+      own:['5% premium back at renewal','Free annual check-up'], scan:null, cash:'Rs 960',
+      asstReward:'Your free check-up is due. Shall I book Saturday morning? It earns 300 points.', yes:'Book it', mem:'walks in the mornings',
+      wa:'Arjun, 3 more active days this week and you\'re on track for premium back.'},
+    rider:{label:'Delivery riders', play:'rider', trade:false, brand:'Zipline Delivery', init:'ZD', color:'#7E22CE', member:'Sameer', unit:'Zip Points', tier:'Star rider',
+      bal:'4,300', earn:'Weekend streak: 5 of 6 shifts done', offer:'Finish one more evening shift for 250 bonus points',
+      own:['Accident cover top-up','Priority shift picks'], scan:null, cash:'Rs 2,150',
+      asstCash:'You have Rs 2,150 in points. Send it to your bank now, or keep going for this weekend\'s streak bonus?', yesCash:'Send to bank',
+      asstReward:'One more evening shift finishes your weekend streak and 250 bonus points. Book tonight\'s slot?', yes:'Book slot', mem:'likes evening shifts',
+      wa:'Sameer, one more evening shift finishes your weekend streak.'}
+  };
+  const ORDER = ['electrician','shopkeeper','shopper','wellness','rider'];
+
+  const state = {
+    persona:'electrician',
+    on:{identity:true, customer:true, sales:true, trade:true, products:true, rewards:true, channels:true,
+        catalogue:true, travel:false, experiences:false, payouts:true, fulfilment:true},
+    selected:{type:'overview'}
+  };
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  function jackHTML(j, kind){
+    return `<button class="jack" type="button" data-kind="${kind}" data-id="${j.id}" aria-pressed="${state.on[j.id]}">
+      <span class="plug" aria-hidden="true"></span>
+      <span class="jack-text"><span class="jack-name">${esc(j.name)}</span><span class="jack-sub">${esc(j.sub)}</span></span>
+      <span class="port" aria-hidden="true"></span></button>`;
+  }
+  function renderJacks(){
+    $('#inputs').innerHTML = INPUTS.map(j => jackHTML(j,'in')).join('');
+    $('#addons').innerHTML = ADDONS.map(j => jackHTML(j,'add')).join('');
+    markSelected();
+  }
+  function renderPersonas(){
+    $('#personas').innerHTML = ORDER.map(k => `<button class="pill" type="button" role="radio" data-p="${k}" aria-checked="${state.persona===k}">${esc(PERSONAS[k].label)}</button>`).join('');
+  }
+  function renderChips(){
+    const P = PERSONAS[state.persona];
+    $('#agentChips').innerHTML = AGENTS.map(a => {
+      const live = (a.id==='member' && state.on.channels) || (a.id==='guard') || (a.id==='run' && state.on.customer) || (a.id==='setup');
+      return `<button class="chip ${live?'live':''}" type="button" data-agent="${a.id}"><span class="dot" aria-hidden="true"></span>${esc(a.name)}</button>`;
+    }).join('');
+    $('#playChips').innerHTML = PLAYS.map(p => `<button class="chip ${p.id===P.play?'active':''}" type="button" data-play="${p.id}">${esc(p.name)}</button>`).join('');
+    markSelected();
+  }
+
+  function renderPhone(){
+    const P = PERSONAS[state.persona], on = state.on;
+    const color = on.identity ? P.color : '#7C8394';
+    const brand = on.identity ? P.brand : 'Your brand here';
+    const init = on.identity ? P.init : '?';
+    const unit = on.identity ? P.unit : 'Points';
+    const canEarn = P.trade ? on.trade : on.sales;
+    const greet = on.customer ? `Hi ${P.member}` : 'Hi there';
+    const content = on.catalogue || on.travel || on.experiences;
+
+    let tiles = [];
+    if(on.rewards){ P.own.forEach(t => tiles.push({t, src:'brand'})); }
+    if(on.catalogue){ tiles.push({t:'Brand vouchers', src:'r360'}); tiles.push({t:'Electronics and home', src:'r360'}); }
+    if(on.travel){ tiles.push({t:'Flights and hotels', src:'r360'}); }
+    if(on.experiences){ tiles.push({t:'Dining and events', src:'r360'}); }
+
+    const tileHTML = tiles.length
+      ? tiles.map(x => `<div class="s-tile"><b>${esc(x.t)}</b><span class="s-src ${x.src}"><i></i>${x.src==='brand' ? esc(on.identity?P.brand:'Your brand') : 'R360 content'}</span></div>`).join('')
+      : `<div class="s-empty">Nothing to redeem yet. Plug in your rewards or switch on R360 content.</div>`;
+
+    const actions = [];
+    if(P.trade && on.trade && P.scan) actions.push(`<span class="s-btn primary" style="background:${color}">${esc(P.scan)}</span>`);
+    actions.push(`<span class="s-btn ${actions.length?'':'primary'}" ${actions.length?'':`style="background:${color}"`}>Redeem</span>`);
+    if(on.payouts) actions.push(`<span class="s-btn">Cash out</span>`);
+
+    let note = '';
+    if(content && on.fulfilment) note = `<div class="s-note">Orders delivered and tracked for you.</div>`;
+    else if(content && !on.fulfilment) note = `<div class="s-note warn">Switch on delivery so members can redeem R360 content.</div>`;
+
+    const cashLine = on.payouts ? `<div class="s-earn">${esc(P.cash)} can go straight to your bank</div>` : '';
+    const offer = (on.customer && canEarn) ? `<div class="s-offer"><b>For you:</b> ${esc(P.offer)}${on.products?'':''}</div>` : '';
+    const useCash = on.payouts && P.asstCash && canEarn;
+    const msg = on.customer ? (useCash ? P.asstCash : P.asstReward) : 'Hi! Plug in customer data so I know who I am talking to.';
+    const yes = useCash ? P.yesCash : P.yes;
+    const asst = on.channels
+      ? `<div class="s-asst" style="border-left-color:${color}"><div class="who">Your assistant</div><p>${esc(msg)}</p>${on.customer ? `<div class="opts"><span class="opt" style="background:${color};color:#fff;border-color:transparent">${esc(yes)}</span><span class="opt">Not now</span></div><div class="mem">Remembers: ${esc(P.mem)} · See or wipe</div>` : ''}</div>`
+      : `<div class="s-asst off"><div class="who">Your assistant</div><p>Plug in your app or WhatsApp so members can meet their assistant.</p></div>`;
+    const wa = on.channels ? `<div class="s-wa"><small>${esc(brand)} assistant on WhatsApp</small>${esc(on.customer ? P.wa : 'Hi! Reply BAL to see your points balance.')}</div>` : '';
+
+    $('#screen').innerHTML = `
+      <div class="s-top" style="background:${color}">
+        <div class="s-logo">${esc(init)}</div>
+        <div><div class="s-brand">${esc(brand)}</div><div class="s-sub">${esc(greet)}</div></div>
+        ${on.customer ? `<span class="s-tier">${esc(P.tier)}</span>` : ''}
+      </div>
+      <div class="s-body">
+        <div class="s-card">
+          <div class="s-label">${esc(unit)}</div>
+          <div class="s-bal">${canEarn ? esc(P.bal) : '0'}</div>
+          ${canEarn ? `<div class="s-earn">${esc(P.earn)}</div>` : `<div class="s-earn muted">Plug in ${P.trade?'trade systems':'sales data'} so members start earning.</div>`}
+          ${canEarn ? cashLine : ''}
+        </div>
+        ${asst}
+        <div class="s-actions">${actions.join('')}</div>
+        ${offer}
+        <div class="s-h">Your rewards</div>
+        <div class="s-tiles">${tileHTML}</div>
+        ${note}
+        ${wa}
+      </div>
+      <div class="s-tab"><span class="on">Home</span><span>Rewards</span><span>${P.trade?'Scan':'Offers'}</span><span>Assistant</span></div>`;
+  }
+
+  function renderReady(){
+    const on = state.on, P = PERSONAS[state.persona];
+    const checks = [
+      {l:'The brand\'s name on it', ok:on.identity},
+      {l:'Customers connected', ok:on.customer},
+      {l:P.trade ? 'A way to earn: trade systems' : 'A way to earn: sales data', ok:P.trade ? on.trade : on.sales},
+      {l:'Something to redeem: own rewards or R360 content', ok:on.rewards || on.catalogue || on.travel || on.experiences || on.payouts},
+      {l:'A place to meet the assistant: app or WhatsApp', ok:on.channels}
+    ];
+    const n = checks.filter(c => c.ok).length, all = n === checks.length;
+    $('#ready').innerHTML = `
+      <div class="ready-head"><h3 style="margin:0">Ready to go live?</h3>
+        <span class="ready-pill ${all?'go':'wait'}">${all ? 'Ready' : n + ' of ' + checks.length + ' in place'}</span></div>
+      <ul class="checks">${checks.map(c => `<li><span class="tick ${c.ok?'ok':'no'}" aria-hidden="true">✓</span><span>${esc(c.l)}${c.ok?'':' <span style="color:var(--muted)">(not plugged in)</span>'}</span></li>`).join('')}</ul>
+      <p style="margin:12px 0 0;font-size:13.5px;color:var(--muted)">${all ? 'Target: about 7 days for a new program, 2 to 3 weeks to move an existing one onto the platform.' : 'Plug in the missing pieces to see the full experience.'}</p>`;
+  }
+
+  function renderDetail(){
+    const s = state.selected; let kind='core', label='The platform', title, body, ex=[];
+    if(s.type==='overview'){
+      title='How to read this map'; label='Start here';
+      body='Tap any part of the map to see what it does. Plug the brand\'s pieces in and out on the left, switch R360\'s add-ons on and off on the right, and watch the member\'s assistant and app change below. Switch the program at the top to see the same platform run for electricians, shopkeepers, shoppers, policyholders or riders.';
+      ex=['Teal: what the brand already has','Indigo: the platform and each member\'s assistant','Amber: R360 content and services'];
+    } else if(s.type==='in' || s.type==='add'){
+      const j = (s.type==='in'?INPUTS:ADDONS).find(x => x.id===s.id);
+      kind = s.type; label = s.type==='in' ? 'The brand plugs in' : 'R360 add-on';
+      title = j.name + (state.on[j.id] ? '' : ' (unplugged)'); body = j.body; ex = j.ex;
+    } else if(s.type==='core'){
+      const c = CORE[s.id]; title = c.name; body = c.body; ex = c.ex; label='The platform';
+    } else if(s.type==='agent'){
+      const a = AGENTS.find(x => x.id===s.id); title = a.name + ' agent'; body = a.body; label='Agent';
+    } else if(s.type==='play'){
+      const p = PLAYS.find(x => x.id===s.id); title = p.name; label='Playbook';
+      body = 'A ready-made program the setup agent starts from and adjusts to the brand: rules, screens, messages, fraud checks and legal wording already built.';
+    }
+    $('#detail').innerHTML = `<div class="kind ${kind}">${esc(label)}</div><h3>${esc(title)}</h3><p>${esc(body)}</p>${ex.length?`<ul>${ex.map(e=>`<li>${esc(e)}</li>`).join('')}</ul>`:''}`;
+  }
+
+  function markSelected(){
+    document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+    const s = state.selected; let el = null;
+    if(s.type==='in' || s.type==='add') el = document.querySelector(`.jack[data-id="${s.id}"]`);
+    else if(s.type==='core') el = document.querySelector(`[data-core="${s.id}"]`);
+    else if(s.type==='agent') el = document.querySelector(`[data-agent="${s.id}"]`);
+    else if(s.type==='play') el = document.querySelector(`[data-play="${s.id}"]`);
+    if(el) el.classList.add('selected');
+  }
+
+  function cablePath(x1,y1,x2,y2,kind,on){
+    const dir = x2 > x1 ? 1 : -1, dx = Math.max(28, Math.abs(x2-x1)*0.55);
+    const d = `M${x1.toFixed(1)},${y1.toFixed(1)} C${(x1+dir*dx).toFixed(1)},${y1.toFixed(1)} ${(x2-dir*dx).toFixed(1)},${y2.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`;
+    return `<path class="cable ${kind} ${on?'on':'off'}" d="${d}"/>` + (on ? `<circle class="socket ${kind}" cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="4"/>` : '');
+  }
+  function drawCables(){
+    const svg = $('#cables'); if(getComputedStyle(svg).display === 'none') return;
+    const bay = $('#bay').getBoundingClientRect(), core = $('#core').getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${bay.width} ${bay.height}`);
+    svg.setAttribute('width', bay.width); svg.setAttribute('height', bay.height);
+    let out = '';
+    const side = (sel, kind, edgeX) => {
+      const jacks = [...document.querySelectorAll(sel + ' .jack')];
+      const top = core.top - bay.top + 70, h = core.height - 90;
+      jacks.forEach((j,i) => {
+        const p = j.querySelector('.port').getBoundingClientRect();
+        const x1 = p.left + p.width/2 - bay.left, y1 = p.top + p.height/2 - bay.top;
+        const y2 = top + h * (i + 0.5) / jacks.length;
+        out += cablePath(x1, y1, edgeX, y2, kind, state.on[j.dataset.id]);
+      });
+    };
+    side('#inputs', 'in', core.left - bay.left);
+    side('#addons', 'add', core.right - bay.left);
+    svg.innerHTML = out;
+  }
+
+  function renderAll(){ renderJacks(); renderChips(); renderPhone(); renderReady(); renderDetail(); requestAnimationFrame(drawCables); }
+
+  document.addEventListener('click', e => {
+    const jack = e.target.closest('.jack');
+    if(jack){ const id = jack.dataset.id; state.on[id] = !state.on[id]; state.selected = {type:jack.dataset.kind, id}; renderAll(); return; }
+    const pill = e.target.closest('.pill');
+    if(pill){ state.persona = pill.dataset.p; state.on.trade = PERSONAS[state.persona].trade; state.selected = {type:'play', id:PERSONAS[state.persona].play}; renderPersonas(); renderAll(); return; }
+    const core = e.target.closest('[data-core]');
+    if(core){ state.selected = {type:'core', id:core.dataset.core}; markSelected(); renderDetail(); return; }
+    const ag = e.target.closest('[data-agent]');
+    if(ag){ state.selected = {type:'agent', id:ag.dataset.agent}; markSelected(); renderDetail(); return; }
+    const pl = e.target.closest('[data-play]');
+    if(pl){ state.selected = {type:'play', id:pl.dataset.play}; markSelected(); renderDetail(); return; }
+  });
+  $('#allIn').addEventListener('click', () => { Object.keys(state.on).forEach(k => state.on[k] = true); if(!PERSONAS[state.persona].trade) state.on.trade = false; state.selected={type:'overview'}; renderAll(); });
+  $('#empty').addEventListener('click', () => { Object.keys(state.on).forEach(k => state.on[k] = false); state.selected={type:'overview'}; renderAll(); });
+
+  window.addEventListener('resize', () => requestAnimationFrame(drawCables));
+  if(window.ResizeObserver){ new ResizeObserver(() => requestAnimationFrame(drawCables)).observe($('#bay')); }
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(() => requestAnimationFrame(drawCables)); }
+
+  renderPersonas(); renderAll();
+})();
+</script>

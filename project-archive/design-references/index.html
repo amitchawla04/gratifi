@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gratifi Design References</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#E8E6E2; --screen:#F4F4F3; --card:#FFFFFF; --ink:#141416; --soft:#6E6E76; --faint:#B9B9BF;
+  --accent:#FF6A1F; --sticky-y:#FFD966; --sticky-b:#CFE6F2; --note-b:#DDEBF6; --pill:#17171A;
+  --shadow:0 18px 40px rgba(20,20,22,.08),0 2px 6px rgba(20,20,22,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--ground:#1B1B1D;--screen:#232326;--card:#2C2C30;--ink:#F2F2F0;--soft:#A6A6AD;--faint:#5A5A60;--shadow:0 18px 40px rgba(0,0,0,.4);}
+}
+:root[data-theme="dark"]{--ground:#1B1B1D;--screen:#232326;--card:#2C2C30;--ink:#F2F2F0;--soft:#A6A6AD;--faint:#5A5A60;--shadow:0 18px 40px rgba(0,0,0,.4);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Geist,system-ui,sans-serif;line-height:1.5}
+main{max-width:1120px;margin:0 auto;padding:48px 16px 96px}
+h1{font-size:44px;letter-spacing:-.02em;line-height:1.1;margin:0 0 8px;font-weight:800}
+h2{font-size:26px;letter-spacing:-.01em;margin:56px 0 16px;font-weight:700}
+.sub{color:var(--soft);font-size:17px;margin:0;max-width:720px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.shot{background:var(--card);border-radius:24px;padding:8px;box-shadow:var(--shadow)}
+.shot img{width:100%;height:320px;object-fit:cover;object-position:center;border-radius:18px;display:block;background:#000}
+.shot p{margin:8px 6px 4px;font-size:13px;color:var(--soft)}
+.card{background:var(--card);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.sw{display:flex;align-items:center;gap:12px;margin:8px 0;font-size:14px}
+.sw i{width:40px;height:40px;border-radius:12px;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td,th{text-align:left;padding:12px 10px;border-top:1px solid rgba(128,128,128,.18);vertical-align:top}
+th{font-size:13px;color:var(--soft);font-weight:600;border-top:none}
+ul{padding-left:20px;margin:8px 0}
+li{margin:6px 0}
+.hand{font-family:'Gochi Hand',cursive;font-size:26px}
+.table-wrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<main>
+<h1>Design references</h1>
+<p class="sub">The screenshots Amit shared on 27 Sep 2026 (nine so far) to show the look he likes, and how we turn it into Gratifi's look. Use this page as the brief for every Gratifi screen and slide.</p>
+
+<h2>The screenshots</h2>
+<div class="grid">
+  <figure class="shot" style="margin:0"><img src="ref-01.png" alt="Eiffel Tower detail screen with tilted polaroid, blue sticky note and round buttons"><p>Detail screen: polaroid, sticky note, sticker</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-02.png" alt="Trip folder cards with stamps, sticky notes, avatars and a floating nav bar"><p>Folder cards and floating nav</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-03.png" alt="Daily travel journal home with big title, search and black plus button"><p>Home: big title, round buttons</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-04.png" alt="Tablet masonry grid of image, note and link cards with a segmented control"><p>Masonry cards, note card, segmented control</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-05.png" alt="Volume dial with orange tick marks around a black centre showing 10"><p>Dial</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-06.png" alt="Orange circle with a white check mark"><p>Confirm check</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-07.png" alt="September 2026 calendar card with an orange range from 14 to 17"><p>Calendar with range</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-08.png" alt="Send to card with five avatars, three selected with orange rings and checks"><p>Send to, multi-select avatars</p></figure>
+  <figure class="shot" style="margin:0"><img src="ref-09.jpg" alt="Collage screen with a torn-paper photo, die-cut travel stickers and a floating toolbar with a black Play pill"><p>Torn photo, die-cut stickers, floating toolbar</p></figure>
+</div>
+<p class="sub" style="margin-top:12px">The ninth file (a "Post to Story / Feed" menu with a black pill on the selected row) was not uploaded.</p>
+
+<h2>What makes the look</h2>
+<div class="cols">
+  <div class="card"><b>Calm ground, white objects</b><ul><li>Warm grey canvas, or a near-white screen</li><li>Pure white cards with big corners (24 to 32px)</li><li>Soft, wide shadows. No borders, no gradients</li></ul></div>
+  <div class="card"><b>One hot accent</b><ul><li>A single orange for selection, progress and done</li><li>Everything else is black, white and grey</li><li>Paper colours (yellow, pale blue) only on notes</li></ul></div>
+  <div class="card"><b>Things you can hold</b><ul><li>Polaroids at a slight tilt, paper clips, stamps with perforated edges, die-cut stickers</li><li>Photos peeking out of folders</li><li>Handwriting on notes, nowhere else</li></ul></div>
+  <div class="card"><b>Big, confident type</b><ul><li>Bold titles with tight spacing</li><li>Grey meta lines split by dots</li><li>Small letter-spaced labels (like VOLUME)</li></ul></div>
+  <div class="card"><b>Controls people already know</b><ul><li>Round white icon buttons, one black primary</li><li>Black pill for the selected tab or row</li><li>Floating nav bar, calendar, avatars with checks</li></ul></div>
+  <div class="card"><b>Motion that confirms</b><ul><li>The check pops, the range stretches, the dial turns</li><li>Movement only when something happened</li></ul></div>
+</div>
+
+<h2>Gratifi tokens</h2>
+<div class="cols">
+  <div class="card">
+    <div class="sw"><i style="background:#E8E6E2"></i>Ground #E8E6E2</div>
+    <div class="sw"><i style="background:#F4F4F3"></i>Screen #F4F4F3</div>
+    <div class="sw"><i style="background:#FFFFFF"></i>Card #FFFFFF</div>
+    <div class="sw"><i style="background:#141416"></i>Ink #141416</div>
+    <div class="sw"><i style="background:#6E6E76"></i>Soft ink #6E6E76</div>
+  </div>
+  <div class="card">
+    <div class="sw"><i style="background:#FF6A1F"></i>Accent #FF6A1F (the brand swaps this one)</div>
+    <div class="sw"><i style="background:#17171A"></i>Black pill #17171A</div>
+    <div class="sw"><i style="background:#FFD966"></i>Sticky yellow #FFD966</div>
+    <div class="sw"><i style="background:#CFE6F2"></i>Sticky blue #CFE6F2</div>
+  </div>
+  <div class="card">
+    <p style="margin:0 0 6px;font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.1">Geist, bold titles</p>
+    <p style="margin:0 0 6px;font-size:17px;color:var(--soft)">Geist 500 for body and meta · 17 places · 3 selected</p>
+    <p style="margin:0 0 6px;font-size:12px;letter-spacing:.22em;font-weight:600;color:var(--soft)">LABEL</p>
+    <p class="hand" style="margin:0">Gochi Hand for notes</p>
+  </div>
+</div>
+
+<h2>From their app to ours</h2>
+<p class="sub">Every reference becomes a loyalty element. The assistant does the work in the background, but what the member sees is a screen they already know how to use.</p>
+<div class="card table-wrap" style="margin-top:16px">
+<table>
+<tr><th>Reference</th><th>Gratifi element</th><th>What the member does</th></tr>
+<tr><td>Volume dial</td><td>Points dial: balance in the black centre, orange ticks show progress to the next tier</td><td>Glances at it, like a balance</td></tr>
+<tr><td>Sticky note with paper clip</td><td>Assistant note: one line from the assistant, pinned to a reward, with Yes and Not now</td><td>Taps yes, or ignores it</td></tr>
+<tr><td>Note card (tablet grid)</td><td>Assistant card in the feed: what it noticed and what it suggests</td><td>Reads, then taps</td></tr>
+<tr><td>Polaroid</td><td>Reward or experience card, with price in points on a sticky</td><td>Browses, saves</td></tr>
+<tr><td>Postage stamp</td><td>A voucher or earned reward, collected like a stamp</td><td>Collects, uses at checkout</td></tr>
+<tr><td>Trip folder</td><td>A saved plan: "Summer in Lisbon", "Birthday gifts", with rewards peeking out</td><td>Opens, adds to it</td></tr>
+<tr><td>Calendar range</td><td>Booking dates, and when points expire</td><td>Picks dates the normal way</td></tr>
+<tr><td>Send to</td><td>Gift or share points with family</td><td>Picks people, confirms</td></tr>
+<tr><td>Orange check</td><td>Done: redeemed, booked or paid, after the member said yes</td><td>Sees it happened</td></tr>
+<tr><td>Segmented control</td><td>For you / Everything: the assistant's picks or the full catalogue</td><td>Can always browse the old way</td></tr>
+<tr><td>Floating nav with black pill</td><td>Home, Rewards, Wallet, Me</td><td>Moves around the app</td></tr>
+<tr><td>Post-to menu (missing file)</td><td>Pay with: Points / Points and card / Card</td><td>Chooses, like any checkout</td></tr>
+</table>
+</div>
+
+<h2>The rule for agentic screens</h2>
+<div class="card">
+<ul>
+<li>The assistant suggests. The member decides with a normal button.</li>
+<li>Every action the assistant takes lands in a familiar place: basket, calendar, receipt, wallet.</li>
+<li>There is always a manual way to do the same thing: browse, search, pick.</li>
+<li>Chat is available, but it is not the home screen.</li>
+<li>Numbers on screen come from the brand's systems, never from the AI.</li>
+</ul>
+</div>
+
+<h2>How we write</h2>
+<div class="card">
+<ul>
+<li>Write the way people talk. Short words, short sentences.</li>
+<li>Lead with what the reader cares about. Reasons second.</li>
+<li>Numbers instead of adjectives. No number we can't source.</li>
+<li>Active voice: always clear who does what.</li>
+<li>UK spelling for UK and EU work.</li>
+<li>Never: seamless, unlock, leverage, empower, elevate, transform, revolutionise, cutting-edge, world-class, best-in-class, ecosystem, journey, delve, robust, "it's not X, it's Y", rhetorical openers, lists of three adjectives.</li>
+</ul>
+</div>
+</main>
+</body>
+</html>

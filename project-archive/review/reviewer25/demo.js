@@ -1,0 +1,21 @@
+const run = require('./h.js'); const m = process.argv[2] || 'UK';
+process.on('unhandledRejection', () => { });
+run(`demo-${m}`, m, async h => {
+  h.p.setDefaultTimeout(5000);
+  const { p, ask, last, lastText, btn, confirm, log, nav, state, sheetText } = h;
+  const tab = () => p.evaluate(() => document.querySelector('.app')?.dataset.tab);
+  await nav(5); let s = await state(); log('S0', s?.balance, s?.card?.balance);
+  await btn(/Points come in/); s = await state(); log('pts in', s?.balance, await tab());
+  await nav(5); await btn(/A card payment/); s = await state(); log('card pay', s?.card?.balance, await tab(), (await lastText()).slice(0, 200));
+  await nav(5); await btn('Suspicious payment'); log('susp', await tab(), (await lastText()).slice(0, 400)); s = await state(); log('frozen?', s?.card?.frozen);
+  await nav(5); await btn('Delay my order'); log('delay no order', await tab(), (await lastText()).slice(0, 200));
+  await nav(5); await btn('Return window ends'); log('retwin no order', await tab(), (await lastText()).slice(0, 200));
+  await nav(5); await btn('Deliver my order'); log('deliver no order', await tab(), (await lastText()).slice(0, 200));
+  await nav(5); await btn('Cancel my next flight'); log('cancel flight none', await tab(), (await lastText()).slice(0, 200));
+  await nav(3); await ask('Rain shell jacket'); await last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(300); await last().locator('.gr-chip').nth(1).click(); await last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(300); await btn(/^Pay /); await confirm();
+  await nav(5); await btn('Delay my order'); log('delay', await tab(), (await lastText()).slice(0, 300));
+  await nav(5); await btn('Deliver my order'); await nav(5); await btn('Return window ends'); log('retwin', await tab(), (await lastText()).slice(0, 300));
+  await nav(3); await ask('return my jacket'); log('return after window', (await lastText()).slice(0, 300));
+  await nav(5); await btn('Reset demo'); await p.waitForTimeout(600); s = await state(); log('reset', s?.balance, s?.card?.balance, s?.card?.frozen, s?.bookings?.length, await tab());
+  await nav(3); log('chat after reset', (await p.locator('.app-main').innerText()).slice(0, 100).replace(/\n/g, ' | '));
+}, {});

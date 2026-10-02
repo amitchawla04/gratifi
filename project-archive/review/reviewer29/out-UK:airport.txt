@@ -1,0 +1,3 @@
+STATE card {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 48210 Lounge visit:confirmed:0:0/0
+LAST Booked with a free card visit. Your pass is in Wallet. | Confirmed | GR-84972 | Booked | Lounge visit · Heathrow T5 · The Orchard | When | Wed 30 Sep | People | 1 | Free visits used | 1 | Card visits come back if the lounge can't take you. | What else can I do?
+UK airport clean

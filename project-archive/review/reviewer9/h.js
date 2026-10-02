@@ -1,0 +1,20 @@
+const { chromium } = require('/home/claude/.npm-global/lib/node_modules/playwright');
+const BASE = 'file:///tmp/claude-0/-home-claude/d2529b2f-e36e-5c22-8d08-213fa2f214ae/scratchpad/gratifi/review/';
+const OUT = '/tmp/claude-0/-home-claude/d2529b2f-e36e-5c22-8d08-213fa2f214ae/scratchpad/reviewer9/p/';
+exports.open = async (m, opt = {}) => {
+  const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 420, height: 880 }, ...(opt.ctx || {}) });
+  const p = await ctx.newPage(); const errs = []; p.on('pageerror', e => errs.push('PAGE ' + e.message)); p.on('console', x => { if (x.type() === 'error') errs.push('CON ' + x.text()) });
+  const url = `${BASE}${opt.file || 'test.html'}?m=${m}&theme=${opt.theme || 'light'}${opt.q || ''}`;
+  await p.goto(url); if (!opt.keep) { await p.evaluate(() => localStorage.clear()); await p.goto(url) } await p.waitForTimeout(500);
+  let n = 0; const tag = opt.tag || m;
+  const shot = async (name, full) => { await p.waitForTimeout(300); if (full) { const h = await p.evaluate(() => { const e = document.querySelector('.app-main .app-scroll'); return e ? e.scrollHeight : 880 }); await p.setViewportSize({ width: 420, height: Math.min(5000, h + 200) }); await p.waitForTimeout(250) } else await p.evaluate(() => { const e = document.querySelector('.app-main .app-scroll'); if (e && document.querySelector('.app[data-tab=chat]')) e.scrollTop = e.scrollHeight }); await p.waitForTimeout(200); const f = `${OUT}${tag}-${String(++n).padStart(2, '0')}-${name}.png`; await p.screenshot({ path: f }); if (full) await p.setViewportSize({ width: 420, height: 880 }); return f };
+  const nav = async (i) => { await p.click(`.gr-nav button:nth-child(${i})`); await p.waitForTimeout(300) };
+  const ask = async (t, w = 700) => { await p.fill('.gr-ask input', t); await p.press('.gr-ask input', 'Enter'); await p.waitForTimeout(w) };
+  const btn = async (name, opt2 = {}) => { const l = p.getByRole(opt2.role || 'button', { name, exact: !!opt2.exact }).last(); await l.scrollIntoViewIfNeeded(); await l.click({ timeout: 5000 }); await p.waitForTimeout(opt2.w || 450) };
+  const st = () => p.evaluate((m) => JSON.parse(localStorage.getItem('gratifi-state-v3-' + m)), m);
+  const last = () => p.evaluate(() => { const a = [...document.querySelectorAll('.gr-answer')].pop(); return a ? a.innerText : '' });
+  const lastMsg = async () => { const s = await st(); const x = s.chat[s.chat.length - 1]; return { text: x.text || '', kinds: (x.blocks || []).map(b => b.kind) } };
+  const sheetText = () => p.evaluate(() => { const s = document.querySelector('.app-sheet'); return s ? s.innerText : null });
+  const done = async () => { const e2 = await p.evaluate(() => window.__errs || []); await b.close(); return [...errs, ...e2] };
+  return { b, p, shot, nav, ask, btn, st, last, lastMsg, sheetText, done, errs, url };
+};

@@ -1,0 +1,44 @@
+const { chromium } = require('playwright');
+(async()=>{
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
+const p=await ctx.newPage(); const errs=[];
+p.on('console',m=>{if(m.type()==='error')errs.push(m.text())}); p.on('pageerror',e=>errs.push('PAGEERR '+e.message));
+let i=0; const shot=async n=>{await p.waitForTimeout(700);i++;await p.screenshot({path:`shots/${String(i).padStart(2,'0')}-${n}.png`});};
+const tap=async (sel)=>{await p.locator(sel).first().click({timeout:5000});};
+const back=async()=>{await p.locator('[aria-label="Back"]').first().click(); await p.waitForTimeout(500)};
+const scroll=async y=>{await p.locator('.scroll').last().evaluate((e,y)=>e.scrollTo(0,y),y); await p.waitForTimeout(300)};
+try {
+await p.goto('http://localhost:4173');
+await tap('[aria-label="Open your points assistant"]'); await p.waitForTimeout(500);
+await tap('text=Get started'); await p.waitForTimeout(400); await tap('text=Not now'); await p.waitForTimeout(400); await tap('text=Not now'); await p.waitForTimeout(400); await tap('text=Done'); await p.waitForTimeout(800);
+await tap('text=Use points'); await shot('rewards');
+await tap('.chip:has-text("Tickets")'); await shot('rewards-tickets'); await back();
+await tap('.stamp:has-text("Hotels")'); await shot('hotels');
+await tap('.seg button:has-text("Fewest points")'); await shot('hotels-sorted');
+await tap('.seg button:has-text("Best match")'); await p.waitForTimeout(300); await tap('[aria-label^="See Boutique"]'); await shot('hotel-detail'); await back(); await back();
+await tap('text=All 24'); await shot('offers'); await back();
+await tap('[aria-label^="Alerts"]'); await shot('alerts'); await back();
+await tap('[aria-label="You and settings"]'); await shot('profile');
+await scroll(5000); await shot('profile-end');
+await tap('text=What I remember'); await shot('memory');
+await tap('[aria-label="Forget Flat white"]'); await shot('memory-deleted');
+await tap('button:has-text("Forget everything")'); await shot('forget-sheet'); await tap('.modal >> text=Keep it'); await p.waitForTimeout(400); await back(); await back();
+await tap('text=/tier points to Platinum/'); await shot('tier'); await back();
+await scroll(900);
+await tap('button:has-text("Lisbon trip")'); await shot('trip'); await back();
+await scroll(5000);
+await tap('.sec:has-text("Recent activity") >> text=See all'); await shot('activity');
+await tap('text=Missing points claimed'); await shot('claim'); await back(); await back();
+await scroll(0);
+await tap('text=Why am I seeing this?'); await shot('why'); await tap('.modal >> text=Got it'); await p.waitForTimeout(400);
+await tap('[aria-label="Speak instead"]'); await p.waitForTimeout(400); await shot('voice-listening'); await p.waitForTimeout(2200); await shot('voice-done');
+await tap('[aria-label="Send"]'); await p.waitForTimeout(2400); await shot('ask-voice');
+await p.locator('.composer input').last().fill('Can I afford New York?'); await p.locator('.composer .send').last().click(); await p.waitForTimeout(1800); await shot('ask-ny');
+await tap('text=See your options'); await shot('goal');
+await back(); await p.locator('.composer input').last().fill('What comes free with Gold?'); await p.locator('.composer .send').last().click(); await p.waitForTimeout(2200); await shot('ask-benefits');
+} catch(e) { errs.push('SCRIPT '+e.message.split('\n')[0]); await p.screenshot({path:'shots/zz-fail.png'}); }
+console.log('ERRORS', JSON.stringify(errs));
+const d=await b.newContext({viewport:{width:1440,height:960},deviceScaleFactor:1}); const q=await d.newPage(); await q.goto('http://localhost:4173'); await q.waitForTimeout(800); await q.screenshot({path:'shots/zz-desktop-host.png'});
+await q.locator('[aria-label="Open your points assistant"]').click(); await q.waitForTimeout(1200); await q.screenshot({path:'shots/zz-desktop-open.png'});
+await b.close();})();

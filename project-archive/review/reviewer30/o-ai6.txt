@@ -1,0 +1,26 @@
+
+### [stay 31 nov]
+  TEXT: Confirm. | Tidewater House | City centre, Lisbon · Tue 1 Dec to Thu 3 Dec | Dates | Tue 1 Dec to Thu 3 Dec | Nights | 2 | Guests | 2 | Total | £218.00 | Free cancellation until 3 days before | Points | 21,800 pts · you have 48,210 | Points and card |
+  SHEET: -
+  DIFF: pts undefined->48210; card undefined->906.98; frozen->false
+  RES: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":2,"date":"2026-11-31","quantity":2},"shown":["checkout"],"note":""}]
+
+### [flight 31 nov]
+  TEXT: Checked 6 flights from London | Priced for 1 person with points | Here. | NW | Northway Air | NW 229 | Best for you | 20:30 | LHR | 2h 42m | Direct | 23:12 | LIS | Cabin bag | £116 | or 11,600 pts | One way, per person | 5 OTHER TIMES, SORTED BY DEPA
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-11-31"},"shown":["flights"],"note":"6 flights to Lisbon on Tue 1 Dec, one way. I'd pick the 20:30 Northway Air: direct, £116 one way per person. It's the cheapest direct flight."}]
+
+### [table 31 nov]
+  TEXT: Confirm. | Harrow & Vine | When | Tue 1 Dec, 19:30 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"DN-London-0","option":"19:30","quantity":2,"date":"2026-11-31"},"shown":["freeconfirm"],"note":""}]
+
+### [search stays 2026-13-01]
+  TEXT: X
+  SHEET: -
+  DIFF: none
+  RES: ["search_catalogue THREW Invalid time value"]
+
+## s-ai6-UK-ai clean

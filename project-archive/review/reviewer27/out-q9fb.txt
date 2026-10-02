@@ -1,0 +1,10 @@
+
+[a man at the door says he's from the bank and wants my card] => That's very likely a scam. The bank, the police and the tax office never call or message to ask you to pay today, move savings or keep it secret. Hang up and don't send anything. If you've already paid or shared your card details, tell me and I'll freeze your card. | I already paid | Freeze my card
+
+[I think I'm being scammed on a dating site, they want £2000] => I've frozen your card. I'm bringing in the fraud team now; they'll check the payment and can send you a new card with a new number. If anyone contacts you about it, don't share a code or move money. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me | Send a replacement card
+
+[my son is threatening me for money] => I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. | Flights | Book, change, cancel | Stays | Hotels and rooms | Airport | Lounges, fast track | Rides and rail | Cabs, trains, cars | Experiences | Tours and tickets | Dining | Tables and offers | Groceries | 15-minute delivery | Shopping | Products and brands | Book a flight | A table tonight | Groceries now | Talk to a person
+
+[I swallowed a battery] => Your card is frozen. A card kept by a cash machine is destroyed by the machine's owner, so it can't be handed back. I can send you a new one. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement
+
+## q9fb-UK clean

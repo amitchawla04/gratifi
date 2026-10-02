@@ -1,0 +1,21 @@
+require('./h.js')('UK', async (h) => {
+  const { p, ask, click, full, confirm, nav, st, log, ans, shot, sheet } = h
+  await nav(3)
+  await ask('Rain shell jacket'); await ans().locator('.gr-itemrow').first().click(); await p.waitForTimeout(300)
+  await ans().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400)
+  await ans().getByText('on card ending').last().click(); await p.waitForTimeout(300)
+  await p.getByRole('button', { name: /^Pay / }).last().click(); await confirm()
+  let s = await st(); log('after buy card', s.card.balance, 'pts', s.balance)
+  await nav(5); await click('Deliver my order'); await nav(3)
+  await ask('return my jacket'); await full('ret-ask')
+  const b = ans().getByRole('button').first(); log('btn ' + await b.innerText()); 
+  const bts = await ans().getByRole('button').allInnerTexts(); log(bts.join('/'))
+  await ans().getByRole('button', { name: 'Book free collection' }).click(); await p.waitForTimeout(600)
+  log('RET: ' + (await h.lastText()).replace(/\n+/g, ' | ').slice(0, 500)); if (await p.$('.app-sheet')) await confirm()
+  log('RET2: ' + (await h.lastText()).replace(/\n+/g, ' | ').slice(0, 500))
+  await p.reload(); await p.waitForTimeout(500)
+  await p.waitForTimeout(36000)
+  s = await st(); log('after 36s card', s.card.balance, 'pts', s.balance, JSON.stringify(s.bookings[0].status), JSON.stringify(s.bookings[0].extra).slice(0,300))
+  await nav(3); await full('ret-done')
+  await nav(4); await full('ret-wallet')
+}, { name: 'ret', len: 500 })

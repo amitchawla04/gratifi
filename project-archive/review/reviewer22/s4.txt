@@ -1,0 +1,4 @@
+cinema this week
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await H.full('cine-detail'); return (await p.locator('.gr-answer').last().locator('.gr-detail').innerText())
+train to York
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await H.full('train-detail'); return (await p.locator('.gr-answer').last().locator('.gr-detail').innerText()).slice(-300)

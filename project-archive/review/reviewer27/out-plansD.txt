@@ -1,0 +1,50 @@
+
+[flights to Paris 12 Nov for my kids aged 8 and 10]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2026-11-12","travellers":2,"children":2},"shown":["conciergeform"],"note":"Children under 16 can't fly on their own on a normal booking. Airlines run an unaccompanied minor service with staff who look after them; the concierge team can arrange it with the airline."}]
+  SHEET: -
+  UI: Here. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[flights to Paris 12 Nov, just my 8 year old]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2026-11-12","travellers":1,"children":1},"shown":["conciergeform"],"note":"Children under 16 can't fly on their own on a normal booking. Airlines run an unaccompanied minor service with staff who look after them; the concierge team can arrange it with the airline."}]
+  SHEET: -
+  UI: Here. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[flights to Paris 12 Nov for 1 adult and 3 infants]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2026-11-12","travellers":1,"infants":3},"shown":[],"note":"Each infant travels on an adult's lap, so 3 infants need 3 adults. How many adults are flying?"}]
+  SHEET: -
+  UI: Here. | 3 adults and 3 infants
+
+[flights to Paris 12 Nov back 10 Nov]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2026-11-12","return_date":"2026-11-10","travellers":1},"shown":["calendar"],"note":"Your return (Tue 10 Nov) is before you leave (Thu 12 Nov). Which dates did you mean?"}]
+  SHEET: -
+  UI: Here. | October 2026 | M | T | W | T | F | S | S | 1 | £91 | 2 | £86 | 3 | £91 | 4 | £92 | 5 | £81 | 6 | £89 | 7 | £81 | 8 | £92 | 9 | £87 | 10 | £85 | 11 | £88 | 12 | £92 | 13 | £83 | 14 | £100 | 15 | £84 | 16 | £98 | 17 | £100 | 18 | £96 | 19 | £95 | 20 | £99 | 21 | £91 | 22 | £83 | 23 | £80 | 24 | £82 | 25 | £96 | 26 | £91 | 27 | £82 | 28 | £82 | 29 | £95 | 30 | £81 | 31 | £100 | Lowest one-way fare per person, each day. | Pick your dates
+
+[flights to Paris yesterday]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2026-09-29","travellers":1},"shown":["calendar"],"note":"That date has already passed. Which day would you like?"}]
+  SHEET: -
+  UI: Here. | October 2026 | M | T | W | T | F | S | S | 1 | £91 | 2 | £86 | 3 | £91 | 4 | £92 | 5 | £81 | 6 | £89 | 7 | £81 | 8 | £92 | 9 | £87 | 10 | £85 | 11 | £88 | 12 | £92 | 13 | £83 | 14 | £100 | 15 | £84 | 16 | £98 | 17 | £100 | 18 | £96 | 19 | £95 | 20 | £99 | 21 | £91 | 22 | £83 | 23 | £80 | 24 | £82 | 25 | £96 | 26 | £91 | 27 | £82 | 28 | £82 | 29 | £95 | 30 | £81 | 31 | £100 | Lowest one-way fare per person, each day. | Pick your dates
+
+[flights to Paris in 2 years]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2028-09-29","travellers":1},"shown":["calendar"],"note":"Airlines sell about 11 months ahead, so that date isn't on sale yet. Pick a date before Thu 26 Aug 2027."}]
+  SHEET: -
+  UI: Here. | October 2026 | M | T | W | T | F | S | S | 1 | £91 | 2 | £86 | 3 | £91 | 4 | £92 | 5 | £81 | 6 | £89 | 7 | £81 | 8 | £92 | 9 | £87 | 10 | £85 | 11 | £88 | 12 | £92 | 13 | £83 | 14 | £100 | 15 | £84 | 16 | £98 | 17 | £100 | 18 | £96 | 19 | £95 | 20 | £99 | 21 | £91 | 22 | £83 | 23 | £80 | 24 | £82 | 25 | £96 | 26 | £91 | 27 | £82 | 28 | £82 | 29 | £95 | 30 | £81 | 31 | £100 | Lowest one-way fare per person, each day. | Pick your dates
+
+[flights to Tokyo]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Tokyo","travellers":1},"shown":["places"],"note":"I can't book flights to Tokyo yet. From London I can book these."}]
+  SHEET: -
+  UI: Here. | Lisbon | Barcelona | Paris | Edinburgh | New York
+
+[flights 12 travellers]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Paris","depart_date":"2026-11-12","travellers":12},"shown":["conciergeform"],"note":"For 12 travellers the airline treats it as a group booking, with its own fares. I'll send it to the concierge team, who book groups."}]
+  SHEET: -
+  UI: Here. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+
+[choose fake flight]
+  TOOLS: [{"n":"choose_flight","a":{"flight_id":"FL-XXX"},"shown":[],"note":"That flight isn't available any more. Search again to show the latest flights."}]
+  SHEET: -
+  UI: Here.
+
+STATE card {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 48210 lounge 2 
+ 
+
+## plansD-UK-ai clean

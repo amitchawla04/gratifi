@@ -1,0 +1,10 @@
+HOME {"nav":["Home","Explore","Gratifi","Wallet","My card"],"unlabelledButtons":0,"imgsNoAlt":0,"svgs":1,"inputsNoLabel":0,"lang":"en-GB","h1":["Amit","This week","Everything on your card"],"small":[]}
+
+[pay my bill] => You owe £906.98, due Sat 10 Oct. The minimum is £27.21. | PAYMENT DUE | 10 Oct | £906.98 | Minimum £27.21 by 10 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit
+DIALOG {"role":"dialog","modal":"true","label":"Pay your card bill","focusIn":true,"focused":"Pay your card bill\nFrom your c","inert":["app-main","app-dock"]}
+after tabs focus in dialog: true
+after esc sheet null focus Pay £906.98
+LIVE [ 'polite:app-sr' ]
+SWITCHES []
+
+## s-a11y-UK clean

@@ -1,0 +1,30 @@
+
+[Start a Screenly subscription] => Searched 6 subscriptions | Priced with your points | 1 subscription. Screenly is £10.99 a month; cancel any time. | Screenly | Films and series | £10.99 | a month | or 1,099 pts
+SUB You're subscribed. Manage it any time in Wallet. | Confirmed | GR-28497 | Subscription | Screenly | Plan | Standard | After this month | £10.99 a month on your card; cancel any time | Paid | £10.99 on card ending 4821 | Points earned | +11 | Cancel any time; access until your next billing date. | What else can I do?
+
+[turn on Tunewave] => Searched 6 subscriptions | Priced with your points | 1 subscription. Tunewave is included with your card. | Tunewave | Included | Music | Free | included with your card
+TW Searched 6 subscriptions | Priced with your points | 1 subscription. Tunewave is included with your card. | Tunewave | Included | Music | Free | included with your card
+TW2 Searched 6 subscriptions | Priced with your points | 1 subscription. Tunewave is included with your card. | Tunewave | Included | Music | Free | included with your card
+
+[what am I paying for] => You pay for 1: Screenly, £10.99 a month. | Screenly | Films and series · Standard | Active | GR-28497 | £10.99 | Next payment Fri 30 Oct · £10.99 on your card | Pause | Cancel
+
+[what's included] => Read your card terms | Everything that comes with your card, including Tunewave music at no cost. | Airport lounges | 2 free visits left this year | 2 left | Purchase protection | Things you buy with the card are covered for 120 days against theft and accidental damage | Extended warranty | An extra year on top of the maker's warranty | Travel insurance | When you pay for the trip with the card: medical, cancellation, lost bags | No fees abroad | No foreign transaction fee on purchases | Dining offers | 15% off at partner restaurants | Presales | Tickets 48 hours before general sale | Getting money back | For purchases between £100 and £30,000 on a credit card, Section 75 makes the bank join
+
+[cancel Screenly] => If you cancel Screenly, you keep access until Fri 30 Oct and nothing more is charged. | Cancel Screenly? | Yes, cancel | Keep it
+CANCELLED Screenly is cancelled. You keep access until Fri 30 Oct, when it would have renewed. | Screenly | Films and series · Standard | Cancelled | GR-28497 | £10.99 | Access until Fri 30 Oct; nothing more is charged
+WALLET Wallet | Upcoming | Orders | Subscriptions · 1 | Requests | Past · 1 | Screenly | Films and series · Standard | Cancelled | GR-28497 | £10.99 | Access until Fri 30 Oct; nothing more is charged | Show details
+
+[block gambling] => You can block gambling payments on your card now. It takes effect straight away, and lifting it takes 48 hours, so there's time to change your mind. | Gambling block | Blocks betting sites, casinos and lotteries. | Block gambling payments
+GB Done. Gambling payments are blocked on your card from now: betting sites, casinos and lotteries. If you ask to lift it, it comes off 48 hours later. | Gambling block | On. Betting sites, casinos and lotteries are blocked. | Lift | Gambling support
+
+[remove the gambling block] => The block comes off 48 hours after you confirm, so there's time to change your mind. Confirm it's you to start the wait.
+LIFT SHEET Lift the gambling block | Card ending 4821 · you can keep the block any time before it lifts | Block lifts | Fri 2 Oct at 20:09 | Wait | 48 hours | This checks it's you before anything changes | Confirm with Face ID
+LIFT The 48-hour wait has started. The block comes off on Fri 2 Oct at 20:09. You can keep it any time before then. | Gambling block | On until Fri 2 Oct at 20:09, then it lifts | Keep the block
+ME My card | Gratifi Card | •••• 4821 | Balance | £917.97 | Available £7,082 | Due £906.98 · Fri 9 Oct | Pay bill | Freeze | Statement | Benefits | Gambling block | On until Fri 2 Oct at 20:09, then it lifts | Keep the block | Direct Debit | Off. You pay each bill yourself. | Full balance | Minimum | Points | 48,221 | POINTS | Worth about £482 | Expiring on 31 Oct | 3,860 | Points on card spend: Screenly | +11 | Points on card spend | +1,840 | Balance brought forward | +46,370 | Market and language | United Kingdom | Eurozone (English) | India | UAE | UAE (Arabic) | Singapore | Malaysia | Dark mode | Follows your phone unless you change it | Messages | Moments from Gratifi | Useful things worth
+keep 1
+ME2 My card | Gratifi Card | •••• 4821 | Balance | £917.97 | Available £7,082 | Due £906.98 · Fri 9 Oct | Pay bill | Freeze | Statement | Benefits | Gambling block | On. Betting sites, casinos and lotteries are blocked. | Lift | Direct Debit | Off. You pay each bill yourself. | Full balance | Minimum | Points | 48,221 | POINTS | Worth about £482 | Expiring on 31 Oct | 3,860 | Points on card spend: Scr
+
+[remind me when flights to Paris drop below £80] => Saved: an alert when flights to Paris drop below £80. It's listed under Alerts on My card, where you can remove it. | When flights to Paris drop below £80 | Alert on | Remove
+ALERTS on me? true Alerts | When flights to Paris drop below £80 | Remove | Messages | Moments from Gratifi | Useful things worth doing now, at most 3 a week | Offers | Card offers that match what you buy | Trip updates | Delays, gates, check-
+
+## s-subs-UK clean

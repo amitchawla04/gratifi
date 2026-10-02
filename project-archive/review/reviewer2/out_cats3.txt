@@ -1,0 +1,90 @@
+== gift LIST: Checked 10 gift cards | Priced with your points | 6 gift cards. They arrive instantly. | Harbour & Co | Homeware | From £25 | Bloom | Flowers | From £25 | Northway Air | Flights | From £25 | Reel House | Cinema | From £25 | Pantry Market | Groceries | From £25 | Stride Outdoor | Outdoor | From £25
+inputs 2
+== gift DETAIL: Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Buy gift card
+CTA: Buy gift card
+== gift CHECKOUT: Harbour & Co gift card | Homeware | Amount | £50 | For | Sam (sam@example.com) | Total | £50.00 | Delivered instantly. Valid for 12 months. Not refundable once sent. | Points | 5,000 pts · you have 48,210 | Points and card | 3,500 pts + £15 | Card | £50 on card ending 4821 | Pay 5,000 pts
+PAYBTN: Pay 5,000 pts
+SHEET: Confirm and pay | Harbour & Co gift card | Harbour & Co gift card | £50.00 | Points used (5,000 pts) | −£50.00 | Points | 5,000 pts | Nothing is paid until you confirm | Pay with Face ID
+== gift DONE: Sent to Sam at sam@example.com. A copy of the code is in your Wallet. | Confirmed | GR-77942 | Amount | £50 | For | Sam (sam@example.com) | Paid | 5,000 pts | Delivered instantly. Valid for 12 months. Not refundable once sent. | What else can I do?
+{
+ "tag": "gift",
+ "balance": 43210,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-77942 giftcards Harbour & Co gift card confirmed tot=50 pts=5000 card=0 earned=0"
+ ],
+ "ledger": [
+  "-5000 Harbour & Co gift card",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== subinc LIST: Checked 6 subscriptions | Priced with your points | 6 subscriptions. Tunewave is already included with your card. | Screenly | Films and series | £10.99 | a month | or 1,099 pts | Tunewave | Included | Music | Free | included with your card | Pagebound | Audiobooks | £7.99 | a month | or 799 pts | Daily Ledger | News | £6.49 | a month | or 649 pts | Fitloop | Home workouts | £9.99 | a month | or 999 pts | Cloudkeep | Photo storage, 200GB | £2.99 | a month | or 299 pts
+== subinc DETAIL: Screenly | Films and series | PLAN | Standard | Premium 4K (+£5) | Cancel any time; access until the end of the month | £10.99 | or 1,099 pts | a month | Subscribe
+CTA: Subscribe
+== subinc CHECKOUT: Screenly | Films and series · Standard | Plan | Standard | After this month | £10.99 a month on your card; cancel any time | Total | £10.99 | Cancel any time; access until the end of the month | Points | 1,099 pts · you have 43,210 | Points and card | 700 pts + £3.99 | Card | £10.99 on card ending 4821 | Pay 1,099 pts
+PAYBTN: Pay 1,099 pts
+SHEET: Confirm and pay | Screenly | Screenly | £10.99 | Points used (1,099 pts) | −£10.99 | Points | 1,099 pts | Nothing is paid until you confirm | Pay with Face ID
+== subinc DONE: You're subscribed. Manage it any time in Wallet. | Confirmed | GR-41117 | Plan | Standard | After this month | £10.99 a month on your card; cancel any time | Paid | 1,099 pts | Cancel any time; access until the end of the month. | What else can I do?
+{
+ "tag": "subinc",
+ "balance": 42111,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-41117 subs Screenly active tot=10.99 pts=1099 card=0 earned=0",
+  "GR-77942 giftcards Harbour & Co gift card confirmed tot=50 pts=5000 card=0 earned=0"
+ ],
+ "ledger": [
+  "-1099 Screenly",
+  "-5000 Harbour & Co gift card",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== subpaid LIST: Checked 6 subscriptions | Priced with your points | 6 subscriptions. Tunewave is already included with your card. | Screenly | Films and series | £10.99 | a month | or 1,099 pts | Tunewave | Included | Music | Free | included with your card | Pagebound | Audiobooks | £7.99 | a month | or 799 pts | Daily Ledger | News | £6.49 | a month | or 649 pts | Fitloop | Home workouts | £9.99 | a month | or 999 pts | Cloudkeep | Photo storage, 200GB | £2.99 | a month | or 299 pts
+== subpaid DETAIL: Screenly | Films and series | PLAN | Standard | Premium 4K (+£5) | Cancel any time; access until the end of the month | £10.99 | or 1,099 pts | a month | Subscribe
+CTA: Subscribe
+== subpaid CHECKOUT: Screenly | Films and series · Standard | Plan | Standard | After this month | £10.99 a month on your card; cancel any time | Total | £10.99 | Cancel any time; access until the end of the month | Points | 1,099 pts · you have 42,111 | Points and card | 700 pts + £3.99 | Card | £10.99 on card ending 4821 | Pay 1,099 pts
+PAYBTN: Pay 1,099 pts
+SHEET: Confirm and pay | Screenly | Screenly | £10.99 | Points used (1,099 pts) | −£10.99 | Points | 1,099 pts | Nothing is paid until you confirm | Pay with Face ID
+== subpaid DONE: You already have this. | You already have this | It's in Wallet under Subscriptions.
+{
+ "tag": "subpaid",
+ "balance": 42111,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-41117 subs Screenly active tot=10.99 pts=1099 card=0 earned=0",
+  "GR-77942 giftcards Harbour & Co gift card confirmed tot=50 pts=5000 card=0 earned=0"
+ ],
+ "ledger": [
+  "-1099 Screenly",
+  "-5000 Harbour & Co gift card",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== esim LIST: Data abroad without roaming charges. It installs in about a minute. | eSIM: 5GB for 15 days | Works in 120+ countries | £8.99 | or 899 pts | eSIM: 10GB for 30 days | Works in 120+ countries | £14.99 | or 1,499 pts | eSIM: Unlimited for 7 days | Works in 120+ countries | £22 | or 2,200 pts
+== esim DETAIL: eSIM 5GB for 15 days | Plan | 5GB for 15 days | Delivery | A QR code by email and in Wallet | Total | £8.99 | Refundable until installed | Points | 899 pts · you have 42,111 | Points and card | 600 pts + £2.99 | Card | £8.99 on card ending 4821 | Pay 899 pts
+CTA: none
+UK s_cats3 ERRORS: SCRIPT locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.

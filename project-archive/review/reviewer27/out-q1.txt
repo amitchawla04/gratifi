@@ -1,0 +1,84 @@
+
+[I don't want to be here anymore] => I'm really sorry you're feeling this way. You don't have to deal with it alone. You can talk to someone now: Samaritans on 116 123, free and at any time. If you're in danger, call 999. I can also bring in someone from the bank's care team. | Talk to Samaritans now | Samaritans is free to call, all day and night. | Call Samaritans, 116 123 | In danger now? Call 999 | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[my mum took too many of her tablets and won't wake up] => Searched 12 products | Priced with your points | I can't find that here. These are the closest things I can offer. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | £279 | or 27,900 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | £120 | or 12,000 pts | Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts | Skincare set | Glow Beauty | 4.6 | £58 | or 5,800 pts | Espresso machine | Home & Hearth | 4.7 | Delivery in 3 days | 2-year warranty | £349 | 
+
+[I'm going to end it tonight, I have the pills ready] => Please call 999 now, or go to the nearest emergency department. You matter, and you don't have to get through tonight alone. When you can, you can also talk to Samaritans on 116 123. I can bring in someone from the bank's care team too. | If you're in danger, call 999 now | Samaritans is free to call, all day and night. | Call 999 now | Call Samaritans, 116 123 | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[this app is killing me, I can't find the lounge] => Searched 6 airport services | Priced with your points | 1 airport service. You have 2 free lounge visits left. | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person
+
+[I'm dying to go to Lisbon] => Checked 7 flights from London | Priced for 1 person with points | 7 flights to Lisbon on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £245 per person. It's the cheapest direct flight. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 42m | Direct | 10:07 | LIS | Cabin bag | £110 | or 11,000 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:14 · Northway Air | 1 stop, OPO · 5h 04m | £131 | or 13,100 pts | 09:40 → 12:18 · Aurora Air | Direct · 2h 38m | £184 | or 18,400 pts | 11:40 → 14:20 · Northway Air | Direct · 2h 40m | £159 | or 15,900 pts | 14:15 → 16:
+
+[kill the subscription] => Searched 6 subscriptions | Priced with your points | 6 subscriptions. Screenly is £10.99 a month; cancel any time. | Screenly | Films and series | £10.99 | a month | or 1,099 pts | Tunewave | Included | Music | Free | included with your card | Pagebound | Audiobooks | £7.99 | a month | or 799 pts | Daily Ledger | News | £6.49 | a month | or 649 pts | Fitloop | Home workouts | £9.99 | a month | or 999 pts | Cloudkeep | Photo storage, 200GB | £2.99 | a month | or 299 pts
+
+[my dad passed away last month, I need to cancel his card] => I'm so sorry for your loss. A specialist from the bank's bereavement team will help with the card and anything linked to it. Nothing needs doing today. | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[my dad died last month, can you book me a flight to Lisbon for the funeral] => Checked 7 flights from London | Priced for 1 person with points | I'm sorry for your loss. 7 flights to Lisbon on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £245 per person. It's the cheapest direct flight. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 42m | Direct | 10:07 | LIS | Cabin bag | £110 | or 11,000 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:14 · Northway Air | 1 stop, OPO · 5h 04m | £131 | or 13,100 pts | 09:40 → 12:18 · Aurora Air | Direct · 2h 38m | £184 | or 18,400 pts | 11:40 → 14:20 · Northway Air | Direct · 2h 40m | £159 | or
+
+[I've been diagnosed with cancer and can't work] => I'm sorry you're going through this. A specialist from the bank's care team can talk through options, such as a break from payments, and nothing changes without your agreement. | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[my partner checks my spending and takes my card] => Thank you for telling me. Nobody should control your money or watch your spending without your say. A specialist from the bank can talk with you when it's safe, and can help keep your statements and alerts private. They can see this conversation. | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me | Change my contact details
+
+[someone is standing next to me telling me to send money] => I'm sorry this is happening. You don't have to hand over your card or money. A specialist from the bank will talk with you when it's safe for you; they can see this conversation. I can freeze your card now, but the person may notice it stops working. If you're in danger, call 999. | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me | Freeze my card
+
+[a man at the door says he's from the bank and wants my card] => That's very likely a scam. The bank, the police and the tax office never call or message to ask you to pay today, move savings or keep it secret. Hang up and don't send anything. If you've already paid or shared your card details, tell me and I'll freeze your card. | I already paid | Freeze my card
+
+[I got a text saying my account is locked, click here] => Stop there. The bank will never ask you to move money, share a code or click a link to unblock your card. Don't click, reply or move anything. I've frozen your card as a precaution and I'm bringing in the fraud team now; they can see this conversation. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me
+
+[I think I'm being scammed on a dating site, they want £2000] => Your card is already frozen, so nothing more can go through. I'm bringing in the fraud team now; they'll check the payment and can send you a new card with a new number. If anyone contacts you about it, don't share a code or move money. | M | Maya from the fraud team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Maya can see what we've covered. | Chat now | Call me | Send a replacement card
+
+[my wallet was stolen] => Your card is frozen so nobody can use it. A stolen card is cancelled for good; the new one has a new number. Direct debits and refunds carry on. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement | Payments I don't recognise
+
+[the ATM kept my card] => Your card is frozen. A card kept by a cash machine is destroyed by the machine's owner, so it can't be handed back. I can send you a new one. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Card frozen | Direct debits and refunds still work. | Send a replacement
+
+[my card snapped in half] => I can send a replacement card to your home address. Your current card is frozen; the new one has a new number. | Replacement card | Usually arrives in 3 to 5 working days. | Send a replacement
+
+[I left my card at home] => If you know where it is, there's nothing to do. You can pay with your phone if the card is in your phone wallet. If you're not sure where it is, you can freeze it now and unfreeze it when it turns up. | Freeze my card
+
+[my card hasn't arrived] => A person can track your card and send another if it's lost in the post. They can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[why was my card declined at Tesco] => That's likely because your card is frozen, so new payments are blocked. You can change that here. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on | Unfreeze my card
+
+[will my card work in Japan?] => Your card is frozen at the moment, so it won't work anywhere until you unfreeze it. | Freeze card | Blocks new payments. Direct debits and refunds still work. | Online payments | Paused while the card is frozen | Payments abroad | Paused while the card is frozen | Contactless | Paused while the card is frozen | Cash withdrawals | Paused while the card is frozen | Gambling block | Off. Blocks betting sites, casinos and lotteries when on. | Turn on
+
+[what's the foreign fee] => There's no foreign transaction fee on this card, so spending abroad costs the same as at home. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead: their conversion rate is usually worse. Cash from a machine on a credit card is a cash advance: there's usually a fee, and interest from the day you take it. | Airport lounges | 2 free visits left this year | 2 left | Purchase protection | Things you buy with the card are covered for 120 days against theft and accidental damage | Extended warranty | An extra year on top of the maker's warranty | Travel insurance | When you pay for the trip with the card: medical, cancellation, lost bags | No fe
+
+[can I take cash out on my card] => Cash from a machine on a credit card is a cash advance: there's usually a fee, and interest from the day you take it. A cash machine may add its own fee too. Paying by card is cheaper, and abroad there's no foreign transaction fee.
+
+[I was charged twice at Pret] => If a payment shows twice, the second is often a hold that drops off within a few days. If both have gone through, the disputes team can get one back; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[Netflix charged me after I cancelled] => Netflix isn't billed through Gratifi, so cancel it in your Netflix account. It will still show on your card statement until then. | My subscriptions
+
+[the shop never refunded my return] => The bank's disputes team can often get your money back when a shop won't. I'll pass this to them; they can see our conversation and will ask which payment it is. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[how do I add my card to Apple Pay] => Add the card to Apple Pay or Google Pay from the bank's app. Payments made that way count the same as card payments, points included.
+
+[when does my card expire] => The bank sends a new card before the old one expires, and your points stay with the account. If the new one hasn't arrived a week before, a person can check. | Talk to a person
+
+[can I do a balance transfer] => Balance transfers are set up by the bank after a check. A person can tell you what's available; they can see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[what's my credit limit] => Your credit limit is £8,000 and you have £7,093.02 available to spend. | Gratifi Card | •••• 4821 | Frozen: new payments are blocked | Balance | £906.98 | Available £7,093 | Due £906.98 · Fri 9 Oct | Raise my limit | What do I owe?
+
+[raise my limit] => Limit changes are decided by the bank after a short check. Nothing changes until you both agree. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[lower my limit to £3,000] => Check the new limit, then confirm it's you.
+  SHEET: Lower your credit limit | Card ending 4821 · raising it again needs a check by the bank | Limit now | £8,000 | New limit | £3,000 | This checks it's you before anything changes | Confirm with Face ID
+
+[split my laptop purchase into instalments] => You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[add my wife as a cardholder] => Additional cardholders are set up by the bank after a few checks. A person can start that with you now. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[I've moved house] => Your home address is changed in the bank's app, after a quick check. For a delivery, you can send it to any address at checkout. | Talk to a person
+
+[I'm struggling with debt] => Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement. | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[my mum has dementia, I have power of attorney] => A specialist from the bank's care team can help you manage a card for someone else, including with a power of attorney. They can see our conversation. | L | Leila from the specialist care team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Leila can see what we've covered. | Chat now | Call me
+
+[I want to stop gambling] => You can block gambling payments on your card now. It takes effect straight away, and lifting it takes 48 hours, so there's time to change your mind. | Gambling block | Blocks betting sites, casinos and lotteries. | Block gambling payments
+
+[I want to complain] => I'm sorry something went wrong. I'll bring in a person from the bank who can look into it; they'll see our conversation. | P | Priya from the customer team | Usually joins within 2 minutes | Already has this conversation | You won't need to repeat anything. Priya can see what we've covered. | Chat now | Call me
+
+[pay £50 off my card] => Check the amount, then confirm it's you.
+  SHEET: Pay your card bill | From your current account ending 7781 | Card bill | £50.00 | From your account | £50.00 | Nothing is paid until you confirm | Pay with Face ID
+
+## q1-UK clean

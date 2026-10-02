@@ -1,0 +1,249 @@
+MODE Live AI
+
+### [flights to lisbon next friday]
+  TEXT: Here are flights.
+  SHEET: -
+  DIFF: pts undefined->48210; card undefined->906.98; frozen->false
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"next friday"},"shown":[],"note":"Dates must be YYYY-MM-DD. Work out the date from what the customer said, or ask them."}]
+
+### [flights to lisbon 9 oct for 2]
+  TEXT: Here are some. | October 2026 | M | T | W | T | F | S | S | 1 | £106 | 2 | £110 | 3 | £106 | 4 | £90 | 5 | £107 | 6 | £91 | 7 | £113 | 8 | £131 | 9 | £117 | 10 | £98 | 11 | £114 | 12 | £122 | 13 | £131 | 14 | £110 | 15 | £103 | 16 | £114 | 17 | £114 | 18 | £90 | 19 | £124 | 20 | £102 | 21 | £117 | 22 | £110 | 23 | £87 | 24 | £91 | 25 | £96 | 26 | £112 | 27 | £115 | 28 | £97 | 29 | £119 | 30 | £109 | 31 | £96 | Lowest one-way fare per person, each day. | Pick your dates
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-10-09","return_date":"2026-10-05","travellers":2},"shown":["calendar"],"note":"Your return (Mon 5 Oct) is before you leave (Fri 9 Oct). Which dates did you mean?"}]
+
+### [flights to lisbon 9 oct for 2.5]
+  TEXT: X
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-10-09","travellers":2.5},"shown":[],"note":"travellers must be a whole number of at least 1. Ask the customer how many people are travelling."}]
+
+### [child alone]
+  TEXT: Here. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-10-09","travellers":1,"children":1},"shown":["conciergeform"],"note":"Children under 16 can't fly on their own on a normal booking. Airlines run an unaccompanied minor service with staff who look after them; the concierge team can arrange it with the airline."}]
+
+### [flights feb 30]
+  TEXT: Checked 4 flights from London | Priced for 1 person with points | Here. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 44m | Direct | 10:09 | LIS | Cabin bag | £120 | or 12,000 pts | One way, per person | 3 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 10:48 · Northway Air | 1 stop, OPO · 4h 38m | £112 | or 11,200 pts | 09:40 → 12:24 · Aurora Air | 2 left | Direct · 2h 44m | £123 | or 12,300 pts | 14:15 → 16:57 · Coastline | Direct · 2h 42m | £171 | or 17,100 pts | Only direct | Cheaper dates? | Add a hotel
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2027-02-30"},"shown":["flights"],"note":"4 flights to Lisbon on Tue 2 Mar, one way. I'd pick the 07:25 Coastline: direct, £120 one way per person. It's the cheapest direct flight."}]
+
+### [flight in 2 years]
+  TEXT: Here. | October 2026 | M | T | W | T | F | S | S | 1 | £106 | 2 | £110 | 3 | £106 | 4 | £90 | 5 | £107 | 6 | £91 | 7 | £113 | 8 | £131 | 9 | £117 | 10 | £98 | 11 | £114 | 12 | £122 | 13 | £131 | 14 | £110 | 15 | £103 | 16 | £114 | 17 | £114 | 18 | £90 | 19 | £124 | 20 | £102 | 21 | £117 | 22 | £110 | 23 | £87 | 24 | £91 | 25 | £96 | 26 | £112 | 27 | £115 | 28 | £97 | 29 | £119 | 30 | £109 | 31 | £96 | Lowest one-way fare per person, each day. | Pick your dates
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2028-10-09"},"shown":["calendar"],"note":"Airlines sell about 11 months ahead, so that date isn't on sale yet. Pick a date before Thu 26 Aug 2027."}]
+
+### [headphones checkout 0]
+  TEXT: Confirm with the button. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | £229 | or 22,900 pts | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-1","quantity":0},"shown":["detail"],"note":"Quantity has to be at least 1. Set it here."}]
+
+### [headphones checkout -2]
+  TEXT: Confirm. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | £229 | or 22,900 pts | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-1","quantity":-2},"shown":["detail"],"note":"Quantity has to be at least 1. Set it here."}]
+
+### [headphones 1.5]
+  TEXT: Confirm. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | COLOUR | Black | Silver | Blue | QUANTITY | 2 | Return within 30 days | £458 | or 45,800 pts | 2 × £229 | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-1","quantity":1.5},"shown":["detail"],"note":"Quantity has to be a whole number. Set it here."}]
+
+### [headphones 500]
+  TEXT: Confirm. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | £229 | or 22,900 pts | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-1","quantity":500},"shown":["detail"],"note":"Up to 8 of one item per order."}]
+
+### [headphones purple]
+  TEXT: Confirm. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | £229 | or 22,900 pts | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-1","option":"Purple"},"shown":["detail"],"note":"Hush 700 noise-cancelling headphones has colours Black, Silver, Blue. Which would you like?"}]
+
+### [jacket no size]
+  TEXT: Confirm. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-4"},"shown":["detail"],"note":"Which size would you like? Rain shell jacket comes in S, M, L, XL."}]
+
+### [jacket size XXL]
+  TEXT: Confirm. | Rain shell jacket | Stride Outdoor | 4.5 ★ | Free returns | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | S | M | L | XL | QUANTITY | 1 | Return within 30 days | £120 | or 12,000 pts | Pick a size
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-4","option":"XXL"},"shown":["detail"],"note":"Rain shell jacket has sizes S, M, L, XL. Which would you like?"}]
+
+### [laptop x 20]
+  TEXT: Confirm. | 13-inch laptop, 16GB | Byte Store | 4.8 ★ | Free delivery | 1-year warranty | DELIVER TO | Home | 12 Garden Row | Office | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | QUANTITY | 8 | Return within 14 days, unopened | £7,992 | or 799,200 pts | 8 × £999 | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"SH-3","quantity":20},"shown":["detail"],"note":"Up to 8 of one item per order."}]
+
+### [gift card no email]
+  TEXT: Confirm. | Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GC-0","option":"50","recipient":"Sam"},"shown":["detail"],"note":"A gift card for Sam is sent by email, and it can't be refunded once sent. What's their email address? You can also type it here."}]
+
+### [gift card bad email]
+  TEXT: Confirm. | Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GC-0","option":"50","recipient":"Sam","email":"sam@"},"shown":["detail"],"note":"A gift card for Sam is sent by email, and it can't be refunded once sent. What's their email address? You can also type it here."}]
+
+### [gift card 73]
+  TEXT: Confirm. | Harbour & Co | Homeware | Harbour & Co | £50 | Homeware | AMOUNT | £25 | £50 | £100 | £200 | WHO IS IT FOR? | Someone else | Me | Delivered instantly. Valid for 12 months. Not refundable once sent. | £50 | or 5,000 pts | Add their name and email
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GC-0","option":"73","recipient":"Sam","email":"sam@x.com"},"shown":["detail"],"note":"Gift cards come in £25, £50, £100, £200. Which amount would you like?"}]
+
+### [table for 13]
+  TEXT: Confirm. | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"DN-London-0","option":"19:30","quantity":13,"date":"2026-10-02"},"shown":["conciergeform"],"note":"Tables for 13 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you."}]
+
+### [table show 13]
+  TEXT: X | Harrow & Vine | Modern European · London | 4.7 ★ | Upmarket | 15% off with your card | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 12 | For more than 12, ask the concierge team: they arrang
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"show_item","a":{"id":"DN-London-0","guests":13},"shown":["detail"],"note":""}]
+
+### [table search 14]
+  TEXT: X | WHAT DO YOU NEED? | A table that's fully booked | Find and send a gift | Tickets to a sold-out event | Plan a special trip | Help at home (cleaning, repairs) | Send to the concierge
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_catalogue","a":{"category":"dining","guests":14},"shown":["conciergeform"],"note":"Tables for 14 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you."}]
+
+### [table at 03:00]
+  TEXT: Confirm. | Harrow & Vine | Modern European · London | 4.7 ★ | Upmarket | 15% off with your card | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or t
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"DN-London-0","option":"03:00","quantity":2,"date":"2026-10-02"},"shown":["detail"],"note":"Harrow & Vine has times 18:30, 19:00, 19:30, 20:00, 20:30, 21:00. Which would you like?"}]
+
+### [table yesterday]
+  TEXT: Confirm.
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"DN-London-0","option":"19:30","quantity":2,"date":"2026-09-29"},"shown":[],"note":"Tue 29 Sep has already passed. Which date would you like?"}]
+
+### [hotel 31 nights]
+  TEXT: Confirm. | Tidewater House | City centre, Lisbon | 4.8 ★ | Pool | Breakfast | CHECK IN | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 8 Nov | Mon 9 No
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":31,"date":"2026-10-20"},"shown":["detail"],"note":"Stays can be booked for up to 30 nights here. For longer, the concierge team can help."}]
+
+### [hotel 0 nights]
+  TEXT: Confirm. | Tidewater House | City centre, Lisbon | 4.8 ★ | Pool | Breakfast | CHECK IN | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 8 Nov | Mon 9 No
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":0,"date":"2026-10-20"},"shown":["detail"],"note":"A stay needs at least 1 night. Set it here."}]
+
+### [hotel 7 guests 1 room]
+  TEXT: Confirm. | Tidewater House | City centre, Lisbon · Tue 20 Oct to Thu 22 Oct | Dates | Tue 20 Oct to Thu 22 Oct | Nights | 2 | Rooms | 4 | Guests | 7 | Total | £872.00 | Free cancellation until 3 days before | Points | 87,200 pts · 38,990 more than you have | Points and card | 24,100 pts + £631 | Card | £872 on card ending 4821 | POINTS | 24,100 | ON YOUR CARD | £631.00 | You have 48,210 points | 1 point = £0.01 | Pay £631.00 + 24,100 pts
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":2,"date":"2026-10-20","quantity":7,"rooms":1},"shown":["checkout"],"note":"7 guests need 4 rooms, so I've set 4."}]
+
+### [hotel suite text]
+  TEXT: Confirm. | Tidewater House | City centre, Lisbon · Suite · Tue 20 Oct to Thu 22 Oct | Room | Suite | Dates | Tue 20 Oct to Thu 22 Oct | Nights | 2 | Guests | 2 | Total | £305.00 | Free cancellation until 3 days before | Points | 30,500 pts · you have 48,210 | Points and card | 21,300 pts + £92 | Card | £305 on card ending 4821 | Pay 30,500 pts
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"ST-Lisbon-0","nights":2,"date":"2026-10-20","option":"suite","quantity":2},"shown":["checkout"],"note":""}]
+
+### [ride to manchester]
+  TEXT: Confirm. | Train to Manchester | Standard class, reserved seat | £34 | per person | or 3,400 pts | Ask the concierge
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"Manchester"},"shown":["items"],"note":"Manchester is too far for a ride. Rides here cover London and the airport. There's a train to Manchester. For a car all the way, the concierge team can arrange a driver."}]
+
+### [ride 25:00]
+  TEXT: Confirm. | Ride: Standard | London | 4 seats | PICK UP FROM | Here | Home | Office | WHERE TO? | Home | Office | Airport | Now | Schedule | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Choose a pick-up time. | Free to cancel until the driver arrives | £13.99 | or 
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"airport","date":"2026-10-02","pickup_time":"25:00"},"shown":["detail"],"note":"That isn't a valid time. Pick the pick-up time here."}]
+
+### [ride yesterday 10:00]
+  TEXT: Confirm.
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"airport","date":"2026-09-29","pickup_time":"10:00"},"shown":[],"note":"Tue 29 Sep has already passed. Which date would you like?"}]
+
+### [ride tomorrow 07:00 from office]
+  TEXT: Confirm. | Ride: Standard | To Home, 12 Garden Row · Thu 1 Oct 07:00 | From | Office, 1 Harbour Square | To | Home, 12 Garden Row | When | Thu 1 Oct 07:00 | Total | £13.99 | Free to cancel until the driver arrives | Points | 1,399 pts · you have 48,210 | Points and card | 900 pts + £4.99 | Card | £13.99 on card ending 4821 | Pay 1,399 pts
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GT-1","destination":"home","pickup":"office","date":"2026-10-01","pickup_time":"07:00"},"shown":["checkout"],"note":""}]
+
+### [car hire 4 days]
+  TEXT: Confirm. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | PICK-UP DAY | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GT-4","days":4},"shown":["detail"],"note":"Car hire is sold for 1, 2, 3, 5 or 7 days. Pick the days here."}]
+
+### [car hire 45 days]
+  TEXT: Confirm. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | PICK-UP DAY | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | Tue 13 Oct | Wed 14 Oct | Thu 15 Oct | Fri 16 Oct | Sat 17 Oct | Sun 18 Oct | Mon 19 Oct | Tue 20 Oct | Wed 21 Oct | Thu 22 Oct | Fri 23 Oct | Sat 24 Oct | Sun 25 Oct | Mon 26 Oct | Tue 27 Oct | Wed 28 Oct | Thu 29 Oct | Fri 30 Oct | Sat 31 Oct | Sun 1 Nov | Mon 2 Nov | Tue 3 Nov | Wed 4 Nov | Thu 5 Nov | Fri 6 Nov | Sat 7 Nov | Sun 
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"GT-4","days":45},"shown":["detail"],"note":"Car hire is sold for 1, 2, 3, 5 or 7 days. Pick the days here."}]
+
+### [cinema 3 people]
+  TEXT: Confirm. | Cinema: 2 for 1 this week | Reel House, London | Card offer | DAY | Wed 30 Sep | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | SHOWING | 17:40 | 19:15 | 20:50 | PEOPLE | 3 | Refund up to 1 hour before | £23.98 | or 2,398 pts | £11.99 for every two people | Continue
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"ET-4","option":"19:10","quantity":3},"shown":["detail"],"note":"Cinema: 2 for 1 this week has showings 17:40, 19:15, 20:50. Which would you like?"}]
+
+### [lounge for 4]
+  TEXT: Confirm. | Lounge visit | Heathrow T5 · The Orchard · Fri 9 Oct | When | Fri 9 Oct | People | 4 | Free visits used | 2 free, 2 paid | Total | £64.00 | Card visits come back if the lounge can't take you | Points | 6,400 pts · you have 48,210 | Points and card | 4,400 pts + £20 | Card | £64 on card ending 4821 | Pay 6,400 pts
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"AP-1","quantity":4,"date":"2026-10-09"},"shown":["checkout"],"note":""}]
+
+### [paracetamol x 5]
+  TEXT: Checked the nearest store: open, 15 min | Added. | Milk, 2 litres | £1.50 | Sourdough loaf | £2.99 | Free-range eggs, 12 | £3.99 | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Nappies, pack of 40 | £9.49 | Dishwasher tablets | £6.49 | Baby wipes | £2.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500g | £1.00 | Crisps | £1.50 | Ibuprofen, 16
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"groceries","a":{"items":"5 paracetamol"},"shown":["grocery"],"note":"Added paracetamol. Anything else? It arrives in about 15 minutes."}]
+
+### [points invest too many]
+  TEXT: X
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"points_and_giving","a":{"topic":"invest","points":99999999,"to":"gold"},"shown":[],"note":"The customer has 48210 points, fewer than 99999999. Tell them their balance and ask how many to use."}]
+
+### [donate 1.5]
+  TEXT: X
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"points_and_giving","a":{"topic":"donate","points":1.5,"to":"x"},"shown":[],"note":"Points are whole numbers of 1 or more. Ask the customer how many."}]
+
+### [bogus booking]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"manage_booking","a":{"booking_id":"GR-00000","action":"cancel"},"shown":[],"note":"I can't find that booking."}]
+
+### [unknown item]
+  TEXT: Confirm.
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"prepare_checkout","a":{"id":"ZZ-9"},"shown":[],"note":"There's no item with that id. Use an id from search_catalogue."}]
+
+### [alert]
+  TEXT: Your alert is set. | When prices to Lisbon drop | Alert on | Remove
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"set_alert","a":{"what":"when prices to Lisbon drop"},"shown":["alertcard"],"note":"Saved: an alert when prices to Lisbon drop. It's listed under Alerts on My card, where you can remove it."}]
+
+### [alert junk]
+  TEXT: Done. | When | Alert on | Remove
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"set_alert","a":{"what":""},"shown":["alertcard"],"note":"Saved: an alert when . It's listed under Alerts on My card, where you can remove it."}]
+
+## s-ai1-UK-ai clean

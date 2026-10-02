@@ -1,0 +1,38 @@
+
+### [ar slop]
+  TEXT: بحثت في 4 أماكن إقامة | الأسعار بالنقاط أيضًا | بالتأكيد. يسعدني مساعدتك. إليك فنادق رائعة ومذهلة, مثالية لرحلتك. آمل أن يساعدك هذا. | Lantern Suites | 3× نقاط | وسط المدينة، مسقط | 4.7 | مسبح | إفطار | ‏885 د.إ.‏ | ليلتان، شاملة الضرائب | أو 44,250 نقطة | Harbour Residence | البلدة القديمة، مسقط | 
+  SHEET: -
+  DIFF: pts undefined->88500; card undefined->4265; frozen->false
+  RES: [{"n":"search_catalogue","a":{"category":"stays","city":"Muscat"},"shown":["items"],"note":"4 places to stay in Muscat. Lantern Suites is my pick: 3× points on your card."}]
+
+### [ar claim]
+  TEXT: لم يُحجز أو يُدفع أو يتغير شيء.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [ar claim2]
+  TEXT: لم يُحجز أو يُدفع أو يتغير شيء.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [ar claim3]
+  TEXT: لم يُحجز أو يُدفع أو يتغير شيء.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [ar safety] safety={"risk":"suicide","who":"self"}
+  TEXT: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. | إن كنت في خطر، اتصل على 999 الآن | خط دعم الصحة النفسية في الإمارات مجاني ويفتح الساعة 8 صباحًا. خدمات الطوارئ متاحة طوال الليل. | اتصل على 999 الآن | خط دعم الصحة ا
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_catalogue","a":{"category":"stays","city":"Muscat"},"shown":["items"],"note":"4 places to stay in Muscat. Lantern Suites is my pick: 3× points on your card."}]
+
+### [ar english reply]
+  TEXT: Here are your options.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+## s-ai4-AR-ai clean

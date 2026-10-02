@@ -1,0 +1,1 @@
+module.exports = async (h) => { process.argv[2] = h.market; const S = require('./scripts.js'); await S[process.env.SC](h); console.log('LAST:', (await h.last()).slice(0, 600)); const s = await h.state(); console.log('STATE card', JSON.stringify(s.card).slice(0, 300), 'bal', s.balance, 'bookings', (s.bookings||[]).map(b => b.title + ':' + b.status + ':' + b.total).join('; ')) }

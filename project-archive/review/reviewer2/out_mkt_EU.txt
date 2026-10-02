@@ -1,0 +1,122 @@
+== res: Checked 5 flights from Dublin | Priced for 2 people with points | 5 flights to Rome on Fri 9 Oct, back Sun 11 Oct. I'd pick the 09:40 Aurora Air: direct, €133 each way per person. | NW | Northway Air | NW 456 | 06:10 | DUB | 5h 28m | 1 stop · MXP | 12:38 | FCO | Cabin bag | €102 | or 10,200 pts | Price each way, per person | AU | Aurora Air | AU 676 | Best for you | 09:40 | DUB | 3h 01m | Direct | 13:41 | FCO | Cabin bag | €133 | or 13,300 pts | Price each way, per person | CL | Coastline | CL 530 | 14:15 | DUB | 2h 56m | Direct | 18:11 | FCO | Small bag only | €134 | or 13,400 pts | Price each way, per person | NW | Northway Air | NW 595 | 4 left at this price | 20:30 | DUB | 3h | Direct | 00:30+1 | FCO | Cabin bag | €138 | or 13,800 pts | Price each way, per person | CL | Coastline | CL 862 | 07:25 | DUB | 2h 59m | Direct | 11:24 | FCO | Small bag only | €160 | or 16,000 pts | Price ea
+== fares: Checked fare rules | Good choice. I've matched it with the 17:50 back on Sun 11 Oct. Pick a fare; prices are per person, return. | 06:10 | Dublin DUB | NW | NW 456 | 5h 28m | Economy | 12:38 | Rome FCO | 17:50 | Rome FCO | AU | AU 773 | 5h 02m | Economy | 21:52 | Dublin DUB | Light | Small bag | Cabin bag | Seat choice | Changes | €213 | or 21,300 pts | Most picked | Standard | Small bag | Cabin bag | Standard seats | Free date change | €259 | or 25,900 pts | Flex | Cabin + checked bag | Any seat | Full refund | Fast track | €376 | or 37,600 pts | Per person, return. 2 travellers: €518 in total. | Continue with Standard
+== chk: Here's the total. Pay with points, card, or both. | Dublin to Rome | NW 456 · Standard · Fri 9 Oct 06:10 · back Sun 11 Oct 17:50 | Outbound | NW 456 · Fri 9 Oct 06:10 → 12:38 | Return flight | AU 773 · Sun 11 Oct 17:50 → 21:52 | Standard fare, 2 × €259 | €518.00 | Seats 16C, 16B | Free | Total | €518.00 | Free date change; cancel for a 30% fee | Points | 51,800 pts · 9,200 more than you have | Points and card | 36,200 pts + €156 | Card | €518 on card ending 7730 | Pay €156.00 + 36,200 pts
+SHEET: Confirm and pay | Dublin to Rome · Fri 9 Oct 06:10 · back Sun 11 Oct 17:50 | Dublin to Rome | €518.00 | Points used (36,200 pts) | −€362.00 | On your card | €156.00 | Nothing is paid until you confirm | Pay with Face ID
+inputs 0 null
+AFTER CLICK: Confirm and pay | Dublin to Rome · Fri 9 Oct 06:10 · back Sun 11 Oct 17:50 | Dublin to Rome | €518.00 | Points used (36,200 pts) | −€362.00 | On your card | €156.00 | Checking it's you… | Pay with Face ID
+== receipt: Booked. Check-in opens 24 hours before departure; your booking and passes are in Wallet. | Confirmed | GR-77424 | Outbound | NW 456 · Fri 9 Oct 06:10 → 12:38 | Return flight | AU 773 · Sun 11 Oct 17:50 → 21:52 | Standard fare, 2 × €259 | €518.00 | Seats 16C, 16B | Free | Paid | 36,200 pts + €156.00 | Points earned | +156 | Free date change; cancel for a 30% fee. | Add a hotel | Book a lounge | Airport ride
+{
+ "tag": "booked",
+ "balance": 6556,
+ "card": 1217.48,
+ "frozen": false,
+ "bookings": [
+  "GR-77424 flights Dublin to Rome confirmed tot=518 pts=36200 card=156 earned=156"
+ ],
+ "ledger": [
+  "-36200 Dublin to Rome",
+  "156 Points on card spend: Dublin to Rome",
+  "1840 Points from card spend",
+  "40760 Balance brought forward"
+ ],
+ "txns": [
+  "156 Dublin to Rome 156",
+  "75 Pantry Market 75",
+  "218 Northway Air 218",
+  "16.49 Café Lune 16"
+ ]
+}
+== dine LIST: Checked 6 restaurants | Priced with your points | 6 restaurants in Dublin. Harrow & Vine has tables tonight for 2, with 15% off on your card. | Harrow & Vine | Modern European · Dublin | 4.8 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · Dublin | 4.5 | Mid-price | Free | to book | The Green Table | Vegetarian · Dublin | 4.8 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · Dublin | 4.6 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · Dublin | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · Dublin | 4.6 | Mid-price | Terrace | Free | to book
+== dine DETAIL: Harrow & Vine | Modern European · Dublin | 4.8 ★ | Upmarket | 15% off with your card | TIME | 18:30 | 19:00 | 19:30 | 20:00 | 20:30 | 21:00 | GUESTS | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Choose this time
+CTA: Choose this time
+== dine CHECKOUT: Harrow & Vine | When | Tue 29 Sept, 18:30 | Guests | 2 | To pay | Free | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | Book the table
+PAYBTN: Book the table
+!! NO SHEET
+== dine DONE: Table booked. The restaurant has your name. | Confirmed | GR-88405 | When | Tue 29 Sept, 18:30 | Guests | 2 | Free to book. Cancel up to 2 hours before, or the restaurant may charge a no-show fee. | What else can I do?
+{
+ "tag": "dine",
+ "balance": 6556,
+ "card": 1217.48,
+ "frozen": false,
+ "bookings": [
+  "GR-88405 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-77424 flights Dublin to Rome confirmed tot=518 pts=36200 card=156 earned=156"
+ ],
+ "ledger": [
+  "-36200 Dublin to Rome",
+  "156 Points on card spend: Dublin to Rome",
+  "1840 Points from card spend",
+  "40760 Balance brought forward"
+ ],
+ "txns": [
+  "156 Dublin to Rome 156",
+  "75 Pantry Market 75",
+  "218 Northway Air 218",
+  "16.49 Café Lune 16"
+ ]
+}
+== lounge LIST: Checked 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Lounge visit | Dublin T2 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | Dublin T2 | €10.49 | per person | or 1,049 pts | Meet and greet on arrival | Dublin · greeter at the gate | Help through arrivals and bags | €99 | per group | or 9,900 pts | Porter and buggy | Dublin | €29 | per booking | or 2,900 pts | Sleep pod, 4 hours | Dublin airside | €53 | per pod | or 5,300 pts | Baggage wrap and storage | Dublin | €13.99 | per bag | or 1,399 pts
+== lounge DETAIL: Lounge visit | Dublin T2 · The Orchard | Up to 3 hours before your flight | Free with your card · 2 visits left this year | Card visits come back if the lounge can't take you | Use a free visit
+CTA: Use a free visit
+== lounge CHECKOUT: Lounge visit | People | 1 | To pay | Free with your card | Card visits come back if the lounge can't take you | Confirm
+PAYBTN: Confirm
+!! NO SHEET
+== lounge DONE: Booked with a free card visit. Your pass is in Wallet. | Confirmed | GR-22679 | People | 1 | Card visits come back if the lounge can't take you. | What else can I do?
+{
+ "tag": "lounge",
+ "balance": 6556,
+ "card": 1217.48,
+ "frozen": false,
+ "bookings": [
+  "GR-22679 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-88405 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-77424 flights Dublin to Rome confirmed tot=518 pts=36200 card=156 earned=156"
+ ],
+ "ledger": [
+  "-36200 Dublin to Rome",
+  "156 Points on card spend: Dublin to Rome",
+  "1840 Points from card spend",
+  "40760 Balance brought forward"
+ ],
+ "txns": [
+  "156 Dublin to Rome 156",
+  "75 Pantry Market 75",
+  "218 Northway Air 218",
+  "16.49 Café Lune 16"
+ ]
+}
+== shop LIST: Checked 12 products | Priced with your points | 6 products. Noise-cancelling headphones is the closest match, with free delivery. | Noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | €268 | or 26,800 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | €326 | or 32,600 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | €1,169 | or 116,900 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | €140 | or 14,000 pts | Leather trainers | Stride Outdoor | 4.4 | €111 | or 11,100 pts | Skincare set | Glow Beauty | 4.6 | €68 | or 6,800 pts
+== shop DETAIL: Noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | €268 | or 26,800 pts | Continue
+CTA: Continue
+== shop CHECKOUT: Noise-cancelling headphones | Byte Store · Black | Colour | Black | Quantity | 1 | Total | €268.00 | Return within 30 days | Points | 26,800 pts · 20,244 more than you have | Points and card | 6,500 pts + €203 | Card | €268 on card ending 7730 | Pay €203.00 + 6,500 pts
+PAYBTN: Pay €203.00 + 6,500 pts
+SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | €268.00 | Points used (6,500 pts) | −€65.00 | On your card | €203.00 | Nothing is paid until you confirm | Pay with Face ID
+== shop DONE: Done. It's in your Wallet. | Confirmed | GR-28337 | Colour | Black | Quantity | 1 | Paid | 6,500 pts + €203.00 | Points earned | +203 | Return within 30 days. | Track my order
+{
+ "tag": "shop",
+ "balance": 259,
+ "card": 1420.48,
+ "frozen": false,
+ "bookings": [
+  "GR-28337 shopping Noise-cancelling headphones confirmed tot=268 pts=6500 card=203 earned=203",
+  "GR-22679 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-88405 dining Harrow & Vine confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-77424 flights Dublin to Rome confirmed tot=518 pts=36200 card=156 earned=156"
+ ],
+ "ledger": [
+  "-6500 Noise-cancelling headphones",
+  "203 Points on card spend: Noise-cancelling headphones",
+  "-36200 Dublin to Rome",
+  "156 Points on card spend: Dublin to Rome",
+  "1840 Points from card spend",
+  "40760 Balance brought forward"
+ ],
+ "txns": [
+  "203 Noise-cancelling headphones 203",
+  "156 Dublin to Rome 156",
+  "75 Pantry Market 75",
+  "218 Northway Air 218"
+ ]
+}
+== owe: You owe €1,061.48, due Wed 7 Oct. The minimum is €31.84. | PAYMENT DUE | 7 Oct | €1,061.48 | Minimum €31.84 by 7 Oct | Full balance | €1,061.48 | Half | €530.74 | Minimum | €31.84 | Pay €1,061.48 | Set up direct debit
+EU s_mkt clean

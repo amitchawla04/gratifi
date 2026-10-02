@@ -1,0 +1,17 @@
+
+[pay the minimum] => You owe ₹99,770.00, due Sat 10 Oct. The minimum is ₹2,993.10. | PAYMENT DUE | 10 Oct | ₹99,770.00 | Minimum ₹2,993.10 by 10 Oct | Full balance | ₹99,770.00 | Minimum | ₹2,993.10 | Another amount | Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm. | Pay ₹2,993.10 | Set up auto-debit
+SHEET0 Pay your card bill | From your current account ending 7781 | Card bill | ₹2,993.10 | From your account | ₹2,993.10 | Enter the 6-digit code sent to your phone ending 45 | Send a new code | Confirm ₹2,993.10 | Demo: the one-time code is 482193
+SHEET after 111111 => Pay your card bill | From your current account ending 7781 | Card bill | ₹2,993.10 | From your account | ₹2,993.10 | Enter the 6-digit code sent to your phone ending 45 | That code isn't right. Check the text message and try again. | Send a new code | Confirm ₹2,993.10 | Demo: the one-time code is 482193
+SHEET after 222222 => Pay your card bill | From your current account ending 7781 | Card bill | ₹2,993.10 | From your account | ₹2,993.10 | Enter the 6-digit code sent to your phone ending 45 | That code isn't right. One more wrong code pauses codes for 15 minutes. | Send a new code | Confirm ₹2,993.10 | Demo: the one-time code is 482193
+SHEET after 333333 => Pay your card bill | From your current account ending 7781 | Card bill | ₹2,993.10 | From your account | ₹2,993.10 | Enter the 6-digit code sent to your phone ending 45 | Too many wrong codes, so codes are paused. Try again in 15 min, or call the bank if it can't wait. | Confirm ₹2,993.10 | Demo: the one-time code is 482193
+
+[pay the minimum] => You owe ₹99,770.00, due Sat 10 Oct. The minimum is ₹2,993.10. | PAYMENT DUE | 10 Oct | ₹99,770.00 | Minimum ₹2,993.10 by 10 Oct | Full balance | ₹99,770.00 | Minimum | ₹2,993.10 | Another amount | Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm. | Pay ₹2,993.10 | Set up auto-debit
+SHEET after reload Pay your card bill | From your current account ending 7781 | Card bill | ₹2,993.10 | From your account | ₹2,993.10 | Enter the 6-digit code sent to your phone ending 45 | Too many wrong codes, so codes are paused. Try again in 15 min, or call the bank if it can't wait. | Confirm ₹2,993.10 | Demo: the one-time code is 482193
+
+[pay £100] => You owe ₹99,770.00, due Sat 10 Oct. The minimum is ₹2,993.10. | PAYMENT DUE | 10 Oct | ₹99,770.00 | Minimum ₹2,993.10 by 10 Oct | Full balance | ₹99,770.00 | Minimum | ₹2,993.10 | Another amount | Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm. | Pay ₹2,993.10 | Set up auto-debit
+LAST You owe ₹99,770.00, due Sat 10 Oct. The minimum is ₹2,993.10. | PAYMENT DUE | 10 Oct | ₹99,770.00 | Minimum ₹2,993.10 by 10 Oct | Full balance | ₹99,770.00 | Minimum | ₹2,993.10 | Another amount | Paying only the minimum means interest on the rest. The bank shows the exact cost before you confirm. | Pay ₹2,993.10 | Set up auto-debit
+
+[lower my limit to £3000] => Your balance is ₹99,770.00, so the new limit has to be at least that.
+LAST Your balance is ₹99,770.00, so the new limit has to be at least that.
+
+## s-otp-IN clean

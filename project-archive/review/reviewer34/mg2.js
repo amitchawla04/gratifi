@@ -1,0 +1,14 @@
+const { open } = require('./h.js');
+const sum = s => !s ? 'nostate' : JSON.stringify({ pts: s.balance, card: s.card.balance, b: s.bookings.map(b => b.title + '|' + b.status + '|' + b.total) });
+(async () => { const h = await open('UK', { tag: 'mg2' }); const { p } = h;
+ const say = async l => console.log('--', l, '::', (await h.lastText()).slice(0, 500));
+ await h.nav(3); await h.ask('Noise-cancelling headphones', 900); await h.last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(300); await h.last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(300);
+ await h.last().locator('button').filter({ hasText: /^Card/ }).first().click().catch(()=>{}); await p.waitForTimeout(200);
+ await h.click(/^Pay /); await h.confirm(); await say('paid'); console.log(sum(await h.st()));
+ await h.ask('donate 48300 points to charity', 900); await say('donate'); 
+ await h.last().getByRole('button',{name:'Give points'}).first().click(); await p.waitForTimeout(400); console.log('sheet', (await h.sheetText()).slice(0,200)); if (await p.$('.app-sheet')) await h.confirm(); await say('donated');
+ console.log(sum(await h.st()));
+ await h.ask('cancel my headphones', 900); await say('cancel ask'); await h.full('cancel');
+ const y = h.btn('Yes, cancel', true); if (await y.count()) { await y.click(); await p.waitForTimeout(500); if (await p.$('.app-sheet')) await h.confirm(); await say('after') } console.log(sum(await h.st()));
+ await h.nav(5); console.log('ME pts area:', (await p.locator('.app-main').innerText()).match(/Points[\s\S]{0,400}/)?.[0].replace(/\s+/g,' '));
+ await h.close() })();

@@ -1,0 +1,31 @@
+const { chromium } = require('playwright');
+(async()=>{
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
+const p=await ctx.newPage(); const errs=[];
+p.on('console',m=>{if(m.type()==='error')errs.push(m.text())}); p.on('pageerror',e=>errs.push('PAGEERR '+e.message));
+const shot=async n=>{await p.waitForTimeout(700);await p.screenshot({path:'shots/'+n+'.png'});};
+const tap=async (sel)=>{await p.locator(sel).first().click();};
+await p.goto('http://localhost:4173'); await shot('01-host');
+await tap('[aria-label="Open your points assistant"]'); await shot('02-welcome');
+await tap('text=Get started'); await shot('03-consent');
+await tap('text=Allow'); await shot('04-notify');
+await tap('text=Turn on notifications'); await shot('05-setup');
+await tap('text=Done'); await p.waitForTimeout(900); await shot('06-home');
+await p.locator('.scroll').first().evaluate(e=>e.scrollTo(0,700)); await shot('07-home-mid');
+await p.locator('.scroll').first().evaluate(e=>e.scrollTo(0,5000)); await shot('08-home-end');
+await p.locator('.scroll').first().evaluate(e=>e.scrollTo(0,0));
+await tap('text=See tickets'); await shot('09-cinema');
+await tap('text=Redeem 2,400 points'); await shot('10-confirm');
+await tap('.modal button.btn.big'); await p.waitForTimeout(600); await shot('11-faceid'); await p.waitForTimeout(1800); await shot('12-voucher');
+await tap('text=Done'); await p.waitForTimeout(800); await shot('13-home-after');
+await p.locator('.composer input').first().fill('Find a hotel for my Lisbon trip'); await p.locator('.composer .send').first().click(); await p.waitForTimeout(600); await shot('14-ask-thinking'); await p.waitForTimeout(1800); await shot('15-ask-result');
+await p.locator('button:has-text("Book")').first().click(); await shot('16-confirm-hotel');
+await p.locator('.scroll').first().evaluate(e=>e); await p.locator('.modal').first().evaluate(e=>e.scrollTo(0,999)); await shot('17-confirm-hotel-bottom');
+const mix=p.locator('.modal .seg button:has-text("Points +")'); if(await mix.count()){await mix.first().click(); await shot('18-mix');}
+await tap('.modal button.btn.big'); await p.waitForTimeout(2600); await shot('19-booked');
+await tap('text=View your trip'); await shot('20-trip');
+await p.locator('.scroll').first().evaluate(e=>e.scrollTo(0,5000)); await shot('21-trip-end');
+await tap('[aria-label="Back"]'); await p.waitForTimeout(500); await shot('22-after-back');
+console.log('ERRORS', JSON.stringify(errs));
+await b.close();})();

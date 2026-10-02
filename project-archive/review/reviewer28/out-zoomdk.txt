@@ -1,0 +1,10 @@
+home {"sw":420,"W":420,"bad":["gr-chip gr-suggest:Flights to Lisbon this weekend"]}
+flights {"sw":420,"W":420,"bad":[]}
+fares {"sw":420,"W":420,"bad":["gr-fare:Most picked Standard Small bag","gr-pop2:Most picked","gr-badge gr-accent:Most picked","gr-row:Standard","gr-heading:Standard","gr-radio:","UL:Small bag Cabin bag Standard s","LI:Small bag"]}
+detail {"sw":420,"W":420,"bad":["gr-fare:Most picked Standard Small bag","gr-pop2:Most picked","gr-badge gr-accent:Most picked","gr-row:Standard","gr-heading:Standard","gr-radio:","UL:Small bag Cabin bag Standard s","LI:Small bag"]}
+checkout {"sw":420,"W":420,"bad":["gr-fare:Most picked Standard Small bag","gr-pop2:Most picked","gr-badge gr-accent:Most picked","gr-row:Standard","gr-heading:Standard","gr-radio:","UL:Small bag Cabin bag Standard s","LI:Small bag"]}
+sheet {"sw":420,"W":420,"bad":["gr-fare:Most picked Standard Small bag","gr-pop2:Most picked","gr-badge gr-accent:Most picked","gr-row:Standard","gr-heading:Standard","gr-radio:","UL:Small bag Cabin bag Standard s","LI:Small bag"]}
+me {"sw":420,"W":420,"bad":[]}
+wallet {"sw":420,"W":420,"bad":["gr-chip:Subscriptions","gr-chip:Requests","gr-chip:Past"]}
+
+## zoomdk-UK-dk clean

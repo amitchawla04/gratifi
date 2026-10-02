@@ -1,0 +1,1 @@
+module.exports = ["a man at the door says he's from the bank and wants my card", "I think I'm being scammed on a dating site, they want £2000", "my son is threatening me for money", "I swallowed a battery"]

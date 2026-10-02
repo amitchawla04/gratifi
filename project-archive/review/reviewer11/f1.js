@@ -1,0 +1,22 @@
+require('./lib.js')('UK', 'fam', async (h) => {
+  const { p } = h
+  await h.nav(3); await h.ask('Flights to Lisbon 16th October to 23rd October 2 adults 1 child 1 infant')
+  await p.locator('.gr-flight').first().evaluate(e=>e.click()); await p.waitForTimeout(500)
+  await h.btn(/Continue with/)
+  const ins = h.last().locator('input')
+  await ins.nth(1).fill('Priya Chawla'); await ins.nth(2).fill('Kabir Chawla'); await ins.nth(4).fill('Mira Chawla')
+  await ins.nth(3).fill('2018-05-05'); await ins.nth(5).fill('2025-06-01'); await p.waitForTimeout(300)
+  const chips = h.last().locator('.gr-chip'); console.log(await chips.allInnerTexts())
+  await chips.nth(2).evaluate(e=>e.click()); await p.waitForTimeout(200)
+  await h.last().locator('[aria-label^="Seat 14A"]').evaluate(e=>e.click()); await p.waitForTimeout(300)
+  await h.tail('child-exit'); console.log('AFTER CHILD EXIT:', (await h.text()).slice(-420))
+  await chips.nth(1).evaluate(e=>e.click()); await h.last().locator('[aria-label^="Seat 14E"]').evaluate(e=>e.click()); await p.waitForTimeout(300)
+  console.log('ADULT EXIT:', (await h.text()).slice(-300))
+  await chips.nth(0).evaluate(e=>e.click()); await p.waitForTimeout(200); console.log('AMIT(infant) exit seats:', await h.last().evaluate(e => [...e.querySelectorAll('.gr-seat')].filter(x=>/^Seat 14/.test(x.getAttribute('aria-label'))).map(x=>x.getAttribute('aria-label')+(x.disabled?'(dis)':'')).join(','))); await h.last().getByText('Flight back', { exact: true }).first().evaluate(e=>e.click()); await p.waitForTimeout(300); 
+  console.log(await chips.allInnerTexts())
+  await chips.nth(2).click(); const ex = await h.last().evaluate(e => [...e.querySelectorAll('.gr-seat.gr-extra')].map(x => x.getAttribute('aria-label')).join(',')); console.log('back extra', ex)
+  const first = ex.split(',')[0].split(',')[0].replace('Seat ','').split(',')[0]; await h.last().locator(`[aria-label^="Seat ${first.split(' ')[0]}"]`).first().evaluate(e=>e.click()); await p.waitForTimeout(300)
+  await h.tail('back-seats'); console.log('BACK:', (await h.text()).slice(-400))
+  await h.last().getByRole('button', { name: 'More Checked bag' }).evaluate(e=>e.click()); await h.last().getByRole('button', { name: 'More Checked bag' }).evaluate(e=>e.click()); await p.waitForTimeout(200)
+  await h.btn(/^Continue$/); await h.full('checkout'); console.log('CHECKOUT:', await h.text())
+})

@@ -1,0 +1,160 @@
+> gift card for sam no email
+  claude_called=1 [items:giftcards] 8 gift cards. They arrive instantly.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> gift card bad email
+  claude_called=1 [items:giftcards] 8 gift cards. They arrive instantly.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> gift card odd amount
+  claude_called=1 [items:giftcards] 8 gift cards. They arrive instantly.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> gift card huge qty
+  claude_called=1 [items:giftcards] 8 gift cards. They arrive instantly.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> hotel 45 nights
+  claude_called=1 [conciergeform] Stays can be booked for up to 30 nights here. For longer, the concierge team can help.
+  steps=["Live AI didn't answer; the built-in engine did"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> hotel 0 nights
+  claude_called=1 [items:stays] You didn't say where, so here's Lisbon; tell me the city if you meant somewhere else. 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> hotel past date
+  claude_called=1 [items:stays] You didn't say where, so here's Lisbon; tell me the city if you meant somewhere else. 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> hotel invalid date
+  claude_called=1 [items:stays] You didn't say where, so here's Lisbon; tell me the city if you meant somewhere else. 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> hotel 9 guests 1 room
+  claude_called=1 [items:stays] You didn't say where, so here's Lisbon; tell me the city if you meant somewhere else. 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card. Prices are for 5 double rooms.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> table for 14
+  claude_called=1 [conciergeform] Tables for 14 are arranged directly with the restaurant, often with a set menu. The concierge team can do that for you.
+  steps=["Live AI didn't answer; the built-in engine did"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> table for 0
+  claude_called=1 [items:dining] 6 restaurants in London. Harrow & Vine has tables tonight, with 15% off on your card.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 6 restaurants"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> table at 03:00
+  claude_called=1 [items:dining] 6 restaurants in London. Harrow & Vine has tables today from 18:30 (the earliest sitting), with 15% off on your card.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 6 restaurants"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> headphones -2
+  claude_called=1 [items:shopping] 1 product. Hush 700 noise-cancelling headphones is the closest match, with free delivery.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 12 products","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> headphones 1.5
+  claude_called=1 [items:shopping] 1 product. Hush 700 noise-cancelling headphones is the closest match, with free delivery.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 12 products","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> laptops 30 on card
+  claude_called=1 [items:shopping] 1 product. 13-inch laptop, 16GB is the closest match, with free delivery.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 12 products","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> ride scheduled yesterday
+  claude_called=1 [items:rides] 6 ways to get there. Prices are fixed when you book.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 10 ways to get there","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> ride at 25:00
+  claude_called=1 [items:rides] 6 ways to get there. Prices are fixed when you book.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 10 ways to get there","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> car hire 40 days
+  claude_called=1 [conciergeform] Car hire here is for up to 7 days at a time. For 40 days, the concierge team can arrange a longer rental.
+  steps=["Live AI didn't answer; the built-in engine did"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> concert 0 tickets
+  claude_called=1 [items:tickets] 1 event. Arlo Grey live: presale for cardholders.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 5 events","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> subs tunewave pay
+  claude_called=1 [items:subs] 1 subscription. Tunewave is included with your card.
+  steps=["Live AI didn't answer; the built-in engine did","Searched 6 subscriptions","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+  RES: []
+> bogus id
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"prepare_checkout","r":"{\"shown_to_customer\":[]}"}]
+> flight via checkout
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"prepare_checkout","r":"{\"shown_to_customer\":[]}"}]
+> transfer too many
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"points_and_giving","r":"{\"shown_to_customer\":[],\"note\":\"The customer has 48210 points, fewer than 999999. Tell them their balance and ask how many to use.\"}"}]
+> transfer fraction
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"points_and_giving","r":"{\"shown_to_customer\":[],\"note\":\"Points are whole numbers of 1 or more. Ask the customer how many.\"}"}]
+> transfer ok
+  claude_called=1 [member] Nothing is booked, paid or changed until you confirm it yourself on the card above.
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"points_and_giving","r":"{\"shown_to_customer\":[\"member\"],\"note\":\"What's your Northway Miles membership number? The points go to that account, and transfers can't be undone.\"}"}]
+> invest
+  claude_called=1 [invest] Tick the box.
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"points_and_giving","r":"{\"shown_to_customer\":[\"invest\"],\"note\":\"Before you put 5,000 pts into digital gold: the risks, and a tick to confirm it's your own decision.\"}"}]
+> donate 100
+  claude_called=1 [] Confirm.
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  SHEET: Confirm your gift Gift to Clean Seas Trust Charity Clean Seas Trust Points given 100 pts Worth £1.00 Points 100 pts Nothing moves until you confirm Confirm with Face ID
+  RES: [{"n":"points_and_giving","r":"{\"shown_to_customer\":[],\"note\":\"Check the details, then confirm it's you.\"}"}]
+> lower limit
+  claude_called=1 [] Confirm.
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  SHEET: Lower your credit limit Card ending 4821 · raising it again needs a check by the bank Limit now £8,000 New limit £3,000 New limit £3,000 This checks it's you before anything changes Confirm with Face 
+  RES: [{"n":"card_and_account","r":"{\"shown_to_customer\":[],\"note\":\"Check the new limit, then confirm it's you.\"}"}]
+> raise limit
+  claude_called=1 [handoff] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"card_and_account","r":"{\"shown_to_customer\":[\"handoff\"],\"note\":\"Limit changes are decided by the bank after a short check. Nothing changes until you both agree.\"}"}]
+> lift gambling
+  claude_called=1 [gambling,suggest] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  SHEET: Lift the gambling block Card ending 4821 · you can keep the block any time before it lifts Block lifts Fri 2 Oct at 07:58 Wait 48 hours This checks it's you before anything changes Confirm with Face I
+  RES: [{"n":"card_control","r":"{\"shown_to_customer\":[\"gambling\"],\"note\":\"Done. Gambling payments are blocked on your card from now: betting sites, casinos and lotteries. If you ask to lift it, it comes off 48 hours later.\"}"},{"n":"card_control","r":"{\"shown_to_customer\":[],\"note\":\"The block comes off 48 hours after you confirm, so there's time to change your mind. Confirm it's you to start the wait.\"}"}]
+> pay bill 5000
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  SHEET: Pay your card bill From your current account ending 7781 Card bill £906.98 From your account £906.98 Nothing is paid until you confirm Pay with Face ID
+  RES: [{"n":"card_and_account","r":"{\"shown_to_customer\":[],\"note\":\"That's more than you owe, so it's set to the full balance, £906.98.\"}"}]
+> manage bogus
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"manage_booking","r":"{\"shown_to_customer\":[],\"note\":\"I can't find that booking.\"}"}]
+> past flight
+  claude_called=1 [calendar] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"search_flights","r":"{\"shown_to_customer\":[\"calendar\"],\"note\":\"That date has already passed. Which day would you like?\"}"}]
+> return before out
+  claude_called=1 [calendar] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"search_flights","r":"{\"shown_to_customer\":[\"calendar\"],\"note\":\"Your return (Thu 15 Oct) is before you leave (Tue 20 Oct). Which dates did you mean?\"}"}]
+> child alone
+  claude_called=1 [conciergeform] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"search_flights","r":"{\"shown_to_customer\":[\"conciergeform\"],\"note\":\"Children under 16 can't fly on their own on a normal booking. Airlines run an unaccompanied minor service with staff who look after them; the concierge team can arrange it with the airline.\"}"}]
+> 3 infants 1 adult
+  claude_called=1 [suggest] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"search_flights","r":"{\"shown_to_customer\":[],\"note\":\"Each infant travels on an adult's lap, so 3 infants need 3 adults. How many adults are flying?\"}"}]
+> unknown city
+  claude_called=1 [places] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"search_flights","r":"{\"shown_to_customer\":[\"places\"],\"note\":\"I can't book flights to Atlantis yet. From London I can book these.\"}"}]
+> choose bogus
+  claude_called=1 [] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"choose_flight","r":"{\"shown_to_customer\":[],\"note\":\"That flight has gone. Here are the latest options.\"}"}]
+> 12 travellers
+  claude_called=1 [conciergeform] ok
+  steps=[] bal=48210 card=906.98 frozen=false bookings=0
+  RES: [{"n":"search_flights","r":"{\"shown_to_customer\":[\"conciergeform\"],\"note\":\"For 12 travellers the airline treats it as a group booking, with its own fares. I'll send it to the concierge team, who book groups.\"}"}]

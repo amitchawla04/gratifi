@@ -1,0 +1,24 @@
+const setup=require('./lib.js');
+(async()=>{ const h=await setup('UK',{tag:'t2'}); const {p,nav,ask,full,lastText,log,btn,state,confirm,sheetText,shot}=h;
+await nav(3);
+await ask('Flights to Lisbon on 16 Oct back 20 Oct for 2 adults, a 6 year old and a baby');
+await p.locator('.gr-flight').first().click(); await p.waitForTimeout(500);
+await btn(/Continue with/);
+const A=p.locator('.gr-answer').last(); const ins=A.locator('input.app-in');
+await ins.nth(1).fill('Priya Chawla'); await ins.nth(2).fill('Kabir Chawla'); await ins.nth(3).fill('2020-05-03'); await ins.nth(4).fill('Mira Chawla'); await ins.nth(5).fill('2025-06-10');
+const S=async()=>A.evaluate(a=>[...a.querySelectorAll('button[aria-label^=Seat]')].filter(x=>/14/.test(x.getAttribute('aria-label'))).map(x=>(x.getAttribute('aria-label'))+ (x.disabled?'[dis]':'')).join(' ; '));
+await A.getByRole('radio',{name:/Priya/}).click(); await p.waitForTimeout(300); log('Priya', await S());
+await A.locator('button[aria-label^="Seat 14A"]').click(); await p.waitForTimeout(300);
+await A.getByRole('radio',{name:/Kabir/}).click(); await p.waitForTimeout(300); log('Kabir', await S());
+await A.locator('button[aria-label^="Seat 14D"]').click({force:true}).catch(e=>log('dis'));
+log('T', (await lastText()).slice(-500));
+await shot('seats');
+const radios = await A.evaluate(a=>[...a.querySelectorAll('[role=radio],[role=tab]')].map(x=>x.getAttribute('role')+':'+x.textContent).join(' | ')); log(radios);
+await A.getByRole('radio',{name:'Flight back'}).click().catch(()=>A.getByRole('tab',{name:'Flight back'}).click()); await p.waitForTimeout(300);
+await A.getByRole('radio',{name:/Priya/}).click(); await A.locator('button[aria-label^="Seat 14D"]').click(); await p.waitForTimeout(300);
+await A.locator('button').filter({hasText:'+'}).last().click().catch(()=>log('noplus'));
+const st=await A.evaluate(a=>[...a.querySelectorAll('button')].filter(b=>/increase|more|add/i.test(b.getAttribute('aria-label')||'')).map(b=>b.getAttribute('aria-label')).join('|')); log('stepper',st);
+await A.locator('button[aria-label^="Increase"], button[aria-label*="more"], button[aria-label^="Add"]').last().click().catch(()=>log('noinc'));
+await p.waitForTimeout(300); log('bag', (await lastText()).slice(-250));
+await btn('Continue',{exact:true}); log('CHK', (await lastText()).slice(-1500)); await full('checkout');
+await h.done() })()

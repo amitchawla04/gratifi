@@ -1,0 +1,10 @@
+const H=require('./h.js');
+H.run({market:'UK',name:'minpay'},async h=>{const p=h.p;await h.nav(3);
+await h.ask('pay £20 off my card'); h.log('S', await h.sheetText()); await h.confirm(); h.log('after', await h.lastText());
+await h.ask('What do I owe?'); h.log('owe', (await h.lastText()).slice(0,250));
+await h.ask('pay £500'); h.log('S2', await h.sheetText()); await h.confirm(); 
+await h.ask('What do I owe?'); h.log('owe2', (await h.lastText()).slice(0,250));
+await h.ask('pay £900'); h.log('S3', await h.sheetText()); await p.keyboard.press('Escape');
+await h.ask('pay £0.50'); h.log('S4', await h.sheetText(), (await h.lastText()).slice(0,200)); await p.keyboard.press('Escape');
+await h.nav(5); await h.full('me');
+});

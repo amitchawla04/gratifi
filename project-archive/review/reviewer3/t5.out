@@ -1,0 +1,86 @@
+[stay] "4 places to stay in Lisbon, Fri 16 Oct for 3 nights. Cedar Hotel is my pick: 3× points on your card." items
+  cta Continue
+  draft 309 Fri 16 Oct to Mon 19 Oct [["Room","Double"],["Dates","Fri 16 Oct to Mon 19 Oct"],["Nights","3"],["Guests","2"]]
+   PAID Pay 30,900 pts || SHEET: Confirm and pay | Cedar Hotel · Fri 16 Oct to Mon 19 Oct | Cedar Hotel (2 guests) | £309.00 | Points used (30,900 pts) | −£309.00 | Points | 30,900 pts | Nothing is paid until you confirm | Pay with Face ID
+[stay-done] "Booked. The hotel has your name, and your confirmation is in Wallet." receipt,suggest
+== stay: pts -30900, card 0.00, bookings 1, lounge 0
+[dine] "6 restaurants in London. Harrow & Vine has tables tomorrow around 20:00 for 4, with 15% off on your card." items
+  cta Choose this time
+  draft Wed 30 Sep, 20:00 [["When","Wed 30 Sep, 20:00"],["Guests","4"]]
+   FREE Book the table
+[dine-done] "Table booked. The restaurant has your name." receipt,suggest
+== dining: pts 0, card 0.00, bookings 1, lounge 0
+  cta Continue
+  draft 44.77 [["From","Your location"],["To","Heathrow Airport"],["When","Now"]]
+   PAID Pay 4,477 pts || SHEET: Confirm and pay | Ride: Standard · Now | Ride: Standard | £44.77 | Points used (4,477 pts) | −£44.77 | Points | 4,477 pts | Nothing is paid until you confirm | Pay with Face ID
+[ride-done] "Your driver is 4 min away. You can follow the car in Wallet." receipt,suggest
+== ride: pts -4477, card 0.00, bookings 1, lounge 0
+[train] "6 ways to get there. Prices are fixed when you book." items
+  cta Continue
+   PAID Pay 4,200 pts || SHEET: Confirm and pay | Train to Edinburgh · Wed 30 Sep, 07:30 | Train to Edinburgh | £42.00 | Points used (4,200 pts) | −£42.00 | Points | 4,200 pts | Nothing is paid until you confirm | Pay with Face ID
+[train-done] "Booked. The details are in your Wallet." receipt,suggest
+== train: pts -4200, card 0.00, bookings 1, lounge 0
+[train-mcr] "I can't book trains to Manchester yet; train to edinburgh is available. 6 ways to get there. Prices are fixed when you book." items
+== train-mcr: pts 0, card 0.00, bookings 0, lounge 0
+[car] "6 ways to get there. Prices are fixed when you book." items
+  cta Continue
+  draft 38 Fri 2 Oct to Sat 3 Oct [["Days","1"],["When","Fri 2 Oct to Sat 3 Oct"]]
+   PAID Pay 3,800 pts || SHEET: Confirm and pay | Car hire: compact automatic · Fri 2 Oct to Sat 3 Oct | Car hire: compact automatic | £38.00 | Points used (3,800 pts) | −£38.00 | Points | 3,800 pts | Nothing is paid until you confirm | Pay with Face ID
+== carhire: pts -3800, card 0.00, bookings 1, lounge 0
+[exp] "7 things to do in Lisbon. Old town walking tour is the most booked." items
+  cta Continue
+  draft 24 Wed 30 Sep, 09:00
+   PAID Pay 2,400 pts || SHEET: Confirm and pay | Old town walking tour · Wed 30 Sep, 09:00 | Old town walking tour | £24.00 | Points used (2,400 pts) | −£24.00 | Points | 2,400 pts | Nothing is paid until you confirm | Pay with Face ID
+== exp: pts -2400, card 0.00, bookings 1, lounge 0
+[lounge] "6 airport services. You have 2 free lounge visits left." items
+  cta Use a free visit
+   FREE Confirm
+[lounge-done] "Booked with a free card visit. Your pass is in Wallet." receipt,suggest
+== lounge: pts 0, card 0.00, bookings 1, lounge -1
+[lc] "Cancelling gives your free visit back." confirmcancel
+[lc2] "Cancelled. Your free lounge visit is back." booking
+== lounge-cancel: pts 0, card 0.00, bookings 0, lounge 1
+[ft] "6 airport services. You have 2 free lounge visits left." items
+  cta Continue
+   PAID Pay 899 pts || SHEET: Confirm and pay | Fast track security | Fast track security | £8.99 | Points used (899 pts) | −£8.99 | Points | 899 pts | Nothing is paid until you confirm | Pay with Face ID
+[ft-done] "Booked. Your pass is in Wallet." receipt,suggest
+== fasttrack: pts -899, card 0.00, bookings 1, lounge 0
+[groc] "Added milk, sourdough loaf, free-range eggs. Anything else? It arrives in about 15 minutes." grocery
+   PAID Pay 1,048 pts || SHEET: Confirm and pay | Groceries | Groceries | £10.48 | Points used (1,048 pts) | −£10.48 | Points | 1,048 pts | Nothing is paid until you confirm | Pay with Face ID
+[groc-done] "Ordered. It's being packed now." receipt,suggest
+== grocery: pts -1048, card 0.00, bookings 1, lounge 0
+[shop] "8 products. Noise-cancelling headphones is the closest match, with free delivery." items
+  cta Continue
+   PAID Pay £229.00 || SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | £229.00 | On your card | £229.00 | Nothing is paid until you confirm | Pay with Face ID
+[shop-done] "Done. It's in your Wallet." receipt,suggest
+== shop: pts 229, card 229.00, bookings 1, lounge 0
+[aff] "These shops pay extra points when you buy on their own site through Gratifi." items
+  cta Go to their site
+[aff-done] "Opening Lumen Books. Pay with your card there and the 10× points are tracked. They show as pending in My card and land after the 30-day return window." 
+== affiliate: pts 0, card 0.00, bookings 0, lounge 0
+[gift] "8 gift cards. They arrive instantly." items
+!! gift locator.click: Timeout 30000ms exceeded.
+== gift: pts 0, card 0.00, bookings 0, lounge 0
+[subs] "6 subscriptions. Tunewave is already included with your card." items
+  cta Turn on
+   FREE Turn it on
+[sub-inc-done] "Tunewave is on. It's included for as long as you hold the card." receipt,suggest
+== sub-included: pts 0, card 0.00, bookings 1, lounge 0
+[subs2] "6 subscriptions. Tunewave is already included with your card." items
+  cta Subscribe
+   PAID Pay £10.99 || SHEET: Confirm and pay | Screenly | Screenly | £10.99 | On your card | £10.99 | Nothing is paid until you confirm | Pay with Face ID
+[sub2-done] "You're subscribed. Manage it any time in Wallet." receipt,suggest
+== sub-paid: pts 11, card 10.99, bookings 1, lounge 0
+[pause] "Screenly is paused. Nothing is charged while it's paused." booking
+== sub-pause: pts 0, card 0.00, bookings 0, lounge 0
+[scancel] "If you cancel Screenly, you keep access until the end of this month and nothing more is charged." confirmcancel
+[scancel2] "Screenly is cancelled. You keep access until the end of the month." booking
+== sub-cancel: pts 0, card 0.00, bookings 0, lounge 0
+[tix] "5 events. Arlo Grey live is the one to catch: presale for cardholders." items
+  cta Continue
+   PAID Pay £58.00 + 700 pts || SHEET: Confirm and pay | Arlo Grey live | Arlo Grey live | £65.00 | Points used (700 pts) | −£7.00 | On your card | £58.00 | Nothing is paid until you confirm | Pay with Face ID
+[tix-done] "Booked. Your tickets are in Wallet." receipt,suggest
+== tickets: pts -642, card 58.00, bookings 1, lounge 0
+[tixc] "This one can't be refunded under its terms." state
+== tickets-cancel: pts 0, card 0.00, bookings 0, lounge 0
+[]

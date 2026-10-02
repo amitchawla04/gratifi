@@ -1,0 +1,1 @@
+for m in $MARKETS; do for s in flight stays dining grocery shopping gift subs tickets airport rides experiences bank points docs concierge problems manage explore; do timeout 240 node drive.js $m $s $THEME; done; done

@@ -1,0 +1,1 @@
+module.exports = [ "what do I owe?", "set up a direct debit", "I lost my card", "will my card work abroad?", "what's the foreign fee", "I don't want to live anymore", "a ride to the airport", "a train to Cork", "Book a lounge", "Milk, eggs and bread", "gift card for a friend", "what does my card cover?", "money back on a purchase" ]

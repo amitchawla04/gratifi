@@ -1,0 +1,20 @@
+const H = require('./h.js');
+(async () => {
+  const h = await H.open('AR', { tag: 'AR-btn' }); const { p, ask, shot } = h;
+  const bubbles = () => p.evaluate(() => [...document.querySelectorAll('.gr-user, .gr-msg-user, [data-role=user]')].map(e => e.innerText));
+  await h.nav(3); await ask('رحلات إلى مسقط نهاية الأسبوع القادم لشخصين');
+  await p.locator('.gr-answer').last().getByRole('button').filter({ hasText: /^اعرض|فقط|مباشرة/ }).first().click().catch(() => {}); await p.waitForTimeout(500);
+  await p.locator('.gr-flight').last().click(); await p.waitForTimeout(400);
+  await p.getByRole('button', { name: /تابع بالدرجة/ }).last().click(); await p.waitForTimeout(400);
+  await p.locator('.gr-answer').last().locator('input.app-in').nth(1).fill('Sara Ali'); await p.getByRole('button', { name: await p.evaluate(() => window.__tr('Continue')), exact: true }).last().click(); await p.waitForTimeout(400);
+  await ask('حليب وبيض وخبز'); await p.getByRole('button', { name: await p.evaluate(() => window.__tr('Checkout')) }).last().click(); await p.waitForTimeout(400);
+  await ask('أين طلبي'); await ask('فقدت بطاقتي'); await p.getByRole('button', { name: await p.evaluate(() => window.__tr('Send a replacement')) }).last().click(); await p.waitForTimeout(400);
+  await ask('بطاقة هدية لصديقي'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400);
+  await ask('احجز صالة'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click(); await p.waitForTimeout(400); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400);
+  const all = await p.evaluate(() => { const s = JSON.parse(localStorage.getItem('gratifi-state-v3-AR')); return s.chat.filter(m => m.role === 'user').map(m => m.text) });
+  console.log('user msgs (stored):', JSON.stringify(all));
+  const vis = await p.evaluate(() => [...document.querySelectorAll('.app-scroll *')].filter(e => e.children.length === 0 && /[A-Za-z]{4,}/.test(e.textContent) && !/Gratifi|Coastline|Northway|Aurora|Sara|Ali|Amit|Chawla|Harbour|Bloom|Pantry|Stride|Lumen|Glow|DXB|MCT|Byte|Heathrow|Dubai|Terminal|Lounge|Orchard/.test(e.textContent)).map(e => e.textContent.trim().slice(0, 60)));
+  console.log('visible English:', JSON.stringify([...new Set(vis)]));
+  await shot('end', true);
+  await h.done();
+})();

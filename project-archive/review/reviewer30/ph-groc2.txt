@@ -1,0 +1,6 @@
+groceries
+add 4 packs of paracetamol
+add 3 packs of ibuprofen
+#JS [...document.querySelectorAll('.gr-answer')].pop().querySelector('.gr-grocery, [class*=basket]')?.innerText
+empty my basket
+clear the basket

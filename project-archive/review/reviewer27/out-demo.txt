@@ -1,0 +1,18 @@
+STATE Points come in (+5,000) pts 53210 card 906.98 due 906.98 
+STATE A card payment pts 53252 card 948.98 due 906.98 
+
+[where did my money go?] => Here's where your money went in the last 30 days. | Last 30 days, after refunds | £639 | Travel | £186 | Shopping | £135 | Dining | £128 | Groceries | £102 | Transport | £77 | Subscriptions | £11 | C | Café Lune | Dining | 30 Sep | £42.00 | +42 pts | P | Pantry Market | Groceries | 28 Sep | £64.00 | +64 pts | N | Northway Air | Travel | 27 Sep | £186.00 | +186 pts | C | Café Lune | Dining | 24 Sep | £13.99 | +14 pts | B | Byte Store | Shopping | 22 Sep | £89.00 | +89 pts | R | Ride Now | Transport | 19 Sep | £22.00 | +22 pts | C | Cloudbox | Subscriptions | 17 Sep | £10.99 | +11 pts | T | Table Collective | Dining | 15 Sep | £72.00 | +72 pts
+
+[what do I owe?] => You owe £906.98, due Fri 9 Oct. The minimum is £27.21. Spending since the statement, £42.00, goes on your next one. | PAYMENT DUE | 9 Oct | £906.98 | Minimum £27.21 by 9 Oct | Full balance | £906.98 | Minimum | £27.21 | Another amount | Pay £906.98 | Set up Direct Debit
+
+[Air fryer] => Searched 12 products | Priced with your points | 1 product. Air fryer, 5.5 litres is the closest match. | Air fryer, 5.5 litres | Home & Hearth | 4.5 | £89 | or 8,900 pts
+
+[return my air fryer] => Returns for Air fryer, 5.5 litres: return within 30 days. I'll book a free collection. | Return Air fryer, 5.5 litres | Home | 12 Garden Row | Office | 1 Harbour Square | A courier collects it for free. Your refund goes back the way you paid once the courier scans it. | Book free collection
+return btn Book free collection
+STATE return pts 44352 card 948.98 due 906.98 Air fryer, 5.5 litres:delivered
+STATE after 30s pts 53252 card 948.98 due 906.98 Air fryer, 5.5 litres:refunded
+
+[return my air fryer] => You don't have anything booked yet, so there's nothing to change. | Book a flight | A table tonight
+STATE reset pts 53252 card 948.98 due 906.98 Air fryer, 5.5 litres:refunded
+
+## s-demo-UK clean

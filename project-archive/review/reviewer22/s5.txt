@@ -1,0 +1,4 @@
+Flights to Lisbon from 9 Oct to 12 Oct for 1 adult and a child aged 15
+Flights to Lisbon from 9 Oct to 12 Oct for 1 adult and a baby
+!await p.locator('.gr-flight').first().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(-200)
+!await H.btn(/Continue with/); return (await H.lastText()).slice(0,300)

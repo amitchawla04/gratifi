@@ -1,0 +1,143 @@
+> flights to Lisbon on 14/10 returning 18/10 for 2 adults and a child
+  [flights,suggest] 5 flights to Lisbon on Wed 14 Oct, back Sun 18 Oct, for 2 people. I'd pick the 07:25 Coastline: direct, £149 one way per person; a Standard return with the cheapest direct flight back is £273 per person. FL:{"city":"Lisbon","date":"2026-10-14","back":"2026-10-18","pax":2,"n":5} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to Lisbon 14th Oct - 18th Oct
+  [flights,suggest] 5 flights to Lisbon on Wed 14 Oct, back Sun 18 Oct. I'd pick the 07:25 Coastline: direct, £149 one way per person; a Standard return with the cheapest direct flight back is £273 per person. FL:{"city":"Lisbon","date":"2026-10-14","back":"2026-10-18","pax":1,"n":5} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to lisbon next friday in the morning
+  [flights,suggest] 4 morning flights to Lisbon on Fri 9 Oct, back Sun 11 Oct. I'd pick the 07:25 Coastline: direct, £134 one way per person; a Standard return with the cheapest direct flight back is £278 per person. FL:{"city":"Lisbon","date":"2026-10-09","back":"2026-10-11","pax":1,"n":4} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to Lisbon tomorrow afternoon
+  [flights,suggest] 5 afternoon flights to Lisbon on Wed 30 Sep, back Fri 2 Oct. I'd pick the 07:25 Coastline: direct, £125 one way per person; a Standard return with the cheapest direct flight back is £242 per person. FL:{"city":"Lisbon","date":"2026-09-30","back":"2026-10-02","pax":1,"n":5} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> any evening ones?
+  [flights,suggest] 1 evening flight to Lisbon on Wed 30 Sep, back Fri 2 Oct. I'd pick the 20:30 Northway Air: direct, £146 one way per person; a Standard return with the cheapest direct flight back is £263 per person. FL:{"city":"Lisbon","date":"2026-09-30","back":"2026-10-02","pax":1,"n":1} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> what about returning on sunday
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> flights to Lisbon on Oct 14
+  [flights,suggest] 5 flights to Lisbon on Wed 14 Oct, back Fri 16 Oct. I'd pick the 07:25 Coastline: direct, £149 one way per person; a Standard return with the cheapest direct flight back is £261 per person. FL:{"city":"Lisbon","date":"2026-10-14","back":"2026-10-16","pax":1,"n":5} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to Lisbon on 14.10.26
+  [flights,suggest] 7 flights to Lisbon on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £245 per person. FL:{"city":"Lisbon","date":"2026-10-02","back":"2026-10-04","pax":1,"n":7} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to Lisbon on the 14th
+  [flights,suggest] 5 flights to Lisbon on Wed 14 Oct, back Fri 16 Oct. I'd pick the 07:25 Coastline: direct, £149 one way per person; a Standard return with the cheapest direct flight back is £261 per person. FL:{"city":"Lisbon","date":"2026-10-14","back":"2026-10-16","pax":1,"n":5} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to Lisbon this weekend for me and my mum
+  [flights,suggest] 7 flights to Lisbon on Fri 2 Oct, back Sun 4 Oct, for 2 people. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £245 per person. FL:{"city":"Lisbon","date":"2026-10-02","back":"2026-10-04","pax":2,"n":7} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to lisbon for 2 adults 2 kids and 1 infant
+  [flights,suggest] 7 flights to Lisbon on Fri 2 Oct, back Sun 4 Oct, for 5 people. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £245 per person. FL:{"city":"Lisbon","date":"2026-10-02","back":"2026-10-04","pax":5,"n":7} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> flights to Paris in 3 weeks
+  [flights,suggest] 7 flights to Paris on Tue 20 Oct, back Thu 22 Oct. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £202 per person. FL:{"city":"Paris","date":"2026-10-20","back":"2026-10-22","pax":1,"n":7} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> cheapest flight to barcelona in november
+  [flights,suggest] 6 flights to Barcelona on Fri 6 Nov, back Sun 8 Nov. I'd pick the 07:25 Coastline: direct, £129 one way per person; a Standard return with the cheapest direct flight back is £248 per person. FL:{"city":"Barcelona","date":"2026-11-06","back":"2026-11-08","pax":1,"n":6} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> one way to Paris
+  [flights,suggest] 7 flights to Paris on Fri 2 Oct, one way. I'd pick the 07:25 Coastline: direct, £110 one way per person. FL:{"city":"Paris","date":"2026-10-02","pax":1,"n":7} SG:["Only direct","Cheaper dates?","Add a hotel"]
+> hotel in Lisbon for 2 nights from Friday for 3 adults
+  [items] 4 places to stay in Lisbon, Fri 2 Oct for 2 nights. Cedar Hotel is my pick: 3× points on your card.
+> hotel in Paris from 20 to 23 October, 2 rooms, under £150 a night
+  [items] 4 places to stay in Paris, Tue 20 Oct for 3 nights. Lantern House is my pick: 3× points on your card.
+> a table for 6 on Saturday at 7.30pm
+  [items] 6 restaurants in London. Harrow & Vine has tables on Sat 3 Oct around 19:30 for 6, with 15% off on your card.
+> a table for 2 at 9pm tomorrow
+  [items] 6 restaurants in London. Harrow & Vine has tables tomorrow around 21:00 for 2, with 15% off on your card.
+> book a cab to the airport at 6am tomorrow
+  [detail] A ride to Heathrow Airport at 06:00, Wed 30 Sep. Prices are fixed when you book. DT:{"kind":"detail","id":"GT-1","dest":"Heathrow Airport","time":"06:00","date":"2026-09-30","sched":true}
+> train to Manchester on Friday morning
+  [items] I can't book trains to Manchester yet; the train to Edinburgh is available. 6 ways to get there. Prices are fixed when you book.
+> send a £30 gift card to jo@example.com
+  [detail,items] Gift cards come in £25, £50, £100, £200, so I've picked the closest. Here's a gift card for jo@example.com. Add their name, or pick another shop below. DT:{"kind":"detail","id":"GC-0","amount":"25","email":"jo@example.com"}
+> gift card for my brother
+  [items] 8 gift cards. They arrive instantly.
+> groceries: 2 milk, bananas and coffee
+  [grocery] Added milk, bananas, coffee beans. Anything else? It arrives in about 15 minutes.
+> add eggs
+  [grocery] Added free-range eggs. Anything else? It arrives in about 15 minutes.
+> what's my available credit
+  [balance,suggest] Your credit limit is £8,000 and you have £7,093.02 available to spend. SG:["Raise my limit","What do I owe?"]
+> how much did I spend on dining last month
+  [txns] This demo holds the last 30 days of payments, not a full statement month. You've spent £85.99 on dining in the last 30 days, across 2 payments.
+> what did I spend at Pantry Market
+  [txns] You've spent £102.00 at Pantry Market in the last 30 days, across 2 payments.
+> pay £200 off my card
+  [] Check the amount, then confirm it's you.
+> set up a direct debit
+  [paybill] You owe £906.98, due Thu 8 Oct. The minimum is £27.21.
+> freeze my card
+  [controls] Card frozen. New payments are blocked; direct debits and refunds still work.
+> unfreeze my card
+  [] Confirm it's you to unfreeze.
+> turn off contactless
+  [controls] Contactless is off.
+> turn contactless back on
+  [] Confirm it's you to switch this back on.
+> my card was swallowed by a cash machine
+  [controls,state] I've frozen your card so nobody can use it. Do you want a replacement sent to your home address?
+> I want to spread a big purchase into instalments
+  [handoff] You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree.
+> increase my credit limit
+  [handoff] Limit changes are decided by the bank after a short check. Nothing changes until you both agree.
+> lower my credit limit to 3000
+  [paybill] You owe £906.98, due Thu 8 Oct. The minimum is £27.21.
+> block gambling
+  [handoff,suggest] A gambling block is set by the bank, and it usually takes a few days to lift once it's on, which is the point. A person can switch it on now. SG:["Freeze my card"]
+> I didn't get the item I paid for, I want a chargeback
+  [handoff] A chargeback is raised by the bank's disputes team. I'll pass this to them; they can see our conversation and will ask which payment it is.
+> add my wife as an additional cardholder
+  [handoff] Additional cardholders are set up by the bank after a few checks. A person can start that with you now.
+> my father has passed away
+  [handoff] I'm sorry. A specialist from the bank's bereavement team will help with the card and anything linked to it. Nothing needs doing today.
+> I'm really struggling financially
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> I don't want to be here anymore
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. You can talk to someone now: Samaritans on 116 123, free and at any time. If you're in danger, call 999. I can also bring in someone from the bank's care team.
+> someone is forcing me to take out money
+  [handoff] I'm sorry this is happening. You don't have to hand over your card or money. I've frozen your card to protect your money and I'm bringing in a specialist from the bank now. If you're in danger, call 999.
+> a man on the phone says he's from the police and I need to move my savings
+  [handoff] Stop there. The bank will never ask you to move money, share a code or click a link to unblock your card. Don't click, reply or move anything. I've frozen your card as a precaution and I'm bringing in the fraud team now; they can see this conversation.
+> got a text saying my parcel needs a payment of £1.99, is it real?
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> send £100 to my son
+  [suggest] Sending money to people isn't something Gratifi does; your bank's app handles payments to people. I can help with your card, points and anything you buy with them. SG:["What do I owe?","Transfer points to miles"]
+> what's the weather in Lisbon
+  [suggest] I can't check the weather. I can help with the trip itself: flights, stays, things to do and travel cover. SG:["Travel insurance","Things to do there"]
+> write me a poem
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> what's the best credit card in the UK?
+  [balance] Your card balance is £906.98, with £7,093 available.
+> tell me a joke
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> transfer 20000 points to Northway
+  [programmes] You have 48,210 pts. Transfers to these programmes can't be undone.
+> donate 2500 points to the food bank
+  [] Check the details, then confirm it's you.
+> invest 10000 points in a fund
+  [invest] Here's what you can grow points into. I give information, not advice; a licensed partner handles the investment itself.
+> do I need a visa for Lisbon?
+  [visa] For Lisbon, entry rules depend on your passport. Here's what applies and where to check it.
+> insurance for my Lisbon trip
+  [insurance] Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up.
+> esim for portugal
+  [esim] Data abroad without roaming charges. It installs in about a minute.
+> what are my card benefits
+  [benefits] Everything that comes with your card, including Tunewave music at no cost.
+> show my offers
+  [offers] Card offers you can add. Once added, they apply when you pay with your card.
+> what challenges can I do
+  [challenges] Ways to earn more this month.
+> cancel my subscription
+  [suggest] You don't have any subscriptions on at the moment. SG:["Which subscriptions are included?"]
+> lounge at heathrow on friday for 2
+  [items] 6 airport services. You have 2 free lounge visits left.
+> fast track at heathrow
+  [items] 6 airport services. You have 2 free lounge visits left.
+> concert tickets on saturday
+  [items] 1 event. Arlo Grey live is the one to catch: presale for cardholders.
+> things to do in Lisbon on Sunday
+  [items] 7 things to do in Lisbon. Old town walking tour is the most booked.
+> can you book me a doctor
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> I need a plumber
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. SG:["Book a flight","A table tonight","Groceries now","Talk to a person"]
+> what's my statement
+  [statement,spend,txns] Your latest statement, and where the money went.
+> what's my PIN
+  [suggest] PINs are changed only in the bank's app or at a cash machine, not here. A person can help if you're locked out. SG:["Talk to a person","Freeze my card"]
+> change my address
+  [suggest] Your address is held by the bank, so it's changed in the bank's app or with a person. For deliveries here, choose Home or Office on My card. SG:["Talk to a person"]
+> close my account
+  [handoff] A person from the bank handles this. They can see our conversation.
+ERR []

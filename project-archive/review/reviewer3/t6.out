@@ -1,0 +1,93 @@
+  cta Buy gift card
+   PAID Pay 10,000 pts || SHEET: Confirm and pay | Bloom gift card | Bloom gift card | £100.00 | Points used (10,000 pts) | −£100.00 | Points | 10,000 pts | Nothing is paid until you confirm | Pay with Face ID
+[gift-done] "Sent to Sam at sam@example.com. A copy of the code is in your Wallet." receipt,suggest
+== gift: pts -10000, card 0.00, bookings 1, lounge 0
+[gc] "Which one do you mean?" booking
+== gift-cancel: pts 0, card 0.00, bookings 0, lounge 0
+[offers] "Card offers you can add. Once added, they apply when you pay with your card." offers
+  add btns 4
+[offer-added] "Added: 8% back on tech at Byte Store until 31 Oct, when you pay with your card." 
+== offer: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay £229.00 || SHEET: Confirm and pay | Noise-cancelling headphones | Noise-cancelling headphones | £229.00 | On your card | £229.00 | Nothing is paid until you confirm | Pay with Face ID
+  earned 2061 Points on card spend: Noise-cancelling headphones 229 | Card offer, 8% back on tech: Noise-cancelling headphones 1832 | Bloom gift card -10000
+== shop-offer: pts 2061, card 229.00, bookings 1, lounge 0
+[hc] "You'd get back £229.00." confirmcancel
+[hc2] "Cancelled. £229.00 goes back to your card in 3 to 5 working days. The 2,061 pts you earned on it have been taken off." booking
+   Points earned on Noise-cancelling headphones, reversed -2061 | Points on card spend: Noise-cancelling headphones 229 | Card offer, 8% back on tech: Noise-cancelling headphones 1832
+== shop-cancel: pts -2061, card -229.00, bookings 0, lounge 0
+[hc3] "Which one do you mean?" booking
+== shop-cancel2: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay 12,000 pts || SHEET: Confirm and pay | Rain shell jacket | Rain shell jacket | £120.00 | Points used (12,000 pts) | −£120.00 | Points | 12,000 pts | Nothing is paid until you confirm | Pay with Face ID
+[claim] "Sorry about that. Tell me what happened and add a photo if you can." claimform
+[claim-sent] "Claim GR-49344 is with the supplier. Most are decided within 3 working days. If they say no, a person from our team takes it up with them." tracker
+== jacket-claim: pts -12000, card 0.00, bookings 2, lounge 0
+[ret] "Returns for Rain shell jacket: return within 30 days. I'll book a free collection." return
+== return: pts 0, card 0.00, bookings 0, lounge 0
+[owe] "You owe £906.98, due Wed 7 Oct. The minimum is £27.21." paybill
+!! owe locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.
+== owe: pts 0, card 0.00, bookings 0, lounge 0
+[freeze] "Each switch works straight away." controls
+== freeze: pts 0, card 0.00, bookings 0, lounge 0
+  switches 5
+[frozen] "Frozen. New payments are blocked; direct debits and refunds still work." 
+== freeze-toggle: pts 0, card 0.00, bookings 0, lounge 0
+   PAID Pay £95.00 || SHEET: Confirm and pay | Leather trainers | Leather trainers | £95.00 | On your card | £95.00 | Nothing is paid until you confirm | Pay with Face ID
+[frozen-pay] "Your card is frozen." state
+== pay-frozen: pts 12000, card 0.00, bookings 0, lounge 0
+[unf] "Confirm it's you to unfreeze." 
+  SHEET Unfreeze card | Card ending 4821 | This checks it's you | Confirm with Face ID
+[unf2] "Unfrozen. Your card works again." controls
+== unfreeze: pts 0, card 0.00, bookings 0, lounge 0
+[online] "Online payments are off." controls
+[online-on] "Online payments are on." controls
+  sheet? null
+== online-off: pts 0, card 0.00, bookings 0, lounge 0
+[stmt] "Your latest statement, and where the money went." statement,spend,txns
+== statement: pts 0, card 0.00, bookings 0, lounge 0
+[lost] "I've frozen your card so nobody can use it. Do you want a replacement sent to your home address?" controls,state
+[repl] "A new card is on its way to your home address. Your card number changes when it arrives." tracker
+  replacement btn disabled
+== lost: pts 0, card 0.00, bookings 1, lounge 0
+[limit] "Limit changes are decided by the bank after a short check. Nothing changes until you both agree." handoff
+[instal] "You can spread a large purchase into monthly instalments. The bank sets the rate and shows it before you agree." handoff
+== limit: pts 0, card 0.00, bookings 0, lounge 0
+[hard] "Thank you for telling me. A specialist can go through options such as a payment plan, and nothing changes without your agreement." handoff
+[bereave] "I'm sorry. A specialist from the bank's bereavement team will help with the card and anything linked to it. Nothing needs doing today." handoff
+== hardship: pts 0, card 0.00, bookings 0, lounge 0
+[pin] "For your safety, PINs are changed in the bank's app or at a cash machine, not here. A person can help if you're locked out." suggest
+[cardnum] "Your card balance is £906.98, with £7,093 available." balance
+[send] "Sending money to people isn't something Gratifi does; your bank's app handles payments to people. I can help with your card, points and anything you buy with them." suggest
+== pin: pts 0, card 0.00, bookings 0, lounge 0
+[xfer] "You have 38,210 pts. Transfers to these programmes can't be undone." programmes
+  btn Transfer 5,000 points
+!! transfer locator.click: Timeout 30000ms exceeded.
+== transfer: pts 0, card 0.00, bookings 0, lounge 0
+[xundo] "Which one do you mean?" booking,booking
+== xfer-undo: pts 0, card 0.00, bookings 0, lounge 0
+[inv] "Here's what you can grow points into. I give information, not advice; a licensed partner handles the investment itself." invest
+  SHEET Confirm with the partner | Digital gold | Into | Digital gold | Points used | 5,000 pts | Value | £50.00 | Points | 5,000 pts | Nothing moves until you confirm | Confirm with Face ID
+[inv-done] "Sent to the partner: £50.00 into digital gold. They confirm by email, usually within a day." receipt,suggest
+== invest: pts -5000, card 0.00, bookings 1, lounge 0
+[sell] "Here's what you can grow points into. I give information, not advice; a licensed partner handles the investment itself." invest
+== sell: pts 0, card 0.00, bookings 0, lounge 0
+[don] "Pick a cause. Every point goes to the charity; the bank pays any fees." charities
+  SHEET Confirm your gift | Gift to Clean Seas Trust | Charity | Clean Seas Trust | Points given | 1,000 pts | Worth | £10.00 | Points | 1,000 pts | Nothing moves until you confirm | Confirm with Face ID
+[don-done] "Thank you. 1,000 pts went to Clean Seas Trust. Your receipt is in Wallet." receipt,suggest
+== donate: pts -1000, card 0.00, bookings 1, lounge 0
+[visa] "For New York, entry rules depend on your passport. Here's what applies and where to check it." visa
+== visa: pts 0, card 0.00, bookings 0, lounge 0
+[ins] "Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up." insurance
+   PAID Pay 1,799 pts || SHEET: Confirm and pay | Single trip, Essentials | Single trip, Essentials | £17.99 | Points used (1,799 pts) | −£17.99 | Points | 1,799 pts | Nothing is paid until you confirm | Pay with Face ID
+== ins: pts -1799, card 0.00, bookings 1, lounge 0
+   PAID Pay 899 pts || SHEET: Confirm and pay | eSIM 5GB for 15 days | eSIM 5GB for 15 days | £8.99 | Points used (899 pts) | −£8.99 | Points | 899 pts | Nothing is paid until you confirm | Pay with Face ID
+[esim-done] "Done. It's in your Wallet." receipt,suggest
+== esim: pts -899, card 0.00, bookings 1, lounge 0
+[conc] "This is one for the concierge team. Check the details and send it; a lifestyle expert takes it from there." conciergeform
+[conc-sent] "Your request is with Maya from the concierge team. You'll get options within 2 hours, and nothing is booked or paid until you say yes." tracker
+== concierge: pts 0, card 0.00, bookings 1, lounge 0
+[ben] "Everything that comes with your card, including Tunewave music at no cost." benefits
+== benefits: pts 0, card 0.00, bookings 0, lounge 0
+[comp] "I'll bring in a person who can decide this. They'll see our conversation." handoff
+[comp2] "Priya: Hello Amit, I've read the chat. I'll take it from here and message you in this thread. (Demo: in the live product this is a real person.)" 
+== complain: pts 0, card 0.00, bookings 0, lounge 0
+[]

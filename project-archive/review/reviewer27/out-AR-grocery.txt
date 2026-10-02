@@ -1,0 +1,3 @@
+STATE card {"last4":"3309","limit":37600,"balance":4265,"due":4265,"min":127.95,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 88500 Groceries:refunded:51:2550/0
+LAST تم الإلغاء. عادت 2,550 نقطة إلى رصيدك. | البقالة | 3 أصناف · المنزل | مسترد | GR-72177 | استُرد 2,550 نقطة
+AR grocery clean

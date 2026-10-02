@@ -1,0 +1,117 @@
+> أبي رحلة إلى مسقط الجمعة الجاية لشخصين
+  [flights,suggest] 5 flights to Muscat on الجمعة، 2 أكتوبر, back الأحد، 4 أكتوبر, for 2 people. I'd pick the 09:40 Aurora Air: direct, ‏555 د.إ.‏ one way per person; a Standard return with the cheapest direct flight back is ‏1,010 د.إ.‏ per person. I've assumed you come back 2 days later; tell me the return date, or say one way.
+  SHOWN: بحثت في 5 رحلات من دبي تم التسعير لشخصين بالنقاط 5 رحلات إلى مسقط يوم الجمعة، 2 أكتوبر، والعودة الأحد، 4 أكتوبر لشخصين. أنصح برحلة 09:40 على Aurora Air: مباشرة، ‏555 د.إ.‏ للشخص ذهابًا فقط؛ وتذكرة الدرجة العادية ذهابًا وعودة مع أرخص رحلة عودة مباشرة ‏1,010 د.إ
+> ابغى فندق في لندن ثلاث ليالي من 21 أكتوبر
+  [items:stays] 4 places to stay in London, الأربعاء، 21 أكتوبر for 3 nights. Riverside Hotel is my pick: 3× points on your card.
+  SHOWN: بحثت في 4 أماكن إقامة تم التسعير بنقاطك 4 أماكن إقامة في لندن، الأربعاء، 21 أكتوبر لمدة 3 ليالٍ. أنصح بـ Riverside Hotel: 3× نقاط على بطاقتك. Riverside Hotel 3× نقاط وسط المدينة، لندن 4.4 مسبح إفطار ‏2,228 د.إ.‏ 3 ليالٍ، شاملة الضرائب أو 111,400 نقطة Lantern S
+> طاولة لشخصين الليلة
+  [items:dining] 6 restaurants in Dubai. Al Bahar has tables tonight for 2, with 15% off on your card.
+  SHOWN: بحثت في 6 مطاعم 6 مطاعم في دبي. لدى Al Bahar طاولات الليلة لشخصين مع خصم 15% ببطاقتك. Al Bahar مأكولات بحرية · دبي 4.7 راقٍ خصم 15% ببطاقتك مجانًا للحجز Salt and Ember مشويات · دبي 4.8 متوسط السعر مجانًا للحجز The Green Table نباتي · دبي 4.4 متوسط السعر نباتي 
+> حليب وبيض وخبز
+  [grocery] Added milk, sourdough loaf, free-range eggs. Anything else? It arrives in about 15 minutes.
+  SHOWN: تحققت من أقرب متجر: مفتوح، 15 دقيقة أضفت حليب، رغيف خبز العجين المخمر، بيض مزارع حرة. هل تريد شيئًا آخر؟ يصل خلال 15 دقيقة تقريبًا. موز، 6 ‏5.00 د.إ.‏ حبوب قهوة، 500 غ ‏35.50 د.إ.‏ زبادي يوناني ‏11.50 د.إ.‏ طماطم، 500 غ ‏8.50 د.إ.‏ أفخاذ دجاج، 1 كغ ‏29.00 د.إ.
+> جمد بطاقتي
+  [controls] Card frozen. New payments are blocked; direct debits and refunds still work.
+  SHOWN: البطاقة مجمّدة. المدفوعات الجديدة محظورة، والخصم المباشر والمبالغ المستردة ما زالت تعمل. تجميد البطاقة يحظر المدفوعات الجديدة. الخصم المباشر والمبالغ المستردة ما زالت تعمل. المدفوعات عبر الإنترنت متوقف أثناء تجميد البطاقة المدفوعات في الخارج متوقف أثناء تجميد 
+> ضاعت بطاقتي
+  [controls,state:done] I've frozen your card so nobody can use it. If it turns up, you can unfreeze it; if not, I can send a replacement to your home address.
+  SHOWN: جمّدت بطاقتك حتى لا يستخدمها أحد. إن وجدتها يمكنك إلغاء التجميد، وإلا يمكنني إرسال بطاقة بديلة إلى عنوان منزلك. تجميد البطاقة يحظر المدفوعات الجديدة. الخصم المباشر والمبالغ المستردة ما زالت تعمل. المدفوعات عبر الإنترنت متوقف أثناء تجميد البطاقة المدفوعات في ال
+> بطاقتي انسرقت
+  [controls,state:done] I've frozen your card so nobody can use it. A stolen card is cancelled for good; the new one has a new number. Direct debits and refunds carry on.
+  SHOWN: جمّدت بطاقتك حتى لا يستخدمها أحد. البطاقة المسروقة تُلغى نهائيًا، والجديدة برقم جديد. تستمر الخصومات المباشرة والمبالغ المستردة. تجميد البطاقة يحظر المدفوعات الجديدة. الخصم المباشر والمبالغ المستردة ما زالت تعمل. المدفوعات عبر الإنترنت متوقف أثناء تجميد البطاق
+> كم نقاطي
+  [points] You have 88,500 نقطة, worth about ‏1,770 د.إ.‏. 7,080 نقطة expire on 31 Oct.
+  SHOWN: لديك 88,500 نقطة، تساوي نحو ‏1,770 د.إ.‏ 7,080 نقطة تنتهي في 31 أكتوبر. 88,500 النقاط تساوي نحو ‏1,770 د.إ.‏ تنتهي في 31 أكتوبر 7,080 نقاط من الإنفاق بالبطاقة +1,840 الرصيد المرحّل +86,660
+> كم علي
+  [paybill] You owe ‏4,265.00 د.إ.‏, due الجمعة، 9 أكتوبر. The minimum is ‏127.95 د.إ.‏.
+  SHOWN: عليك ‏4,265.00 د.إ.‏، مستحقة الجمعة، 9 أكتوبر. الحد الأدنى ‏127.95 د.إ.‏ الدفعة المستحقة 9 أكتوبر ‏4,265.00 د.إ.‏ الحد الأدنى ‏127.95 د.إ.‏ بحلول 9 أكتوبر الرصيد كاملًا ‏4,265.00 د.إ.‏ الحد الأدنى ‏127.95 د.إ.‏ مبلغ آخر ادفع ‏4,265.00 د.إ.‏ تفعيل الخصم المباشر
+> ادفع الحد الأدنى
+  [paybill] You owe ‏4,265.00 د.إ.‏, due الجمعة، 9 أكتوبر. The minimum is ‏127.95 د.إ.‏.
+  SHOWN: عليك ‏4,265.00 د.إ.‏، مستحقة الجمعة، 9 أكتوبر. الحد الأدنى ‏127.95 د.إ.‏ الدفعة المستحقة 9 أكتوبر ‏4,265.00 د.إ.‏ الحد الأدنى ‏127.95 د.إ.‏ بحلول 9 أكتوبر الرصيد كاملًا ‏4,265.00 د.إ.‏ الحد الأدنى ‏127.95 د.إ.‏ مبلغ آخر ادفع ‏4,265.00 د.إ.‏ تفعيل الخصم المباشر
+> ليش انرفضت بطاقتي
+  [controls,suggest] Nothing on your card is blocking payments: it isn't frozen, online and abroad payments are on, and you have ‏33,335 د.إ.‏ available. A declined payment is usually the shop's terminal, a wrong PIN, or a security check. Try again with chip and PIN, or tell me if it keeps happening and a person will look at it.
+  SHOWN: لا يوجد في بطاقتك ما يمنع الدفع: ليست مجمّدة، والمدفوعات عبر الإنترنت وفي الخارج مفعّلة، ولديك ‏33,335 د.إ.‏ متاحة. عادةً ما يكون سبب الرفض جهاز المتجر أو رقمًا سريًا خاطئًا أو تحققًا أمنيًا. حاول مجددًا بالشريحة والرقم السري، أو أخبرني إن تكرر ذلك وسيتحقق منه
+> حول 5000 نقطة إلى Northway
+  [detail] 
+  SHOWN: Northway Air الطيران Northway Air ‏100 د.إ.‏ الطيران المبلغ ‏50 د.إ.‏ ‏100 د.إ.‏ ‏250 د.إ.‏ ‏500 د.إ.‏ لمن هي؟ شخص آخر حسابي تُسلَّم فورًا. صالحة لمدة 12 شهرًا. غير قابلة للاسترداد بعد الإرسال. ‏100 د.إ.‏ أو 5,000 نقطة أضف اسمه وبريده الإلكتروني
+> تبرع بـ 500 نقطة
+  [charities] Pick a cause. Every point goes to the charity; the bank pays any fees.
+  SHOWN: اختر قضية. كل نقطة تذهب إلى الجمعية، والبنك يتحمّل أي رسوم. كم نقطة 500 نقطة 1,000 نقطة 2,500 نقطة 5,000 نقطة 500 نقطة = ‏10.00 د.إ.‏ للجمعية الخيرية صندوق البحار النظيفة إزالة البلاستيك من السواحل 1,240,000 من 2,000,000 نقطة تبرّع بها الأعضاء تبرّع بالنقاط كت
+> أبي أكلم موظف
+  [handoff] I'll bring in a person who can decide this. They'll see our conversation.
+  SHOWN: سأستدعي شخصًا يمكنه البت في هذا. سيرى محادثتنا. P بريا من فريق خدمة العملاء تنضم عادة خلال دقيقتين اطّلعت على المحادثة لن تحتاج إلى تكرار أي شيء، فستطّلع بريا على كل ما ناقشناه. دردشة الآن اتصلوا بي
+> ابي اشتكي
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+  SHOWN: لا أستطيع القيام بذلك. يمكنني المساعدة في: السفر والمطاعم والتسوق وبطاقات الهدايا والاشتراكات والفعاليات والنقاط والتبرع وبطاقتك نفسها. الطيران احجز، غيّر، ألغِ الإقامة فنادق وغرف المطار صالات، مسار سريع التنقل والقطارات سيارات أجرة، قطارات، سيارات التجارب جول
+> أبي أنتحر
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. If you're in danger or might act on these thoughts, call 999 now. The UAE mental health support line, 800 4673, is free and opens at 8am. I can also bring in someone from the bank's care team now.
+  SHOWN: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. تحدث الآن مع خط دعم الصحة ا
+> ما أبي أعيش
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. If you're in danger or might act on these thoughts, call 999 now. The UAE mental health support line, 800 4673, is free and opens at 8am. I can also bring in someone from the bank's care team now.
+  SHOWN: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. تحدث الآن مع خط دعم الصحة ا
+> تعبت من الحياة
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. If you're in danger or might act on these thoughts, call 999 now. The UAE mental health support line, 800 4673, is free and opens at 8am. I can also bring in someone from the bank's care team now.
+  SHOWN: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. تحدث الآن مع خط دعم الصحة ا
+> بلعت حبوب كثير
+  [crisis,handoff] Please call 998 now, or get someone to take you to the nearest emergency department. Do this even if you feel all right, because some overdoses don't cause symptoms at first. You don't have to go through this alone: once you're safe, you can talk to the UAE mental health support line on 800 4673. I can also bring in someone from the bank's care team.
+  SHOWN: اتصل على 998 الآن، أو اطلب من أحد أن يأخذك إلى أقرب قسم طوارئ. افعل ذلك حتى لو شعرت أنك بخير، لأن بعض الجرعات الزائدة لا تظهر أعراضها في البداية. لست وحدك في هذا: بعد أن تكون بأمان، يمكنك التحدث مع خط دعم الصحة النفسية في الإمارات على الرقم ⁦800 4673⁩. ويمكنني
+> أفكر أنهي حياتي
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. If you're in danger or might act on these thoughts, call 999 now. The UAE mental health support line, 800 4673, is free and opens at 8am. I can also bring in someone from the bank's care team now.
+  SHOWN: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. تحدث الآن مع خط دعم الصحة ا
+> أنا واقف على الجسر
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. If you're in danger or might act on these thoughts, call 999 now. The UAE mental health support line, 800 4673, is free and opens at 8am. I can also bring in someone from the bank's care team now.
+  SHOWN: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. تحدث الآن مع خط دعم الصحة ا
+> زوجي ياخذ كل فلوسي
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+  SHOWN: لا أستطيع القيام بذلك. يمكنني المساعدة في: السفر والمطاعم والتسوق وبطاقات الهدايا والاشتراكات والفعاليات والنقاط والتبرع وبطاقتك نفسها. الطيران احجز، غيّر، ألغِ الإقامة فنادق وغرف المطار صالات، مسار سريع التنقل والقطارات سيارات أجرة، قطارات، سيارات التجارب جول
+> واحد اتصل وقال إنه من البنك ويبي الرمز
+  [handoff] Stop there. The bank will never ask you to move money, share a code or click a link to unblock your card. Don't click, reply or move anything. I've frozen your card as a precaution and I'm bringing in the fraud team now; they can see this conversation.
+  SHOWN: توقف هنا. البنك لن يطلب منك أبدًا تحويل أموال أو مشاركة رمز أو الضغط على رابط لإلغاء حظر بطاقتك. لا تضغط ولا ترد ولا تحوّل شيئًا. جمّدت بطاقتك احتياطًا وأستدعي فريق مكافحة الاحتيال الآن، وسيطّلع على هذه المحادثة. M مايا من فريق مكافحة الاحتيال تنضم عادة خلال د
+> أحد يجبرني أحول فلوس
+  [handoff,suggest] I'm sorry this is happening. You don't have to hand over your card or money. A specialist from the bank will talk with you when it's safe for you; they can see this conversation. I can freeze your card now, but the person may notice it stops working. If you're in danger, call 999.
+  SHOWN: يؤسفني أن هذا يحدث. لا يلزمك تسليم بطاقتك أو أموالك. سيتحدث معك مختص من البنك عندما يكون ذلك آمنًا لك، وسيطّلع على هذه المحادثة. يمكنني تجميد بطاقتك الآن، لكن قد يلاحظ الشخص أنها توقفت عن العمل. إن كنت في خطر، فاتصل على 999. L ليلى من فريق الرعاية المتخصص تنضم
+> أبوي توفى
+  [handoff] I'm so sorry for your loss. A specialist from the bank's bereavement team will help with the card and anything linked to it. Nothing needs doing today.
+  SHOWN: أعزّيك في مصابك. سيساعدك مختص من فريق البنك لحالات الوفاة في ما يخص البطاقة وكل ما يرتبط بها. لا شيء يلزم فعله اليوم. L ليلى من فريق الرعاية المتخصص تنضم عادة خلال دقيقتين اطّلعت على المحادثة لن تحتاج إلى تكرار أي شيء، فستطّلع ليلى على كل ما ناقشناه. دردشة الآ
+> عندي مشكلة قمار
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+  SHOWN: لا أستطيع القيام بذلك. يمكنني المساعدة في: السفر والمطاعم والتسوق وبطاقات الهدايا والاشتراكات والفعاليات والنقاط والتبرع وبطاقتك نفسها. الطيران احجز، غيّر، ألغِ الإقامة فنادق وغرف المطار صالات، مسار سريع التنقل والقطارات سيارات أجرة، قطارات، سيارات التجارب جول
+> احجب المقامرة
+  [state:empty] You can block gambling payments on your card now. It takes effect straight away, and lifting it takes 48 hours, so there's time to change your mind.
+  SHOWN: يمكنك حظر مدفوعات المقامرة على بطاقتك الآن. يسري فورًا، ورفعه يستغرق 48 ساعة، ليكون لديك وقت لتغيير رأيك. حظر المقامرة يحظر مواقع المراهنات والكازينوهات واليانصيب. احظر مدفوعات المقامرة
+> ما عندي فلوس للأكل
+  [handoff] Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.
+  SHOWN: شكرًا لإخباري. يمكن لمختص مراجعة الخيارات معك مثل خطة سداد أو إيقاف الفوائد مؤقتًا، ولن يتغير شيء دون موافقتك. L ليلى من فريق الرعاية المتخصص تنضم عادة خلال دقيقتين اطّلعت على المحادثة لن تحتاج إلى تكرار أي شيء، فستطّلع ليلى على كل ما ناقشناه. دردشة الآن اتصلو
+> أبي أحجز رحلة لعزاء أمي
+  [places] Where would you like to fly? From Dubai I can book these.
+  SHOWN: إلى أين تود السفر؟ من دبي يمكنني حجز هذه. مسقط لندن إسطنبول ماليه بانكوك
+> تذاكر حفلة
+  [items:tickets] 1 event. Arlo Grey live: presale for cardholders.
+  SHOWN: بحثت في 5 فعاليات تم التسعير بنقاطك فعالية واحدة. Arlo Grey live: حجز مسبق لحاملي البطاقة. Arlo Grey live الأرينا، دبي · السبت 24 أكتوبر حجز مسبق لحاملي البطاقة ‏305 د.إ.‏ للتذكرة أو 15,250 نقطة
+> هدية لصديقي بـ 200 درهم
+  [detail,items:giftcards] Gift cards come in ‏50 د.إ.‏, ‏100 د.إ.‏, ‏250 د.إ.‏, ‏500 د.إ.‏, so I've picked the closest. Here's a gift card. Add their name, or pick another shop below.
+  SHOWN: تتوفر بطاقات الهدايا بقيم ‏50 د.إ.‏، ‏100 د.إ.‏، ‏250 د.إ.‏، ‏500 د.إ.‏، لذا اخترت الأقرب. إليك بطاقة هدية. أضف اسم المستلم، أو اختر متجرًا آخر أدناه. Harbour & Co أدوات منزلية Harbour & Co ‏250 د.إ.‏ أدوات منزلية المبلغ ‏50 د.إ.‏ ‏100 د.إ.‏ ‏250 د.إ.‏ ‏500 د.
+> اشتراك نتفلكس
+  [items:subs] 6 subscriptions. Screenly is ‏46.50 د.إ.‏ a month; cancel any time.
+  SHOWN: بحثت في 6 اشتراكات تم التسعير بنقاطك 6 اشتراكات. Screenly بسعر ‏46.50 د.إ.‏ شهريًا؛ ألغِ في أي وقت. Screenly أفلام ومسلسلات ‏46.50 د.إ.‏ شهريًا أو 2,325 نقطة Tunewave مشمول موسيقى مجانًا مشمول مع بطاقتك Pagebound كتب صوتية ‏34 د.إ.‏ شهريًا أو 1,700 نقطة Daily 
+> ألغِ اشتراك Screenly
+  [suggest] You don't have Screenly on at the moment.
+  SHOWN: ليس لديك Screenly مفعّلًا حاليًا. تشغيل Screenly
+> تأمين سفر
+  [insurance] Your card already includes travel insurance when you pay for the trip with it. If you want more, these top up.
+  SHOWN: بطاقتك تشمل تأمين السفر عندما تدفع ثمن الرحلة بها. وإن أردت المزيد، فهذه إضافات. تغطية السفر مع بطاقتك مع بطاقتك عندما تدفع ثمن الرحلة بالبطاقة العلاج في الخارج الإلغاء فقدان الأمتعة رحلات لم تدفع ثمنها بالبطاقة رحلة واحدة، أساسي التحمّل ‏500 د.إ.‏ العلاج حتى 
+> هل تشتغل بطاقتي في اليابان
+  [controls] Yes: payments abroad are on, so your card works wherever the card network is accepted. There's no foreign transaction fee on this card. When a shop or cash machine offers to charge you in your own currency, choose the local currency instead; it's usually cheaper.
+  SHOWN: نعم: المدفوعات في الخارج مفعّلة، فبطاقتك تعمل حيثما تُقبل شبكة البطاقة. لا توجد رسوم معاملات أجنبية على هذه البطاقة. إن عرض عليك متجر أو صراف آلي الدفع بعملتك، اختر العملة المحلية بدلًا من ذلك؛ فهي أرخص عادةً. تجميد البطاقة يحظر المدفوعات الجديدة. الخصم المباش
+> ابي تاكسي للمطار الساعة 5 العصر
+  [detail] A ride to Dubai Airport at 17:00. Prices are fixed when you book.
+  SHOWN: توصيلة إلى مطار دبي الساعة 17:00. الأسعار ثابتة عند الحجز. توصيلة: عادية دبي · الاستلام 17:00 4 مقاعد إلى أين؟ المنزل المكتب المطار الآن حدد موعدًا الأربعاء، 30 سبتمبر الخميس، 1 أكتوبر الجمعة، 2 أكتوبر السبت، 3 أكتوبر الأحد، 4 أكتوبر الاثنين، 5 أكتوبر الثلاثاء
+> استأجر سيارة 3 أيام
+  [items:rides] Car hire from Dubai Airport, priced per day. I've set 3 days.
+  SHOWN: استئجار سيارة من مطار دبي، بسعر يومي. حدّدت 3 أيام. استئجار سيارة: صغيرة أوتوماتيك الاستلام من المطار أميال غير محدودة الوقود ممتلئ عند الاستلام والتسليم ‏65 د.إ.‏ لليوم أو 3,250 نقطة
+> أبي أموت من الضحك
+  [crisis,handoff] I'm really sorry you're feeling this way. You don't have to deal with it alone. If you're in danger or might act on these thoughts, call 999 now. The UAE mental health support line, 800 4673, is free and opens at 8am. I can also bring in someone from the bank's care team now.
+  SHOWN: أنا آسف حقًا لأنك تشعر بهذا. لست وحدك في هذا. إن كنت في خطر أو قد تؤذي نفسك، فاتصل على 999 الآن. خط دعم الصحة النفسية في الإمارات، ⁦800 4673⁩، مجاني ويفتح الساعة 8 صباحًا. ويمكنني أيضًا إشراك أحد من فريق رعاية العملاء في البنك الآن. تحدث الآن مع خط دعم الصحة ا
+> الزحمة قاتلتني
+  [cats,suggest] I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.
+  SHOWN: لا أستطيع القيام بذلك. يمكنني المساعدة في: السفر والمطاعم والتسوق وبطاقات الهدايا والاشتراكات والفعاليات والنقاط والتبرع وبطاقتك نفسها. الطيران احجز، غيّر، ألغِ الإقامة فنادق وغرف المطار صالات، مسار سريع التنقل والقطارات سيارات أجرة، قطارات، سيارات التجارب جول

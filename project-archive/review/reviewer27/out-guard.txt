@@ -1,0 +1,62 @@
+PASS-THROUGH Your table at Kanji is ready for 8pm.
+PASS-THROUGH Kanji has you at 8pm tonight.
+filtered     You're booked in at Kanji for 8pm.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH Your seats are 16C and 16B.
+PASS-THROUGH That's your flight to Lisbon sorted.
+PASS-THROUGH Enjoy your trip to Lisbon.
+PASS-THROUGH I've got that sorted for you.
+filtered     Your order is on its way.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     I've paid your bill in full.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     Your bill has been cleared.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH The £50 gift card went to Sam.
+PASS-THROUGH Sam will get the gift card by email in a minute.
+filtered     I've blocked gambling on your card.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH Your card won't work for now.
+filtered     Your card is now locked.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     I've switched off online payments.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     Payments abroad are now off.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     Your limit is now £5,000.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH I've dropped your limit to £5,000.
+filtered     Your Direct Debit is set up for the full balance.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH I've set a reminder for when Lisbon prices drop.
+PASS-THROUGH You'll be reminded when prices drop.
+PASS-THROUGH Your reminder is set.
+PASS-THROUGH Your points are now in your Northway account.
+PASS-THROUGH 10,000 points are now with Northway.
+filtered     I put 5,000 points into gold for you.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH 5,000 points went to the charity.
+filtered     Your refund of £229 is back on your card.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     I've cancelled Screenly.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH Screenly stops on 30 Oct.
+filtered     Your subscription is paused.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH The driver will pick you up at 6am.
+filtered     Your driver is on the way.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH Your jacket arrives Friday.
+filtered     Your jacket will arrive on Friday.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     Your new card will reach you in 3 to 5 days.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH A replacement card is coming.
+filtered     Done.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     All good, it's booked.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     I've placed the order.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH Your groceries arrive in 15 minutes.
+PASS-THROUGH The lounge visit is yours.
+PASS-THROUGH Your lounge pass is ready.
+PASS-THROUGH Here's your boarding pass.
+filtered     Your flight now leaves at 09:40.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     I've moved your return to Sunday.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH Your return is Sunday now.
+PASS-THROUGH Your points balance is 38,210.
+PASS-THROUGH You now have 38,210 points.
+PASS-THROUGH That cost 5,000 points.
+filtered     تم حجز الطاولة.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     حجزت لك الطاولة الساعة 8.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH طاولتك جاهزة الساعة 8.
+filtered     بطاقتك الحين مجمدة.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     دفعت الفاتورة كاملة.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+PASS-THROUGH راح يوصلك الطلب خلال 15 دقيقة.
+PASS-THROUGH وصل طلبك.
+filtered     الحجز مؤكد.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     أرسلنا بطاقة الهدية لسام.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+filtered     ما عليك، رتبتها لك.  =>  Nothing is booked, paid or changed until you confirm it yourself.
+
+## s-guard-UK-ai clean

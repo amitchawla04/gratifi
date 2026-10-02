@@ -1,0 +1,15 @@
+
+[Flights to Lisbon next Friday for two, back Sunday]
+  TOOLS: [{"n":"search_flights","a":{"destination":"Lisbon","depart_date":"2026-10-09","return_date":"2026-10-11","travellers":2},"shown":["flights"],"note":"7 flights to Lisbon on Fri 9 Oct, back Sun 11 Oct, for 2 people. I'd pick the 07:25 Coastline: direct, £134 one way per person; a Standard return with the cheapest direct flight back is £278 per person. It leaves at a more convenient time; the 20:30 is £17 cheaper."}]
+  SHEET: -
+  UI: Checked 7 flights from London | Priced for 2 people with points | The 07:25 Coastline is the best fit at £134 each way; tap a flight to see fares. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 39m | Direct | 10:04 | LIS | Cabin bag | £134 | or 13,400 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:16 · Northway Air | 1 stop, OPO · 5h 06m | £135 | or 13,500 pts | 09:40 → 12:16 · Aurora Air | Direct · 2h 36m | £161 | or 16,100 pts | 11:40 → 14:18 · Northway Air | Direct · 2h 38m | £160 | or 16,000 pts | 14:15 → 16:56 · Coastline | 4 left | Direct · 2h 41m | £125 | or 12,500 pts | 17:50 → 22:42 · Aurora Air | 2 left | 1 stop, OPO · 4h 52m | £128 | or 12,800 pts | 20:30 → 23:08 · Northway Air | Direct · 2h 38m | £117 | or 11,700 pts | Only direct | Cheaper dates? | Add a hotel
+
+[the first one]
+  TOOLS: [{"n":"choose_flight","a":{"flight_id":"FL-LIS-2026-10-09-1-o"},"shown":["fares"],"note":"I've matched it with the cheapest direct flight back, the 20:30 on Sun 11 Oct; you can pick another below. Pick a fare; prices are per person, return."}]
+  SHEET: -
+  UI: Checked fare rules | Pick a fare below. | 07:25 | London LHR | CL | CL 217 | 2h 39m | Economy | 10:04 | Lisbon LIS | 20:30 | Lisbon LIS | NW | NW 443 | 2h 40m | Economy | 23:10 | London LHR | RETURN ON SUN 11 OCT | 07:25 | Coastline | Direct, 2h 36m | £3 more each | 09:40 | Aurora Air | Direct, 2h 43m | £23 more each | 14:15 | Coastline | Direct, 2h 40m | £28 more each | 20:30 | Northway Air | Direct, 2h 40m | Chosen | Light | Small bag | Cabin bag | Seat choice | Changes | £228 | or 22,800 pts | Most picked | Standard | Small bag | Cabin bag | Standard seats | Free date change | £278 | or 27,800 pts | Flex | Cabin + checked bag | Any seat | Full refund | Fast track | £403 | or 40,300 pts | Per person, both flights. 2 travellers: £556 in total. | Continue with Standard
+
+STATE card {"last4":"4821","limit":8000,"balance":906.98,"due":906.98,"min":27.21,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 48210 lounge 2 
+ 
+
+## plansG-UK-ai clean

@@ -1,0 +1,13 @@
+module.exports = async (h) => { const { p, say, click, confirm, state, nav, full, sheet } = h
+  await nav(3); await say('Start a Screenly subscription'); await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(() => {}); await p.waitForTimeout(400)
+  await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click().catch(() => {}); await p.waitForTimeout(400); await p.locator('.gr-answer').last().getByText('Card', { exact: true }).click().catch(() => {}); await click(/^Pay /); await confirm(); console.log('SUB', (await h.last()).slice(0, 400))
+  await say('turn on Tunewave'); const b = p.locator('.gr-answer').last().locator('.gr-btn').last(); console.log('TW', (await h.last()).slice(0, 300)); await b.click().catch(() => {}); await p.waitForTimeout(500); const s = await sheet(); if (s) await confirm(); console.log('TW2', (await h.last()).slice(0, 300))
+  await say('what am I paying for'); await say("what's included")
+  await say('cancel Screenly'); await full('cancel-ask'); const y = p.getByRole('button', { name: /Yes, cancel/ }); if (await y.count()) { await y.last().click(); await p.waitForTimeout(500) } console.log('CANCELLED', (await h.last()).slice(0, 400))
+  await nav(4); await p.getByRole('button', { name: /^Subscriptions/ }).click().catch(() => {}); await p.waitForTimeout(300); await full('wallet-subs'); console.log('WALLET', await p.evaluate(() => document.querySelector('.app-main').innerText.replace(/\n+/g, ' | ').slice(0, 600)))
+  await nav(3); await say('block gambling'); await click('Block gambling payments'); await p.waitForTimeout(300); const s2 = await sheet(); if (s2) await confirm(); console.log('GB', (await h.last()).slice(0, 300))
+  await say('remove the gambling block'); const s3 = await sheet(); console.log('LIFT SHEET', s3); if (s3) await confirm(); console.log('LIFT', (await h.last()).slice(0, 300))
+  await nav(5); await full('me-lift'); console.log('ME', await p.evaluate(() => document.querySelector('.app-main').innerText.replace(/\n+/g, ' | ').slice(0, 700)))
+  const keep = p.getByRole('button', { name: /Keep the block/ }); console.log('keep', await keep.count()); if (await keep.count()) { await keep.first().click(); await p.waitForTimeout(400); console.log('ME2', await p.evaluate(() => document.querySelector('.app-main').innerText.replace(/\n+/g, ' | ').slice(0, 400))) }
+  await nav(3); await say('remind me when flights to Paris drop below £80'); await nav(5); const al = await p.evaluate(() => document.querySelector('.app-main').innerText); console.log('ALERTS on me?', /Alerts/.test(al), al.match(/Alerts[\s\S]{0,200}/)?.[0].replace(/\n+/g, ' | '))
+}

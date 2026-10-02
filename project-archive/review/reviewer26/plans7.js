@@ -1,0 +1,2 @@
+const t = x => ({ q: x, plan: `await run('card_and_account', {topic: ${JSON.stringify(x)}}); return 'ok'` })
+module.exports = ['duplicate charge', 'refund from a shop has not arrived', 'merchant still charging after I cancelled membership', 'chargeback for a faulty item', 'dispute a transaction', 'card not arrived', 'activate my new card', 'close my account', 'balance transfer', 'cash withdrawal fee', 'statement date', 'contactless limit', 'Apple Pay', 'my card is about to expire', 'payment holiday'].map(t)

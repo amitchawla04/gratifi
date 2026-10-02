@@ -1,0 +1,89 @@
+== stay LIST: Checked 4 places to stay | Priced with your points | 4 places to stay in Lisbon. Cedar Hotel is my pick: 3× points on your card. | Cedar Hotel | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £206 | 2 nights, taxes in | or 20,600 pts | Garden Suites | Old town, Lisbon | 4.6 | Breakfast | £268 | 2 nights, taxes in | or 26,800 pts | Courtyard Residence | By the water, Lisbon | 4.6 | Rooftop bar | £326 | 2 nights, taxes in | or 32,600 pts | Tidewater Rooms | Near the station, Lisbon | 4.7 | Gym | Spa | £378 | 2 nights, taxes in | or 37,800 pts
+== stay DETAIL: Cedar Hotel | City centre, Lisbon | 4.8 ★ | Pool | Breakfast | CHECK IN | Tue 29 Sept | Wed 30 Sept | Thu 1 Oct | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | Mon 12 Oct | NIGHTS | 2 | ROOM | Double | Twin | Suite (+40%) | GUESTS | 2 | Free cancellation until 3 days before | £206 | or 20,600 pts | 2 nights, taxes in | Continue
+CTA: Continue
+== stay CHECKOUT: Cedar Hotel | City centre, Lisbon · Double · Fri 2 Oct to Sun 4 Oct | Room | Double | Dates | Fri 2 Oct to Sun 4 Oct | Nights | 2 | Guests | 2 | Total | £206.00 | Free cancellation until 3 days before | Points | 20,600 pts · you have 48,210 | Points and card | 14,400 pts + £62 | Card | £206 on card ending 4821 | Pay 20,600 pts
+PAYBTN: Pay 20,600 pts
+SHEET: Confirm and pay | Cedar Hotel · Fri 2 Oct to Sun 4 Oct | Cedar Hotel × 2 | £206.00 | Points used (20,600 pts) | −£206.00 | Points | 20,600 pts | Nothing is paid until you confirm | Pay with Face ID
+== stay DONE: Booked. The hotel has your name, and your confirmation is in Wallet. | Confirmed | GR-88963 | Room | Double | Dates | Fri 2 Oct to Sun 4 Oct | Nights | 2 | Guests | 2 | Paid | 20,600 pts | Free cancellation until 3 days before. | Things to do there | Book a table | Travel insurance
+{
+ "tag": "stay",
+ "balance": 27610,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-88963 stays Cedar Hotel confirmed tot=206 pts=20600 card=0 earned=0"
+ ],
+ "ledger": [
+  "-20600 Cedar Hotel",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== lounge LIST: Checked 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts | Meet and greet on arrival | Heathrow · greeter at the gate | Help through arrivals and bags | £85 | per group | or 8,500 pts | Porter and buggy | Heathrow | £25 | per booking | or 2,500 pts | Sleep pod, 4 hours | Heathrow airside | £45 | per pod | or 4,500 pts | Baggage wrap and storage | Heathrow | £11.99 | per bag | or 1,199 pts
+== lounge DETAIL: Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free with your card · 2 visits left this year | Card visits come back if the lounge can't take you | Use a free visit
+CTA: Use a free visit
+== lounge CHECKOUT: Lounge visit | People | 1 | To pay | Free with your card | Card visits come back if the lounge can't take you | Confirm
+PAYBTN: Confirm
+!! NO SHEET
+== lounge DONE: Booked with a free card visit. Your pass is in Wallet. | Confirmed | GR-78976 | People | 1 | Card visits come back if the lounge can't take you. | What else can I do?
+{
+ "tag": "lounge",
+ "balance": 27610,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-78976 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-88963 stays Cedar Hotel confirmed tot=206 pts=20600 card=0 earned=0"
+ ],
+ "ledger": [
+  "-20600 Cedar Hotel",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== fast LIST: Checked 6 airport services | Priced with your points | 6 airport services. You have 1 free lounge visits left. | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person | Meet and greet on arrival | Heathrow · greeter at the gate | Help through arrivals and bags | £85 | per group | or 8,500 pts | Porter and buggy | Heathrow | £25 | per booking | or 2,500 pts | Sleep pod, 4 hours | Heathrow airside | £45 | per pod | or 4,500 pts | Baggage wrap and storage | Heathrow | £11.99 | per bag | or 1,199 pts
+== fast DETAIL: Fast track security | Heathrow T5 | PEOPLE | 1 | Full refund if not delivered | £8.99 | or 899 pts | per person | Continue
+CTA: Continue
+== fast CHECKOUT: Fast track security | Heathrow T5 | People | 1 | Total | £8.99 | Full refund if not delivered | Points | 899 pts · you have 27,610 | Points and card | 600 pts + £2.99 | Card | £8.99 on card ending 4821 | Pay 899 pts
+PAYBTN: Pay 899 pts
+SHEET: Confirm and pay | Fast track security | Fast track security | £8.99 | Points used (899 pts) | −£8.99 | Points | 899 pts | Nothing is paid until you confirm | Pay with Face ID
+== fast DONE: Booked. Your pass is in Wallet. | Confirmed | GR-46390 | People | 1 | Paid | 899 pts | Full refund if not delivered. | What else can I do?
+{
+ "tag": "fast",
+ "balance": 26711,
+ "card": 906.98,
+ "frozen": false,
+ "bookings": [
+  "GR-46390 airport Fast track security confirmed tot=8.99 pts=899 card=0 earned=0",
+  "GR-78976 airport Lounge visit confirmed tot=0 pts=0 card=0 earned=0",
+  "GR-88963 stays Cedar Hotel confirmed tot=206 pts=20600 card=0 earned=0"
+ ],
+ "ledger": [
+  "-899 Fast track security",
+  "-20600 Cedar Hotel",
+  "1840 Points from card spend",
+  "46370 Balance brought forward"
+ ],
+ "txns": [
+  "64 Pantry Market 64",
+  "186 Northway Air 186",
+  "13.99 Café Lune 14",
+  "89 Byte Store 89"
+ ]
+}
+== ride LIST: Checked 6 ways to get there | Priced with your points | 6 ways to get there. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | £13.99 | fixed price | or 1,399 pts | Ride: Larger | London · 7 min away | 6 seats | Room for 4 bags | £18.99 | fixed price | or 1,899 pts | Airport transfer to Heathrow | Timed to your flight | Driver waits 60 min on arrivals | £48 | fixed price | or 4,800 pts | Train to Edinburgh | Standard class, reserved seat | £42 | per person | or 4,200 pts | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts | Chauffeur, half day | London | £180 | 4 hours | or 18,000 pts
+== ride DETAIL: Ride: Standard | London · 4 min away | 4 seats | WHERE TO? | Home, 12 Garden Row | Office, 1 Harbour Square | Heathrow Airport | Pick-up from where you are now. | Free to cancel within 2 minutes | £13.99 | or 1,399 pts | fixed price | Continue
+CTA: Continue
+UK s_cats1 ERRORS: SCRIPT locator.click: Timeout 30000ms exceeded.

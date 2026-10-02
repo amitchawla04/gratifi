@@ -1,0 +1,189 @@
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: pts undefined->48210; card undefined->906.98; frozen->false
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: I've reported it to the fraud team.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Your seat is changed to 12A.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Flights to Lisbon often get booked up in October, so it's worth booking soon.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: You can cancel any time before the 3-day cut-off.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Once you confirm, the hotel has your booking.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Your card isn't frozen; tap Freeze if you want to stop payments.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Payment of £229 taken from your card.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [claim test]
+  TEXT: Nothing has been booked, paid or changed.
+  SHEET: -
+  DIFF: none
+  RES: []
+
+### [stream]
+  TEXT: Searched 4 places to stay | Priced with your points | Nothing is booked, paid or changed until you confirm it yourself. | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £
+  SHEET: -
+  DIFF: none
+  RES: [{"n":"search_catalogue","a":{"category":"stays","city":"Lisbon"},"shown":["items"],"note":"4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card."}]
+MID-STREAM: Nothing has been booked, paid or changed.
+
+## s-ai2-UK-ai clean

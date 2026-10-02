@@ -1,0 +1,16 @@
+fast track at Heathrow on 9 October for 3 people
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)
+a cooking class in Lisbon on 10 October for 2
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)
+table for 2 on 9 October at 7pm
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)
+a ride to the airport tomorrow at 6am
+!return (await H.lastText()).slice(-400)
+car hire from Friday for 3 days
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)
+train to York on Saturday morning for 2
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)
+cinema tonight for two
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)
+3 tickets for Arlo Grey seated lower
+!await p.locator('.gr-answer').last().locator('.gr-itemrow').first().click().catch(()=>{}); await p.waitForTimeout(300); await p.locator('.gr-answer').last().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(400); return (await H.lastText()).slice(0,300)

@@ -1,0 +1,13 @@
+const run=require('./h.js'); const book=require('./book.js'); const m=process.argv[2]||'UK';
+run(`fl7-${m}`, m, async (h)=>{ const {p,shot,full,nav,ask,click,last,lastText,st,confirm,log}=h;
+  await nav(3); await book(h);
+  let s=await st(); log('after book card',s.card.balance,'bal',s.balance);
+  await nav(5); await click('Cancel my next flight'); await p.waitForTimeout(500); await shot('after-demo'); 
+  await nav(3); await full('disruption'); log('DIS', await lastText());
+  const opts = await last().getByRole('button').allInnerTexts(); log('buttons', JSON.stringify(opts));
+  await click('Next flight', true).catch(e=>log('no next flight btn')); await p.waitForTimeout(500); if (await p.$('.app-sheet')) await confirm();
+  await full('rebooked'); log('REB', await lastText());
+  s=await st(); log('bk', JSON.stringify(s.bookings.map(b=>[b.title,b.status,b.when,b.pts,b.card, b.extra&&b.extra.date, b.extra&&b.extra.back&&b.extra.back.date])),'card',s.card.balance,'bal',s.balance);
+  await ask('check compensation'); log('COMP', await lastText());
+  await nav(4); await full('wallet');
+});

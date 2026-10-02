@@ -1,0 +1,15 @@
+const setup = require('./h.js'); const L = require('./lib.js')
+module.exports = async () => { const h = await setup('UK', { tag: 'dk', theme: 'dark' }); const { p, shot, nav, ask, btn, confirm, st, lastText, last } = h
+  await shot('home'); await nav(3); await ask('Flights to Lisbon 16 Oct back 20 Oct for 2'); await p.locator('.gr-flight').first().click(); await p.waitForTimeout(400); await shot('fares')
+  await btn(/Continue with/); await shot('seats')
+  const ins = last().locator('input.app-in'); await ins.nth(1).fill('Priya Chawla'); await btn('Continue', { exact: true }); await btn(/^Pay /); await p.waitForTimeout(300); await shot('sheet')
+  await confirm(); await shot('receipt')
+  await nav(4); await btn('Boarding pass'); await shot('pass'); await nav(5); await shot('me')
+  await h.close()
+  const z = await setup('UK', { tag: 'z200', zoom: '200%' }); await z.shot('home'); await z.nav(2); await z.shot('explore'); await z.nav(3)
+  await z.ask('Flights to Lisbon 16 Oct back 20 Oct for 2'); await z.shot('results'); await z.p.locator('.gr-flight').first().click(); await z.p.waitForTimeout(400); await z.shot('fares')
+  await z.btn(/Continue with/); await z.shot('seats'); const i2 = z.last().locator('input.app-in'); await i2.nth(1).fill('Priya Chawla'); await z.btn('Continue', { exact: true }); await z.shot('checkout'); await z.btn(/^Pay /); await z.p.waitForTimeout(300); await z.shot('sheet')
+  const ov = await z.p.evaluate(() => { const out = []; document.querySelectorAll('.app *').forEach(e => { const r = e.getBoundingClientRect(); if (r.width && (r.right > window.innerWidth + 1 || r.left < -1) && getComputedStyle(e).position !== 'fixed') out.push(e.className + ':' + Math.round(r.left) + '-' + Math.round(r.right)) }); return out.slice(0, 20) }); console.log('overflow', ov)
+  const sw = await z.p.evaluate(() => document.documentElement.scrollWidth); console.log('scrollWidth', sw)
+  await z.p.keyboard.press('Escape'); await z.nav(5); await z.shot('me'); await z.nav(4); await z.shot('wallet')
+  await z.close() }

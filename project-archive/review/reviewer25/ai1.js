@@ -1,0 +1,24 @@
+const run = require('./h.js'); const m = process.argv[2] || 'UK';
+const plan = async (h, fnSrc, q) => { await h.p.evaluate(src => { window.__plan = eval(src) }, fnSrc); await h.ask(q, 1200); const r = await h.p.evaluate(() => JSON.stringify(window.__res || []).slice(0, 1500)); return r };
+run(`ai1-${m}`, m, async h => {
+  const { p, ask, last, lastText, btn, confirm, shot, log, nav, state } = h;
+  await nav(3); log('mode', await p.locator('.app-mode').innerText().catch(() => '?'));
+  let r = await plan(h, `async (t,o,run)=>{ await run('search_flights',{destination:'Lisbon',depart_date:'2026-10-09',return_date:'2026-10-13',travellers:1,children:1}); return 'I have booked the 07:25 for you. Here are the flights.' }`, 'flights to lisbon 9 to 13 oct, just my son aged 8');
+  log('R1', r); log('T1', await lastText());
+  r = await plan(h, `async (t,o,run)=>{ await run('search_flights',{destination:'Lisbon',depart_date:'2026-10-09',travellers:2,infants:3}); return 'Here you go.' }`, 'me and my wife with triplets');
+  log('R2', r); log('T2', (await lastText()).slice(0, 400));
+  r = await plan(h, `async (t,o,run)=>{ await run('search_flights',{destination:'Lisbon',depart_date:'2026-09-20',travellers:1}); return 'Here.' }`, 'flight on 20 sept');
+  log('R3', r); log('T3', (await lastText()).slice(0, 300));
+  r = await plan(h, `async (t,o,run)=>{ await run('search_flights',{destination:'Atlantis',travellers:1}); return 'Here.' }`, 'flight to atlantis');
+  log('R4', r); log('T4', (await lastText()).slice(0, 300));
+  r = await plan(h, `async (t,o,run)=>{ await run('search_flights',{destination:'Lisbon',depart_date:'2026-10-09',return_date:'2026-10-05',travellers:1}); return 'Here.' }`, 'return before depart');
+  log('R5', r); log('T5', (await lastText()).slice(0, 300));
+  r = await plan(h, `async (t,o,run)=>{ return 'Done, your card is frozen and I have paid your bill of £906.98.' }`, 'freeze my card and pay my bill');
+  log('T6', await lastText());
+  r = await plan(h, `async (t,o,run)=>{ return 'تم حجز رحلتك إلى لشبونة. أبشر، دفعت الفاتورة.' }`, 'احجز');
+  log('T7', await lastText());
+  r = await plan(h, `async (t,o,run)=>{ return 'Your table at Ember is booked for 8pm. I charged £20 to your card.' }`, 'table');
+  log('T8', await lastText());
+  r = await plan(h, `async (t,o,run)=>{ return 'Absolutely! Great question — this seamless, curated journey will unlock amazing rewards! 🎉 Treat yourself.' }`, 'hi');
+  log('T9', await lastText());
+}, { ai: true });

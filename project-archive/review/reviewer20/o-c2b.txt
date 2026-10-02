@@ -1,0 +1,60 @@
+> gift card for sam no email
+  claude_called=1 [items:giftcards,detail] Here it is. Confirm with the button.
+  steps=["Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> gift card bad email
+  claude_called=1 [items:giftcards,detail] Here it is. Confirm with the button.
+  steps=["Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> gift card odd amount
+  claude_called=1 [items:giftcards,detail] Here it is. Confirm with the button.
+  steps=["Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> gift card huge qty
+  claude_called=1 [items:giftcards,detail] Here it is. Confirm with the button.
+  steps=["Searched 10 gift cards","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> hotel 45 nights
+  claude_called=1 [items:stays,detail] Here it is. Confirm with the button.
+  steps=["Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> hotel 0 nights
+  claude_called=1 [items:stays,detail] Here it is. Confirm with the button.
+  steps=["Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> hotel past date
+  claude_called=1 [items:stays] Here it is. Confirm with the button.
+  steps=["Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> hotel invalid date
+  claude_called=1 [items:stays] Here it is. Confirm with the button.
+  steps=["Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> hotel 9 guests 1 room
+  claude_called=1 [items:stays,conciergeform] Here it is. Confirm with the button.
+  steps=["Searched 4 places to stay","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> table for 14
+  claude_called=1 [items:dining,conciergeform] Here it is. Confirm with the button.
+  steps=["Searched 6 restaurants"] bal=48210 card=906.98 frozen=false bookings=0
+> table for 0
+  claude_called=1 [items:dining,detail] Here it is. Confirm with the button.
+  steps=["Searched 6 restaurants"] bal=48210 card=906.98 frozen=false bookings=0
+> table at 03:00
+  claude_called=1 [items:dining,detail] Here it is. Confirm with the button.
+  steps=["Searched 6 restaurants"] bal=48210 card=906.98 frozen=false bookings=0
+> headphones -2
+  claude_called=1 [items:shopping,detail] Here it is. Confirm with the button.
+  steps=["Searched 12 products","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> headphones 1.5
+  claude_called=1 [items:shopping,detail] Here it is. Confirm with the button.
+  steps=["Searched 12 products","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> laptops 30 on card
+  claude_called=1 [items:shopping,detail] Here it is. Confirm with the button.
+  steps=["Searched 12 products","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> ride scheduled yesterday
+  claude_called=1 [items:rides,checkout] Here it is. Confirm with the button.
+  steps=["Searched 10 ways to get there","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> ride at 25:00
+  claude_called=1 [items:rides,checkout] Here it is. Confirm with the button.
+  steps=["Searched 10 ways to get there","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> car hire 40 days
+  claude_called=1 [items:rides,detail] Here it is. Confirm with the button.
+  steps=["Searched 10 ways to get there","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> concert 0 tickets
+  claude_called=1 [items:tickets,detail] Here it is. Confirm with the button.
+  steps=["Searched 5 events","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0
+> subs tunewave pay
+  claude_called=1 [items:subs,freeconfirm] Here it is. Confirm with the button.
+  steps=["Searched 6 subscriptions","Priced with your points"] bal=48210 card=906.98 frozen=false bookings=0

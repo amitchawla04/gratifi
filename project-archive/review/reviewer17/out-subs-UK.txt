@@ -1,0 +1,188 @@
+CATS Flights, Stays, Airport, Rides and rail, Experiences, Dining, Groceries, Shopping, Gift cards, Subscriptions, Events, Points and miles, Grow points, Give, Travel essentials, Concierge, Card benefits, My card, Challenges
+
+##### Flights chips=[Weekend breaks,Beach,City breaks,Direct only] asks=[]
+ROWS Lisbon | Portugal · 2h 35m from LHR | £110 | from, one way, Fri 2 Oct | or 11,000 pts
+     Barcelona | Spain · 2h 10m from LHR | £82 | from, one way, Fri 2 Oct | or 8,200 pts
+     Paris | France · 1h 20m from LHR | £86 | from, one way, Fri 2 Oct | or 8,600 pts
+     Edinburgh | UK · 1h 25m from LHR | £53 | from, one way, Fri 2 Oct | or 5,300 pts
+     New York | USA · 8h 05m from LHR | £398 | from, one way, Fri 2 Oct | or 39,800 pts
+-- [Weekend breaks] -> ""
+Checked 7 flights from London | Priced for 2 people with points | 7 flights to Lisbon on Fri 9 Oct, back Sun 11 Oct, for 2 people. I'd pick the 07:25 Coastline: direct, £134 one way per person; a Standard return with the cheapest direct flight back is £278 per person. | CL | Coastline | CL 217 | Best for you | 07:25 | LHR | 2h 39m | Direct | 10:04 | LIS | Small bag only | £134 | or 13,400 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:16 · Northway Air | 1 stop, OPO · 5h 06m | £135 | or 13,500 pts | 09:40 → 12:16 · Aurora Air | Direct · 2h 36m | £161 | or 16,100 pts | 11:40 → 14:18 · Northway Air | Direct · 2h 38m | £160 | or 16,000 pts | 14:15 → 16:56 · Coastline | 4 left | Direct · 2h 41m · small bag only | £125 | or 12,500 pts
+-- [Beach] -> ""
+These are the places I can book from London. Tell me the dates and I'll find flights. | Lisbon | Barcelona | Paris | Edinburgh | New York
+-- [City breaks] -> ""
+Checked 5 flights from London | Priced for 1 person with points | 5 flights to Barcelona on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £122 one way per person; a Standard return with the cheapest direct flight back is £215 per person. | CL | Coastline | CL 522 | Best for you | 07:25 | LHR | 2h 16m | Direct | 10:41 | BCN | Small bag only | £122 | or 12,200 pts | One way, per person | 4 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:52 · Northway Air | 2 left | 1 stop, MAD · 4h 42m | £82 | or 8,200 pts | 09:40 → 12:59 · Aurora Air | 4 left | Direct · 2h 19m | £159 | or 15,900 pts | 11:40 → 15:00 · Northway Air | 3 left | Direct · 2h 20m | £156 | or 15,600 pts | 17:50 → 23:06 · Aurora Air | 1 stop, MAD · 4h 16m | £136 | or 13,600 pts | Only direc
+-- [Direct only] -> ""
+Checked 7 flights from London | Priced for 1 person with points | 7 flights to Paris on Fri 2 Oct, back Sun 4 Oct. I'd pick the 07:25 Coastline: direct, £110 one way per person; a Standard return with the cheapest direct flight back is £204 per person. I've assumed you come back 2 days later; tell me the return date, or say one way. | CL | Coastline | CL 460 | Best for you | 07:25 | LHR | 1h 20m | Direct | 09:45 | CDG | Small bag only | £110 | or 11,000 pts | One way, per person | 6 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 08:36 · Northway Air | 4 left | Direct · 1h 26m | £98 | or 9,800 pts | 09:40 → 12:00 · Aurora Air | 4 left | Direct · 1h 20m | £142 | or 14,200 pts | 11:40 → 14:04 · Northway Air | Direct · 1h 24m | £133 | or 13,300 pts | 14:15 → 16:
+
+##### Stays chips=[With a pool,City centre,Breakfast included,Family rooms] asks=[]
+ROWS Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £218 | 2 nights, taxes in | or 21,800 pts
+     Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £272 | 2 nights, taxes in | or 27,200 pts
+     Lantern Suites | By the water, Lisbon | 4.6 | Rooftop bar | £326 | 2 nights, taxes in | or 32,600 pts
+     Harbour Residence | Near the station, Lisbon | 4.7 | Gym | Spa | £374 | 2 nights, taxes in | or 37,400 pts
+-- [With a pool] -> ""
+Searched 4 places to stay | Priced with your points | One has a pool. 1 place to stay in Lisbon. Tidewater House is my pick: 3× points on your card. | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £218 | 2 nights, taxes in | or 21,800 pts
+-- [City centre] -> ""
+Searched 4 places to stay | Priced with your points | 4 places to stay in Barcelona. Tidewater Hotel is my pick: 3× points on your card. | Tidewater Hotel | 3× points | City centre, Barcelona | 4.4 | Pool | Breakfast | £250 | 2 nights, taxes in | or 25,000 pts | Riverside Suites | Old town, Barcelona | 4.3 | Breakfast | £284 | 2 nights, taxes in | or 28,400 pts | Lantern Residence | By the water, Barcelona | 4.4 | Rooftop bar | £380 | 2 nights, taxes in | or 38,000 pts | Harbour Rooms | Near the station, Barcelona | 4.5 | Gym | Spa | £444 | 2 nights, taxes in | or 44,400 pts
+-- [Breakfast included] -> ""
+Searched 4 places to stay | Priced with your points | 2 have breakfast included. 2 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card. | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £218 | 2 nights, taxes in | or 21,800 pts | Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £272 | 2 nights, taxes in | or 27,200 pts
+-- [Family rooms] -> ""
+Searched 4 places to stay | Priced with your points | 4 places to stay in Lisbon. Tidewater House is my pick: 3× points on your card. Prices are for 2 double rooms. | Tidewater House | 3× points | City centre, Lisbon | 4.8 | Pool | Breakfast | £436 | 2 nights, 2 rooms, taxes in | or 43,600 pts | Riverside Hotel | Old town, Lisbon | 4.6 | Breakfast | £544 | 2 nights, 2 rooms, taxes in | or 54,400 pts | Lantern Suites | By the water, Lisbon | 4.6 | Rooftop bar | £652 | 2 nights, 2 rooms, taxes in | or 65,200 pts | Harbour Residence | Near the station, Lisbon | 4.7 | Gym | Spa | £748 | 2 nights, 2 rooms, taxes in | or 74,800 pts
+
+##### Airport chips=[Lounges,Fast track,Meet and greet] asks=[]
+ROWS Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person
+     Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts
+     Meet and greet on arrival | Heathrow · greeter at the gate | Help through arrivals and bags | £85 | per group | or 8,500 pts
+     Porter and buggy | Heathrow | £25 | per booking | or 2,500 pts
+     Sleep pod, 4 hours | Heathrow airside | £45 | per pod | or 4,500 pts
+     Baggage wrap and storage | Heathrow | £11.99 | per bag | or 1,199 pts
+-- [Lounges] -> ""
+Searched 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts | Meet and greet on arrival | Heathrow · greeter at the gate | Help through arrivals and bags | £85 | per group | or 8,500 pts | Porter and buggy | Heathrow | £25 | per booking | or 2,500 pts | Sleep pod, 4 hours | Heathrow airside | £45 | per pod | or 4,500 pts | Baggage wrap and storage | Heathrow | £11.99 | per bag | or 1,199 pts
+-- [Fast track] -> ""
+Searched 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person | Meet and greet on arrival | Heathrow · greeter at the gate | Help through arrivals and bags | £85 | per group | or 8,500 pts | Porter and buggy | Heathrow | £25 | per booking | or 2,500 pts | Sleep pod, 4 hours | Heathrow airside | £45 | per pod | or 4,500 pts | Baggage wrap and storage | Heathrow | £11.99 | per bag | or 1,199 pts
+-- [Meet and greet] -> ""
+Searched 6 airport services | Priced with your points | 6 airport services. You have 2 free lounge visits left. | Meet and greet on arrival | Heathrow · greeter at the gate | Help through arrivals and bags | £85 | per group | or 8,500 pts | Lounge visit | Heathrow T5 · The Orchard | Up to 3 hours before your flight | Free | per person | Fast track security | Heathrow T5 | £8.99 | per person | or 899 pts | Porter and buggy | Heathrow | £25 | per booking | or 2,500 pts | Sleep pod, 4 hours | Heathrow airside | £45 | per pod | or 4,500 pts | Baggage wrap and storage | Heathrow | £11.99 | per bag | or 1,199 pts
+
+##### Rides and rail chips=[Ride now,Airport transfer,Car hire,Trains] asks=[]
+ROWS Ride: Standard | London · 4 min away | 4 seats | £13.99 | across town; fixed when you book | or 1,399 pts
+     Ride: Larger | London · 7 min away | 6 seats | Room for 4 bags | £18.99 | across town; fixed when you book | or 1,899 pts
+     Airport transfer to Heathrow | Timed to your flight | Driver waits 60 min on arrivals | £48 | fixed price | or 4,800 pts
+     Train to Edinburgh | Standard class, reserved seat | £42 | per person | or 4,200 pts
+     Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts
+     Chauffeur, half day | London | £180 | 4 hours | or 18,000 pts
+-- [Ride now] -> ""
+Searched 10 ways to get there | Priced with your points | 6 ways to get there. Prices are fixed when you book. | Ride: Standard | London · 4 min away | 4 seats | £13.99 | across town; fixed when you book | or 1,399 pts | Ride: Larger | London · 7 min away | 6 seats | Room for 4 bags | £18.99 | across town; fixed when you book | or 1,899 pts | Airport transfer to Heathrow | Timed to your flight | Driver waits 60 min on arrivals | £48 | fixed price | or 4,800 pts | Train to Edinburgh | Standard class, reserved seat | £42 | per person | or 4,200 pts | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts | Chauffeur, half day | London | £180 | 4 hours | or 18,000 pts
+-- [Airport transfer] -> ""
+Searched 10 ways to get there | Priced with your points | 6 ways to get there. Prices are fixed when you book. | Airport transfer to Heathrow | Timed to your flight | Driver waits 60 min on arrivals | £48 | fixed price | or 4,800 pts | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts | Ride: Standard | London · 4 min away | 4 seats | £13.99 | across town; fixed when you book | or 1,399 pts | Ride: Larger | London · 7 min away | 6 seats | Room for 4 bags | £18.99 | across town; fixed when you book | or 1,899 pts | Train to Edinburgh | Standard class, reserved seat | £42 | per person | or 4,200 pts | Chauffeur, half day | London | £180 | 4 hours | or 18,000 pts
+-- [Car hire] -> ""
+Car hire from Heathrow, priced per day. Pick your days on the next step. | Car hire: compact automatic | Pick up at the airport | Unlimited miles | Full-to-full fuel | £38 | per day | or 3,800 pts
+-- [Trains] -> ""
+I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. | Flights | Book, change, cancel | Stays | Hotels and rooms | Airport | Lounges, fast track | Rides and rail | Cabs, trains, cars | Experiences | Tours and tickets | Dining | Tables and offers | Groceries | 15-minute delivery | Shopping | Products and brands | Book a flight | A table tonight | Groceries now | Talk to a person
+
+##### Experiences chips=[Food and drink,Day trips,Culture,With kids] asks=[]
+ROWS Old town walking tour | London | 4.9 | 2 hours | Small group | £24 | per person | or 2,400 pts
+     Sunset boat trip | London | 4.8 | 90 min | £45 | per person | or 4,500 pts
+     Food market tour | London | 4.4 | 3 hours | Tastings | £38 | per person | or 3,800 pts
+     Cooking class | London | 4.7 | 3 hours | £52 | per person | or 5,200 pts
+     Museum with skip-the-line entry | London | 4.5 | Timed entry | £22 | per person | or 2,200 pts
+     Day trip to the coast | London | 4.6 | Full day | Pick-up | £68 | per person | or 6,800 pts
+-- [Food and drink] -> ""
+Searched 7 things to do | Priced with your points | 7 things to do in London. Food market tour is the most booked. | Food market tour | London | 4.4 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Old town walking tour | London | 4.9 | 2 hours | Small group | £24 | per person | or 2,400 pts | Sunset boat trip | London | 4.8 | 90 min | £45 | per person | or 4,500 pts | Cooking class | London | 4.7 | 3 hours | £52 | per person | or 5,200 pts | Museum with skip-the-line entry | London | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Day trip to the coast | London | 4.6 | Full day | Pick-up | £68 | per person | or 6,800 pts | Theme park day | London | 4.7 | Full day | £58 | per person | or 5,800 pts
+-- [Day trips] -> ""
+Searched 7 things to do | Priced with your points | 7 things to do in Lisbon. Sunset boat trip is the most booked. | Sunset boat trip | Lisbon | 4.6 | 90 min | £45 | per person | or 4,500 pts | Day trip to the coast | Lisbon | 4.4 | Full day | Pick-up | £68 | per person | or 6,800 pts | Old town walking tour | Lisbon | 4.5 | 2 hours | Small group | £24 | per person | or 2,400 pts | Food market tour | Lisbon | 4.8 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Cooking class | Lisbon | 4.8 | 3 hours | £52 | per person | or 5,200 pts | Museum with skip-the-line entry | Lisbon | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Theme park day | Lisbon | 4.6 | Full day | £58 | per person | or 5,800 pts
+-- [Culture] -> ""
+Searched 7 things to do | Priced with your points | 7 things to do in Lisbon. Museum with skip-the-line entry is the most booked. | Museum with skip-the-line entry | Lisbon | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Old town walking tour | Lisbon | 4.5 | 2 hours | Small group | £24 | per person | or 2,400 pts | Sunset boat trip | Lisbon | 4.6 | 90 min | £45 | per person | or 4,500 pts | Food market tour | Lisbon | 4.8 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Cooking class | Lisbon | 4.8 | 3 hours | £52 | per person | or 5,200 pts | Day trip to the coast | Lisbon | 4.4 | Full day | Pick-up | £68 | per person | or 6,800 pts | Theme park day | Lisbon | 4.6 | Full day | £58 | per person | or 5,800 pts
+-- [With kids] -> ""
+Searched 7 things to do | Priced with your points | 7 things to do in Lisbon. Old town walking tour is the most booked. | Old town walking tour | Lisbon | 4.5 | 2 hours | Small group | £24 | per person | or 2,400 pts | Sunset boat trip | Lisbon | 4.6 | 90 min | £45 | per person | or 4,500 pts | Food market tour | Lisbon | 4.8 | 3 hours | Tastings | £38 | per person | or 3,800 pts | Cooking class | Lisbon | 4.8 | 3 hours | £52 | per person | or 5,200 pts | Museum with skip-the-line entry | Lisbon | 4.5 | Timed entry | £22 | per person | or 2,200 pts | Day trip to the coast | Lisbon | 4.4 | Full day | Pick-up | £68 | per person | or 6,800 pts | Theme park day | Lisbon | 4.6 | Full day | £58 | per person | or 5,800 pts
+
+##### Dining chips=[Tonight,Date night,Vegetarian,Big groups] asks=[]
+ROWS Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book
+     Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book
+     The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book
+     Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book
+     Masala Room | Indian · London | 4.8 | Mid-price | Free | to book
+     Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+-- [Tonight] -> ""
+Searched 6 restaurants | Priced with your points | 6 restaurants in London. Harrow & Vine has tables tonight for 2, with 15% off on your card. | Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book | The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · London | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+-- [Date night] -> ""
+Searched 6 restaurants | Priced with your points | 6 restaurants in London. Harrow & Vine has tables on Sat 3 Oct for 2, with 15% off on your card. | Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book | The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · London | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+-- [Vegetarian] -> ""
+Searched 6 restaurants | Priced with your points | 6 restaurants in London. The Green Table has tables tonight. | The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book | Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book | Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · London | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+-- [Big groups] -> ""
+Searched 6 restaurants | Priced with your points | 6 restaurants in London. Harrow & Vine has tables on Fri 2 Oct for 10, with 15% off on your card. | Harrow & Vine | Modern European · London | 4.7 | Upmarket | 15% off with your card | Free | to book | Salt and Ember | Grill · London | 4.8 | Mid-price | Free | to book | The Green Table | Vegetarian · London | 4.7 | Mid-price | Plant-based | Free | to book | Kanji | Japanese · London | 4.4 | Upmarket | Chef's counter | Free | to book | Masala Room | Indian · London | 4.8 | Mid-price | Free | to book | Little Olive | Mediterranean · London | 4.9 | Mid-price | Terrace | Free | to book
+
+##### Groceries chips=[Breakfast,Baby,Household,Snacks] asks=[]
+ROWS 
+-- [Breakfast] -> ""
+Checked the nearest store: open, 15 min | Added milk, sourdough loaf, free-range eggs. Anything else? It arrives in about 15 minutes. | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Paracetamol, 16 | £1.50 | Nappies, pack of 40 | £9.49 | Dishwasher tablets | £6.49 | Baby wipes | £2.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500g | £1.00 | Crisps | £1.50 | Milk, 2 litres | £1.50 | 1 | Sourdough loaf | £2.99 | 1 | Free-range eggs, 12 | £3.99 | 1 | Includes £2.00 delivery · arrives in about 15 minutes | Total | £10.48 | or 1,048 pts | Checkout
+-- [Baby] -> ""
+Checked the nearest store: open, 15 min | Added nappies, baby wipes. Anything else? It arrives in about 15 minutes. | Bananas, 6 | £1.00 | Coffee beans, 500g | £7.49 | Greek yoghurt | £2.49 | Tomatoes, 500g | £2.00 | Chicken thighs, 1kg | £5.99 | Basmati rice, 2kg | £4.49 | Olive oil, 750ml | £7.99 | Sparkling water, 6 | £3.49 | Dark chocolate | £1.99 | Oat milk | £2.00 | Paracetamol, 16 | £1.50 | Dishwasher tablets | £6.49 | Toilet roll, 9 | £4.99 | Butter | £2.49 | Cheddar | £3.49 | Apples, 6 | £1.99 | Pasta, 500g | £1.00 | Crisps | £1.50 | Milk, 2 litres | £1.50 | 1 | Sourdough loaf | £2.99 | 1 | Free-range eggs, 12 | £3.99 | 1 | Nappies, pack of 40 | £9.49 | 1 | Baby wipes | £2.49 | 1 | Includes £2.00 delivery · arrives in about 15 minutes | Total | £22.46 | or 2,246 pts | Checkout
+-- [Household] -> ""
+Searched 12 products | Priced with your points | I can't find that here. These are the closest things I can offer. | Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts | Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | £279 | or 27,900 pts | 13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | £120 | or 12,000 pts | Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts | Skincare set | Glow Beauty | 4.6 | £58 | or 5,800 pts | Espresso machine | Home & Hearth | 4.7 | Delivery in 3 days | 2-year warranty | £349 | or 34,900 pts | Air fryer, 5.5 litres | Home & Hearth | 4.5 | £89 | or 8,900 pts
+-- [Snacks] -> ""
+I can't do that one. Here's what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. | Flights | Book, change, cancel | Stays | Hotels and rooms | Airport | Lounges, fast track | Rides and rail | Cabs, trains, cars | Experiences | Tours and tickets | Dining | Tables and offers | Groceries | 15-minute delivery | Shopping | Products and brands | Book a flight | A table tonight | Groceries now | Talk to a person
+
+##### Shopping chips=[Electronics,Fashion,Home,Travel gear] asks=[]
+ROWS Hush 700 noise-cancelling headphones | Byte Store | 4.7 | Free delivery | 2-year warranty | £229 | or 22,900 pts
+     Smartwatch, 44mm | Byte Store | 4.6 | Delivery in 2 days | £279 | or 27,900 pts
+     13-inch laptop, 16GB | Byte Store | 4.8 | Free delivery | 1-year warranty | £999 | or 99,900 pts
+     Rain shell jacket | Stride Outdoor | 4.5 | Free returns | £120 | or 12,000 pts
+     Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts
+     Skincare set | Glow Beauty | 4.6 | £58 | or 5,800 pts
+-- [Electronics] -> ""
+Hush 700 noise-cancelling headphones | Byte Store | 4.7 ★ | Free delivery | 2-year warranty | DELIVER TO | Home |  |  | 12 Garden Row | Office |  |  | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | COLOUR | Black | Silver | Blue | QUANTITY | 1 | Return within 30 days | £229 | or 22,900 pts | Continue
+-- [Fashion] -> ""
+Searched 12 products | Priced with your points | 2 products. Rain shell jacket is the closest match, with free returns. | Rain shell jacket | Stride Outdoor | 4.5 | Free returns | £120 | or 12,000 pts | Leather trainers | Stride Outdoor | 4.4 | £95 | or 9,500 pts
+-- [Home] -> ""
+Linen bedding set | Home & Hearth | 4.4 ★ | DELIVER TO | Home |  |  | 12 Garden Row | Office |  |  | 1 Harbour Square | DELIVERY DAY | Fri 2 Oct | Sat 3 Oct | Sun 4 Oct | Mon 5 Oct | Tue 6 Oct | Wed 7 Oct | Thu 8 Oct | Fri 9 Oct | Sat 10 Oct | Sun 11 Oct | SIZE | Double | King | Super king | QUANTITY | 1 | Return within 30 days | £110 | or 11,000 pts | Continue
+-- [Travel gear] -> ""
+Searched 12 products | Priced with your points | 1 product. Cabin suitcase is the closest match. | Cabin suitcase | Wander Goods | 4.6 | £139 | or 13,900 pts
+
+##### Gift cards chips=[Birthdays,Thank you,Let them choose] asks=[]
+ROWS Harbour & Co | Homeware | From £25
+     Bloom | Flowers | From £25
+     Northway Air | Flights | From £25
+     Reel House | Cinema | From £25
+     Pantry Market | Groceries | From £25
+     Stride Outdoor | Outdoor | From £25
+-- [Birthdays] -> ""
+Searched 10 gift cards | Priced with your points | 8 gift cards. They arrive instantly. | Harbour & Co | Homeware | From £25 | Bloom | Flowers | From £25 | Northway Air | Flights | From £25 | Reel House | Cinema | From £25 | Pantry Market | Groceries | From £25 | Stride Outdoor | Outdoor | From £25 | Lumen Books | Books | From £25 | Glow Beauty | Beauty | From £25
+-- [Thank you] -> ""
+Searched 10 gift cards | Priced with your points | You gift cards aren't offered here. 8 gift cards. They arrive instantly. | Harbour & Co | Homeware | From £25 | Bloom | Flowers | From £25 | Northway Air | Flights | From £25 | Reel House | Cinema | From £25 | Pantry Market | Groceries | From £25 | Stride Outdoor | Outdoor | From £25 | Lumen Books | Books | From £25 | Glow Beauty | Beauty | From £25
+-- [Let them choose] -> ""
+Searched 10 gift cards | Priced with your points | 8 gift cards. They arrive instantly. | Harbour & Co | Homeware | From £25 | Bloom | Flowers | From £25 | Northway Air | Flights | From £25 | Reel House | Cinema | From £25 | Pantry Market | Groceries | From £25 | Stride Outdoor | Outdoor | From £25 | Lumen Books | Books | From £25 | Glow Beauty | Beauty | From £25
+
+##### Subscriptions chips=[Films and series,Music,Included free] asks=[]
+ROWS Screenly | Films and series | £10.99 | a month | or 1,099 pts
+     Tunewave | Music | Free | included with your card
+     Pagebound | Audiobooks | £7.99 | a month | or 799 pts
+     Daily Ledger | News | £6.49 | a month | or 649 pts
+     Fitloop | Home workouts | £9.99 | a month | or 999 pts
+     Cloudkeep | Photo storage, 200GB | £2.99 | a month | or 299 pts
+-- [Films and series] -> ""
+Searched 6 subscriptions | Priced with your points | 1 subscription. Tunewave is already included with your card. | Screenly | Films and series | £10.99 | a month | or 1,099 pts
+-- [Music] -> ""
+Searched 6 subscriptions | Priced with your points | 1 subscription. Tunewave is already included with your card. | Tunewave | Included | Music | Free | included with your card
+-- [Included free] -> ""
+Searched 6 subscriptions | Priced with your points | 6 subscriptions. Tunewave is already included with your card. | Screenly | Films and series | £10.99 | a month | or 1,099 pts | Tunewave | Included | Music | Free | included with your card | Pagebound | Audiobooks | £7.99 | a month | or 799 pts | Daily Ledger | News | £6.49 | a month | or 649 pts | Fitloop | Home workouts | £9.99 | a month | or 999 pts | Cloudkeep | Photo storage, 200GB | £2.99 | a month | or 299 pts
+
+##### Events chips=[Concerts,Sport,Theatre,Cinema] asks=[]
+ROWS Arlo Grey live | Arena, London · Sat 24 Oct | Presale for cardholders | £65 | per ticket | or 6,500 pts
+     City derby | National Stadium, London · Sun 1 Nov | £48 | per ticket | or 4,800 pts
+     The Glass Garden (theatre) | Royal Playhouse, London · evenings | £42 | per ticket | or 4,200 pts
+     Cinema: 2 for 1 this week | Reel House, London | Card offer | £11.99 | for two | or 1,199 pts
+     Riverside food festival | London · 7 to 8 Nov | £17.99 | day pass | or 1,799 pts
+-- [Concerts] -> ""
+Searched 5 events | Priced with your points | There's nothing on this month. These are the next ones. 1 event. Arlo Grey live is first on the list: presale for cardholders. | Arlo Grey live | Arena, London · Sat 24 Oct | Presale for cardholders | £65 | per ticket | or 6,500 pts
+-- [Sport] -> ""
+Searched 5 events | Priced with your points | 1 event. City derby is first on the list. | City derby | National Stadium, London · Sun 1 Nov | £48 | per ticket | or 4,800 pts
+-- [Theatre] -> ""
+Searched 5 events | Priced with your points | 1 event. The Glass Garden (theatre) is first on the list. | The Glass Garden (theatre) | Royal Playhouse, London · evenings | £42 | per ticket | or 4,200 pts
+-- [Cinema] -> ""
+Searched 5 events | Priced with your points | 1 event. Cinema: 2 for 1 this week is first on the list: card offer. | Cinema: 2 for 1 this week | Reel House, London | Card offer | £11.99 | for two | or 1,199 pts
+
+##### Points and miles chips=[] asks=[]
+ROWS 
+
+##### Grow points chips=[] asks=[]
+ROWS 
+
+##### Give chips=[] asks=[]
+ROWS 
+
+##### Travel essentials chips=[] asks=[]
+ROWS eSIM: 5GB for 15 days | Works in 120+ countries | £8.99 | or 899 pts
+     eSIM: 10GB for 30 days | Works in 120+ countries | £14.99 | or 1,499 pts
+     eSIM: Unlimited for 7 days | Works in 120+ countries | £22 | or 2,200 pts
+
+##### Concierge chips=[] asks=[]
+ROWS 
+
+##### Card benefits chips=[] asks=[]
+ROWS 
+
+##### My card chips=[] asks=[]
+ROWS 
+
+##### Challenges chips=[] asks=[]
+ROWS 

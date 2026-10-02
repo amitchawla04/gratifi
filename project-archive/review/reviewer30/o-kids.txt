@@ -1,0 +1,53 @@
+
+[Flights to Lisbon on 12 Oct back 19 Oct for 2 adults, a child aged 4 and a baby] => Checked 5 flights from London | Priced for 3 people with points | 5 flights to Lisbon on Mon 12 Oct, back Mon 19 Oct, for 3 people and 1 infant on a lap. I'd pick the 09:40 Aurora Air: direct, £123 one way per person; a Standard return with the cheapest direct flight back is £281 per person. It's the cheapest direct flight. An infant under 2 travels on a lap for 10% of the adult fare. | AU | Aurora Air | AU 594 | Best for you | 09:40 | LHR | 2h 44m | Direct | 12:24 | LIS | Cabin bag | £123 | or 12,300 pts | One way, per person | 4 OTHER TIMES, SORTED BY DEPARTURE | 06:10 → 11:24 · Northway Air | 1 stop, OPO · 5h 14m | £122 | or 12,200 pts | 07:25 → 10:09 · Coastline | Direct · 2h 44m | £156 
+INPUT:text:Traveller 1 full name:Amit Chawla
+INPUT:text:Traveller 2 full name:
+INPUT:text:Child 1 full name:
+INPUT:date::
+INPUT:text:Infant 1 full name:
+INPUT:date::
+BUTTON:submit:Flight out:
+BUTTON:submit:Flight back:
+BUTTON:submit:Amit · 16C:
+BUTTON:submit:Traveller 2 · 16B:
+BUTTON:submit:Child 1 · 16A:
+BUTTON:submit:Seat 12A, taken:
+BUTTON:submit:Seat 12B, taken:
+BUTTON:submit:Seat 12C:
+BUTTON:submit:Seat 12D:
+BUTTON:submit:Seat 12E:
+BUTTON:submit:Seat 12F:
+BUTTON:submit:Seat 13A:
+BUTTON:submit:Seat 13B:
+BUTTON:submit:Seat 13C:
+BUTTON:submit:Seat 13D:
+BUTTON:submit:Seat 13E:
+BUTTON:submit:Seat 13F, taken:
+BUTTON:submit:Seat 14A, exit row, adults only:
+BUTTON:submit:Seat 14B, exit row, adults only:
+BUTTON:submit:Seat 14C, taken:
+BUTTON:submit:Seat 14D, exit row, adults only:
+BUTTON:submit:Seat 14E, exit row, adults only:
+BUTTON:submit:Seat 14F, exit row, adults only:
+BUTTON:submit:Seat 15A, taken:
+BUTTON:submit:Seat 15B, taken:
+BUTTON:submit:Seat 15C:
+BUTTON:submit:Seat 15D:
+BUTTON:submit:Seat 15E:
+BUTTON:submit:Seat 15F:
+BUTTON:submit:Seat 16A, Child 1:
+BUTTON:submit:Seat 16B, Traveller 2:
+BUTTON:submit:Seat 16C:
+BUTTON:submit:Seat 16D:
+BUTTON:submit:Seat 16E, taken:
+BUTTON:submit:Seat 16F, taken:
+BUTTON:submit:Fewer Checked bag:
+BUTTON:submit:More Checked bag:
+BUTTON:submit:Add everyone's full name:
+inputs 6
+text inputs 4
+date inputs 2
+ANS: Now names and seats. I've kept you together, on the aisle as you prefer. | TRAVELLERS, AS ON THEIR PASSPORTS | Child's date of birth | Infant's date of birth (under 2 when you fly) | Infants must be under 2 on the day of the last flight. Search again with them as a child so they get a seat. | Your infant sits on Amit's lap, so they don't need a seat. Exit rows aren't open to that adult. | Flight out | Flight back | Amit · 16C | Иван · 16B | Mia · 16A | A | B | C | D | E | F | 12 | 13 | ◂ EXIT | EXIT ▸ | 14 | 15 | M | И | 16 | Amit | Taken | Your group | Extra legroom £28 | Free | Outbound 16C, 16B, 16A · Return 15D, 15E, 15F | Checked bag | £32 each, per flight (2 flights) | 0 | Type names in Latin letters (A to Z), exactly as printed on the passport. | Use passport letters (A to Z)
+CTA: Use passport letters (A to Z) true
+
+## s-kids-UK clean

@@ -1,0 +1,3 @@
+STATE card {"last4":"5512","limit":880000,"balance":99770,"due":99770,"min":2993.1,"dueDate":"2026-10-09","frozen":false,"online":true,"abroad":true,"contactless":true,"atm":true,"autopay":false} pts 131280 Mumbai to Goa:confirmed:16280:65120/0
+LAST Done. You're on the 11:40 on Fri 9 Oct at no cost, with the same seats where the plane allows. Your booking is updated. | Mumbai to Goa | NW 361 · Standard · Fri 9 Oct 11:40 · back Sun 11 Oct 14:15 | Confirmed | GR-92955 | 65,120 pts | Boarding pass | Change date | Change seats | Cancel | Check compensation
+IN flight clean

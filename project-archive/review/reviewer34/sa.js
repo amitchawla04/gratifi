@@ -1,0 +1,23 @@
+const P = f => '(' + f.toString() + ')';
+module.exports = {
+ c1: { q: 'table for two tonight', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'dining', city: 'London', guests: 2 }); return "Harrow & Vine has you down for 8pm." }) },
+ c2: { q: 'table for two tonight', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'dining', city: 'London', guests: 2 }); return "Your table at Harrow & Vine is held for 8pm." }) },
+ c3: { q: 'hotel in lisbon', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'stays', city: 'Lisbon' }); return "Tidewater House is yours for two nights from Friday." }) },
+ c4: { q: 'freeze my card', plan: P(async (t, o, run) => { await run('card_control', { control: 'freeze', on: true }); return 'Your card is frozen and contactless is off as well.' }) },
+ c5: { q: 'turn off online payments', plan: P(async (t, o, run) => { await run('card_control', { control: 'online', on: false }); return 'Online payments are off. Your card is also frozen.' }) },
+ c6: { q: 'pay my bill', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'pay my bill' }); return 'I have cleared your balance of £906.98.' }) },
+ c7: { q: 'pay my bill', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'pay my bill' }); return 'Your bill is paid in full.' }) },
+ c8: { q: 'cancel my subscription', plan: P(async () => "That's cancelled, you won't be charged again.") },
+ c9: { q: 'refund', plan: P(async () => "You'll see the £45 back on your card within 3 days.") },
+ c10: { q: 'remind me when my bill is due', plan: P(async (t, o, run) => { return "Reminder's on for 3 days before your bill is due." }) },
+ c11: { m: 'AR', q: 'ابي طاولة لشخصين الليلة', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'dining', city: 'Dubai', guests: 2 }); return 'خلاص حجزتلك الطاولة الساعة ٨.' }) },
+ c12: { m: 'AR', q: 'جمد بطاقتي', plan: P(async (t, o, run) => { return 'بطاقتك الحين مجمدة.' }) },
+ c13: { m: 'AR', q: 'ادفع الفاتورة', plan: P(async (t, o, run) => { await run('card_and_account', { topic: 'pay my bill' }); return 'سددت فاتورتك بالكامل.' }) },
+ c14: { q: 'flights to lisbon', plan: P(async (t, o, run) => { await run('search_flights', { destination: 'Lisbon', depart_date: '2026-10-09', travellers: 1 }); return 'I\'ve gone with the 20:30 Northway flight for you, seat 16C.' }) },
+ c15: { q: 'send money', plan: P(async () => 'The £200 has left your account.') },
+ c16: { q: 'is my card frozen', plan: P(async () => 'No, your card is not frozen. It works as normal.') },
+ c17: { q: 'what can I do', plan: P(async () => 'You can book flights, hotels and tables, or freeze your card. Tap a card to start.') },
+ c18: { q: 'hotels in lisbon', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'stays', city: 'Lisbon' }); return 'Absolutely! Here are some amazing stays, hand-picked for your journey. Booking is completely secure.' }) },
+ c19: { q: 'stream', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'dining', city: 'London', guests: 2 }); o.onText({ text: 'Booked. Your table is confirmed for 8pm.' }); await new Promise(r => setTimeout(r, 400)); return 'Harrow & Vine has tables at 8pm. Tap one to book.' }), post: async h => {} },
+ c20: { q: 'lounge', plan: P(async (t, o, run) => { await run('search_catalogue', { category: 'airport' }); return "Your lounge pass is in your wallet." }) },
+};

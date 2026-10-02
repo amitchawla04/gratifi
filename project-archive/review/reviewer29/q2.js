@@ -1,0 +1,1 @@
+module.exports = ["Flights to Lisbon next weekend for two", "Flights to Lisbon on 2 October", "one way to Paris on friday", "flights to new york 20 oct to 27 oct for 2 adults and a child aged 5 and a baby"]
