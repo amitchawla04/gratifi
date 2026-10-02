@@ -318,7 +318,7 @@ function Connections() {
   const only = (groups: string[]) => set(Object.fromEntries(Mod.APIS.filter(a => !groups.includes(a.group)).map(a => [a.id, true])))
   const groups = Array.from(new Set(Mod.APIS.map(a => a.group)))
   return <div className="gr-col" style={{ gap: 10 }}>
-    <div className="gr-row" style={{ justifyContent: 'space-between', gap: 8 }}><span><b style={{ fontSize: '0.875rem' }}>Bank connections</b><span className="gr-meta" style={{ display: 'block' }}>{`${nOn} of ${Mod.APIS.length} APIs · ${mods} of ${Mod.MODULES.length} services on`}</span></span><K.Button size="sm" variant="secondary" onClick={() => setOpen(!open)}>{open ? 'Hide' : 'Show'}</K.Button></div>
+    <div className="gr-row" style={{ justifyContent: 'space-between', gap: 8 }}><span><b style={{ fontSize: '0.875rem' }}>Bank connections</b><span className="gr-meta" style={{ display: 'block' }}>{`${nOn} of ${Mod.APIS.length} bank connections on`}</span></span><K.Button size="sm" variant="secondary" onClick={() => setOpen(!open)}>{open ? 'Hide' : 'Show'}</K.Button></div>
     {open && <>
       <div className="gr-meta">Each service needs the bank APIs listed. Switch one off and every screen, button and answer that needs it disappears.</div>
       <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => set({})}>Everything</K.Button><K.Button size="sm" variant="secondary" onClick={() => only(['Card', 'Payments', 'Credit'])}>Card only</K.Button><K.Button size="sm" variant="secondary" onClick={() => only(['Card', 'Payments', 'Credit', 'Rewards'])}>Card and points</K.Button><K.Button size="sm" variant="secondary" onClick={() => only(['Rewards', 'Partners', 'Service'])}>Rewards only</K.Button></div>
