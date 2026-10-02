@@ -27,6 +27,12 @@ export async function initBrain() {
     maxTools = lim.tools.maxCount || 16; sample = s; setMode('claude')
   } catch (e) { setMode('local') }
 }
+/* If the key was added after the app opened, pick it up when the chat opens or the app comes back, without a restart. */
+export async function recheck() {
+  if (mode !== 'local' || (window as any).claude?.use) return
+  if (await LLM.available()) { sample = LLM.makeSample(); maxTools = 24; setMode('claude') }
+}
+if (typeof document !== 'undefined') document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') recheck() })
 
 let ctl: AbortController | null = null
 export const stop = () => ctl?.abort()

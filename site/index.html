@@ -12372,6 +12372,18 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       setMode("local");
     }
   }
+  async function recheck() {
+    var _a;
+    if (mode !== "local" || ((_a = window.claude) == null ? void 0 : _a.use)) return;
+    if (await available()) {
+      sample = makeSample();
+      maxTools = 24;
+      setMode("claude");
+    }
+  }
+  if (typeof document !== "undefined") document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") recheck();
+  });
   var ctl = null;
   var stop = () => ctl == null ? void 0 : ctl.abort();
   var busy = false;
@@ -13740,7 +13752,10 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const chat = useS((s) => s.chat);
     const M3 = useMarket();
     const [mode2, setMode2] = useState(getMode());
-    useEffect(() => onMode(() => setMode2(getMode())), []);
+    useEffect(() => {
+      recheck();
+      return onMode(() => setMode2(getMode()));
+    }, []);
     const ref2 = useRef(null);
     useEffect(() => {
       const el = ref2.current;

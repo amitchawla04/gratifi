@@ -359,7 +359,7 @@ const SUBCATS = (m: string): Record<string, [string, Act][]> => {
 /* ---------- Chat ---------- */
 export function Chat({ nav }: { nav: Nav }) {
   const chat = St.useS(s => s.chat); const M = useMarket(); const [mode, setMode] = useState(Br.getMode())
-  useEffect(() => Br.onMode(() => setMode(Br.getMode())) as any, [])
+  useEffect(() => { Br.recheck(); return Br.onMode(() => setMode(Br.getMode())) as any }, [])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => { const el = ref.current; if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }) }, [chat.length, chat[chat.length - 1]?.blocks?.length, chat[chat.length - 1]?.text])
   const busy = chat.some(m => m.thinking)
