@@ -305,7 +305,7 @@ export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme
       <div className="gr-actions"><K.Button size="sm" onClick={() => { St.addPoints(5000, 'Points adjustment (demo)'); St.pushMsg({ role: 'gr', text: `Demo: ${M.pts(5000)} came in from the bank. Your balance is now ${M.pts(St.get().balance)}.` }) }}>Points come in (+{M.num(5000)})</K.Button><K.Button size="sm" variant="secondary" onClick={() => cardPayment(M)}>A card payment</K.Button></div>
       {([['priceRise', 'Price rises at the next checkout'], ['supplierDown', 'Supplier is down'], ['decline', 'Card is declined']] as [keyof St.State['sim'], string][]).map(([k, l]) => <div key={k} className="gr-row" style={{ justifyContent: 'space-between' }}><span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{l}</span><K.Toggle label={l} on={s.sim[k]} onChange={(v: boolean) => sim(k, v)} /></div>)}
       <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('cancel')}>Cancel my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('late')}>Delay my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('deliver')}>Deliver my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.settlePending()); (window as any).__go?.('chat') }}>Return window ends</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('fraud')}>Suspicious payment</K.Button></div>
-      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('card')}>New card arrives</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('cases')}>Bank decides cases</K.Button></div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('checkin')}>Check-in opens</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('delay')}>Delay my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('card')}>New card arrives</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('cases')}>Bank decides cases</K.Button></div>
       <Connections />
       <ResetButton /></div>
   </div>
@@ -415,6 +415,20 @@ function simulate(k: string) {
     if (!f) { const moved = s.bookings.some(b => b.cat === 'flights' && b.status === 'confirmed' && b.extra?.rebooked); St.pushMsg({ role: 'gr', text: moved ? 'Your flight was already moved to the next day after the last cancellation. Book another flight to see this again.' : 'Book a flight first, then I can show you what happens when it\'s cancelled.' }); (window as any).__go?.('chat'); return }
     St.updateBooking(f.id, { extra: { ...f.extra, disrupted: true } })
     St.pushMsg({ role: 'gr', text: `Your ${f.extra?.dep} flight to ${f.title.split(' to ')[1]} has been cancelled by the airline. Your options are below; there's no need to queue or call anyone.`, blocks: [{ kind: 'disruption', id: f.id }] })
+  }
+  if (k === 'checkin' || k === 'delay') {
+    const f = s.bookings.filter(b => b.cat === 'flights' && b.status === 'confirmed' && !b.extra?.disrupted).sort((x, y) => (x.extra?.date + x.extra?.dep).localeCompare(y.extra?.date + y.extra?.dep))[0]
+    if (!f) { St.pushMsg({ role: 'gr', text: 'Book a flight first.' }); (window as any).__go?.('chat'); return }
+    if (k === 'checkin') {
+      St.updateBooking(f.id, { extra: { ...f.extra, ciOpen: true } })
+      if (f.extra?.autoCheckin) { const r = F.checkInDo({ id: f.id, names: (f.extra?.names || []).slice(0, (f.extra?.pax || 1) + (f.extra?.inf || 0)).filter(Boolean).length ? f.extra.names.slice(0, (f.extra?.pax || 1) + (f.extra?.inf || 0)) : [St.get().prefs.full || St.get().prefs.name] }); St.pushMsg({ role: 'gr', text: `Check-in opened for ${f.extra?.number}, so I checked you in as you asked. ${r.say}`, blocks: r.blocks }) }
+      else St.pushMsg({ role: 'gr', text: `Check-in is open for ${f.extra?.number} to ${f.title.split(' to ')[1]}.`, blocks: [{ kind: 'checkin', id: f.id }] })
+    } else {
+      const was = f.extra?.gate || (window as any).__gateOf?.(f), gate = 'B' + (((f.ref || 'X').charCodeAt(3) % 30) + 2)
+      St.updateBooking(f.id, { extra: { ...f.extra, delay: 45, gateWas: was, gate, ciOpen: true } })
+      St.pushMsg({ role: 'gr', text: `${f.extra?.number} to ${f.title.split(' to ')[1]} is running 45 minutes late, and the gate has changed to ${gate}. Everything below is updated; you don't need to do anything.`, blocks: [{ kind: 'triptl', id: f.id }] })
+    }
+    (window as any).__go?.('chat'); return
   }
   if (k === 'deliver') {
     const o = s.bookings.find(b => b.kind === 'order' && b.tracker && b.status !== 'delivered' && !b.extra?.returning && !['cancelled', 'refunded'].includes(b.status) && b.cat !== 'bank')

@@ -65,11 +65,12 @@ export function Count({ label, value, min = 1, max = 8, onChange, fmt }: { label
 }
 
 /** Checkout, short: what it is, the total in points, how to pay, one black button. The confirm sheet does the rest. */
-export function Pay({ art, title, sub, rows, choices, value, onChange, cta, onPay, disabled, warn, note }: { art?: string; title: string; sub?: string; rows: [string, any][]; choices?: { key: string; title: string; sub: string; disabled?: boolean }[]; value?: string; onChange?: (k: string) => void; cta: string; onPay: () => void; disabled?: boolean; warn?: string; note?: string }) {
+export function Pay({ art, title, sub, rows, choices, value, onChange, cta, onPay, disabled, warn, note, slot }: { art?: string; title: string; sub?: string; rows: [string, any][]; choices?: { key: string; title: string; sub: string; disabled?: boolean }[]; value?: string; onChange?: (k: string) => void; cta: string; onPay: () => void; disabled?: boolean; warn?: string; note?: string; slot?: any }) {
   return <div className="ds-paycard">
     <div className="ds-pay-h">{art ? <img src={art} alt="" /> : <span className="ds-coming-ph" />}<span className="ds-coming-b"><span className="ds-coming-t">{title}</span>{sub && <span className="ds-coming-s">{sub}</span>}</span></div>
     <div className="ds-pay-rows">{rows.map(([k, v]) => <div key={k} className="ds-kv-r"><span>{k}</span><b>{v}</b></div>)}</div>
     {choices && choices.length > 1 && <div className="ds-pay-ch" role="radiogroup" aria-label="Pay with">{choices.map(c => <button key={c.key} role="radio" aria-checked={value === c.key} aria-disabled={c.disabled} className="ds-row ds-pickrow-l" onClick={() => { if (!c.disabled) onChange?.(c.key) }}><span className="ds-row-b"><span className="ds-row-t">{c.title}</span><span className="ds-row-s">{c.sub}</span></span><span className="ds-tick" aria-hidden="true">{value === c.key && <Icon name="check" size={14} stroke={2.6} />}</span></button>)}</div>}
+    {slot}
     {note && <p className="ds-row-s" style={{ margin: 0 }}>{note}</p>}
     {warn && <D.AssistantNote>{warn}</D.AssistantNote>}
     <button className="ds-btn48 gr-btn" disabled={disabled} onClick={onPay}>{cta}</button>

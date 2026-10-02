@@ -279,7 +279,96 @@ export function seatsDone(a: { draft: string; seats: string[]; backSeats?: strin
   const kids = d.extra?.kids || 0, inf = d.extra?.inf || 0, np = d.qty, tag = (n: string, i: number) => n + (i >= np ? ' (infant)' : i >= np - kids ? ' (child)' : '')
   const rows: [string, string][] = [...(a.names && a.names.length > 1 ? [['Travellers', a.names.map(tag).join(', ')] as [string, string]] : []), [light ? 'Seats' : a.seatFee ? `${seatLabel(a.seats, a.backSeats)}, extra legroom` : seatLabel(a.seats, a.backSeats), light ? 'Given at check-in' : a.seatFee ? M().money(a.seatFee, 2) : M().t('free')], ...(a.bags ? [[`Checked bags: ${a.bags}, on ${legs > 1 ? 'both flights' : 'the flight'}${free ? ` (${Math.min(free, a.bags)} included)` : ''}`, bagFee ? M().money(bagFee, 2) : 'Included'] as [string, string]] : [])]
   St.set(st => ({ drafts: { ...st.drafts, [a.draft]: { ...d, total: tot, detail: [...(d.detail || []), ...rows], extra: { ...d.extra, seats: light ? [] : a.seats, backSeats: light ? undefined : a.backSeats, bags: a.bags, names: a.names, dobs: a.dobs, done: true } } } }))
-  return { say: 'Here\'s the total. Pay with points, card, or both.', blocks: [{ kind: 'checkout', draft: a.draft }] }
+  return { say: 'Anything to add before you pay? All of it is optional.', blocks: [{ kind: 'extras', draft: a.draft }] }
+}
+
+/* ---------- flight extras, check-in, today's flight, upgrades and bags after booking ---------- */
+export type FlightExtra = { id: string; title: string; sub: string; price: number; free?: string; icon: string; img?: string; n: number }
+/** What can be added to a flight before paying. Prices are for everyone on the booking; lounge visits on the card come off first. */
+export function flightExtras(d: St.Draft): FlightExtra[] {
+  const fx = EXTRAS[base()] ?? 1, pax = d.qty || 1, legs = d.extra?.legs || 1, free = Math.min(St.get().loungeLeft, pax), flex = d.extra?.fare === 'flex'
+  const lounge = P(32 * fx) * (pax - free), fast = flex ? 0 : P(9 * fx) * pax
+  return [
+    { id: 'lounge', title: 'Lounge before you fly', sub: free ? `${free === pax ? 'Free' : `${free} free`} with your card · ${St.get().loungeLeft} visit${St.get().loungeLeft > 1 ? 's' : ''} left this year` : `${pax > 1 ? 'Everyone' : 'You'}, on the way out`, price: Math.round(lounge * 100) / 100, free: lounge ? undefined : 'Free', icon: 'sofa', img: 'move:lounge', n: free },
+    { id: 'fast', title: 'Fast track security', sub: flex ? 'Included with Flex' : `${pax > 1 ? `All ${pax} of you` : 'You'}, on the way out`, price: Math.round(fast * 100) / 100, free: fast ? undefined : 'Included', icon: 'bolt', img: 'move:fasttrack', n: 0 },
+    { id: 'meal', title: 'Hot meal on board', sub: `${pax * legs} meal${pax * legs > 1 ? 's' : ''}, ${legs > 1 ? 'both flights' : 'one each'}`, price: Math.round(P(14 * fx) * pax * legs * 100) / 100, icon: 'meal', n: 0 },
+    { id: 'car', title: 'Car to the airport', sub: 'Picks you up 3 hours before take-off', price: Math.round(P(48 * fx) * 100) / 100, icon: 'car', img: 'move:transfer', n: 0 },
+  ]
+}
+export function extrasDone(a: { draft: string; ids?: string[] }): R {
+  const d = St.get().drafts[a.draft]; if (!d) return { say: 'That checkout has already been paid.', blocks: [] }
+  if (d.extra?.extrasDone) return { say: 'Here\'s the total.', blocks: [{ kind: 'checkout', draft: a.draft }] }
+  const pick = flightExtras(d).filter(x => (a.ids || []).includes(x.id))
+  const add = pick.reduce((t, x) => t + x.price, 0), tot = Math.round((d.total + add) * 100) / 100
+  const rows: [string, string][] = pick.map(x => [x.id === 'lounge' && x.n ? `${x.title} (${x.n} free with your card)` : x.title, x.price ? M().money(x.price, 2) : x.free || M().t('free')])
+  St.set(st => ({ drafts: { ...st.drafts, [a.draft]: { ...d, total: tot, detail: [...(d.detail || []), ...rows], extra: { ...d.extra, extras: pick.map(x => x.id), loungeFree: pick.find(x => x.id === 'lounge')?.n || 0, extrasDone: true } } } }))
+  return { say: pick.length ? 'Added. Here\'s the total. Pay with points, card, or both.' : 'Here\'s the total. Pay with points, card, or both.', blocks: [{ kind: 'checkout', draft: a.draft }] }
+}
+const depTs = (b: St.Booking) => startTs(b.extra?.date, b.extra?.dep, 'flights')
+const depOf = depTs
+const intl = (b: St.Booking) => { const c = Cat.dests(mk()).find(x => x.name === b.title.split(' to ')[1]); return !!c && c.country !== Cat.home(mk()).country }
+function flightGone(b: St.Booking): R | null {
+  if (dead(b)) return { say: 'This booking is cancelled.', blocks: [{ kind: 'booking', id: b.id }] }
+  if (b.extra?.disrupted) return { say: 'The airline cancelled this flight. Pick another flight or a full refund first.', blocks: [{ kind: 'disruption', id: b.id }] }
+  return null
+}
+export function checkIn(a: { id: string }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'flights') return { say: 'I can\'t find a flight to check in for.', blocks: [] }
+  const g = flightGone(b); if (g) return g
+  if (b.extra?.checkedIn) return { say: 'You\'re checked in. Your boarding passes are below and in Wallet.', blocks: [{ kind: 'pass', id: b.id }] }
+  const dep = depTs(b), opens = dep - 864e5, open = b.extra?.ciOpen || Date.now() >= opens
+  if (Date.now() > dep - 36e5) return { say: 'Online check-in closed an hour before take-off. Go to the airline desk at the airport.', blocks: [{ kind: 'booking', id: b.id }] }
+  if (!open) return { say: `Check-in opens ${M().date(iso(new Date(opens)))} at ${b.extra?.dep}, 24 hours before take-off.`, blocks: [{ kind: 'state', state: 'empty', title: 'Check-in isn\'t open yet', body: b.extra?.autoCheckin ? `It opens ${M().date(iso(new Date(opens)))} at ${b.extra?.dep}. I'll check everyone in then and send the boarding passes to Wallet.` : `It opens ${M().date(iso(new Date(opens)))} at ${b.extra?.dep}. I can check everyone in the moment it opens and send the boarding passes to Wallet.`, actions: b.extra?.autoCheckin ? [] : [{ label: 'Check us in when it opens', act: { f: 'autoCheckin', a: { id: b.id } } }] }] }
+  return { say: intl(b) ? 'Check-in is open. The airline needs passport details for everyone, then I\'ll check you in.' : 'Check-in is open. Tick who\'s flying and I\'ll check you in.', blocks: [{ kind: 'checkin', id: b.id }] }
+}
+export function autoCheckin(a: { id: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
+  St.updateBooking(b.id, { extra: { ...b.extra, autoCheckin: true } })
+  return { say: `Done. I'll check ${(b.extra?.pax || 1) > 1 ? 'everyone' : 'you'} in when it opens${intl(b) ? ', once passport details are in' : ''}, and send the boarding passes to Wallet.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+export function checkInDo(a: { id: string; names: string[]; passports?: Record<string, { num: string; nat: string; exp: string }> }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
+  const g = flightGone(b); if (g) return g
+  if (!a.names?.length) return { say: 'Tick at least one person to check in.', blocks: [{ kind: 'checkin', id: b.id }] }
+  const pp = { ...(St.get().prefs as any).passports, ...(a.passports || {}) }
+  St.set(s => ({ prefs: { ...s.prefs, passports: pp } as any }))
+  St.updateBooking(b.id, { extra: { ...b.extra, checkedIn: true, ciOpen: true, checkedNames: a.names } })
+  return { say: `Checked in${a.names.length > 1 ? `: ${a.names.length} people` : ''}. Your boarding pass${a.names.length > 1 ? 'es are' : ' is'} below and in Wallet.`, blocks: [{ kind: 'pass', id: b.id }] }
+}
+export function flightStatus(a: { id: string }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'flights') return { say: 'I can\'t find that flight.', blocks: [] }
+  const g = flightGone(b); if (g) return g
+  const delay = b.extra?.delay || 0
+  return { say: delay ? `${b.extra?.number} is running ${delay} minutes late. Everything below is updated.` : b.extra?.gateWas ? `The gate changed to ${b.extra?.gate}.` : `Here's the day of your flight. I'll message you if anything changes.`, blocks: [{ kind: 'triptl', id: b.id }] }
+}
+const CABINS = [{ id: 'premium', name: 'Premium Economy', mult: 0.55, inc: ['Wider seat with more legroom', 'Priority boarding', 'Two checked bags each'] }, { id: 'business', name: 'Business', mult: 1.6, inc: ['Flat seat or extra-wide seat', 'Lounge and fast track', 'Three checked bags each'] }]
+export const cabinPrice = (b: St.Booking, c: string) => { const cab = CABINS.find(x => x.id === c)!; const pax = Math.max(1, b.extra?.pax || 1), each = (b as any).unit || b.total / pax; return Math.round(each * cab.mult * pax) }
+export const cabins = () => CABINS
+export function upgradeOffer(a: { id: string }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'flights') return { say: 'I can\'t find that flight.', blocks: [] }
+  const g = flightGone(b); if (g) return g
+  if (b.extra?.fare === 'light') return { say: 'Light fares can\'t be upgraded. A Standard or Flex fare can.', blocks: [{ kind: 'booking', id: b.id }] }
+  if (b.extra?.cabin === 'business') return { say: 'You\'re already in Business.', blocks: [{ kind: 'booking', id: b.id }] }
+  return { say: `Upgrades are priced for ${(b.extra?.pax || 1) > 1 ? `all ${b.extra.pax} of you` : 'you'}${b.extra?.back ? ', both flights' : ''}. Your seats move to the new cabin.`, blocks: [{ kind: 'upgrade', id: b.id }] }
+}
+export function upgradeDo(a: { id: string; cabin: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
+  const cab = CABINS.find(x => x.id === a.cabin); if (!cab) return { say: 'Pick a cabin.', blocks: [{ kind: 'upgrade', id: b.id }] }
+  const price = cabinPrice(b, cab.id)
+  const d = St.draft({ cat: 'flights', title: `${cab.name} upgrade`, sub: b.title, when: b.when, qty: 1, unit: price, total: price, icon: 'plane', img: b.img, policy: 'Refunded if the flight is cancelled', refundable: false, kind: 'order', detail: [['Upgrade', `${cab.name}, ${b.extra?.back ? 'both flights' : 'the flight'}`], ['Included', cab.inc.join(', ')]], extra: { addonFor: b.id, patch: { cabin: cab.id }, newSub: `${b.extra?.number} · ${cab.name}`, rows: [[`Upgraded to ${cab.name}`, M().money(price, 2)]], doneSay: `Upgraded. You're in ${cab.name} now; your seats move with you.` } })
+  return { say: `${cab.name} for ${(b.extra?.pax || 1) > 1 ? 'everyone' : 'you'}. Pay with points, card, or both.`, blocks: [{ kind: 'checkout', draft: d }] }
+}
+export function addBags(a: { id: string }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'flights') return { say: 'You don\'t have a flight booked yet. When you book, Flex includes a checked bag, and on other fares you can add bags.', blocks: [], suggest: ['Book a flight'] }
+  const g = flightGone(b); if (g) return g
+  if (b.extra?.checkedIn) return { say: 'You\'re already checked in, so bags are added at the airline desk.', blocks: [{ kind: 'booking', id: b.id }] }
+  return { say: `Checked bags are ${M().money(bagUnit())} each, per flight. Pick how many to add.`, blocks: [{ kind: 'addbags', id: b.id }] }
+}
+export function addBagsDo(a: { id: string; n: number }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
+  const n = Math.max(1, Math.min(8, Math.round(a.n || 1))), legs = b.extra?.back ? 2 : 1, price = Math.round(n * bagUnit() * legs * 100) / 100
+  const d = St.draft({ cat: 'flights', title: `${n} checked bag${n > 1 ? 's' : ''}`, sub: b.title, when: b.when, qty: n, unit: bagUnit(), total: price, icon: 'bag', img: b.img, policy: 'Refunded if the flight is cancelled', refundable: false, kind: 'order', detail: [['Checked bags', `${n}, up to 23 kg each, ${legs > 1 ? 'both flights' : 'the flight'}`]], extra: { addonFor: b.id, patch: { bags: (b.extra?.bags || 0) + n }, rows: [[`Checked bags added: ${n}`, M().money(price, 2)]], doneSay: `Added ${n} checked bag${n > 1 ? 's' : ''}. Drop ${n > 1 ? 'them' : 'it'} at the airline desk before you go through security.` } })
+  return { say: 'Pay with points, card, or both.', blocks: [{ kind: 'checkout', draft: d }] }
 }
 
 /* ---------- generic items ---------- */
@@ -572,6 +661,12 @@ export function confirmPay(a: { draft: string; choice: PayChoice }): R {
   if (d.extra?.freeN && d.cat === 'airport') St.set(s => ({ loungeLeft: Math.max(0, s.loungeLeft - d.extra.freeN) }))
   St.set(st => { const dr = { ...st.drafts }; delete dr[a.draft]; return { drafts: dr, basket: d.cat === 'quick' ? {} : st.basket } })
   if (d.extra?.seatFor) { const apply = (x: St.Booking) => { let y = x; (d.extra.legsSeats || [{ leg: d.extra.leg || 0, seats: d.extra.seats }]).forEach((l: any) => { y = { ...y, ...withSeats(y, l.leg, l.seats) } as St.Booking }); return y }; St.set(st => ({ bookings: st.bookings.filter(x => x.id !== b.id).map(x => (x.id === d.extra.seatFor ? { ...apply(x), total: x.total + d.total, pts: x.pts + b.pts, card: x.card + b.card, earned: (x.earned || 0) + (b.earned || 0), chl: Object.fromEntries([...new Set([...Object.keys(x.chl || {}), ...Object.keys(b.chl || {})])].map(k => [k, ((x.chl || {})[k] || 0) + ((b.chl || {})[k] || 0)])) } : x)) })); return { say: `Done. Your new seats are saved: ${(d.extra.legsSeats || [{ seats: d.extra.seats }]).map((l: any) => l.seats.join(', ')).join('; ')}.`, blocks: [{ kind: 'booking', id: d.extra.seatFor }] } }
+  if (d.extra?.loungeFree) St.set(s => ({ loungeLeft: Math.max(0, s.loungeLeft - d.extra.loungeFree) }))
+  if (d.extra?.addonFor) {
+    const pid = d.extra.addonFor
+    St.set(st => ({ bookings: st.bookings.filter(x => x.id !== b.id).map(x => (x.id === pid ? { ...x, extra: { ...x.extra, ...d.extra.patch }, sub: d.extra.newSub || x.sub, detail: [...(x.detail || []), ...(d.extra.rows || [])], total: x.total + d.total, pts: x.pts + b.pts, card: x.card + b.card, earned: (x.earned || 0) + (b.earned || 0), chl: Object.fromEntries([...new Set([...Object.keys(x.chl || {}), ...Object.keys(b.chl || {})])].map(k => [k, ((x.chl || {})[k] || 0) + ((b.chl || {})[k] || 0)])) } : x)) }))
+    return { say: d.extra.doneSay || 'Done.', blocks: [{ kind: 'booking', id: pid }] }
+  }
   if (d.extra?.changeFor) {
     const orig = St.get().bookings.find(x => x.id === d.extra.changeFor)!
     St.set(st => ({ bookings: st.bookings.filter(x => x.id !== b.id).map(x => (x.id === orig.id ? { ...x, when: d.extra.newWhen, sub: d.extra.newSub || x.sub, extra: { ...x.extra, ...d.extra.newExtra }, detail: [...d.extra.newDetail, [`Fare difference paid${d.extra.newExtra.back ? ', return' : ''}`, M().money(d.total, 2)]], total: x.total + d.total, pts: x.pts + b.pts, card: x.card + b.card, earned: (x.earned || 0) + (b.earned || 0), chl: Object.fromEntries([...new Set([...Object.keys(x.chl || {}), ...Object.keys(b.chl || {})])].map(k => [k, ((x.chl || {})[k] || 0) + ((b.chl || {})[k] || 0)])) } : x)) }))
@@ -657,6 +752,12 @@ export function manage(a: { id: string; action: string; ok?: boolean }): R {
   const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
   const act = a.action.toLowerCase()
   if (b.cat === 'flights' && b.extra?.disrupted && !dead(b)) { if (/cancel|refund/.test(act)) return { say: 'The airline cancelled this flight, so you get everything back the way you paid.', blocks: [{ kind: 'confirmcancel', id: b.id, fraction: 1 }] }; return { say: 'The airline cancelled this flight, so there\'s no pass or seat to change. Pick another flight or a full refund.', blocks: [{ kind: 'disruption', id: b.id }] } }
+  if (b.cat === 'flights' && !b.extra?.addonFor) {
+    if (/check.?in/.test(act)) return checkIn({ id: b.id })
+    if (/status|today|gate|delay/.test(act)) return flightStatus({ id: b.id })
+    if (/upgrade/.test(act)) return upgradeOffer({ id: b.id })
+    if (/add.*bag|^bags?$/.test(act)) return addBags({ id: b.id })
+  }
   if (/cancel|refund|turn off/.test(act)) {
     if (dead(b)) return { say: 'That one is already cancelled.', blocks: [{ kind: 'booking', id: b.id }] }
     if (b.extra?.returning) return { say: 'A return is already booked for this. Your refund comes when the courier collects it.', blocks: [{ kind: 'tracker', id: b.id }] }
@@ -1372,6 +1473,7 @@ export function route(cat: string, text: string): R {
   { const fx = t.match(/(?:cheaper|cheapest|flexible) (?:dates?|days?)(?: to (.+?))?\??$/); if (fx && (fx[1] ? Cat.findCity(m, fx[1]) : false)) return flexDates({ city: fx[1], pax: parsePax(t) }) }
   { const sm = t.match(/statement (?:for|from) (january|february|march|april|may|june|july|august|september|october|november|december|last month)/); if (sm) return { say: `Older statements aren't held here, so I can't show ${sm[1] === 'last month' ? 'last month\'s' : sm[1].charAt(0).toUpperCase() + sm[1].slice(1) + '\'s'}. Here's the latest one; the bank's app keeps every past statement.`, blocks: [{ kind: 'statement' }] } }
   if (/(what('s| is) my|my|current) (credit )?limit\??$|^credit limit\??$|available (credit|balance|to spend)|how much (can i|am i able to|have i got to) spend|how much credit|spending power/.test(t) && !/(raise|increase|lower|decrease|change|up|higher)/.test(t)) { const c = St.get().card; return { say: `Your credit limit is ${M().money(c.limit)} and you have ${M().money(Math.max(0, c.limit - c.balance), 2)} available to spend.`, blocks: [{ kind: 'balance' }], suggest: ['Raise my limit', 'What do I owe?'] } }
+  if (/\bupgrade\b/.test(t) && !/\b(card|account|plan|subscription|room|hotel|first class)\b/.test(t)) { const f = St.get().bookings.filter(b => b.cat === 'flights' && !dead(b) && !b.extra?.disrupted).sort((x, y) => depOf(x) - depOf(y))[0]; if (f) return upgradeOffer({ id: f.id }) }
   if (/(business|first) class|\bin (business|first)\b|\bflying (business|first)\b|premium economy|upgrade (my )?(seat|flight|cabin)/.test(t)) return { say: `Gratifi books economy fares for now. The concierge team can find ${/premium economy/.test(t) ? 'premium economy' : /first class/.test(t) ? 'first class' : /business/.test(t) ? 'business class' : 'an upgrade'} for you and come back with prices.`, blocks: [{ kind: 'conciergeform', hint: text }] }
   if (/stop me (from )?(spending|buying|ordering)|block (spending|payments?) (on|at|to) [a-z]|(spending|spend) too much (on|at) [a-z]/.test(t) && !/gambl|bet|casino/.test(t)) return { say: 'I can\'t block a single shop, but you can see exactly where the money goes, set a spending alert, or switch off online payments for a while. The bank can also add a spending limit; a person can set that up with you.', blocks: [{ kind: 'spend' }, { kind: 'controls' }], suggest: ['Set a spending alert', 'Talk to a person'] }
   if (/(what|which) subscriptions (are|come|come free|do i get) (included|free|with my card)|subscriptions (are )?included|included subscriptions|free subscriptions/.test(t)) { const inc = Cat.SUBS.filter(x => x.included); return { say: `${inc.map(x => x.title).join(' and ')} ${inc.length === 1 ? 'is' : 'are'} included with your card, at no cost. The others are paid, and you can cancel any time.`, blocks: [{ kind: 'items', cat: 'subs', ids: [...inc, ...Cat.SUBS.filter(x => !x.included)].map(x => x.id) }] } }
@@ -1459,7 +1561,10 @@ export function route(cat: string, text: string): R {
   if (/pay (the |my )?(minimum|full|whole|balance|statement)/.test(t)) return bank({ topic: 'pay ' + t })
   if (/my subscriptions|subs do i have|subscriptions do i have|what am i subscribed/.test(t)) return myStuff({ filter: 'sub' })
   if (/show (me )?my (passes|tickets|boarding)/.test(t)) { const bs = St.get().bookings.filter(b => !dead(b) && (b.cat === 'flights' || b.kind === 'ticket' || b.cat === 'airport' || b.cat === 'experiences' || (b.cat === 'rides' && /^Train/.test(b.title)))); return bs.length ? { say: '', blocks: bs.slice(0, 3).map(b => ({ kind: 'pass', id: b.id })) } : { say: 'You don\'t have any passes yet.', blocks: [] } }
-  if (/\b(add|buy|need|want|book|get|take|bring)\b.{0,25}\b(checked |hold |extra |another |a second |more )?(bag|bags|suitcase|suitcases|luggage|baggage)\b/.test(t) && !/\b(grocer|shop|basket|carrier|tote|handbag|backpack|flights? to)\b|\bbags? of\b/.test(t)) { const f = St.get().bookings.find(b => b.cat === 'flights' && !dead(b)); const fee = M().money(bagUnit()); return f ? { say: `Adding a bag after booking goes through the airline team. I've passed it on for ${f.title} (${f.ref}); they'll confirm the price, ${fee} per bag per flight, before anything is charged.`, blocks: [{ kind: 'handoff', reason: `Add a checked bag to ${f.ref}` }] } : { say: `You don't have a flight booked yet. When you book, Flex includes a checked bag, and on other fares you can add bags for ${fee} each per flight.`, blocks: [], suggest: ['Book a flight'] } }
+  if (/\b(add|buy|need|want|book|get|take|bring)\b.{0,25}\b(checked |hold |extra |another |a second |more )?(bag|bags|suitcase|suitcases|luggage|baggage)\b/.test(t) && !/\b(grocer|shop|basket|carrier|tote|handbag|backpack|flights? to)\b|\bbags? of\b/.test(t)) { const f = St.get().bookings.find(b => b.cat === 'flights' && !dead(b)); const fee = M().money(bagUnit()); return f ? addBags({ id: f.id }) : { say: `You don't have a flight booked yet. When you book, Flex includes a checked bag, and on other fares you can add bags for ${fee} each per flight.`, blocks: [], suggest: ['Book a flight'] } }
+  if (/\b(check(ing)? ?-?in|check me in|check us in)\b/.test(t) && !/\b(hotel|room|stay|villa|apartment|airbnb|late check|early check|check-?in time)\b/.test(t)) { const f = St.get().bookings.filter(b => b.cat === 'flights' && !dead(b) && !b.extra?.disrupted).sort((x, y) => depOf(x) - depOf(y))[0]; if (f) return checkIn({ id: f.id }) }
+  if (/\b(flight status|is my flight (on time|delayed|late)|which gate|my gate|gate number|when (do|does) (we|i|my flight) board|boarding time)\b/.test(t)) { const f = St.get().bookings.filter(b => b.cat === 'flights' && !dead(b)).sort((x, y) => depOf(x) - depOf(y))[0]; if (f) return flightStatus({ id: f.id }) }
+  if (/\bupgrade\b/.test(t) && /\b(flight|seat|cabin|business|premium|class)\b/.test(t) && !/\b(card|account|plan|subscription|room|hotel)\b/.test(t)) { const f = St.get().bookings.filter(b => b.cat === 'flights' && !dead(b)).sort((x, y) => depOf(x) - depOf(y))[0]; if (f) return upgradeOffer({ id: f.id }) }
   if (/change my seats?|seat change|different seats?|change (the )?seats?|\bexit row\b|\b(an? |my )?(window|aisle|extra legroom) seat\b/.test(t) && !/\bflights? to\b/.test(t)) { const f = St.get().bookings.find(b => b.cat === 'flights' && !dead(b)); return f ? manage({ id: f.id, action: /return flight|way back|coming back|inbound|flight home|flight back|return leg|the return/.test(t) ? 'seat leg:2' : 'seat' }) : { say: 'You don\'t have a flight booked yet. Seats are picked when you book: the seat map shows window, aisle and exit rows (exit rows are for adults 16 and over).', blocks: [], suggest: ['Book a flight'] } }
   if (/sold.?out|fully booked|can.t get (a|into)|bespoke|impossible to get/.test(t)) return concierge({ hint: text })
   // a restaurant named directly

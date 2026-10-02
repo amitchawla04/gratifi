@@ -40,6 +40,7 @@ export const FLOWS: Record<string, (a: any) => F.R> = {
   docs: F.docs, concierge: F.concierge, handoff: F.handoff, alertSet: F.alertSet, challenges: F.challenges, usePoints: F.usePoints, cardControl: F.cardControl, flexDates: F.flexDates, route: (a: any) => F.route('', a.text),
   reopen: (a: any) => { const d = St.get().drafts[a.draft]; if (!d) return { say: 'That checkout has already been paid.', blocks: [] }; return { say: '', blocks: [{ kind: 'checkout', draft: a.draft, method: a.method, fresh: true }] } },
   affiliateBuy: F.affiliateBuy,
+  extrasDone: F.extrasDone, checkIn: F.checkIn, autoCheckin: F.autoCheckin, checkInDo: F.checkInDo, flightStatus: F.flightStatus, upgradeOffer: F.upgradeOffer, upgradeDo: F.upgradeDo, addBags: F.addBags, addBagsDo: F.addBagsDo,
   settlePending: F.settlePending,
   cardSet: (a: any) => { St.set(s => ({ card: { ...s.card, [a.k]: true } })); return { say: ({ online: 'Online payments are on.', abroad: 'Payments abroad are on.', contactless: 'Contactless is on.', atm: 'Cash withdrawals are on.' } as any)[a.k], blocks: [{ kind: 'controls' }] } },
   ddSet: (a: any) => { const M = W.__M, min = a?.mode === 'min'; St.set(s => ({ card: { ...s.card, autopay: true, autopayMode: min ? 'min' : 'full' } as any })); return { say: `${M.directDebit.charAt(0).toUpperCase() + M.directDebit.slice(1)} is set up to pay ${min ? 'the minimum' : 'the full balance'} each month from your current account ending 7781.`, blocks: [{ kind: 'directdebit' }] } },
@@ -187,6 +188,11 @@ const BLOCKS: Record<string, (p: any) => any> = {
   flights: (p: any) => <FlightsBlock {...p} />,
   fares: (p: any) => <FaresBlock {...p} />,
   seats: (p: any) => <SeatsBlock {...p} />,
+  extras: (p: any) => <ExtrasBlock {...p} />,
+  checkin: (p: any) => <CheckInBlock {...p} />,
+  triptl: (p: any) => <TripTimelineBlock {...p} />,
+  upgrade: (p: any) => <UpgradeBlock {...p} />,
+  addbags: (p: any) => <AddBagsBlock {...p} />,
   seatchange: (p: any) => <SeatChange {...p} />,
   calendar: ({ city, pax }) => <CalendarBlock city={city} pax={pax} />,
 
@@ -332,7 +338,10 @@ export const dobProblem = (k: string, dob: string | undefined, first: string, la
 function Names({ pax, names, setNames, kids = 0, inf = 0, dobs = [], setDobs, first = '', lastDay = '' }: { pax: number; names: string[]; setNames: (n: string[]) => void; kids?: number; inf?: number; dobs?: string[]; setDobs?: (d: string[]) => void; first?: string; lastDay?: string }) {
   const all = pax + inf, today = F.iso(new Date())
   const ph = (i: number) => { const k = kindOf(i, pax, kids); return k === 'infant' ? `Infant ${i - pax + 1} full name` : k === 'child' ? `Child ${i - (pax - kids) + 1} full name` : `Traveller ${i + 1} full name` }
-  return <C.Opt label={all > 1 ? 'Travellers, as on their passports' : 'Your name, as on your passport'}><div className="ds-names"><input className="app-in" value={names[0]} placeholder="Full name" aria-label={all > 1 ? 'Traveller 1 full name' : 'Your full name'} autoComplete="name" onChange={e => { const n = [...names]; n[0] = e.target.value; setNames(n) }} />{Array.from({ length: all - 1 }, (_, j) => { const i = j + 1, k = kindOf(i, pax, kids); return <React.Fragment key={i}><input className="app-in" placeholder={ph(i)} aria-label={ph(i)} value={names[i] || ''} onChange={e => { const n = [...names]; n[i] = e.target.value; setNames(n) }} />{k && setDobs && <label className="gr-col" style={{ gap: 4 }}><span className="ds-opt-l">{`${k === 'infant' ? 'Infant' : 'Child'}'s date of birth${k === 'infant' ? ' (under 2 when you fly)' : ''}`}</span><input className="app-in" type="date" max={today} min={k === 'infant' ? F.addDays(today, -730) : F.addDays(today, -365 * 16)} value={dobs[i] || ''} aria-invalid={!!dobProblem(k, dobs[i], first, lastDay)} onChange={e => { const d = [...dobs]; d[i] = e.target.value; setDobs(d) }} />{dobProblem(k, dobs[i], first, lastDay) && <span className="ds-row-s" role="alert" style={{ color: 'var(--danger)' }}>{dobProblem(k, dobs[i], first, lastDay)}</span>}</label>}</React.Fragment> })}</div></C.Opt>
+  const known = [...new Set([St.get().prefs.full || '', ...St.get().bookings.filter(b => b.cat === 'flights' && Array.isArray(b.extra?.names)).flatMap(b => (b.extra.names as string[]).slice(0, Math.max(1, (b.extra.pax || 1) - (b.extra.kids || 0))))])].filter(n => n && n.trim().split(/\s+/).length > 1)
+  const fill = (n: string) => { const i = names.findIndex((x, k) => !(x || '').trim() && !kindOf(k, pax, kids)); if (i < 0 || names.includes(n)) return; const nn = [...names]; nn[i] = n; setNames(nn) }
+  const avail = known.filter(n => !names.includes(n)), slots = names.some((x, k) => !(x || '').trim() && !kindOf(k, pax, kids))
+  return <C.Opt label={all > 1 ? 'Travellers, as on their passports' : 'Your name, as on your passport'}>{avail.length > 0 && slots && <div className="c2-avs" role="group" aria-label="Saved travellers">{avail.slice(0, 6).map(n => <button key={n} type="button" className="c2-av" onClick={() => fill(n)}><span className="c2-av-c">{ini(n)}</span><b>{n.split(/\s+/)[0]}</b><span>Saved</span></button>)}</div>}<div className="ds-names"><input className="app-in" value={names[0]} placeholder="Full name" aria-label={all > 1 ? 'Traveller 1 full name' : 'Your full name'} autoComplete="name" onChange={e => { const n = [...names]; n[0] = e.target.value; setNames(n) }} />{Array.from({ length: all - 1 }, (_, j) => { const i = j + 1, k = kindOf(i, pax, kids); return <React.Fragment key={i}><input className="app-in" placeholder={ph(i)} aria-label={ph(i)} value={names[i] || ''} onChange={e => { const n = [...names]; n[i] = e.target.value; setNames(n) }} />{k && setDobs && <label className="gr-col" style={{ gap: 4 }}><span className="ds-opt-l">{`${k === 'infant' ? 'Infant' : 'Child'}'s date of birth${k === 'infant' ? ' (under 2 when you fly)' : ''}`}</span><input className="app-in" type="date" max={today} min={k === 'infant' ? F.addDays(today, -730) : F.addDays(today, -365 * 16)} value={dobs[i] || ''} aria-invalid={!!dobProblem(k, dobs[i], first, lastDay)} onChange={e => { const d = [...dobs]; d[i] = e.target.value; setDobs(d) }} />{dobProblem(k, dobs[i], first, lastDay) && <span className="ds-row-s" role="alert" style={{ color: 'var(--danger)' }}>{dobProblem(k, dobs[i], first, lastDay)}</span>}</label>}</React.Fragment> })}</div></C.Opt>
 }
 function SeatsBlock({ draft, pax, bk, kids = 0, inf = 0 }: any) {
   const M = useMarket(); const aisle = St.useS(s => s.prefs.aisle); const me = St.useS(s => s.prefs.name)
@@ -358,6 +367,93 @@ function SeatsBlock({ draft, pax, bk, kids = 0, inf = 0 }: any) {
     {!light && <C.Opt label={pax > 1 ? 'Seats' : 'Your seat'}>{legs > 1 && <D.Seg items={['Flight out', 'Flight back']} value={leg ? 'Flight back' : 'Flight out'} onChange={(v: string) => { setLeg(v === 'Flight back' ? 1 : 0); setWho(0) }} />}{pax > 1 && <div className="app-days" role="radiogroup" aria-label="Choosing a seat for">{Array.from({ length: pax }, (_, k) => <button key={k} className="gr-chip" role="radio" aria-checked={who === k} onClick={() => setWho(k)}>{`${label(k)} · ${cur[k]}`}</button>)}</div>}<div className="gr-row" style={{ justifyContent: 'center' }}><V.SeatMap noExtra={noExit(who)} key={leg + ':' + cur.join() + ':' + who} picked={cur[who]} taken={TK(leg)} mates={cur.filter((_, k) => k !== who)} mateName={pax > 2 ? 'Your group' : label(who ? 0 : 1)} mateNames={Object.fromEntries(cur.map((x, k) => [x, label(k)]))} youName={pax > 1 ? label(who) : undefined} extraPrice={F.legroomFee()} onPick={pick} /></div>{!warn && kindOf(who, pax, kids) === 'child' && <span className="ds-row-s">Exit-row seats (row 14) are for adults only.</span>}{warn && <D.AssistantNote>{warn}</D.AssistantNote>}{legs > 1 && <span className="ds-row-s">{`Outbound ${legSeats[0].join(', ')} · Return ${legSeats[1].join(', ')}`}</span>}</C.Opt>}
     <C.Count label={`Checked bags · ${flex ? `${pax} included with Flex, more at ${M.money(F.bagUnit())} each per flight` : `${M.money(F.bagUnit())} each, per flight${legs > 1 ? ' (2 flights)' : ''}`}`} value={bags} min={flex ? pax : 0} max={pax * 2} onChange={setBags} fmt={(n: number) => (n ? String(n) : 'None')} />
     {why && !done && <span className="ds-row-s" role="status">{why}</span>}
+  </C.Detail>
+}
+/* ---------- flights: extras before paying, and check-in, today's flight, upgrades and bags after booking ---------- */
+const C2Tick = ({ on }: { on: boolean }) => <span className={'c2-tick' + (on ? ' on' : '')} aria-hidden="true">{on && <Icon name="check" size={14} stroke={3} />}</span>
+const ini = (n: string) => (n || '?').trim().split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase()
+const hhmm = (ts: number) => { const d = new Date(ts); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` }
+function ExtrasBlock({ draft, bk }: any) {
+  const d = St.useS(s => s.drafts[draft]); const M = useMarket(); const [on, setOn] = usePS<string[]>(bk, 'on', []); const [done, setDone] = useDone(bk)
+  if (!d) return <p className="ds-quiet">Paid. The receipt is below.</p>
+  if (done || d.extra?.extrasDone) return <D.AssistantNote>{(d.extra?.extras || []).length ? 'Extras added.' : 'No extras added.'}</D.AssistantNote>
+  const items = F.flightExtras(d), add = items.filter(x => on.includes(x.id)).reduce((t, x) => t + x.price, 0)
+  const go = () => { setDone(true); run({ f: 'extrasDone', a: { draft, ids: on } }, on.length ? `Add ${items.filter(x => on.includes(x.id)).map(x => x.title.toLowerCase()).join(', ')}` : 'No extras') }
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Add to your trip</p><p className="c2-s">{add ? `${M.pts(F.ptsOf(add))} added` : 'All optional'}</p></div>
+    <div className="c2-list">{items.map(x => <button key={x.id} className="c2-prow" role="checkbox" aria-checked={on.includes(x.id)} onClick={() => setOn(on.includes(x.id) ? on.filter(k => k !== x.id) : [...on, x.id])}>
+      <span className="c2-ph sm">{x.img ? <img src={Cat.img(x.img)} alt="" /> : <Icon name={x.icon} size={18} stroke={2} />}</span>
+      <span className="c2-b"><span className="ds-row-t">{x.title}</span><span className="ds-row-s">{x.sub}</span></span>
+      <b className="c2-amt">{x.price ? `+${M.num(F.ptsOf(x.price))}` : x.free}</b><C2Tick on={on.includes(x.id)} />
+    </button>)}</div>
+    <button className="ds-btn48 gr-btn" onClick={go}>{on.length ? `Add ${on.length} and continue` : 'Continue'}</button>
+  </div>
+}
+function CheckInBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const M = useMarket(); const [done, setDone] = useDone(bk)
+  const saved = ((St.get().prefs as any).passports || {}) as Record<string, any>
+  const pax = b?.extra?.pax || 1, names: string[] = b?.extra?.names && b.extra.names.length >= pax ? b.extra.names.slice(0, pax + (b.extra.inf || 0)) : [St.get().prefs.full || St.get().prefs.name, ...Array.from({ length: pax - 1 }, (_, i) => `Traveller ${i + 2}`)]
+  const [on, setOn] = useState<boolean[]>(names.map(() => true)); const [pp, setPp] = useState<Record<string, { num: string; nat: string; exp: string }>>({})
+  if (!b) return null
+  if (done || b.extra?.checkedIn) return <D.AssistantNote>Checked in. Boarding passes are in Wallet.</D.AssistantNote>
+  const dest = Cat.dests(M.id).find(x => x.name === b.title.split(' to ')[1]), intl = !!dest && dest.country !== Cat.home(M.id).country
+  const last = b.extra?.back?.date || b.extra?.date
+  const need = (n: string) => intl && !saved[n]
+  const bad = (n: string) => { const x = pp[n]; if (!need(n)) return ''; if (!x || !x.num || !x.nat || !x.exp) return 'Add the passport number, nationality and expiry date.'; if (!/^[A-Za-z0-9]{6,9}$/.test(x.num.trim())) return 'Passport numbers are 6 to 9 letters and numbers.'; if (x.exp <= last) return 'This passport expires before you fly home. It needs renewing first.'; return '' }
+  const picked = names.filter((_, i) => on[i]), ok = picked.length > 0 && picked.every(n => !bad(n))
+  const set = (n: string, k: string, v: string) => setPp({ ...pp, [n]: { ...(pp[n] || { num: '', nat: '', exp: '' }), [k]: v } })
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Check-in is open</p><p className="c2-s">{`${b.extra?.number} · ${b.title} · ${M.date(b.extra?.date)}, ${b.extra?.dep}`}</p></div>
+    <div className="c2-list">{names.map((n, i) => <div key={n + i}>
+      <button className="c2-prow" role="checkbox" aria-checked={on[i]} onClick={() => setOn(on.map((x, k) => k === i ? !x : x))}><span className="c2-av-c">{ini(n)}</span><span className="c2-b"><span className="ds-row-t">{n}</span><span className="ds-row-s">{[i >= pax ? 'On a lap' : (b.extra?.seats?.[i] ? `Seat ${b.extra.seats[i]}` : 'Seat given now'), intl ? (saved[n] ? 'passport saved' : 'passport needed') : ''].filter(Boolean).join(' · ')}</span></span><C2Tick on={on[i]} /></button>
+      {on[i] && need(n) && <div className="c2-form" style={{ paddingBottom: 12 }}>
+        <label className="c2-in"><span>Passport number</span><input value={pp[n]?.num || ''} onChange={(e: any) => set(n, 'num', e.target.value)} autoComplete="off" /></label>
+        <div className="c2-grid2"><label className="c2-in"><span>Nationality</span><input value={pp[n]?.nat || ''} onChange={(e: any) => set(n, 'nat', e.target.value)} /></label><label className="c2-in"><span>Expiry date</span><input type="date" value={pp[n]?.exp || ''} onChange={(e: any) => set(n, 'exp', e.target.value)} /></label></div>
+        {pp[n] && bad(n) && <span className="ds-row-s" role="status">{bad(n)}</span>}
+      </div>}
+    </div>)}</div>
+    {intl && <p className="c2-fine"><Icon name="lock" size={14} stroke={2.2} />Passport details are shared only with the airline and saved for next time.</p>}
+    <button className="ds-btn48 gr-btn" disabled={!ok} onClick={() => { setDone(true); run({ f: 'checkInDo', a: { id, names: picked, passports: pp } }, `Check in ${picked.length > 1 ? picked.length + ' people' : picked[0]}`) }}>{`Check in ${picked.length} ${picked.length === 1 ? 'person' : 'people'}`}</button>
+    <p className="c2-fine c2-center">Closes 1 hour before take-off.</p>
+  </div>
+}
+if (typeof window !== 'undefined') setTimeout(() => { (window as any).__gateOf = (b: any) => gateOf(b) })
+export const gateOf = (b: St.Booking) => b.extra?.gate || ('ABC'[(b.ref || 'X').charCodeAt(1) % 3] + (((b.ref || 'X').charCodeAt(2) % 28) + 2))
+function TripTimelineBlock({ id }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const M = useMarket()
+  if (!b) return null
+  const o = F.flightById(b.extra?.flightId), delay = (b.extra?.delay || 0) * 6e4
+  const dep = new Date(b.extra?.date + 'T' + b.extra?.dep + ':00').getTime()
+  const arrT = o ? (() => { const [h, m] = o.arr.split(':').map(Number); const d = new Date(dep); d.setHours(h, m, 0, 0); if (d.getTime() < dep) d.setDate(d.getDate() + 1); return d.getTime() })() : dep + 3 * 36e5
+  const soon = dep - Date.now() < 3 * 36e5 || !!b.extra?.ciOpen
+  const steps: { t: string; title: string; sub: string; done?: boolean; change?: string }[] = [
+    b.extra?.checkedIn ? { t: '', title: 'Checked in', sub: 'Boarding passes in Wallet', done: true } : { t: hhmm(dep - 864e5), title: 'Check-in opens', sub: `${M.date(F.iso(new Date(dep - 864e5)))}, 24 hours before` },
+    ...((b.extra?.bags || 0) > 0 ? [{ t: hhmm(dep - 60 * 6e4), title: 'Bag drop closes', sub: `${b.extra.bags} checked bag${b.extra.bags > 1 ? 's' : ''}` }] : []),
+    { t: hhmm(dep - 55 * 6e4 + delay), title: soon ? `Gate ${gateOf(b)}` : 'Gate', sub: soon ? 'Opens 55 minutes before take-off' : 'Shown about 3 hours before', change: b.extra?.gateWas ? `was ${b.extra.gateWas}` : undefined },
+    { t: hhmm(dep - 40 * 6e4 + delay), title: 'Boarding', sub: b.extra?.cabin ? 'Priority boarding' : 'By group, shown on your pass' },
+    { t: hhmm(dep + delay), title: 'Take-off', sub: `${b.extra?.number} from ${b.extra?.from}`, change: delay ? `${b.extra.delay} min late` : undefined },
+    { t: hhmm(arrT + delay), title: 'Lands', sub: `${b.extra?.to} · ${b.title.split(' to ')[1]}` },
+  ]
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{M.date(b.extra?.date)}</p><p className="c2-s">{`${b.extra?.number} · ${b.title}`}</p></div>
+    <ol className="c2-tl">{steps.map(x => <li key={x.title} className={(x.done ? 'done' : '') + (x.change ? ' chg' : '')}><span className="c2-tl-d">{x.done && <Icon name="check" size={11} stroke={3.4} />}</span><span className="c2-tl-t">{x.t}</span><span className="c2-b"><span className="ds-row-t">{x.title}{x.change && <em>{x.change}</em>}</span><span className="ds-row-s">{x.sub}</span></span></li>)}</ol>
+  </div>
+}
+function UpgradeBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const M = useMarket(); const price = usePrice(); const [v, setV] = usePS<string>(bk, 'cab', b?.extra?.cabin === 'premium' ? 'business' : 'premium'); const [done, setDone] = useDone(bk)
+  if (!b) return null
+  const opts = F.cabins().filter(c => c.id !== b.extra?.cabin && !(b.extra?.cabin === 'premium' && c.id === 'premium'))
+  const cur = opts.find(c => c.id === v) || opts[0]
+  return <fieldset className="app-fs" disabled={done}><C.Detail art={Cat.img(b.img)} title={`Upgrade ${b.title}`} sub={`${b.extra?.number}${b.extra?.back ? ' and the return' : ''}`} price={price(F.cabinPrice(b, cur.id), (b.extra?.pax || 1) > 1 ? `for ${b.extra.pax} people` : undefined)} checks={cur.inc} cta={`Upgrade to ${cur.name}`} done={done ? `${cur.name} chosen` : undefined} disabled={done} onCta={() => { setDone(true); run({ f: 'upgradeDo', a: { id, cabin: cur.id } }, `Upgrade to ${cur.name}`) }}>
+    <C.Opt label="Cabin"><div className="ds-fares" role="radiogroup" aria-label="Cabin">{opts.map(c => <button key={c.id} role="radio" aria-checked={cur.id === c.id} className="ds-fare" onClick={() => setV(c.id)}><span className="ds-row-b"><span className="ds-row-t">{c.name}</span><span className="ds-row-s">{c.inc[0]}</span></span><span className="ds-fare-p">{price(F.cabinPrice(b, c.id))}</span><span className="ds-tick" aria-hidden="true">{cur.id === c.id && <Icon name="check" size={14} stroke={2.6} />}</span></button>)}</div></C.Opt>
+  </C.Detail></fieldset>
+}
+function AddBagsBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const M = useMarket(); const [n, setN] = usePS<number>(bk, 'n', 1); const [done, setDone] = useDone(bk)
+  if (!b) return null
+  const legs = b.extra?.back ? 2 : 1, tot = n * F.bagUnit() * legs
+  return <C.Detail art={Cat.img('move:porter')} title="Add checked bags" sub={`${b.extra?.number} · up to 23 kg each`} price={<C.Price pts={M.pts(F.ptsOf(tot))} cash={M.money(tot, tot % 1 ? 2 : 0)} />} checks={[legs > 1 ? 'On both flights' : 'On the flight', `${b.extra?.bags || 0} checked bag${(b.extra?.bags || 0) === 1 ? '' : 's'} on the booking now`]} cta={`Add ${n} bag${n > 1 ? 's' : ''}`} done={done ? 'Bags chosen' : undefined} disabled={done} onCta={() => { setDone(true); run({ f: 'addBagsDo', a: { id, n } }, `Add ${n} bag${n > 1 ? 's' : ''}`) }}>
+    <C.Count label="How many bags" value={n} min={1} max={Math.min(4, (b.extra?.pax || 1) * 2)} onChange={setN} />
   </C.Detail>
 }
 function SeatChange({ id, bk, leg: leg0 }: any) {
@@ -483,14 +579,16 @@ function GroceryBlock() {
 function CheckoutBlock({ draft, method: m0, fresh }: { draft: string; method?: string; fresh?: boolean }) {
   const d = St.useS(s => s.drafts[draft]); const bal = St.useS(s => s.balance); const M = useMarket()
   const [method, setMethod] = usePS<string>('pay:' + draft + (m0 ? ':' + m0 : ''), 'method', m0 || ''); const [more, setMore] = useState(false)
+  const [mixPts, setMixPts] = usePS<number | undefined>('pay:' + draft, 'mixPts', undefined)
   if (!d) return <p className="ds-quiet">Paid. The receipt is below.</p>
   if ((d as any).replaced) return <p className="ds-quiet" role="status">This checkout was replaced by a newer one below.</p>
   if (d.extra?.repriced && !fresh) return <p className="ds-quiet">The price changed after this. The updated checkout is further down.</p>
   const full = F.ptsOf(d.total)
   const def = full <= bal ? 'points' : bal >= 100 ? 'mix' : 'card'
   const m = d.pointsOnly ? 'points' : method || def
-  const choice = F.payChoice(d, m)
-  const mix = F.payChoice(d, 'mix')
+  const choice = F.payChoice(d, m, m === 'mix' ? mixPts : undefined)
+  const mix = F.payChoice(d, 'mix', mixPts)
+  const mixMax = Math.min(Math.floor(bal / 100) * 100, Math.floor((full - 1) / 100) * 100)
   const c = St.get().card, avail = Math.max(0, Math.round((c.limit - c.balance) * 100) / 100)
   const over = choice.card > avail
   const cash = (n: number) => M.money(n, n % 1 ? 2 : 0)
@@ -502,7 +600,7 @@ function CheckoutBlock({ draft, method: m0, fresh }: { draft: string; method?: s
   const pay = choice.card ? (choice.pts ? `${M.pts(choice.pts)} + ${cash(choice.card)}` : cash(choice.card)) : M.pts(choice.pts)
   return <div className="gr-col" style={{ gap: 8 }}><C.Pay art={Cat.img(d.img) || D.STAMP[d.cat]} title={d.title} sub={[d.sub && d.sub !== d.title ? d.sub : '', d.when].filter(Boolean).join(' · ')}
     rows={[['Total', <C.Price pts={M.pts(full)} cash={cash(d.total)} />], ...(choice.method === 'mix' || choice.method === 'card' ? [['You pay', pay] as [string, any]] : []), ['Points left after', M.num(Math.max(0, bal - choice.pts))]]}
-    choices={choices} value={m} onChange={setMethod} note={d.policy}
+    choices={choices} value={m} onChange={setMethod} note={d.policy} slot={m === 'mix' && mixMax > 100 ? <div className="c2-slide"><div className="c2-split"><div><span>Points</span><b>{M.num(choice.pts)}</b></div><div><span>Card</span><b>{cash(choice.card)}</b></div></div><input className="c2-range" type="range" min={100} max={mixMax} step={100} value={Math.min(mixMax, Math.max(100, choice.pts))} onChange={(e: any) => setMixPts(+e.target.value)} style={{ ['--p' as any]: `${((Math.min(mixMax, Math.max(100, choice.pts)) - 100) / Math.max(1, mixMax - 100)) * 100}%` }} aria-label="Points to use" /><div className="c2-range-l"><span>More on the card</span><span>More points</span></div></div> : undefined}
     warn={over ? `That's more than your available credit of ${cash(avail)}.${bal >= 100 && choice.pts < Math.min(bal, full) - 100 ? ' Use more points, or pay less on the card.' : ' Paying off some of your balance frees up credit, or choose something cheaper.'}` : undefined}
     cta={choice.card ? `Pay ${cash(choice.card)}${choice.pts ? ' + ' + M.pts(choice.pts) : ''}` : `Pay ${M.pts(choice.pts)}`} disabled={choice.pts > bal || over}
     onPay={() => { const r = F.reprice(draft) || F.precheck(draft, choice); if (r) { respond(r); return } openConfirm({ kind: 'pay', draft, choice }) }} />
@@ -524,7 +622,7 @@ function actionsFor(b: St.Booking): string[] {
   if (b.kind === 'request' || b.kind === 'claim' || b.kind === 'transfer') return ['Track']
   if (b.cat === 'giftcards') return ['Show code']
   if (b.cat === 'flights' && b.extra?.disrupted) return ['See options', 'Full refund']
-  if (b.cat === 'flights') return ['Boarding pass', ...(b.extra?.fare === 'light' ? [] : ['Change date', 'Change seats']), ...(b.refundable ? ['Cancel'] : [])]
+  if (b.cat === 'flights') return [...(b.extra?.checkedIn ? ['Boarding pass'] : ['Check in', 'Boarding pass']), 'Flight status', ...(b.extra?.fare === 'light' ? [] : ['Change date', 'Change seats']), ...(b.extra?.checkedIn ? [] : ['Add bags']), ...(b.extra?.fare === 'light' || b.extra?.cabin === 'business' ? [] : ['Upgrade']), ...(b.refundable ? ['Cancel'] : [])]
   if (b.kind === 'ticket' || b.cat === 'airport' || b.cat === 'experiences' || (b.cat === 'rides' && /^Train/.test(b.title))) return ['Show pass', ...(b.refundable ? ['Cancel'] : [])]
   if (b.kind === 'order') return b.extra?.returning ? ['Track'] : b.status === 'delivered' ? ['Return', 'Report a problem'] : b.cat === 'bank' ? ['Track'] : ['Track', 'Cancel']
   if (b.status === 'done') return ['Report a problem']
@@ -639,9 +737,9 @@ function PassFor({ id }: { id: string }) {
     const opensOf = (l: any) => new Date(new Date(l.date + 'T' + l.dep + ':00').getTime() - 864e5)
     const board = (t: string) => { const n = +t.slice(0, 2) * 60 + +t.slice(3) - 40; return `${String(Math.floor(((n + 1440) % 1440) / 60)).padStart(2, '0')}:${String(((n + 1440) % 1440) % 60).padStart(2, '0')}` }
     const seatOf = (li: number, ni: number) => ni >= pax ? 'Lap' : (li ? e.backSeats?.[ni] || e.seats?.[ni] : e.seats?.[ni]) || (e.fare === 'light' ? 'At check-in' : '—')
-    return <div className="gr-col" style={{ gap: 12 }}>{legs.flatMap((l, li) => opensOf(l) > new Date()
+    return <div className="gr-col" style={{ gap: 12 }}>{legs.flatMap((l, li) => opensOf(l) > new Date() && !(e.checkedIn && li === 0)
       ? [<C.Ticket key={'c' + li} title={`${l.fromCity} to ${l.toCity}`} count={`${pax + (e.inf || 0)} traveller${pax + (e.inf || 0) > 1 ? 's' : ''}`} code={b.ref + li} lines={[['Flight', l.number], ['Date', M.date(l.date)], ['Departs', l.dep]]} closed={`Check-in opens ${M.date(opensOf(l))} at ${l.dep}. Your boarding ${pax > 1 ? 'passes appear' : 'pass appears'} here then.`} caption={`Seats ${names.slice(0, pax).map((_, ni) => seatOf(li, ni)).join(', ')} · booking ${b.ref}`} />]
-      : names.map((n, ni) => <C.Ticket key={li + '-' + ni} title={`${l.fromCity} to ${l.toCity}`} count={`Seat ${seatOf(li, ni)}`} code={`${b.ref}-${li}-${ni}`} lines={[['Flight', l.number], ['Boards', board(l.dep)], ['Gate', li ? 'C14' : 'B32']]} caption={`${ni === 0 && e.inf ? `${n} with infant` : n} · ${M.date(l.date)} · departs ${l.dep}`} onWallet={wallet} />))}</div>
+      : names.map((n, ni) => <C.Ticket key={li + '-' + ni} title={`${l.fromCity} to ${l.toCity}`} count={`Seat ${seatOf(li, ni)}`} code={`${b.ref}-${li}-${ni}`} lines={[['Flight', l.number], ['Boards', li ? board(l.dep) : hhmm(new Date(l.date + 'T' + l.dep + ':00').getTime() - 40 * 6e4 + (e.delay || 0) * 6e4)], ['Gate', li ? 'C14' : gateOf(b)]]} caption={`${ni === 0 && e.inf ? `${n} with infant` : n} · ${M.date(l.date)} · departs ${!li && e.delay ? hhmm(new Date(l.date + 'T' + l.dep + ':00').getTime() + e.delay * 6e4) : l.dep}`} onWallet={wallet} />))}</div>
   }
   const n = +(b.detail?.find(d => /People|Guests|Quantity/.test(d[0]))?.[1] || 1)
   if (b.cat === 'airport') return <C.Ticket title={b.title} count={n > 1 ? `${n} people` : 'Pass'} code={b.ref} lines={[['Where', (b.sub || '').split(' · ')[0]], ['Valid', b.when || 'On the day'], ['Holder', St.get().prefs.name]]} caption="Show this at the entrance" onWallet={wallet} />

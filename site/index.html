@@ -1520,6 +1520,206 @@ html, body { overflow: hidden; }
 .ds-cine .ds-kv-card { box-shadow: none; background: var(--screen); border-radius: 18px; padding: 2px 14px; }
 .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: #E8E6E2; }
 [data-theme="dark"] .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: var(--line); }
+/* Chat components for the full flows (cards2.tsx). Same tokens, radii, shadows and accent as app.css. */
+.c2-card { background: var(--card); border-radius: 26px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 16px 32px rgba(20,20,22,0.07); color: var(--ink); }
+.c2-head { display: flex; flex-direction: column; gap: 3px; }
+.c2-t { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
+.c2-s { margin: 0; font-size: 0.8125rem; color: var(--ink-soft); }
+.c2-list { display: flex; flex-direction: column; }
+.c2-prow, .c2-brow { display: flex; align-items: center; gap: 12px; padding: 11px 0; width: 100%; text-align: start; color: var(--ink); background: none; }
+.c2-list > * + * { border-top: 1px solid #F0EFEC; }
+.c2-b { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.c2-ph { width: 56px; height: 56px; border-radius: 16px; background: var(--card-sunk, #F1F0EC); overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); }
+.c2-ph.sm { width: 40px; height: 40px; border-radius: 12px; }
+.c2-ph img { width: 100%; height: 100%; object-fit: cover; }
+.c2-amt { font-size: 0.9375rem; font-weight: 700; white-space: nowrap; }
+.c2-pts { font-size: 0.875rem; font-weight: 700; margin-top: 2px; }
+.c2-tick { width: 24px; height: 24px; border-radius: 12px; box-shadow: inset 0 0 0 1.5px #D9D7D2; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #fff; }
+.c2-tick.on { background: var(--accent); box-shadow: none; }
+.c2-kv { display: flex; flex-direction: column; border-top: 1px solid #F0EFEC; }
+.c2-fine { margin: 0; font-size: 0.8125rem; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; }
+.c2-fine svg { color: var(--accent); flex-shrink: 0; }
+.c2-center { text-align: center; justify-content: center; margin: 0; }
+.c2-dim { color: var(--ink-faint) !important; }
+.c2-stack { display: flex; flex-direction: column; gap: 12px; }
+.c2-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* chips: time slots, days, reasons, editions */
+.c2-slots { display: flex; flex-wrap: wrap; gap: 8px; }
+.c2-slot { height: 40px; padding: 0 14px; border-radius: 20px; background: var(--card); box-shadow: inset 0 0 0 1px #E4E2DE; font-size: 0.875rem; font-weight: 600; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; }
+.c2-slot i { font-style: normal; font-size: 0.6875rem; font-weight: 700; color: var(--ink-soft); background: #F1F0EC; border-radius: 6px; padding: 2px 5px; }
+.c2-slot[aria-checked="true"] { background: #17171A; color: #F4F4F3; box-shadow: none; }
+.c2-slot[aria-checked="true"] i { background: rgba(255,255,255,0.16); color: #F4F4F3; }
+.c2-slot:disabled { color: #B9B8B3; text-decoration: line-through; box-shadow: inset 0 0 0 1px #EFEDEA; }
+.c2-prow[aria-checked="true"] .ds-row-t, .c2-prow[aria-pressed="true"] .ds-row-t { color: var(--ink); }
+
+/* pay split */
+.c2-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.c2-split > div { background: #F6F5F2; border-radius: 18px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.c2-split span { font-size: 0.8125rem; color: var(--ink-soft); }
+.c2-split b { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; }
+.c2-range { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--accent) var(--p), #E8E6E2 var(--p)); outline: none; margin: 6px 0 0; }
+.c2-range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 14px; background: #17171A; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(20,20,22,0.25); cursor: pointer; }
+.c2-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 14px; background: #17171A; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(20,20,22,0.25); cursor: pointer; }
+.c2-range-l { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--ink-soft); margin-top: -6px; }
+
+/* basket quantity */
+.c2-qty { display: inline-flex; align-items: center; gap: 8px; }
+.c2-qty b { min-width: 14px; text-align: center; font-size: 0.9375rem; }
+.c2-rb { width: 32px; height: 32px; border-radius: 16px; background: var(--card); box-shadow: 0 2px 8px rgba(20,20,22,0.10), inset 0 0 0 1px #EEECE8; display: inline-flex; align-items: center; justify-content: center; color: var(--ink); }
+
+/* uploads */
+.c2-doc { width: 40px; height: 40px; border-radius: 12px; background: #F1F0EC; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-soft); flex-shrink: 0; }
+.c2-doc.on { background: var(--accent); color: #fff; }
+
+/* trip form */
+.c2-route { position: relative; background: #F6F5F2; border-radius: 20px; display: flex; flex-direction: column; }
+.c2-route .c2-field { background: none; }
+.c2-route .c2-field + .c2-field { border-top: 1px solid #E8E6E2; }
+.c2-field { background: #F6F5F2; border-radius: 18px; padding: 11px 14px; display: flex; flex-direction: column; gap: 1px; text-align: start; }
+.c2-field span { font-size: 0.75rem; color: var(--ink-soft); font-weight: 600; }
+.c2-field b { font-size: 1.0625rem; font-weight: 700; }
+.c2-field i { font-style: normal; font-size: 0.8125rem; color: var(--ink-soft); }
+.c2-swap { position: absolute; inset-inline-end: 14px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 20px; background: var(--card); box-shadow: 0 4px 14px rgba(20,20,22,0.12); display: inline-flex; align-items: center; justify-content: center; color: var(--ink); }
+.c2-swap svg { transform: rotate(90deg); }
+
+/* travellers: the Send to avatars */
+.c2-avs { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; padding: 4px 2px; }
+.c2-av { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 62px; background: none; color: var(--ink); }
+.c2-av b { font-size: 0.8125rem; font-weight: 700; }
+.c2-av > span:last-child { font-size: 0.6875rem; color: var(--ink-soft); }
+.c2-av-c { position: relative; width: 52px; height: 52px; border-radius: 26px; background: #E9E1D6; color: #4B3F33; font-weight: 800; font-size: 0.9375rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.c2-prow .c2-av-c { width: 40px; height: 40px; font-size: 0.8125rem; }
+.c2-av[aria-pressed="true"] .c2-av-c { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--accent); }
+.c2-av-c i { position: absolute; inset-inline-end: -3px; bottom: -3px; width: 20px; height: 20px; border-radius: 10px; background: var(--accent); color: #fff; border: 2px solid var(--card); display: inline-flex; align-items: center; justify-content: center; }
+.c2-av-c.add { background: var(--card); box-shadow: inset 0 0 0 1.5px #D9D7D2; color: var(--ink); }
+.c2-av:nth-child(2) .c2-av-c { background: #DCE4EC; color: #2F3E4E; }
+.c2-av:nth-child(3) .c2-av-c { background: #E2E8D9; color: #3A4630; }
+
+/* forms */
+.c2-form { display: flex; flex-direction: column; gap: 10px; }
+.c2-in { display: flex; flex-direction: column; gap: 4px; background: #F6F5F2; border-radius: 16px; padding: 9px 14px; }
+.c2-in span { font-size: 0.75rem; color: var(--ink-soft); font-weight: 600; }
+.c2-in input { border: 0; background: none; font: inherit; font-size: 1rem; font-weight: 600; color: var(--ink); padding: 0; outline: none; min-width: 0; }
+.c2-in input::placeholder { color: #B9B8B3; font-weight: 500; }
+.c2-in:focus-within { box-shadow: inset 0 0 0 1.5px #17171A; }
+.c2-scan { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 18px; background: #17171A; color: #F4F4F3; text-align: start; }
+.c2-scan > span { display: flex; flex-direction: column; flex: 1; }
+.c2-scan b { font-size: 0.9375rem; }
+.c2-scan i { font-style: normal; font-size: 0.8125rem; color: #B9B8B3; }
+.c2-or { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--ink-soft); }
+.c2-or::before, .c2-or::after { content: ''; flex: 1; height: 1px; background: #ECEAE6; }
+
+/* compare */
+.c2-cmp-h { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.c2-cmp-h div { display: flex; flex-direction: column; gap: 8px; }
+.c2-cmp-h img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 16px; }
+.c2-cmp-h b { font-size: 0.9375rem; line-height: 1.25; }
+.c2-cmp-r { display: flex; flex-direction: column; gap: 4px; padding-top: 10px; border-top: 1px solid #F0EFEC; }
+.c2-cmp-k { font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); }
+.c2-cmp-v { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9375rem; font-weight: 600; }
+.c2-cmp-v span { display: inline-flex; align-items: center; gap: 5px; }
+.c2-cmp-v svg { color: var(--accent); }
+
+/* map */
+.c2-map { padding: 10px; }
+.c2-map-c { position: relative; border-radius: 18px; overflow: hidden; height: 220px; }
+.c2-map-c.sm { height: 140px; }
+.c2-map-c svg { width: 100%; height: 100%; display: block; }
+.c2-map .c2-prow { padding: 4px 6px 2px; }
+.c2-pin { position: absolute; transform: translate(-50%, -100%); height: 30px; padding: 0 11px; border-radius: 15px; background: #17171A; color: #F4F4F3; font-size: 0.8125rem; font-weight: 700; box-shadow: 0 6px 14px rgba(20,20,22,0.22); white-space: nowrap; }
+.c2-pin::after { content: ''; position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; background: inherit; transform: translateX(-50%) rotate(45deg); border-radius: 2px; z-index: -1; }
+.c2-pin.on { background: var(--accent); color: #fff; z-index: 2; transform: translate(-50%, -100%) scale(1.08); }
+.c2-me { position: absolute; width: 16px; height: 16px; border-radius: 8px; background: #2D6CDF; border: 3px solid #fff; box-shadow: 0 0 0 8px rgba(45,108,223,0.16); transform: translate(-50%, -50%); }
+
+/* rooms */
+.c2-room { background: var(--card); border-radius: 26px; padding: 10px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 16px 32px rgba(20,20,22,0.07); }
+.c2-room.on { box-shadow: 0 0 0 2px #17171A, 0 16px 32px rgba(20,20,22,0.07); }
+.c2-room > img { width: 100%; height: 150px; object-fit: cover; border-radius: 18px; }
+.c2-room-b { padding: 0 8px 6px; display: flex; flex-direction: column; gap: 10px; }
+.c2-facts { gap: 6px; }
+.c2-facts li { font-size: 0.875rem; }
+.c2-room-f { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.c2-left { color: var(--accent) !important; font-weight: 600; }
+
+/* venue */
+.c2-venue { background: #F6F5F2; border-radius: 18px; padding: 8px; }
+.c2-venue svg { width: 100%; display: block; }
+.c2-sec { cursor: pointer; stroke: #fff; stroke-width: 3; stroke-linejoin: round; transition: fill .15s; }
+.c2-sec.b0 { fill: #FFFFFF; } .c2-sec.b1 { fill: #CFCDC8; } .c2-sec.b2 { fill: #5E5D63; }
+.c2-sec.on { fill: var(--accent); }
+.c2-sec-t { font-size: 12px; font-weight: 800; fill: #141416; pointer-events: none; }
+.c2-legend { display: flex; gap: 14px; font-size: 0.75rem; color: var(--ink-soft); flex-wrap: wrap; }
+.c2-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.c2-legend i { width: 12px; height: 12px; border-radius: 4px; box-shadow: inset 0 0 0 1px #D9D7D2; }
+.c2-legend i.b0 { background: #fff; } .c2-legend i.b1 { background: #CFCDC8; } .c2-legend i.b2 { background: #5E5D63; }
+.c2-seats { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.c2-srow { display: flex; gap: 5px; align-items: center; }
+.c2-srow > span { width: 14px; font-size: 0.6875rem; font-weight: 700; color: var(--ink-soft); }
+.c2-seat { width: 20px; height: 20px; border-radius: 6px 6px 8px 8px; background: #fff; box-shadow: inset 0 0 0 1.5px #CFCDC8; }
+.c2-seat:disabled { background: #E8E6E2; box-shadow: none; }
+.c2-seat.on { background: var(--accent); box-shadow: none; }
+
+/* queue dial */
+.c2-queue { align-items: stretch; }
+.c2-dial { position: relative; width: 210px; height: 210px; margin: 0 auto; filter: drop-shadow(0 14px 24px rgba(20,20,22,0.10)); }
+.c2-dial svg { width: 100%; height: 100%; }
+.c2-dial-in { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #F4F4F3; }
+.c2-dial-in b { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; }
+.c2-dial-in span { font-size: 0.75rem; color: #B9B8B3; }
+.c2-queue .c2-center { font-weight: 700; font-size: 1rem; }
+
+/* cinema */
+.c2-film { display: flex; gap: 12px; align-items: center; }
+.c2-film img { width: 64px; height: 86px; object-fit: cover; border-radius: 12px; }
+.c2-cin { display: flex; flex-direction: column; gap: 8px; padding: 12px 0; }
+.c2-cin p { margin: 0; display: flex; justify-content: space-between; gap: 8px; font-size: 0.9375rem; }
+.c2-cin p span { font-size: 0.8125rem; color: var(--ink-soft); }
+
+/* product */
+.c2-prod { background: #F6F5F2; border-radius: 20px; overflow: hidden; }
+.c2-prod img { width: 100%; height: 190px; object-fit: cover; display: block; }
+.c2-sw { display: flex; gap: 12px; }
+.c2-sw button { width: 36px; height: 36px; border-radius: 18px; display: inline-flex; align-items: center; justify-content: center; background: none; }
+.c2-sw button[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--accent); }
+.c2-sw i { width: 28px; height: 28px; border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08); }
+
+/* gift note: the only handwriting, on the yellow sticky */
+.c2-sticky { position: relative; background: var(--sticky-yellow, #FBE38E); border-radius: 4px 4px 18px 4px; padding: 18px 16px 14px; transform: rotate(-1.2deg); box-shadow: 0 10px 20px rgba(20,20,22,0.10); margin: 4px 6px; }
+.c2-sticky textarea { width: 100%; border: 0; background: none; resize: none; font-family: var(--font-hand); font-size: 1.25rem; line-height: 1.3; color: var(--sticky-ink, #3B3320); outline: none; }
+.c2-sticky .ds-clip { position: absolute; top: -12px; inset-inline-end: 22px; width: 22px; }
+
+/* ride */
+.c2-ride { padding: 10px; }
+.c2-ride > *:not(.c2-map-c) { margin-inline: 8px; }
+.c2-eta { display: flex; align-items: baseline; gap: 8px; }
+.c2-eta b { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+.c2-eta span { font-size: 0.875rem; color: var(--ink-soft); }
+.c2-plate { background: #F4D23C; color: #141416; font-family: var(--font-mono); font-weight: 700; font-size: 0.8125rem; padding: 6px 9px; border-radius: 8px; letter-spacing: 0.04em; }
+.c2-acts { display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 6px; }
+
+/* timeline */
+.c2-tl { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.c2-tl li { position: relative; display: grid; grid-template-columns: 22px 46px 1fr; gap: 8px; align-items: start; padding-bottom: 16px; }
+.c2-tl li:last-child { padding-bottom: 0; }
+.c2-tl li::before { content: ''; position: absolute; inset-inline-start: 10px; top: 20px; bottom: -2px; width: 2px; background: #ECEAE6; }
+.c2-tl li:last-child::before { display: none; }
+.c2-tl-d { width: 20px; height: 20px; border-radius: 10px; background: var(--card); box-shadow: inset 0 0 0 2px #D9D7D2; display: inline-flex; align-items: center; justify-content: center; color: #fff; position: relative; z-index: 1; }
+.c2-tl li.done .c2-tl-d { background: var(--accent); box-shadow: none; }
+.c2-tl li.chg .c2-tl-d { box-shadow: inset 0 0 0 2px var(--accent); }
+.c2-tl-t { font-size: 0.875rem; font-weight: 700; padding-top: 1px; font-variant-numeric: tabular-nums; }
+.c2-tl em, .c2-warn { font-style: normal; font-size: 0.75rem; font-weight: 700; color: var(--accent); margin-inline-start: 8px; }
+.c2-tl li.chg .c2-tl-t { color: var(--accent); }
+
+/* subscriptions */
+.c2-gone .ds-row-t { color: var(--ink-faint); text-decoration: line-through; }
+.c2-in { min-width: 0; }
+.c2-in input { width: 100%; }
+.c2-card .ds-btn48:disabled { background: #ECEAE6; color: #8E8D93; opacity: 1; box-shadow: none; }
+.c2-sec-t.inv { fill: #F4F4F3; }
+.c2-ride .c2-prow, .c2-ride .c2-eta, .c2-ride .c2-acts { width: auto; }
+
+.c2-slide { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 2px; }
 </style>
 <div id="root"></div>
 <script>/**
@@ -2278,11 +2478,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       },
       monthLabel: (y, m2) => new Intl.DateTimeFormat(mk3.locale, { month: "long", year: "numeric" }).format(new Date(y, m2, 15)),
       dows: () => Array.from({ length: 7 }, (_, i) => new Intl.DateTimeFormat(mk3.locale, { weekday: "narrow" }).format(new Date(2026, 5, 7 + (mk3.firstDay % 7 + i)))),
-      time: (hhmm) => hhmm,
+      time: (hhmm2) => hhmm2,
       // flight times stay 24-hour in every market, as airlines and airports print them
-      clock: (hhmm) => {
-        if (!mk3.hour12 || mk3.lang === "ar" || !/^\d\d:\d\d$/.test(hhmm)) return hhmm;
-        const h = +hhmm.slice(0, 2), mm = hhmm.slice(3);
+      clock: (hhmm2) => {
+        if (!mk3.hour12 || mk3.lang === "ar" || !/^\d\d:\d\d$/.test(hhmm2)) return hhmm2;
+        const h = +hhmm2.slice(0, 2), mm = hhmm2.slice(3);
         const pm = h >= 12, h12 = h % 12 || 12;
         return mk3.lang === "ar" ? `${h12}:${mm} ${pm ? "\u0645" : "\u0635"}` : `${h12}:${mm} ${pm ? "pm" : "am"}`;
       },
@@ -3989,7 +4189,132 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const kids = ((_e = d2.extra) == null ? void 0 : _e.kids) || 0, inf = ((_f = d2.extra) == null ? void 0 : _f.inf) || 0, np = d2.qty, tag = (n, i) => n + (i >= np ? " (infant)" : i >= np - kids ? " (child)" : "");
     const rows = [...a.names && a.names.length > 1 ? [["Travellers", a.names.map(tag).join(", ")]] : [], [light ? "Seats" : a.seatFee ? `${seatLabel(a.seats, a.backSeats)}, extra legroom` : seatLabel(a.seats, a.backSeats), light ? "Given at check-in" : a.seatFee ? M().money(a.seatFee, 2) : M().t("free")], ...a.bags ? [[`Checked bags: ${a.bags}, on ${legs > 1 ? "both flights" : "the flight"}${free ? ` (${Math.min(free, a.bags)} included)` : ""}`, bagFee ? M().money(bagFee, 2) : "Included"]] : []];
     set((st2) => ({ drafts: { ...st2.drafts, [a.draft]: { ...d2, total: tot, detail: [...d2.detail || [], ...rows], extra: { ...d2.extra, seats: light ? [] : a.seats, backSeats: light ? void 0 : a.backSeats, bags: a.bags, names: a.names, dobs: a.dobs, done: true } } } }));
-    return { say: "Here's the total. Pay with points, card, or both.", blocks: [{ kind: "checkout", draft: a.draft }] };
+    return { say: "Anything to add before you pay? All of it is optional.", blocks: [{ kind: "extras", draft: a.draft }] };
+  }
+  function flightExtras(d2) {
+    var _a, _b, _c;
+    const fx = (_a = EXTRAS[base2()]) != null ? _a : 1, pax = d2.qty || 1, legs = ((_b = d2.extra) == null ? void 0 : _b.legs) || 1, free = Math.min(get().loungeLeft, pax), flex = ((_c = d2.extra) == null ? void 0 : _c.fare) === "flex";
+    const lounge = P2(32 * fx) * (pax - free), fast = flex ? 0 : P2(9 * fx) * pax;
+    return [
+      { id: "lounge", title: "Lounge before you fly", sub: free ? `${free === pax ? "Free" : `${free} free`} with your card \xB7 ${get().loungeLeft} visit${get().loungeLeft > 1 ? "s" : ""} left this year` : `${pax > 1 ? "Everyone" : "You"}, on the way out`, price: Math.round(lounge * 100) / 100, free: lounge ? void 0 : "Free", icon: "sofa", img: "move:lounge", n: free },
+      { id: "fast", title: "Fast track security", sub: flex ? "Included with Flex" : `${pax > 1 ? `All ${pax} of you` : "You"}, on the way out`, price: Math.round(fast * 100) / 100, free: fast ? void 0 : "Included", icon: "bolt", img: "move:fasttrack", n: 0 },
+      { id: "meal", title: "Hot meal on board", sub: `${pax * legs} meal${pax * legs > 1 ? "s" : ""}, ${legs > 1 ? "both flights" : "one each"}`, price: Math.round(P2(14 * fx) * pax * legs * 100) / 100, icon: "meal", n: 0 },
+      { id: "car", title: "Car to the airport", sub: "Picks you up 3 hours before take-off", price: Math.round(P2(48 * fx) * 100) / 100, icon: "car", img: "move:transfer", n: 0 }
+    ];
+  }
+  function extrasDone(a) {
+    var _a;
+    const d2 = get().drafts[a.draft];
+    if (!d2) return { say: "That checkout has already been paid.", blocks: [] };
+    if ((_a = d2.extra) == null ? void 0 : _a.extrasDone) return { say: "Here's the total.", blocks: [{ kind: "checkout", draft: a.draft }] };
+    const pick2 = flightExtras(d2).filter((x) => (a.ids || []).includes(x.id));
+    const add = pick2.reduce((t, x) => t + x.price, 0), tot = Math.round((d2.total + add) * 100) / 100;
+    const rows = pick2.map((x) => [x.id === "lounge" && x.n ? `${x.title} (${x.n} free with your card)` : x.title, x.price ? M().money(x.price, 2) : x.free || M().t("free")]);
+    set((st2) => {
+      var _a2;
+      return { drafts: { ...st2.drafts, [a.draft]: { ...d2, total: tot, detail: [...d2.detail || [], ...rows], extra: { ...d2.extra, extras: pick2.map((x) => x.id), loungeFree: ((_a2 = pick2.find((x) => x.id === "lounge")) == null ? void 0 : _a2.n) || 0, extrasDone: true } } } };
+    });
+    return { say: pick2.length ? "Added. Here's the total. Pay with points, card, or both." : "Here's the total. Pay with points, card, or both.", blocks: [{ kind: "checkout", draft: a.draft }] };
+  }
+  var depTs = (b2) => {
+    var _a, _b;
+    return startTs((_a = b2.extra) == null ? void 0 : _a.date, (_b = b2.extra) == null ? void 0 : _b.dep, "flights");
+  };
+  var depOf = depTs;
+  var intl = (b2) => {
+    const c2 = dests(mk2()).find((x) => x.name === b2.title.split(" to ")[1]);
+    return !!c2 && c2.country !== home(mk2()).country;
+  };
+  function flightGone(b2) {
+    var _a;
+    if (dead(b2)) return { say: "This booking is cancelled.", blocks: [{ kind: "booking", id: b2.id }] };
+    if ((_a = b2.extra) == null ? void 0 : _a.disrupted) return { say: "The airline cancelled this flight. Pick another flight or a full refund first.", blocks: [{ kind: "disruption", id: b2.id }] };
+    return null;
+  }
+  function checkIn(a) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    const b2 = bk(a.id);
+    if (!b2 || b2.cat !== "flights") return { say: "I can't find a flight to check in for.", blocks: [] };
+    const g = flightGone(b2);
+    if (g) return g;
+    if ((_a = b2.extra) == null ? void 0 : _a.checkedIn) return { say: "You're checked in. Your boarding passes are below and in Wallet.", blocks: [{ kind: "pass", id: b2.id }] };
+    const dep = depTs(b2), opens = dep - 864e5, open2 = ((_b = b2.extra) == null ? void 0 : _b.ciOpen) || Date.now() >= opens;
+    if (Date.now() > dep - 36e5) return { say: "Online check-in closed an hour before take-off. Go to the airline desk at the airport.", blocks: [{ kind: "booking", id: b2.id }] };
+    if (!open2) return { say: `Check-in opens ${M().date(iso(new Date(opens)))} at ${(_c = b2.extra) == null ? void 0 : _c.dep}, 24 hours before take-off.`, blocks: [{ kind: "state", state: "empty", title: "Check-in isn't open yet", body: ((_d = b2.extra) == null ? void 0 : _d.autoCheckin) ? `It opens ${M().date(iso(new Date(opens)))} at ${(_e = b2.extra) == null ? void 0 : _e.dep}. I'll check everyone in then and send the boarding passes to Wallet.` : `It opens ${M().date(iso(new Date(opens)))} at ${(_f = b2.extra) == null ? void 0 : _f.dep}. I can check everyone in the moment it opens and send the boarding passes to Wallet.`, actions: ((_g = b2.extra) == null ? void 0 : _g.autoCheckin) ? [] : [{ label: "Check us in when it opens", act: { f: "autoCheckin", a: { id: b2.id } } }] }] };
+    return { say: intl(b2) ? "Check-in is open. The airline needs passport details for everyone, then I'll check you in." : "Check-in is open. Tick who's flying and I'll check you in.", blocks: [{ kind: "checkin", id: b2.id }] };
+  }
+  function autoCheckin(a) {
+    var _a;
+    const b2 = bk(a.id);
+    if (!b2) return { say: "I can't find that booking.", blocks: [] };
+    updateBooking(b2.id, { extra: { ...b2.extra, autoCheckin: true } });
+    return { say: `Done. I'll check ${(((_a = b2.extra) == null ? void 0 : _a.pax) || 1) > 1 ? "everyone" : "you"} in when it opens${intl(b2) ? ", once passport details are in" : ""}, and send the boarding passes to Wallet.`, blocks: [{ kind: "booking", id: b2.id }] };
+  }
+  function checkInDo(a) {
+    var _a;
+    const b2 = bk(a.id);
+    if (!b2) return { say: "I can't find that booking.", blocks: [] };
+    const g = flightGone(b2);
+    if (g) return g;
+    if (!((_a = a.names) == null ? void 0 : _a.length)) return { say: "Tick at least one person to check in.", blocks: [{ kind: "checkin", id: b2.id }] };
+    const pp = { ...get().prefs.passports, ...a.passports || {} };
+    set((s) => ({ prefs: { ...s.prefs, passports: pp } }));
+    updateBooking(b2.id, { extra: { ...b2.extra, checkedIn: true, ciOpen: true, checkedNames: a.names } });
+    return { say: `Checked in${a.names.length > 1 ? `: ${a.names.length} people` : ""}. Your boarding pass${a.names.length > 1 ? "es are" : " is"} below and in Wallet.`, blocks: [{ kind: "pass", id: b2.id }] };
+  }
+  function flightStatus(a) {
+    var _a, _b, _c, _d;
+    const b2 = bk(a.id);
+    if (!b2 || b2.cat !== "flights") return { say: "I can't find that flight.", blocks: [] };
+    const g = flightGone(b2);
+    if (g) return g;
+    const delay = ((_a = b2.extra) == null ? void 0 : _a.delay) || 0;
+    return { say: delay ? `${(_b = b2.extra) == null ? void 0 : _b.number} is running ${delay} minutes late. Everything below is updated.` : ((_c = b2.extra) == null ? void 0 : _c.gateWas) ? `The gate changed to ${(_d = b2.extra) == null ? void 0 : _d.gate}.` : `Here's the day of your flight. I'll message you if anything changes.`, blocks: [{ kind: "triptl", id: b2.id }] };
+  }
+  var CABINS = [{ id: "premium", name: "Premium Economy", mult: 0.55, inc: ["Wider seat with more legroom", "Priority boarding", "Two checked bags each"] }, { id: "business", name: "Business", mult: 1.6, inc: ["Flat seat or extra-wide seat", "Lounge and fast track", "Three checked bags each"] }];
+  var cabinPrice = (b2, c2) => {
+    var _a;
+    const cab = CABINS.find((x) => x.id === c2);
+    const pax = Math.max(1, ((_a = b2.extra) == null ? void 0 : _a.pax) || 1), each = b2.unit || b2.total / pax;
+    return Math.round(each * cab.mult * pax);
+  };
+  var cabins = () => CABINS;
+  function upgradeOffer(a) {
+    var _a, _b, _c, _d;
+    const b2 = bk(a.id);
+    if (!b2 || b2.cat !== "flights") return { say: "I can't find that flight.", blocks: [] };
+    const g = flightGone(b2);
+    if (g) return g;
+    if (((_a = b2.extra) == null ? void 0 : _a.fare) === "light") return { say: "Light fares can't be upgraded. A Standard or Flex fare can.", blocks: [{ kind: "booking", id: b2.id }] };
+    if (((_b = b2.extra) == null ? void 0 : _b.cabin) === "business") return { say: "You're already in Business.", blocks: [{ kind: "booking", id: b2.id }] };
+    return { say: `Upgrades are priced for ${(((_c = b2.extra) == null ? void 0 : _c.pax) || 1) > 1 ? `all ${b2.extra.pax} of you` : "you"}${((_d = b2.extra) == null ? void 0 : _d.back) ? ", both flights" : ""}. Your seats move to the new cabin.`, blocks: [{ kind: "upgrade", id: b2.id }] };
+  }
+  function upgradeDo(a) {
+    var _a, _b, _c;
+    const b2 = bk(a.id);
+    if (!b2) return { say: "I can't find that booking.", blocks: [] };
+    const cab = CABINS.find((x) => x.id === a.cabin);
+    if (!cab) return { say: "Pick a cabin.", blocks: [{ kind: "upgrade", id: b2.id }] };
+    const price = cabinPrice(b2, cab.id);
+    const d2 = draft({ cat: "flights", title: `${cab.name} upgrade`, sub: b2.title, when: b2.when, qty: 1, unit: price, total: price, icon: "plane", img: b2.img, policy: "Refunded if the flight is cancelled", refundable: false, kind: "order", detail: [["Upgrade", `${cab.name}, ${((_a = b2.extra) == null ? void 0 : _a.back) ? "both flights" : "the flight"}`], ["Included", cab.inc.join(", ")]], extra: { addonFor: b2.id, patch: { cabin: cab.id }, newSub: `${(_b = b2.extra) == null ? void 0 : _b.number} \xB7 ${cab.name}`, rows: [[`Upgraded to ${cab.name}`, M().money(price, 2)]], doneSay: `Upgraded. You're in ${cab.name} now; your seats move with you.` } });
+    return { say: `${cab.name} for ${(((_c = b2.extra) == null ? void 0 : _c.pax) || 1) > 1 ? "everyone" : "you"}. Pay with points, card, or both.`, blocks: [{ kind: "checkout", draft: d2 }] };
+  }
+  function addBags(a) {
+    var _a;
+    const b2 = bk(a.id);
+    if (!b2 || b2.cat !== "flights") return { say: "You don't have a flight booked yet. When you book, Flex includes a checked bag, and on other fares you can add bags.", blocks: [], suggest: ["Book a flight"] };
+    const g = flightGone(b2);
+    if (g) return g;
+    if ((_a = b2.extra) == null ? void 0 : _a.checkedIn) return { say: "You're already checked in, so bags are added at the airline desk.", blocks: [{ kind: "booking", id: b2.id }] };
+    return { say: `Checked bags are ${M().money(bagUnit())} each, per flight. Pick how many to add.`, blocks: [{ kind: "addbags", id: b2.id }] };
+  }
+  function addBagsDo(a) {
+    var _a, _b;
+    const b2 = bk(a.id);
+    if (!b2) return { say: "I can't find that booking.", blocks: [] };
+    const n = Math.max(1, Math.min(8, Math.round(a.n || 1))), legs = ((_a = b2.extra) == null ? void 0 : _a.back) ? 2 : 1, price = Math.round(n * bagUnit() * legs * 100) / 100;
+    const d2 = draft({ cat: "flights", title: `${n} checked bag${n > 1 ? "s" : ""}`, sub: b2.title, when: b2.when, qty: n, unit: bagUnit(), total: price, icon: "bag", img: b2.img, policy: "Refunded if the flight is cancelled", refundable: false, kind: "order", detail: [["Checked bags", `${n}, up to 23 kg each, ${legs > 1 ? "both flights" : "the flight"}`]], extra: { addonFor: b2.id, patch: { bags: (((_b = b2.extra) == null ? void 0 : _b.bags) || 0) + n }, rows: [[`Checked bags added: ${n}`, M().money(price, 2)]], doneSay: `Added ${n} checked bag${n > 1 ? "s" : ""}. Drop ${n > 1 ? "them" : "it"} at the airline desk before you go through security.` } });
+    return { say: "Pay with points, card, or both.", blocks: [{ kind: "checkout", draft: d2 }] };
   }
   function itemsFor(cat, city) {
     const m = mk2(), c2 = city || home(m).city;
@@ -4471,7 +4796,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     return confirmPay({ draft: draft2, choice: { method: "card", pts: 0, card: 0 } });
   }
   function confirmPay(a) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f;
     const s = get(), d2 = s.drafts[a.draft];
     if (!d2) return { say: "That checkout has already been paid.", blocks: [] };
     if (s.sim.priceRise && !((_a = d2.extra) == null ? void 0 : _a.repriced) && !["giftcards", "points", "charity", "invest"].includes(d2.cat)) {
@@ -4504,7 +4829,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       set((st2) => ({ bookings: st2.bookings.filter((x) => x.id !== b2.id).map((x) => x.id === d2.extra.seatFor ? { ...apply(x), total: x.total + d2.total, pts: x.pts + b2.pts, card: x.card + b2.card, earned: (x.earned || 0) + (b2.earned || 0), chl: Object.fromEntries([.../* @__PURE__ */ new Set([...Object.keys(x.chl || {}), ...Object.keys(b2.chl || {})])].map((k) => [k, ((x.chl || {})[k] || 0) + ((b2.chl || {})[k] || 0)])) } : x) }));
       return { say: `Done. Your new seats are saved: ${(d2.extra.legsSeats || [{ seats: d2.extra.seats }]).map((l) => l.seats.join(", ")).join("; ")}.`, blocks: [{ kind: "booking", id: d2.extra.seatFor }] };
     }
-    if ((_d = d2.extra) == null ? void 0 : _d.changeFor) {
+    if ((_d = d2.extra) == null ? void 0 : _d.loungeFree) set((s2) => ({ loungeLeft: Math.max(0, s2.loungeLeft - d2.extra.loungeFree) }));
+    if ((_e = d2.extra) == null ? void 0 : _e.addonFor) {
+      const pid = d2.extra.addonFor;
+      set((st2) => ({ bookings: st2.bookings.filter((x) => x.id !== b2.id).map((x) => x.id === pid ? { ...x, extra: { ...x.extra, ...d2.extra.patch }, sub: d2.extra.newSub || x.sub, detail: [...x.detail || [], ...d2.extra.rows || []], total: x.total + d2.total, pts: x.pts + b2.pts, card: x.card + b2.card, earned: (x.earned || 0) + (b2.earned || 0), chl: Object.fromEntries([.../* @__PURE__ */ new Set([...Object.keys(x.chl || {}), ...Object.keys(b2.chl || {})])].map((k) => [k, ((x.chl || {})[k] || 0) + ((b2.chl || {})[k] || 0)])) } : x) }));
+      return { say: d2.extra.doneSay || "Done.", blocks: [{ kind: "booking", id: pid }] };
+    }
+    if ((_f = d2.extra) == null ? void 0 : _f.changeFor) {
       const orig = get().bookings.find((x) => x.id === d2.extra.changeFor);
       set((st2) => ({ bookings: st2.bookings.filter((x) => x.id !== b2.id).map((x) => x.id === orig.id ? { ...x, when: d2.extra.newWhen, sub: d2.extra.newSub || x.sub, extra: { ...x.extra, ...d2.extra.newExtra }, detail: [...d2.extra.newDetail, [`Fare difference paid${d2.extra.newExtra.back ? ", return" : ""}`, M().money(d2.total, 2)]], total: x.total + d2.total, pts: x.pts + b2.pts, card: x.card + b2.card, earned: (x.earned || 0) + (b2.earned || 0), chl: Object.fromEntries([.../* @__PURE__ */ new Set([...Object.keys(x.chl || {}), ...Object.keys(b2.chl || {})])].map((k) => [k, ((x.chl || {})[k] || 0) + ((b2.chl || {})[k] || 0)])) } : x) }));
       const nx = d2.extra.newExtra.back || d2.extra.newExtra;
@@ -4627,7 +4958,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     return windowClosed(b2.policy, s) ? 0 : 1;
   };
   function manage(a) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
     const b2 = bk(a.id);
     if (!b2) return { say: "I can't find that booking.", blocks: [] };
     const act = a.action.toLowerCase();
@@ -4635,18 +4966,24 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       if (/cancel|refund/.test(act)) return { say: "The airline cancelled this flight, so you get everything back the way you paid.", blocks: [{ kind: "confirmcancel", id: b2.id, fraction: 1 }] };
       return { say: "The airline cancelled this flight, so there's no pass or seat to change. Pick another flight or a full refund.", blocks: [{ kind: "disruption", id: b2.id }] };
     }
+    if (b2.cat === "flights" && !((_b = b2.extra) == null ? void 0 : _b.addonFor)) {
+      if (/check.?in/.test(act)) return checkIn({ id: b2.id });
+      if (/status|today|gate|delay/.test(act)) return flightStatus({ id: b2.id });
+      if (/upgrade/.test(act)) return upgradeOffer({ id: b2.id });
+      if (/add.*bag|^bags?$/.test(act)) return addBags({ id: b2.id });
+    }
     if (/cancel|refund|turn off/.test(act)) {
       if (dead(b2)) return { say: "That one is already cancelled.", blocks: [{ kind: "booking", id: b2.id }] };
-      if ((_b = b2.extra) == null ? void 0 : _b.returning) return { say: "A return is already booked for this. Your refund comes when the courier collects it.", blocks: [{ kind: "tracker", id: b2.id }] };
+      if ((_c = b2.extra) == null ? void 0 : _c.returning) return { say: "A return is already booked for this. Your refund comes when the courier collects it.", blocks: [{ kind: "tracker", id: b2.id }] };
       if (["transfer", "donation", "claim", "request"].includes(b2.kind || "")) return { say: b2.kind === "transfer" ? "Points transfers can't be undone once sent." : b2.kind === "donation" ? "Gifts to charity can't be taken back." : "That's with the team now; I'll bring in a person if you want to stop it.", blocks: [] };
       if (b2.kind === "investment") return manage({ id: b2.id, action: "sell" });
       if (b2.kind === "sub") return { say: b2.pts || b2.card ? `If you cancel ${b2.title}, you keep access until ${M().date(renewOn(b2))} and nothing more is charged.` : `${b2.title} is included with your card. Turning it off costs nothing and you can turn it back on any time.`, blocks: [{ kind: "confirmcancel", id: b2.id, fraction: 0 }] };
       if (b2.kind === "order" && b2.status === "delivered") return manage({ id: b2.id, action: "return" });
       const fr = cancelFraction(b2);
-      if (!b2.pts && !b2.card) return { say: ((_c = b2.extra) == null ? void 0 : _c.included) ? "Cancelling gives your free visit back." : "Nothing was paid, so there's nothing to refund.", blocks: [{ kind: "confirmcancel", id: b2.id, fraction: 1 }] };
+      if (!b2.pts && !b2.card) return { say: ((_d = b2.extra) == null ? void 0 : _d.included) ? "Cancelling gives your free visit back." : "Nothing was paid, so there's nothing to refund.", blocks: [{ kind: "confirmcancel", id: b2.id, fraction: 1 }] };
       const closed = windowClosed(b2.policy, bStart(b2)), started = !!bStart(b2) && Date.now() > bStart(b2);
       const owedE = Math.round((b2.earned || 0) * fr), revE = Math.min(get().balance + Math.round(b2.pts * fr), owedE);
-      return { say: fr ? `You'd get back ${paidTxt(b2, fr)}${fr < 1 ? `; the airline keeps a 30% fee${((_d = b2.extra) == null ? void 0 : _d.fare) === "flex" ? " because departure is within 24 hours" : ""}` : ""}.${revE ? ` The ${M().pts(revE)} you earned on it would be taken off.` : ""}` : started ? "This has already started, so it can't be refunded now." : closed ? `The free cancellation window has closed (${(b2.policy || "").replace(/^Free cancellation /, "").replace(/\.$/, "")}), so this one can't be refunded under its terms.` : "This one can't be refunded under its terms.", summary: fr ? { refund_before_points_reversal: paidTxt(b2, fr), earned_points_taken_off: revE || 0, net_points_back: b2.pts ? Math.max(0, Math.round(b2.pts * fr) - (revE || 0)) : 0, net_card_back: b2.card ? Math.round(b2.card * fr * 100) / 100 : 0, quote_the_net_figures: true } : void 0, blocks: fr ? [{ kind: "confirmcancel", id: b2.id, fraction: fr }] : [{ kind: "state", state: "soldout", title: "Not refundable", body: `${(b2.policy || "The terms don't allow a refund").replace(/\.$/, "")}. I can ask the supplier for an exception.`, actions: [{ label: "Ask a person", act: { f: "handoff", a: { reason: "Refund exception for " + b2.title } } }] }] };
+      return { say: fr ? `You'd get back ${paidTxt(b2, fr)}${fr < 1 ? `; the airline keeps a 30% fee${((_e = b2.extra) == null ? void 0 : _e.fare) === "flex" ? " because departure is within 24 hours" : ""}` : ""}.${revE ? ` The ${M().pts(revE)} you earned on it would be taken off.` : ""}` : started ? "This has already started, so it can't be refunded now." : closed ? `The free cancellation window has closed (${(b2.policy || "").replace(/^Free cancellation /, "").replace(/\.$/, "")}), so this one can't be refunded under its terms.` : "This one can't be refunded under its terms.", summary: fr ? { refund_before_points_reversal: paidTxt(b2, fr), earned_points_taken_off: revE || 0, net_points_back: b2.pts ? Math.max(0, Math.round(b2.pts * fr) - (revE || 0)) : 0, net_card_back: b2.card ? Math.round(b2.card * fr * 100) / 100 : 0, quote_the_net_figures: true } : void 0, blocks: fr ? [{ kind: "confirmcancel", id: b2.id, fraction: fr }] : [{ kind: "state", state: "soldout", title: "Not refundable", body: `${(b2.policy || "The terms don't allow a refund").replace(/\.$/, "")}. I can ask the supplier for an exception.`, actions: [{ label: "Ask a person", act: { f: "handoff", a: { reason: "Refund exception for " + b2.title } } }] }] };
     }
     if (/sell/.test(act) && b2.kind === "investment") {
       if (dead(b2)) return { say: "That one is already sold.", blocks: [] };
@@ -4655,15 +4992,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (/track|where/.test(act)) return { say: "", blocks: [b2.tracker ? { kind: "tracker", id: b2.id } : { kind: "booking", id: b2.id }] };
     if (/pass|ticket|boarding|code/.test(act)) return { say: b2.cat === "flights" ? passNote(b2) : "", blocks: [{ kind: "pass", id: b2.id }] };
     const onWay = b2.kind === "order" && b2.status !== "delivered" && !dead(b2) && b2.cat !== "giftcards";
-    if (/return|exchange|send back/.test(act) && onWay && !((_e = b2.extra) == null ? void 0 : _e.returning)) return { say: "It hasn't arrived yet, so there's nothing to send back. You can cancel it now for a full refund.", blocks: [b2.tracker ? { kind: "tracker", id: b2.id } : { kind: "booking", id: b2.id }], suggest: [`Cancel ${b2.title}`] };
-    if (/problem|claim|damaged|broken|wrong|missing|issue/.test(act) && onWay && !((_f = b2.extra) == null ? void 0 : _f.returning)) return { say: `It's still on its way${((_g = b2.tracker) == null ? void 0 : _g.eta) ? `, due ${/^\d/.test(b2.tracker.eta) ? "in " + b2.tracker.eta : b2.tracker.eta}` : ""}. If something's wrong when it arrives, tell me and I'll sort it. You can also cancel it now for a full refund.`, blocks: [b2.tracker ? { kind: "tracker", id: b2.id } : { kind: "booking", id: b2.id }] };
+    if (/return|exchange|send back/.test(act) && onWay && !((_f = b2.extra) == null ? void 0 : _f.returning)) return { say: "It hasn't arrived yet, so there's nothing to send back. You can cancel it now for a full refund.", blocks: [b2.tracker ? { kind: "tracker", id: b2.id } : { kind: "booking", id: b2.id }], suggest: [`Cancel ${b2.title}`] };
+    if (/problem|claim|damaged|broken|wrong|missing|issue/.test(act) && onWay && !((_g = b2.extra) == null ? void 0 : _g.returning)) return { say: `It's still on its way${((_h = b2.tracker) == null ? void 0 : _h.eta) ? `, due ${/^\d/.test(b2.tracker.eta) ? "in " + b2.tracker.eta : b2.tracker.eta}` : ""}. If something's wrong when it arrives, tell me and I'll sort it. You can also cancel it now for a full refund.`, blocks: [b2.tracker ? { kind: "tracker", id: b2.id } : { kind: "booking", id: b2.id }] };
     if (/return|exchange|send back/.test(act)) {
       if (b2.kind !== "order" || b2.cat === "giftcards") return { say: "That one can't be returned; you can cancel it instead.", blocks: [{ kind: "booking", id: b2.id }] };
-      if (dead(b2) || ((_h = b2.extra) == null ? void 0 : _h.returning)) return { say: "That one is already being returned.", blocks: [{ kind: "booking", id: b2.id }] };
+      if (dead(b2) || ((_i = b2.extra) == null ? void 0 : _i.returning)) return { say: "That one is already being returned.", blocks: [{ kind: "booking", id: b2.id }] };
       return { say: `Returns for ${b2.title}: ${(b2.policy || "within 30 days").replace(/\.$/, "").toLowerCase()}. I'll book a free collection.`, blocks: [{ kind: "return", id: b2.id }] };
     }
-    if (/seat/.test(act) && b2.cat === "flights") return { say: ((_i = b2.extra) == null ? void 0 : _i.fare) === "light" ? "Light fares get seats at check-in." : `Pick new seats. Standard seats are free to change; extra legroom in row 14 is ${M().money(legroomFee())} a seat, per flight.`, blocks: [{ kind: "seatchange", id: b2.id, leg: /leg:2/.test(act) && ((_j = b2.extra) == null ? void 0 : _j.back) ? 1 : 0 }] };
-    if (/change|move|date|reschedule/.test(act)) return b2.cat === "flights" ? ((_k = b2.extra) == null ? void 0 : _k.fare) === "light" ? { say: "Light fares can't be changed. I can ask the airline for an exception.", blocks: [{ kind: "handoff", reason: "Change to a Light fare: " + b2.title }] } : (() => {
+    if (/seat/.test(act) && b2.cat === "flights") return { say: ((_j = b2.extra) == null ? void 0 : _j.fare) === "light" ? "Light fares get seats at check-in." : `Pick new seats. Standard seats are free to change; extra legroom in row 14 is ${M().money(legroomFee())} a seat, per flight.`, blocks: [{ kind: "seatchange", id: b2.id, leg: /leg:2/.test(act) && ((_k = b2.extra) == null ? void 0 : _k.back) ? 1 : 0 }] };
+    if (/change|move|date|reschedule/.test(act)) return b2.cat === "flights" ? ((_l = b2.extra) == null ? void 0 : _l.fare) === "light" ? { say: "Light fares can't be changed. I can ask the airline for an exception.", blocks: [{ kind: "handoff", reason: "Change to a Light fare: " + b2.title }] } : (() => {
       var _a2, _b2, _c2, _d2, _e2;
       const lg = /leg:2/.test(act) && ((_a2 = b2.extra) == null ? void 0 : _a2.back) ? 1 : 0, cd = lg ? b2.extra.back.date : b2.extra.date, dd0 = (_b2 = act.match(/date:(\d{4}-\d\d-\d\d)/)) == null ? void 0 : _b2[1], tod0 = (_c2 = act.match(/tod:(\w+)/)) == null ? void 0 : _c2[1];
       const clash = dd0 && (lg ? dd0 <= b2.extra.date : b2.extra.back && dd0 >= b2.extra.back.date) ? lg ? `That's on or before your flight out on ${M().date(b2.extra.date)}. Pick a later date for the return.` : `That's on or after your flight back on ${M().date(b2.extra.back.date)}. Pick an earlier date, or change the return first.` : "";
@@ -4684,7 +5021,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       updateBooking(b2.id, { status: "paused" });
       return { say: `${b2.title} is paused. Nothing is charged while it's paused.`, blocks: [{ kind: "booking", id: b2.id }] };
     }
-    if (/resume|turn on/.test(act) && b2.kind === "sub" && b2.status === "paused" && b2.total > 0 && !((_l = b2.extra) == null ? void 0 : _l.included) && !a.ok) return { say: "Confirm it's you to restart the monthly card payment.", blocks: [], confirm: { kind: "action", title: `Resume ${b2.title}`, summary: `Card ending ${get().card.last4}`, lines: [["Price", `${M().money(b2.total, 2)} a month, on your card`], ["Next payment", M().date(renewOn(b2))]], total: ["Monthly", M().money(b2.total, 2)], act: { f: "manage", a: { id: b2.id, action: "resume", ok: true } } } };
+    if (/resume|turn on/.test(act) && b2.kind === "sub" && b2.status === "paused" && b2.total > 0 && !((_m = b2.extra) == null ? void 0 : _m.included) && !a.ok) return { say: "Confirm it's you to restart the monthly card payment.", blocks: [], confirm: { kind: "action", title: `Resume ${b2.title}`, summary: `Card ending ${get().card.last4}`, lines: [["Price", `${M().money(b2.total, 2)} a month, on your card`], ["Next payment", M().date(renewOn(b2))]], total: ["Monthly", M().money(b2.total, 2)], act: { f: "manage", a: { id: b2.id, action: "resume", ok: true } } } };
     if (/resume|turn on/.test(act) && b2.kind === "sub") {
       updateBooking(b2.id, { status: "active" });
       return { say: `${b2.title} is back on.`, blocks: [{ kind: "booking", id: b2.id }] };
@@ -4700,8 +5037,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       return { say: `There's already a claim open for this (${cl.ref}). You can follow it here.`, blocks: [{ kind: "tracker", id: cl.id }] };
     }
     if (/problem|claim|damaged|broken|wrong|missing|late|issue|complain/.test(act)) {
-      if ((_m = b2.extra) == null ? void 0 : _m.returning) return { say: "This is already being returned. Your refund comes when the courier collects it.", blocks: [{ kind: "tracker", id: b2.id }] };
-      const said = ((_n = String(a.action).match(/ said:(.+)$/)) == null ? void 0 : _n[1]) || "", pick2 = b2.cat === "quick" ? (b2.detail || []).filter(([k]) => / × \d+$/.test(k) && k.toLowerCase().split(/[ ,]+/).filter((w) => w.length > 3 && !/litres?|pack|free-range/.test(w)).some((w) => said.includes(w.replace(/s$/, "")))).map(([k]) => k) : [];
+      if ((_n = b2.extra) == null ? void 0 : _n.returning) return { say: "This is already being returned. Your refund comes when the courier collects it.", blocks: [{ kind: "tracker", id: b2.id }] };
+      const said = ((_o = String(a.action).match(/ said:(.+)$/)) == null ? void 0 : _o[1]) || "", pick2 = b2.cat === "quick" ? (b2.detail || []).filter(([k]) => / × \d+$/.test(k) && k.toLowerCase().split(/[ ,]+/).filter((w) => w.length > 3 && !/litres?|pack|free-range/.test(w)).some((w) => said.includes(w.replace(/s$/, "")))).map(([k]) => k) : [];
       return { say: "Sorry about that. Tell me what happened and add a photo if you can.", blocks: [{ kind: "claimform", id: b2.id, pick: pick2, why: b2.cat === "quick" ? /damaged|broken/.test(act) ? "Something arrived damaged" : /missing/.test(act) ? "Something was missing" : /wrong/.test(act) ? "I got the wrong item" : "" : /damaged|broken/.test(act) ? "It arrived damaged" : /missing/.test(act) ? b2.status === "delivered" ? "Something is missing from it" : "It didn't arrive" : /wrong/.test(act) ? "It's not what I ordered" : "" }] };
     }
     return { say: "", blocks: [{ kind: "booking", id: b2.id }] };
@@ -5859,6 +6196,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       const c2 = get().card;
       return { say: `Your credit limit is ${M().money(c2.limit)} and you have ${M().money(Math.max(0, c2.limit - c2.balance), 2)} available to spend.`, blocks: [{ kind: "balance" }], suggest: ["Raise my limit", "What do I owe?"] };
     }
+    if (/\bupgrade\b/.test(t) && !/\b(card|account|plan|subscription|room|hotel|first class)\b/.test(t)) {
+      const f = get().bookings.filter((b2) => {
+        var _a2;
+        return b2.cat === "flights" && !dead(b2) && !((_a2 = b2.extra) == null ? void 0 : _a2.disrupted);
+      }).sort((x, y) => depOf(x) - depOf(y))[0];
+      if (f) return upgradeOffer({ id: f.id });
+    }
     if (/(business|first) class|\bin (business|first)\b|\bflying (business|first)\b|premium economy|upgrade (my )?(seat|flight|cabin)/.test(t)) return { say: `Gratifi books economy fares for now. The concierge team can find ${/premium economy/.test(t) ? "premium economy" : /first class/.test(t) ? "first class" : /business/.test(t) ? "business class" : "an upgrade"} for you and come back with prices.`, blocks: [{ kind: "conciergeform", hint: text }] };
     if (/stop me (from )?(spending|buying|ordering)|block (spending|payments?) (on|at|to) [a-z]|(spending|spend) too much (on|at) [a-z]/.test(t) && !/gambl|bet|casino/.test(t)) return { say: "I can't block a single shop, but you can see exactly where the money goes, set a spending alert, or switch off online payments for a while. The bank can also add a spending limit; a person can set that up with you.", blocks: [{ kind: "spend" }, { kind: "controls" }], suggest: ["Set a spending alert", "Talk to a person"] };
     if (/(what|which) subscriptions (are|come|come free|do i get) (included|free|with my card)|subscriptions (are )?included|included subscriptions|free subscriptions/.test(t)) {
@@ -6043,7 +6387,22 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (/\b(add|buy|need|want|book|get|take|bring)\b.{0,25}\b(checked |hold |extra |another |a second |more )?(bag|bags|suitcase|suitcases|luggage|baggage)\b/.test(t) && !/\b(grocer|shop|basket|carrier|tote|handbag|backpack|flights? to)\b|\bbags? of\b/.test(t)) {
       const f = get().bookings.find((b2) => b2.cat === "flights" && !dead(b2));
       const fee = M().money(bagUnit());
-      return f ? { say: `Adding a bag after booking goes through the airline team. I've passed it on for ${f.title} (${f.ref}); they'll confirm the price, ${fee} per bag per flight, before anything is charged.`, blocks: [{ kind: "handoff", reason: `Add a checked bag to ${f.ref}` }] } : { say: `You don't have a flight booked yet. When you book, Flex includes a checked bag, and on other fares you can add bags for ${fee} each per flight.`, blocks: [], suggest: ["Book a flight"] };
+      return f ? addBags({ id: f.id }) : { say: `You don't have a flight booked yet. When you book, Flex includes a checked bag, and on other fares you can add bags for ${fee} each per flight.`, blocks: [], suggest: ["Book a flight"] };
+    }
+    if (/\b(check(ing)? ?-?in|check me in|check us in)\b/.test(t) && !/\b(hotel|room|stay|villa|apartment|airbnb|late check|early check|check-?in time)\b/.test(t)) {
+      const f = get().bookings.filter((b2) => {
+        var _a2;
+        return b2.cat === "flights" && !dead(b2) && !((_a2 = b2.extra) == null ? void 0 : _a2.disrupted);
+      }).sort((x, y) => depOf(x) - depOf(y))[0];
+      if (f) return checkIn({ id: f.id });
+    }
+    if (/\b(flight status|is my flight (on time|delayed|late)|which gate|my gate|gate number|when (do|does) (we|i|my flight) board|boarding time)\b/.test(t)) {
+      const f = get().bookings.filter((b2) => b2.cat === "flights" && !dead(b2)).sort((x, y) => depOf(x) - depOf(y))[0];
+      if (f) return flightStatus({ id: f.id });
+    }
+    if (/\bupgrade\b/.test(t) && /\b(flight|seat|cabin|business|premium|class)\b/.test(t) && !/\b(card|account|plan|subscription|room|hotel)\b/.test(t)) {
+      const f = get().bookings.filter((b2) => b2.cat === "flights" && !dead(b2)).sort((x, y) => depOf(x) - depOf(y))[0];
+      if (f) return upgradeOffer({ id: f.id });
     }
     if (/change my seats?|seat change|different seats?|change (the )?seats?|\bexit row\b|\b(an? |my )?(window|aisle|extra legroom) seat\b/.test(t) && !/\bflights? to\b/.test(t)) {
       const f = get().bookings.find((b2) => b2.cat === "flights" && !dead(b2));
@@ -6918,10 +7277,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const n = Array.from({ length: max - min + 1 }, (_, i) => min + i);
     return /* @__PURE__ */ React.createElement(Opt, { label }, /* @__PURE__ */ React.createElement("div", { className: "app-days ds-count", role: "radiogroup", "aria-label": label }, n.map((x) => /* @__PURE__ */ React.createElement("button", { key: x, className: "gr-slot", role: "radio", "aria-checked": value === x, onClick: () => onChange2(x) }, fmt2 ? fmt2(x) : String(x)))));
   }
-  function Pay({ art, title, sub, rows, choices, value, onChange: onChange2, cta, onPay, disabled, warn, note }) {
+  function Pay({ art, title, sub, rows, choices, value, onChange: onChange2, cta, onPay, disabled, warn, note, slot }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-paycard" }, /* @__PURE__ */ React.createElement("div", { className: "ds-pay-h" }, art ? /* @__PURE__ */ React.createElement("img", { src: art, alt: "" }) : /* @__PURE__ */ React.createElement("span", { className: "ds-coming-ph" }), /* @__PURE__ */ React.createElement("span", { className: "ds-coming-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-coming-t" }, title), sub && /* @__PURE__ */ React.createElement("span", { className: "ds-coming-s" }, sub))), /* @__PURE__ */ React.createElement("div", { className: "ds-pay-rows" }, rows.map(([k, v]) => /* @__PURE__ */ React.createElement("div", { key: k, className: "ds-kv-r" }, /* @__PURE__ */ React.createElement("span", null, k), /* @__PURE__ */ React.createElement("b", null, v)))), choices && choices.length > 1 && /* @__PURE__ */ React.createElement("div", { className: "ds-pay-ch", role: "radiogroup", "aria-label": "Pay with" }, choices.map((c2) => /* @__PURE__ */ React.createElement("button", { key: c2.key, role: "radio", "aria-checked": value === c2.key, "aria-disabled": c2.disabled, className: "ds-row ds-pickrow-l", onClick: () => {
       if (!c2.disabled) onChange2 == null ? void 0 : onChange2(c2.key);
-    } }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, c2.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, c2.sub)), /* @__PURE__ */ React.createElement("span", { className: "ds-tick", "aria-hidden": "true" }, value === c2.key && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6 }))))), note && /* @__PURE__ */ React.createElement("p", { className: "ds-row-s", style: { margin: 0 } }, note), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", disabled, onClick: onPay }, cta));
+    } }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, c2.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, c2.sub)), /* @__PURE__ */ React.createElement("span", { className: "ds-tick", "aria-hidden": "true" }, value === c2.key && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6 }))))), slot, note && /* @__PURE__ */ React.createElement("p", { className: "ds-row-s", style: { margin: 0 } }, note), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", disabled, onClick: onPay }, cta));
   }
   function Booked({ headline, title, sub, rows, line, actions }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-booked" }, /* @__PURE__ */ React.createElement(DoneCheck, null), /* @__PURE__ */ React.createElement("p", { className: "ds-booked-h" }, headline), title && /* @__PURE__ */ React.createElement("p", { className: "ds-booked-t" }, title), sub && /* @__PURE__ */ React.createElement("p", { className: "ds-booked-s" }, sub), rows.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ds-kv-card ds-booked-kv" }, rows.map(([k, v]) => /* @__PURE__ */ React.createElement("div", { key: k, className: "ds-kv-r" }, /* @__PURE__ */ React.createElement("span", null, k), /* @__PURE__ */ React.createElement("b", null, v)))), line && /* @__PURE__ */ React.createElement("div", { className: "ds-spark-line" }, /* @__PURE__ */ React.createElement(SparkMark, { size: 16 }), /* @__PURE__ */ React.createElement("p", null, line)), actions);
@@ -7150,6 +7509,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       return { say: "", blocks: [{ kind: "checkout", draft: a.draft, method: a.method, fresh: true }] };
     },
     affiliateBuy,
+    extrasDone,
+    checkIn,
+    autoCheckin,
+    checkInDo,
+    flightStatus,
+    upgradeOffer,
+    upgradeDo,
+    addBags,
+    addBagsDo,
     settlePending,
     cardSet: (a) => {
       set((s) => ({ card: { ...s.card, [a.k]: true } }));
@@ -7479,6 +7847,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     flights: (p) => /* @__PURE__ */ React.createElement(FlightsBlock, { ...p }),
     fares: (p) => /* @__PURE__ */ React.createElement(FaresBlock, { ...p }),
     seats: (p) => /* @__PURE__ */ React.createElement(SeatsBlock, { ...p }),
+    extras: (p) => /* @__PURE__ */ React.createElement(ExtrasBlock, { ...p }),
+    checkin: (p) => /* @__PURE__ */ React.createElement(CheckInBlock, { ...p }),
+    triptl: (p) => /* @__PURE__ */ React.createElement(TripTimelineBlock, { ...p }),
+    upgrade: (p) => /* @__PURE__ */ React.createElement(UpgradeBlock, { ...p }),
+    addbags: (p) => /* @__PURE__ */ React.createElement(AddBagsBlock, { ...p }),
     seatchange: (p) => /* @__PURE__ */ React.createElement(SeatChange, { ...p }),
     calendar: ({ city, pax }) => /* @__PURE__ */ React.createElement(CalendarBlock, { city, pax }),
     /* items */
@@ -7843,7 +8216,19 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       const k = kindOf(i, pax, kids);
       return k === "infant" ? `Infant ${i - pax + 1} full name` : k === "child" ? `Child ${i - (pax - kids) + 1} full name` : `Traveller ${i + 1} full name`;
     };
-    return /* @__PURE__ */ React.createElement(Opt, { label: all > 1 ? "Travellers, as on their passports" : "Your name, as on your passport" }, /* @__PURE__ */ React.createElement("div", { className: "ds-names" }, /* @__PURE__ */ React.createElement("input", { className: "app-in", value: names[0], placeholder: "Full name", "aria-label": all > 1 ? "Traveller 1 full name" : "Your full name", autoComplete: "name", onChange: (e) => {
+    const known = [.../* @__PURE__ */ new Set([get().prefs.full || "", ...get().bookings.filter((b2) => {
+      var _a;
+      return b2.cat === "flights" && Array.isArray((_a = b2.extra) == null ? void 0 : _a.names);
+    }).flatMap((b2) => b2.extra.names.slice(0, Math.max(1, (b2.extra.pax || 1) - (b2.extra.kids || 0))))])].filter((n) => n && n.trim().split(/\s+/).length > 1);
+    const fill = (n) => {
+      const i = names.findIndex((x, k) => !(x || "").trim() && !kindOf(k, pax, kids));
+      if (i < 0 || names.includes(n)) return;
+      const nn = [...names];
+      nn[i] = n;
+      setNames(nn);
+    };
+    const avail = known.filter((n) => !names.includes(n)), slots = names.some((x, k) => !(x || "").trim() && !kindOf(k, pax, kids));
+    return /* @__PURE__ */ React.createElement(Opt, { label: all > 1 ? "Travellers, as on their passports" : "Your name, as on your passport" }, avail.length > 0 && slots && /* @__PURE__ */ React.createElement("div", { className: "c2-avs", role: "group", "aria-label": "Saved travellers" }, avail.slice(0, 6).map((n) => /* @__PURE__ */ React.createElement("button", { key: n, type: "button", className: "c2-av", onClick: () => fill(n) }, /* @__PURE__ */ React.createElement("span", { className: "c2-av-c" }, ini(n)), /* @__PURE__ */ React.createElement("b", null, n.split(/\s+/)[0]), /* @__PURE__ */ React.createElement("span", null, "Saved")))), /* @__PURE__ */ React.createElement("div", { className: "ds-names" }, /* @__PURE__ */ React.createElement("input", { className: "app-in", value: names[0], placeholder: "Full name", "aria-label": all > 1 ? "Traveller 1 full name" : "Your full name", autoComplete: "name", onChange: (e) => {
       const n = [...names];
       n[0] = e.target.value;
       setNames(n);
@@ -7906,6 +8291,122 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       setLeg(v === "Flight back" ? 1 : 0);
       setWho(0);
     } }), pax > 1 && /* @__PURE__ */ React.createElement("div", { className: "app-days", role: "radiogroup", "aria-label": "Choosing a seat for" }, Array.from({ length: pax }, (_, k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-chip", role: "radio", "aria-checked": who === k, onClick: () => setWho(k) }, `${label(k)} \xB7 ${cur[k]}`))), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "center" } }, /* @__PURE__ */ React.createElement(SeatMap, { noExtra: noExit(who), key: leg + ":" + cur.join() + ":" + who, picked: cur[who], taken: TK(leg), mates: cur.filter((_, k) => k !== who), mateName: pax > 2 ? "Your group" : label(who ? 0 : 1), mateNames: Object.fromEntries(cur.map((x, k) => [x, label(k)])), youName: pax > 1 ? label(who) : void 0, extraPrice: legroomFee(), onPick: pick2 })), !warn && kindOf(who, pax, kids) === "child" && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, "Exit-row seats (row 14) are for adults only."), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), legs > 1 && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Outbound ${legSeats[0].join(", ")} \xB7 Return ${legSeats[1].join(", ")}`)), /* @__PURE__ */ React.createElement(Count, { label: `Checked bags \xB7 ${flex ? `${pax} included with Flex, more at ${M3.money(bagUnit())} each per flight` : `${M3.money(bagUnit())} each, per flight${legs > 1 ? " (2 flights)" : ""}`}`, value: bags, min: flex ? pax : 0, max: pax * 2, onChange: setBags, fmt: (n) => n ? String(n) : "None" }), why && !done && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s", role: "status" }, why));
+  }
+  var C2Tick = ({ on: on3 }) => /* @__PURE__ */ React.createElement("span", { className: "c2-tick" + (on3 ? " on" : ""), "aria-hidden": "true" }, on3 && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 3 }));
+  var ini = (n) => (n || "?").trim().split(/\s+/).map((x) => x[0]).join("").slice(0, 2).toUpperCase();
+  var hhmm = (ts) => {
+    const d2 = new Date(ts);
+    return `${String(d2.getHours()).padStart(2, "0")}:${String(d2.getMinutes()).padStart(2, "0")}`;
+  };
+  function ExtrasBlock({ draft: draft2, bk: bk2 }) {
+    var _a, _b;
+    const d2 = useS((s) => s.drafts[draft2]);
+    const M3 = useMarket();
+    const [on3, setOn] = usePS(bk2, "on", []);
+    const [done, setDone] = useDone(bk2);
+    if (!d2) return /* @__PURE__ */ React.createElement("p", { className: "ds-quiet" }, "Paid. The receipt is below.");
+    if (done || ((_a = d2.extra) == null ? void 0 : _a.extrasDone)) return /* @__PURE__ */ React.createElement(AssistantNote, null, (((_b = d2.extra) == null ? void 0 : _b.extras) || []).length ? "Extras added." : "No extras added.");
+    const items = flightExtras(d2), add = items.filter((x) => on3.includes(x.id)).reduce((t, x) => t + x.price, 0);
+    const go = () => {
+      setDone(true);
+      run({ f: "extrasDone", a: { draft: draft2, ids: on3 } }, on3.length ? `Add ${items.filter((x) => on3.includes(x.id)).map((x) => x.title.toLowerCase()).join(", ")}` : "No extras");
+    };
+    return /* @__PURE__ */ React.createElement("div", { className: "c2-card" }, /* @__PURE__ */ React.createElement("div", { className: "c2-head" }, /* @__PURE__ */ React.createElement("p", { className: "c2-t" }, "Add to your trip"), /* @__PURE__ */ React.createElement("p", { className: "c2-s" }, add ? `${M3.pts(ptsOf(add))} added` : "All optional")), /* @__PURE__ */ React.createElement("div", { className: "c2-list" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.id, className: "c2-prow", role: "checkbox", "aria-checked": on3.includes(x.id), onClick: () => setOn(on3.includes(x.id) ? on3.filter((k) => k !== x.id) : [...on3, x.id]) }, /* @__PURE__ */ React.createElement("span", { className: "c2-ph sm" }, x.img ? /* @__PURE__ */ React.createElement("img", { src: img(x.img), alt: "" }) : /* @__PURE__ */ React.createElement(Icon, { name: x.icon, size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "c2-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, x.title), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, x.sub)), /* @__PURE__ */ React.createElement("b", { className: "c2-amt" }, x.price ? `+${M3.num(ptsOf(x.price))}` : x.free), /* @__PURE__ */ React.createElement(C2Tick, { on: on3.includes(x.id) })))), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", onClick: go }, on3.length ? `Add ${on3.length} and continue` : "Continue"));
+  }
+  function CheckInBlock({ id, bk: bk2 }) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+    const b2 = useS((s) => s.bookings.find((x) => x.id === id));
+    const M3 = useMarket();
+    const [done, setDone] = useDone(bk2);
+    const saved2 = get().prefs.passports || {};
+    const pax = ((_a = b2 == null ? void 0 : b2.extra) == null ? void 0 : _a.pax) || 1, names = ((_b = b2 == null ? void 0 : b2.extra) == null ? void 0 : _b.names) && b2.extra.names.length >= pax ? b2.extra.names.slice(0, pax + (b2.extra.inf || 0)) : [get().prefs.full || get().prefs.name, ...Array.from({ length: pax - 1 }, (_, i) => `Traveller ${i + 2}`)];
+    const [on3, setOn] = useState(names.map(() => true));
+    const [pp, setPp] = useState({});
+    if (!b2) return null;
+    if (done || ((_c = b2.extra) == null ? void 0 : _c.checkedIn)) return /* @__PURE__ */ React.createElement(AssistantNote, null, "Checked in. Boarding passes are in Wallet.");
+    const dest = dests(M3.id).find((x) => x.name === b2.title.split(" to ")[1]), intl2 = !!dest && dest.country !== home(M3.id).country;
+    const last2 = ((_e = (_d = b2.extra) == null ? void 0 : _d.back) == null ? void 0 : _e.date) || ((_f = b2.extra) == null ? void 0 : _f.date);
+    const need2 = (n) => intl2 && !saved2[n];
+    const bad = (n) => {
+      const x = pp[n];
+      if (!need2(n)) return "";
+      if (!x || !x.num || !x.nat || !x.exp) return "Add the passport number, nationality and expiry date.";
+      if (!/^[A-Za-z0-9]{6,9}$/.test(x.num.trim())) return "Passport numbers are 6 to 9 letters and numbers.";
+      if (x.exp <= last2) return "This passport expires before you fly home. It needs renewing first.";
+      return "";
+    };
+    const picked = names.filter((_, i) => on3[i]), ok = picked.length > 0 && picked.every((n) => !bad(n));
+    const set2 = (n, k, v) => setPp({ ...pp, [n]: { ...pp[n] || { num: "", nat: "", exp: "" }, [k]: v } });
+    return /* @__PURE__ */ React.createElement("div", { className: "c2-card" }, /* @__PURE__ */ React.createElement("div", { className: "c2-head" }, /* @__PURE__ */ React.createElement("p", { className: "c2-t" }, "Check-in is open"), /* @__PURE__ */ React.createElement("p", { className: "c2-s" }, `${(_g = b2.extra) == null ? void 0 : _g.number} \xB7 ${b2.title} \xB7 ${M3.date((_h = b2.extra) == null ? void 0 : _h.date)}, ${(_i = b2.extra) == null ? void 0 : _i.dep}`)), /* @__PURE__ */ React.createElement("div", { className: "c2-list" }, names.map((n, i) => {
+      var _a2, _b2, _c2, _d2, _e2;
+      return /* @__PURE__ */ React.createElement("div", { key: n + i }, /* @__PURE__ */ React.createElement("button", { className: "c2-prow", role: "checkbox", "aria-checked": on3[i], onClick: () => setOn(on3.map((x, k) => k === i ? !x : x)) }, /* @__PURE__ */ React.createElement("span", { className: "c2-av-c" }, ini(n)), /* @__PURE__ */ React.createElement("span", { className: "c2-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, n), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, [i >= pax ? "On a lap" : ((_b2 = (_a2 = b2.extra) == null ? void 0 : _a2.seats) == null ? void 0 : _b2[i]) ? `Seat ${b2.extra.seats[i]}` : "Seat given now", intl2 ? saved2[n] ? "passport saved" : "passport needed" : ""].filter(Boolean).join(" \xB7 "))), /* @__PURE__ */ React.createElement(C2Tick, { on: on3[i] })), on3[i] && need2(n) && /* @__PURE__ */ React.createElement("div", { className: "c2-form", style: { paddingBottom: 12 } }, /* @__PURE__ */ React.createElement("label", { className: "c2-in" }, /* @__PURE__ */ React.createElement("span", null, "Passport number"), /* @__PURE__ */ React.createElement("input", { value: ((_c2 = pp[n]) == null ? void 0 : _c2.num) || "", onChange: (e) => set2(n, "num", e.target.value), autoComplete: "off" })), /* @__PURE__ */ React.createElement("div", { className: "c2-grid2" }, /* @__PURE__ */ React.createElement("label", { className: "c2-in" }, /* @__PURE__ */ React.createElement("span", null, "Nationality"), /* @__PURE__ */ React.createElement("input", { value: ((_d2 = pp[n]) == null ? void 0 : _d2.nat) || "", onChange: (e) => set2(n, "nat", e.target.value) })), /* @__PURE__ */ React.createElement("label", { className: "c2-in" }, /* @__PURE__ */ React.createElement("span", null, "Expiry date"), /* @__PURE__ */ React.createElement("input", { type: "date", value: ((_e2 = pp[n]) == null ? void 0 : _e2.exp) || "", onChange: (e) => set2(n, "exp", e.target.value) }))), pp[n] && bad(n) && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s", role: "status" }, bad(n))));
+    })), intl2 && /* @__PURE__ */ React.createElement("p", { className: "c2-fine" }, /* @__PURE__ */ React.createElement(Icon, { name: "lock", size: 14, stroke: 2.2 }), "Passport details are shared only with the airline and saved for next time."), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", disabled: !ok, onClick: () => {
+      setDone(true);
+      run({ f: "checkInDo", a: { id, names: picked, passports: pp } }, `Check in ${picked.length > 1 ? picked.length + " people" : picked[0]}`);
+    } }, `Check in ${picked.length} ${picked.length === 1 ? "person" : "people"}`), /* @__PURE__ */ React.createElement("p", { className: "c2-fine c2-center" }, "Closes 1 hour before take-off."));
+  }
+  if (typeof window !== "undefined") setTimeout(() => {
+    window.__gateOf = (b2) => gateOf(b2);
+  });
+  var gateOf = (b2) => {
+    var _a;
+    return ((_a = b2.extra) == null ? void 0 : _a.gate) || "ABC"[(b2.ref || "X").charCodeAt(1) % 3] + ((b2.ref || "X").charCodeAt(2) % 28 + 2);
+  };
+  function TripTimelineBlock({ id }) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+    const b2 = useS((s) => s.bookings.find((x) => x.id === id));
+    const M3 = useMarket();
+    if (!b2) return null;
+    const o = flightById((_a = b2.extra) == null ? void 0 : _a.flightId), delay = (((_b = b2.extra) == null ? void 0 : _b.delay) || 0) * 6e4;
+    const dep = (/* @__PURE__ */ new Date(((_c = b2.extra) == null ? void 0 : _c.date) + "T" + ((_d = b2.extra) == null ? void 0 : _d.dep) + ":00")).getTime();
+    const arrT = o ? (() => {
+      const [h, m] = o.arr.split(":").map(Number);
+      const d2 = new Date(dep);
+      d2.setHours(h, m, 0, 0);
+      if (d2.getTime() < dep) d2.setDate(d2.getDate() + 1);
+      return d2.getTime();
+    })() : dep + 3 * 36e5;
+    const soon = dep - Date.now() < 3 * 36e5 || !!((_e = b2.extra) == null ? void 0 : _e.ciOpen);
+    const steps = [
+      ((_f = b2.extra) == null ? void 0 : _f.checkedIn) ? { t: "", title: "Checked in", sub: "Boarding passes in Wallet", done: true } : { t: hhmm(dep - 864e5), title: "Check-in opens", sub: `${M3.date(iso(new Date(dep - 864e5)))}, 24 hours before` },
+      ...(((_g = b2.extra) == null ? void 0 : _g.bags) || 0) > 0 ? [{ t: hhmm(dep - 60 * 6e4), title: "Bag drop closes", sub: `${b2.extra.bags} checked bag${b2.extra.bags > 1 ? "s" : ""}` }] : [],
+      { t: hhmm(dep - 55 * 6e4 + delay), title: soon ? `Gate ${gateOf(b2)}` : "Gate", sub: soon ? "Opens 55 minutes before take-off" : "Shown about 3 hours before", change: ((_h = b2.extra) == null ? void 0 : _h.gateWas) ? `was ${b2.extra.gateWas}` : void 0 },
+      { t: hhmm(dep - 40 * 6e4 + delay), title: "Boarding", sub: ((_i = b2.extra) == null ? void 0 : _i.cabin) ? "Priority boarding" : "By group, shown on your pass" },
+      { t: hhmm(dep + delay), title: "Take-off", sub: `${(_j = b2.extra) == null ? void 0 : _j.number} from ${(_k = b2.extra) == null ? void 0 : _k.from}`, change: delay ? `${b2.extra.delay} min late` : void 0 },
+      { t: hhmm(arrT + delay), title: "Lands", sub: `${(_l = b2.extra) == null ? void 0 : _l.to} \xB7 ${b2.title.split(" to ")[1]}` }
+    ];
+    return /* @__PURE__ */ React.createElement("div", { className: "c2-card" }, /* @__PURE__ */ React.createElement("div", { className: "c2-head" }, /* @__PURE__ */ React.createElement("p", { className: "c2-t" }, M3.date((_m = b2.extra) == null ? void 0 : _m.date)), /* @__PURE__ */ React.createElement("p", { className: "c2-s" }, `${(_n = b2.extra) == null ? void 0 : _n.number} \xB7 ${b2.title}`)), /* @__PURE__ */ React.createElement("ol", { className: "c2-tl" }, steps.map((x) => /* @__PURE__ */ React.createElement("li", { key: x.title, className: (x.done ? "done" : "") + (x.change ? " chg" : "") }, /* @__PURE__ */ React.createElement("span", { className: "c2-tl-d" }, x.done && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 11, stroke: 3.4 })), /* @__PURE__ */ React.createElement("span", { className: "c2-tl-t" }, x.t), /* @__PURE__ */ React.createElement("span", { className: "c2-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, x.title, x.change && /* @__PURE__ */ React.createElement("em", null, x.change)), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, x.sub))))));
+  }
+  function UpgradeBlock({ id, bk: bk2 }) {
+    var _a, _b, _c, _d;
+    const b2 = useS((s) => s.bookings.find((x) => x.id === id));
+    const M3 = useMarket();
+    const price = usePrice();
+    const [v, setV] = usePS(bk2, "cab", ((_a = b2 == null ? void 0 : b2.extra) == null ? void 0 : _a.cabin) === "premium" ? "business" : "premium");
+    const [done, setDone] = useDone(bk2);
+    if (!b2) return null;
+    const opts = cabins().filter((c2) => {
+      var _a2, _b2;
+      return c2.id !== ((_a2 = b2.extra) == null ? void 0 : _a2.cabin) && !(((_b2 = b2.extra) == null ? void 0 : _b2.cabin) === "premium" && c2.id === "premium");
+    });
+    const cur = opts.find((c2) => c2.id === v) || opts[0];
+    return /* @__PURE__ */ React.createElement("fieldset", { className: "app-fs", disabled: done }, /* @__PURE__ */ React.createElement(Detail, { art: img(b2.img), title: `Upgrade ${b2.title}`, sub: `${(_b = b2.extra) == null ? void 0 : _b.number}${((_c = b2.extra) == null ? void 0 : _c.back) ? " and the return" : ""}`, price: price(cabinPrice(b2, cur.id), (((_d = b2.extra) == null ? void 0 : _d.pax) || 1) > 1 ? `for ${b2.extra.pax} people` : void 0), checks: cur.inc, cta: `Upgrade to ${cur.name}`, done: done ? `${cur.name} chosen` : void 0, disabled: done, onCta: () => {
+      setDone(true);
+      run({ f: "upgradeDo", a: { id, cabin: cur.id } }, `Upgrade to ${cur.name}`);
+    } }, /* @__PURE__ */ React.createElement(Opt, { label: "Cabin" }, /* @__PURE__ */ React.createElement("div", { className: "ds-fares", role: "radiogroup", "aria-label": "Cabin" }, opts.map((c2) => /* @__PURE__ */ React.createElement("button", { key: c2.id, role: "radio", "aria-checked": cur.id === c2.id, className: "ds-fare", onClick: () => setV(c2.id) }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, c2.name), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, c2.inc[0])), /* @__PURE__ */ React.createElement("span", { className: "ds-fare-p" }, price(cabinPrice(b2, c2.id))), /* @__PURE__ */ React.createElement("span", { className: "ds-tick", "aria-hidden": "true" }, cur.id === c2.id && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6 }))))))));
+  }
+  function AddBagsBlock({ id, bk: bk2 }) {
+    var _a, _b, _c, _d, _e;
+    const b2 = useS((s) => s.bookings.find((x) => x.id === id));
+    const M3 = useMarket();
+    const [n, setN] = usePS(bk2, "n", 1);
+    const [done, setDone] = useDone(bk2);
+    if (!b2) return null;
+    const legs = ((_a = b2.extra) == null ? void 0 : _a.back) ? 2 : 1, tot = n * bagUnit() * legs;
+    return /* @__PURE__ */ React.createElement(Detail, { art: img("move:porter"), title: "Add checked bags", sub: `${(_b = b2.extra) == null ? void 0 : _b.number} \xB7 up to 23 kg each`, price: /* @__PURE__ */ React.createElement(Price2, { pts: M3.pts(ptsOf(tot)), cash: M3.money(tot, tot % 1 ? 2 : 0) }), checks: [legs > 1 ? "On both flights" : "On the flight", `${((_c = b2.extra) == null ? void 0 : _c.bags) || 0} checked bag${(((_d = b2.extra) == null ? void 0 : _d.bags) || 0) === 1 ? "" : "s"} on the booking now`], cta: `Add ${n} bag${n > 1 ? "s" : ""}`, done: done ? "Bags chosen" : void 0, disabled: done, onCta: () => {
+      setDone(true);
+      run({ f: "addBagsDo", a: { id, n } }, `Add ${n} bag${n > 1 ? "s" : ""}`);
+    } }, /* @__PURE__ */ React.createElement(Count, { label: "How many bags", value: n, min: 1, max: Math.min(4, (((_e = b2.extra) == null ? void 0 : _e.pax) || 1) * 2), onChange: setN }));
   }
   function SeatChange({ id, bk: bk2, leg: leg0 }) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
@@ -8123,14 +8624,16 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const M3 = useMarket();
     const [method, setMethod] = usePS("pay:" + draft2 + (m0 ? ":" + m0 : ""), "method", m0 || "");
     const [more, setMore] = useState(false);
+    const [mixPts, setMixPts] = usePS("pay:" + draft2, "mixPts", void 0);
     if (!d2) return /* @__PURE__ */ React.createElement("p", { className: "ds-quiet" }, "Paid. The receipt is below.");
     if (d2.replaced) return /* @__PURE__ */ React.createElement("p", { className: "ds-quiet", role: "status" }, "This checkout was replaced by a newer one below.");
     if (((_a = d2.extra) == null ? void 0 : _a.repriced) && !fresh) return /* @__PURE__ */ React.createElement("p", { className: "ds-quiet" }, "The price changed after this. The updated checkout is further down.");
     const full = ptsOf(d2.total);
     const def = full <= bal ? "points" : bal >= 100 ? "mix" : "card";
     const m = d2.pointsOnly ? "points" : method || def;
-    const choice = payChoice(d2, m);
-    const mix = payChoice(d2, "mix");
+    const choice = payChoice(d2, m, m === "mix" ? mixPts : void 0);
+    const mix = payChoice(d2, "mix", mixPts);
+    const mixMax = Math.min(Math.floor(bal / 100) * 100, Math.floor((full - 1) / 100) * 100);
     const c2 = get().card, avail = Math.max(0, Math.round((c2.limit - c2.balance) * 100) / 100);
     const over = choice.card > avail;
     const cash = (n) => M3.money(n, n % 1 ? 2 : 0);
@@ -8151,6 +8654,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         value: m,
         onChange: setMethod,
         note: d2.policy,
+        slot: m === "mix" && mixMax > 100 ? /* @__PURE__ */ React.createElement("div", { className: "c2-slide" }, /* @__PURE__ */ React.createElement("div", { className: "c2-split" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", null, "Points"), /* @__PURE__ */ React.createElement("b", null, M3.num(choice.pts))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", null, "Card"), /* @__PURE__ */ React.createElement("b", null, cash(choice.card)))), /* @__PURE__ */ React.createElement("input", { className: "c2-range", type: "range", min: 100, max: mixMax, step: 100, value: Math.min(mixMax, Math.max(100, choice.pts)), onChange: (e) => setMixPts(+e.target.value), style: { ["--p"]: `${(Math.min(mixMax, Math.max(100, choice.pts)) - 100) / Math.max(1, mixMax - 100) * 100}%` }, "aria-label": "Points to use" }), /* @__PURE__ */ React.createElement("div", { className: "c2-range-l" }, /* @__PURE__ */ React.createElement("span", null, "More on the card"), /* @__PURE__ */ React.createElement("span", null, "More points"))) : void 0,
         warn: over ? `That's more than your available credit of ${cash(avail)}.${bal >= 100 && choice.pts < Math.min(bal, full) - 100 ? " Use more points, or pay less on the card." : " Paying off some of your balance frees up credit, or choose something cheaper."}` : void 0,
         cta: choice.card ? `Pay ${cash(choice.card)}${choice.pts ? " + " + M3.pts(choice.pts) : ""}` : `Pay ${M3.pts(choice.pts)}`,
         disabled: choice.pts > bal || over,
@@ -8174,7 +8678,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     return /* @__PURE__ */ React.createElement(Pay, { art: img(d2.img) || STAMP[d2.cat], title: d2.title, sub: [d2.sub && d2.sub !== d2.title ? d2.sub : "", d2.when].filter(Boolean).join(" \xB7 "), rows: [...(d2.detail || []).slice(0, 4), ["To pay", ((_a = d2.extra) == null ? void 0 : _a.included) ? "Free with your card" : M3.t("free")]], note: d2.policy, cta: label, onPay: () => run({ f: "confirmFreeBooking", a: { draft: draft2 } }, label) });
   }
   function actionsFor(b2) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d, _e, _f, _g;
     if (dead2(b2)) return [];
     if (b2.kind === "sub") return b2.pts || b2.card ? b2.status === "paused" ? ["Resume", "Cancel"] : ["Pause", "Cancel"] : ["Turn off"];
     if (b2.kind === "investment") return ["Sell"];
@@ -8182,9 +8686,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (b2.kind === "request" || b2.kind === "claim" || b2.kind === "transfer") return ["Track"];
     if (b2.cat === "giftcards") return ["Show code"];
     if (b2.cat === "flights" && ((_a = b2.extra) == null ? void 0 : _a.disrupted)) return ["See options", "Full refund"];
-    if (b2.cat === "flights") return ["Boarding pass", ...((_b = b2.extra) == null ? void 0 : _b.fare) === "light" ? [] : ["Change date", "Change seats"], ...b2.refundable ? ["Cancel"] : []];
+    if (b2.cat === "flights") return [...((_b = b2.extra) == null ? void 0 : _b.checkedIn) ? ["Boarding pass"] : ["Check in", "Boarding pass"], "Flight status", ...((_c = b2.extra) == null ? void 0 : _c.fare) === "light" ? [] : ["Change date", "Change seats"], ...((_d = b2.extra) == null ? void 0 : _d.checkedIn) ? [] : ["Add bags"], ...((_e = b2.extra) == null ? void 0 : _e.fare) === "light" || ((_f = b2.extra) == null ? void 0 : _f.cabin) === "business" ? [] : ["Upgrade"], ...b2.refundable ? ["Cancel"] : []];
     if (b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "experiences" || b2.cat === "rides" && /^Train/.test(b2.title)) return ["Show pass", ...b2.refundable ? ["Cancel"] : []];
-    if (b2.kind === "order") return ((_c = b2.extra) == null ? void 0 : _c.returning) ? ["Track"] : b2.status === "delivered" ? ["Return", "Report a problem"] : b2.cat === "bank" ? ["Track"] : ["Track", "Cancel"];
+    if (b2.kind === "order") return ((_g = b2.extra) == null ? void 0 : _g.returning) ? ["Track"] : b2.status === "delivered" ? ["Return", "Report a problem"] : b2.cat === "bank" ? ["Track"] : ["Track", "Cancel"];
     if (b2.status === "done") return ["Report a problem"];
     return ["Cancel", "Report a problem"];
   }
@@ -8345,7 +8849,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         var _a2, _b2, _c2;
         return ni >= pax ? "Lap" : (li ? ((_a2 = e.backSeats) == null ? void 0 : _a2[ni]) || ((_b2 = e.seats) == null ? void 0 : _b2[ni]) : (_c2 = e.seats) == null ? void 0 : _c2[ni]) || (e.fare === "light" ? "At check-in" : "\u2014");
       };
-      return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, legs.flatMap((l, li) => opensOf(l) > /* @__PURE__ */ new Date() ? [/* @__PURE__ */ React.createElement(Ticket, { key: "c" + li, title: `${l.fromCity} to ${l.toCity}`, count: `${pax + (e.inf || 0)} traveller${pax + (e.inf || 0) > 1 ? "s" : ""}`, code: b2.ref + li, lines: [["Flight", l.number], ["Date", M3.date(l.date)], ["Departs", l.dep]], closed: `Check-in opens ${M3.date(opensOf(l))} at ${l.dep}. Your boarding ${pax > 1 ? "passes appear" : "pass appears"} here then.`, caption: `Seats ${names.slice(0, pax).map((_, ni) => seatOf(li, ni)).join(", ")} \xB7 booking ${b2.ref}` })] : names.map((n2, ni) => /* @__PURE__ */ React.createElement(Ticket, { key: li + "-" + ni, title: `${l.fromCity} to ${l.toCity}`, count: `Seat ${seatOf(li, ni)}`, code: `${b2.ref}-${li}-${ni}`, lines: [["Flight", l.number], ["Boards", board(l.dep)], ["Gate", li ? "C14" : "B32"]], caption: `${ni === 0 && e.inf ? `${n2} with infant` : n2} \xB7 ${M3.date(l.date)} \xB7 departs ${l.dep}`, onWallet: wallet }))));
+      return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, legs.flatMap((l, li) => opensOf(l) > /* @__PURE__ */ new Date() && !(e.checkedIn && li === 0) ? [/* @__PURE__ */ React.createElement(Ticket, { key: "c" + li, title: `${l.fromCity} to ${l.toCity}`, count: `${pax + (e.inf || 0)} traveller${pax + (e.inf || 0) > 1 ? "s" : ""}`, code: b2.ref + li, lines: [["Flight", l.number], ["Date", M3.date(l.date)], ["Departs", l.dep]], closed: `Check-in opens ${M3.date(opensOf(l))} at ${l.dep}. Your boarding ${pax > 1 ? "passes appear" : "pass appears"} here then.`, caption: `Seats ${names.slice(0, pax).map((_, ni) => seatOf(li, ni)).join(", ")} \xB7 booking ${b2.ref}` })] : names.map((n2, ni) => /* @__PURE__ */ React.createElement(Ticket, { key: li + "-" + ni, title: `${l.fromCity} to ${l.toCity}`, count: `Seat ${seatOf(li, ni)}`, code: `${b2.ref}-${li}-${ni}`, lines: [["Flight", l.number], ["Boards", li ? board(l.dep) : hhmm((/* @__PURE__ */ new Date(l.date + "T" + l.dep + ":00")).getTime() - 40 * 6e4 + (e.delay || 0) * 6e4)], ["Gate", li ? "C14" : gateOf(b2)]], caption: `${ni === 0 && e.inf ? `${n2} with infant` : n2} \xB7 ${M3.date(l.date)} \xB7 departs ${!li && e.delay ? hhmm((/* @__PURE__ */ new Date(l.date + "T" + l.dep + ":00")).getTime() + e.delay * 6e4) : l.dep}`, onWallet: wallet }))));
     }
     const n = +(((_c = (_b = b2.detail) == null ? void 0 : _b.find((d2) => /People|Guests|Quantity/.test(d2[0]))) == null ? void 0 : _c[1]) || 1);
     if (b2.cat === "airport") return /* @__PURE__ */ React.createElement(Ticket, { title: b2.title, count: n > 1 ? `${n} people` : "Pass", code: b2.ref, lines: [["Where", (b2.sub || "").split(" \xB7 ")[0]], ["Valid", b2.when || "On the day"], ["Holder", get().prefs.name]], caption: "Show this at the entrance", onWallet: wallet });
@@ -8466,6 +8970,89 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var LAB = { restaurants: ["\u0645\u0637\u0639\u0645 \u0648\u0627\u062D\u062F", "\u0645\u0637\u0639\u0645\u064A\u0646", "\u0645\u0637\u0627\u0639\u0645", "\u0645\u0637\u0639\u0645\u064B\u0627"], "places to stay": ["\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629 \u0648\u0627\u062D\u062F", "\u0645\u0643\u0627\u0646\u064E\u064A \u0625\u0642\u0627\u0645\u0629", "\u0623\u0645\u0627\u0643\u0646 \u0625\u0642\u0627\u0645\u0629", "\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629"], "things to do": ["\u0646\u0634\u0627\u0637 \u0648\u0627\u062D\u062F", "\u0646\u0634\u0627\u0637\u064A\u0646", "\u0623\u0646\u0634\u0637\u0629", "\u0646\u0634\u0627\u0637\u064B\u0627"], products: ["\u0645\u0646\u062A\u062C \u0648\u0627\u062D\u062F", "\u0645\u0646\u062A\u062C\u064A\u0646", "\u0645\u0646\u062A\u062C\u0627\u062A", "\u0645\u0646\u062A\u062C\u064B\u0627"], "gift cards": ["\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0628\u0637\u0627\u0642\u062A\u064E\u064A \u0647\u062F\u064A\u0629", "\u0628\u0637\u0627\u0642\u0627\u062A \u0647\u062F\u0627\u064A\u0627", "\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629"], subscriptions: ["\u0627\u0634\u062A\u0631\u0627\u0643 \u0648\u0627\u062D\u062F", "\u0627\u0634\u062A\u0631\u0627\u0643\u064A\u0646", "\u0627\u0634\u062A\u0631\u0627\u0643\u0627\u062A", "\u0627\u0634\u062A\u0631\u0627\u0643\u064B\u0627"], events: ["\u0641\u0639\u0627\u0644\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0641\u0639\u0627\u0644\u064A\u062A\u064A\u0646", "\u0641\u0639\u0627\u0644\u064A\u0627\u062A", "\u0641\u0639\u0627\u0644\u064A\u0629"], "airport services": ["\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631 \u0648\u0627\u062D\u062F\u0629", "\u062E\u062F\u0645\u062A\u064E\u064A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0627\u062A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631"], "ways to get there": ["\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644 \u0648\u0627\u062D\u062F\u0629", "\u0648\u0633\u064A\u0644\u062A\u064E\u064A \u062A\u0646\u0642\u0644", "\u0648\u0633\u0627\u0626\u0644 \u062A\u0646\u0642\u0644", "\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644"] };
   var D = {
     /* chat cards */
+    /* flights: extras, check-in, today's flight, upgrades, bags */
+    "Add to your trip": "\u0623\u0636\u0641 \u0625\u0644\u0649 \u0631\u062D\u0644\u062A\u0643",
+    "All optional": "\u0643\u0644\u0647\u0627 \u0627\u062E\u062A\u064A\u0627\u0631\u064A\u0629",
+    "Lounge before you fly": "\u0635\u0627\u0644\u0629 \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639",
+    "Fast track security": "\u0645\u0633\u0627\u0631 \u0633\u0631\u064A\u0639 \u0644\u0644\u062A\u0641\u062A\u064A\u0634",
+    "Hot meal on board": "\u0648\u062C\u0628\u0629 \u0633\u0627\u062E\u0646\u0629 \u0639\u0644\u0649 \u0645\u062A\u0646 \u0627\u0644\u0637\u0627\u0626\u0631\u0629",
+    "Car to the airport": "\u0633\u064A\u0627\u0631\u0629 \u0625\u0644\u0649 \u0627\u0644\u0645\u0637\u0627\u0631",
+    "Picks you up 3 hours before take-off": "\u062A\u0642\u0644\u0651\u0643 \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639 \u0628\u062B\u0644\u0627\u062B \u0633\u0627\u0639\u0627\u062A",
+    "Included with Flex": "\u0645\u0634\u0645\u0648\u0644 \u0645\u0639 Flex",
+    "Included": "\u0645\u0634\u0645\u0648\u0644",
+    "You, on the way out": "\u0623\u0646\u062A\u060C \u0641\u064A \u0631\u062D\u0644\u0629 \u0627\u0644\u0630\u0647\u0627\u0628",
+    "Everyone, on the way out": "\u0627\u0644\u062C\u0645\u064A\u0639\u060C \u0641\u064A \u0631\u062D\u0644\u0629 \u0627\u0644\u0630\u0647\u0627\u0628",
+    "Extras added.": "\u0623\u064F\u0636\u064A\u0641\u062A \u0627\u0644\u0625\u0636\u0627\u0641\u0627\u062A.",
+    "No extras added.": "\u0644\u0645 \u062A\u064F\u0636\u0641 \u0623\u064A \u0625\u0636\u0627\u0641\u0627\u062A.",
+    "No extras": "\u0628\u0644\u0627 \u0625\u0636\u0627\u0641\u0627\u062A",
+    "Anything to add before you pay? All of it is optional.": "\u0647\u0644 \u062A\u0631\u064A\u062F \u0625\u0636\u0627\u0641\u0629 \u0634\u064A\u0621 \u0642\u0628\u0644 \u0627\u0644\u062F\u0641\u0639\u061F \u0643\u0644\u0647\u0627 \u0627\u062E\u062A\u064A\u0627\u0631\u064A\u0629.",
+    "Added. Here's the total. Pay with points, card, or both.": "\u0623\u064F\u0636\u064A\u0641\u062A. \u0647\u0630\u0627 \u0647\u0648 \u0627\u0644\u0645\u062C\u0645\u0648\u0639. \u0627\u062F\u0641\u0639 \u0628\u0627\u0644\u0646\u0642\u0627\u0637 \u0623\u0648 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0623\u0648 \u0628\u0643\u0644\u064A\u0647\u0645\u0627.",
+    "Check-in is open": "\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0645\u0641\u062A\u0648\u062D",
+    "Check-in isn't open yet": "\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0644\u0645 \u064A\u064F\u0641\u062A\u062D \u0628\u0639\u062F",
+    "Check us in when it opens": "\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644\u0646\u0627 \u0639\u0646\u062F \u0641\u062A\u062D\u0647",
+    "Closes 1 hour before take-off.": "\u064A\u064F\u063A\u0644\u0642 \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639 \u0628\u0633\u0627\u0639\u0629.",
+    "Passport number": "\u0631\u0642\u0645 \u062C\u0648\u0627\u0632 \u0627\u0644\u0633\u0641\u0631",
+    "Nationality": "\u0627\u0644\u062C\u0646\u0633\u064A\u0629",
+    "Expiry date": "\u062A\u0627\u0631\u064A\u062E \u0627\u0644\u0627\u0646\u062A\u0647\u0627\u0621",
+    "passport saved": "\u0627\u0644\u062C\u0648\u0627\u0632 \u0645\u062D\u0641\u0648\u0638",
+    "passport needed": "\u0627\u0644\u062C\u0648\u0627\u0632 \u0645\u0637\u0644\u0648\u0628",
+    "On a lap": "\u0641\u064A \u0627\u0644\u062D\u0636\u0646",
+    "Seat given now": "\u064A\u064F\u062D\u062F\u0651\u062F \u0627\u0644\u0645\u0642\u0639\u062F \u0627\u0644\u0622\u0646",
+    "Passport details are shared only with the airline and saved for next time.": "\u062A\u064F\u0634\u0627\u0631\u0643 \u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u0648\u0627\u0632 \u0645\u0639 \u0634\u0631\u0643\u0629 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0641\u0642\u0637 \u0648\u062A\u064F\u062D\u0641\u0638 \u0644\u0644\u0645\u0631\u0629 \u0627\u0644\u0642\u0627\u062F\u0645\u0629.",
+    "Add the passport number, nationality and expiry date.": "\u0623\u0636\u0641 \u0631\u0642\u0645 \u0627\u0644\u062C\u0648\u0627\u0632 \u0648\u0627\u0644\u062C\u0646\u0633\u064A\u0629 \u0648\u062A\u0627\u0631\u064A\u062E \u0627\u0644\u0627\u0646\u062A\u0647\u0627\u0621.",
+    "Passport numbers are 6 to 9 letters and numbers.": "\u064A\u062A\u0643\u0648\u0651\u0646 \u0631\u0642\u0645 \u0627\u0644\u062C\u0648\u0627\u0632 \u0645\u0646 6 \u0625\u0644\u0649 9 \u0623\u062D\u0631\u0641 \u0648\u0623\u0631\u0642\u0627\u0645.",
+    "This passport expires before you fly home. It needs renewing first.": "\u064A\u0646\u062A\u0647\u064A \u0647\u0630\u0627 \u0627\u0644\u062C\u0648\u0627\u0632 \u0642\u0628\u0644 \u0631\u062D\u0644\u0629 \u0627\u0644\u0639\u0648\u062F\u0629. \u064A\u062C\u0628 \u062A\u062C\u062F\u064A\u062F\u0647 \u0623\u0648\u0644\u064B\u0627.",
+    "Checked in. Boarding passes are in Wallet.": "\u062A\u0645 \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644. \u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0641\u064A \u0627\u0644\u0645\u062D\u0641\u0638\u0629.",
+    "Check in": "\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644",
+    "Flight status": "\u062D\u0627\u0644\u0629 \u0627\u0644\u0631\u062D\u0644\u0629",
+    "Add bags": "\u0625\u0636\u0627\u0641\u0629 \u062D\u0642\u0627\u0626\u0628",
+    "Upgrade": "\u062A\u0631\u0642\u064A\u0629",
+    "Checked in": "\u062A\u0645 \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644",
+    "Boarding passes in Wallet": "\u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0641\u064A \u0627\u0644\u0645\u062D\u0641\u0638\u0629",
+    "Check-in opens": "\u064A\u064F\u0641\u062A\u062D \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644",
+    "Bag drop closes": "\u064A\u064F\u063A\u0644\u0642 \u062A\u0633\u0644\u064A\u0645 \u0627\u0644\u062D\u0642\u0627\u0626\u0628",
+    "Gate": "\u0627\u0644\u0628\u0648\u0627\u0628\u0629",
+    "Shown about 3 hours before": "\u062A\u0638\u0647\u0631 \u0642\u0628\u0644 \u0646\u062D\u0648 \u062B\u0644\u0627\u062B \u0633\u0627\u0639\u0627\u062A",
+    "Opens 55 minutes before take-off": "\u062A\u064F\u0641\u062A\u062D \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639 \u0628\u0640 55 \u062F\u0642\u064A\u0642\u0629",
+    "Boarding": "\u0627\u0644\u0635\u0639\u0648\u062F",
+    "Priority boarding": "\u0635\u0639\u0648\u062F \u0628\u0623\u0648\u0644\u0648\u064A\u0629",
+    "By group, shown on your pass": "\u062D\u0633\u0628 \u0627\u0644\u0645\u062C\u0645\u0648\u0639\u0629\u060C \u0643\u0645\u0627 \u0641\u064A \u0628\u0637\u0627\u0642\u062A\u0643",
+    "Take-off": "\u0627\u0644\u0625\u0642\u0644\u0627\u0639",
+    "Lands": "\u0627\u0644\u0647\u0628\u0648\u0637",
+    "Cabin": "\u0627\u0644\u062F\u0631\u062C\u0629",
+    "Premium Economy": "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629 \u0627\u0644\u0645\u0645\u062A\u0627\u0632\u0629",
+    "Business": "\u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644",
+    "Wider seat with more legroom": "\u0645\u0642\u0639\u062F \u0623\u0639\u0631\u0636 \u0645\u0639 \u0645\u0633\u0627\u062D\u0629 \u0623\u0643\u0628\u0631 \u0644\u0644\u0623\u0631\u062C\u0644",
+    "Two checked bags each": "\u062D\u0642\u064A\u0628\u062A\u0627\u0646 \u0645\u0633\u062C\u0651\u0644\u062A\u0627\u0646 \u0644\u0643\u0644 \u0634\u062E\u0635",
+    "Flat seat or extra-wide seat": "\u0645\u0642\u0639\u062F \u0645\u0633\u0637\u0651\u062D \u0623\u0648 \u0639\u0631\u064A\u0636 \u062C\u062F\u064B\u0627",
+    "Lounge and fast track": "\u0627\u0644\u0635\u0627\u0644\u0629 \u0648\u0627\u0644\u0645\u0633\u0627\u0631 \u0627\u0644\u0633\u0631\u064A\u0639",
+    "Three checked bags each": "\u062B\u0644\u0627\u062B \u062D\u0642\u0627\u0626\u0628 \u0645\u0633\u062C\u0651\u0644\u0629 \u0644\u0643\u0644 \u0634\u062E\u0635",
+    "Add checked bags": "\u0623\u0636\u0641 \u062D\u0642\u0627\u0626\u0628 \u0645\u0633\u062C\u0651\u0644\u0629",
+    "How many bags": "\u0643\u0645 \u062D\u0642\u064A\u0628\u0629",
+    "On both flights": "\u0639\u0644\u0649 \u0627\u0644\u0631\u062D\u0644\u062A\u064A\u0646",
+    "On the flight": "\u0639\u0644\u0649 \u0627\u0644\u0631\u062D\u0644\u0629",
+    "Bags chosen": "\u0627\u062E\u062A\u064A\u0631\u062A \u0627\u0644\u062D\u0642\u0627\u0626\u0628",
+    "Refunded if the flight is cancelled": "\u064A\u064F\u0633\u062A\u0631\u062F \u0627\u0644\u0645\u0628\u0644\u063A \u0625\u0630\u0627 \u0623\u064F\u0644\u063A\u064A\u062A \u0627\u0644\u0631\u062D\u0644\u0629",
+    "More on the card": "\u0627\u0644\u0645\u0632\u064A\u062F \u0639\u0644\u0649 \u0627\u0644\u0628\u0637\u0627\u0642\u0629",
+    "More points": "\u0627\u0644\u0645\u0632\u064A\u062F \u0645\u0646 \u0627\u0644\u0646\u0642\u0627\u0637",
+    "Points": "\u0627\u0644\u0646\u0642\u0627\u0637",
+    "Card": "\u0627\u0644\u0628\u0637\u0627\u0642\u0629",
+    "Saved": "\u0645\u062D\u0641\u0648\u0638",
+    "Saved travellers": "\u0627\u0644\u0645\u0633\u0627\u0641\u0631\u0648\u0646 \u0627\u0644\u0645\u062D\u0641\u0648\u0638\u0648\u0646",
+    "for every two people": "\u0644\u0643\u0644 \u0634\u062E\u0635\u064A\u0646",
+    "Cancel my orders": "\u0623\u0644\u063A\u0650 \u0637\u0644\u0628\u0627\u062A\u064A",
+    "Book me a flight to Lisbon": "\u0627\u062D\u062C\u0632 \u0644\u064A \u0631\u062D\u0644\u0629 \u0625\u0644\u0649 \u0644\u0634\u0628\u0648\u0646\u0629",
+    "Book a table for 2 tonight": "\u0627\u062D\u062C\u0632 \u0637\u0627\u0648\u0644\u0629 \u0644\u0634\u062E\u0635\u064A\u0646 \u0627\u0644\u0644\u064A\u0644\u0629",
+    "Points to use": "\u0627\u0644\u0646\u0642\u0627\u0637 \u0627\u0644\u0645\u0633\u062A\u062E\u062F\u0645\u0629",
+    "Delay my next flight": "\u0623\u062E\u0651\u0631 \u0631\u062D\u0644\u062A\u064A \u0627\u0644\u0642\u0627\u062F\u0645\u0629",
+    "Light fares can't be upgraded. A Standard or Flex fare can.": "\u0644\u0627 \u064A\u0645\u0643\u0646 \u062A\u0631\u0642\u064A\u0629 \u0623\u0633\u0639\u0627\u0631 Light. \u064A\u0645\u0643\u0646 \u062A\u0631\u0642\u064A\u0629 Standard \u0623\u0648 Flex.",
+    "You're already in Business.": "\u0623\u0646\u062A \u0628\u0627\u0644\u0641\u0639\u0644 \u0641\u064A \u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644.",
+    "Online check-in closed an hour before take-off. Go to the airline desk at the airport.": "\u0623\u064F\u063A\u0644\u0642 \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0639\u0628\u0631 \u0627\u0644\u0625\u0646\u062A\u0631\u0646\u062A \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639 \u0628\u0633\u0627\u0639\u0629. \u062A\u0648\u062C\u0651\u0647 \u0625\u0644\u0649 \u0645\u0643\u062A\u0628 \u0634\u0631\u0643\u0629 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0641\u064A \u0627\u0644\u0645\u0637\u0627\u0631.",
+    "You're checked in. Your boarding passes are below and in Wallet.": "\u062A\u0645 \u062A\u0633\u062C\u064A\u0644 \u0648\u0635\u0648\u0644\u0643. \u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0623\u062F\u0646\u0627\u0647 \u0648\u0641\u064A \u0627\u0644\u0645\u062D\u0641\u0638\u0629.",
+    "Here's the day of your flight. I'll message you if anything changes.": "\u0647\u0630\u0627 \u064A\u0648\u0645 \u0631\u062D\u0644\u062A\u0643. \u0633\u0623\u0631\u0627\u0633\u0644\u0643 \u0625\u0630\u0627 \u062A\u063A\u064A\u0651\u0631 \u0623\u064A \u0634\u064A\u0621.",
+    "You're already checked in, so bags are added at the airline desk.": "\u0633\u062C\u0651\u0644\u062A \u0648\u0635\u0648\u0644\u0643 \u0628\u0627\u0644\u0641\u0639\u0644\u060C \u0644\u0630\u0627 \u062A\u064F\u0636\u0627\u0641 \u0627\u0644\u062D\u0642\u0627\u0626\u0628 \u0641\u064A \u0645\u0643\u062A\u0628 \u0634\u0631\u0643\u0629 \u0627\u0644\u0637\u064A\u0631\u0627\u0646.",
+    "Pay with points, card, or both.": "\u0627\u062F\u0641\u0639 \u0628\u0627\u0644\u0646\u0642\u0627\u0637 \u0623\u0648 \u0628\u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0623\u0648 \u0628\u0643\u0644\u064A\u0647\u0645\u0627.",
+    "Tick at least one person to check in.": "\u0627\u062E\u062A\u0631 \u0634\u062E\u0635\u064B\u0627 \u0648\u0627\u062D\u062F\u064B\u0627 \u0639\u0644\u0649 \u0627\u0644\u0623\u0642\u0644 \u0644\u062A\u0633\u062C\u064A\u0644 \u0648\u0635\u0648\u0644\u0647.",
     "Shoreline Insurance": "Shoreline Insurance",
     "Added to Apple Wallet": "\u0623\u064F\u0636\u064A\u0641 \u0625\u0644\u0649 Apple Wallet",
     "Handled by Northgate Invest, a licensed partner": "\u062A\u062A\u0648\u0644\u0627\u0647\u0627 Northgate Invest\u060C \u0648\u0647\u064A \u0634\u0631\u064A\u0643 \u0645\u0631\u062E\u0651\u0635",
@@ -10701,6 +11288,55 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var alertAr = (w) => w.replace(/^(?:when|if) (?:the )?(?:fares?|prices?|flights?) (?:to |for )?([a-z][a-z ]+?) (?:fares? |prices? )?(?:drop|go down|fall|get cheaper)$/i, (_, x) => `when prices drop for flights to ${x}`).replace(/^(?:when|if) ([a-z][a-z ]+?) (?:fares?|prices?|flights?) (?:drop|go down|fall|get cheaper)$/i, (_, x) => `when prices drop for flights to ${x}`).replace("when food delivery is live", "\u0639\u0646\u062F \u062A\u0648\u0641\u0631 \u062A\u0648\u0635\u064A\u0644 \u0627\u0644\u0637\u0639\u0627\u0645").replace("when it's moving again", "\u0639\u0646\u062F\u0645\u0627 \u064A\u062A\u062D\u0631\u0643 \u0645\u062C\u062F\u062F\u064B\u0627").replace("if your passport needs renewing, 60 days before any trip", "\u0625\u0646 \u0627\u062D\u062A\u0627\u062C \u062C\u0648\u0627\u0632\u0643 \u0625\u0644\u0649 \u062A\u062C\u062F\u064A\u062F\u060C \u0642\u0628\u0644 \u0623\u064A \u0631\u062D\u0644\u0629 \u0628\u0640 60 \u064A\u0648\u0645\u064B\u0627").replace(/^when prices to (.+) drop$/, (_, c1) => `\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0625\u0644\u0649 ${c(c1)}`).replace(/^when your points are (about to|going to) expire$/, "\u0642\u0628\u0644 \u0627\u0646\u062A\u0647\u0627\u0621 \u0635\u0644\u0627\u062D\u064A\u0629 \u0646\u0642\u0627\u0637\u0643").replace(/^when tickets go on sale$/, "\u0639\u0646\u062F \u0637\u0631\u062D \u0627\u0644\u062A\u0630\u0627\u0643\u0631 \u0644\u0644\u0628\u064A\u0639").replace(/^when (.+) tickets go on sale$/, (_, c1) => `\u0639\u0646\u062F \u0637\u0631\u062D \u062A\u0630\u0627\u0643\u0631 ${c1} \u0644\u0644\u0628\u064A\u0639`).replace(/^when (the )?prices? (drops?|go(es)? down)$/, "\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0627\u0644\u0633\u0639\u0631").replace(/^before your card bill is due$/, "\u0642\u0628\u0644 \u0645\u0648\u0639\u062F \u0627\u0633\u062A\u062D\u0642\u0627\u0642 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0629").replace(/^on (.+), to pay your card bill$/, (_, x) => `\u064A\u0648\u0645 ${d(x)}\u060C \u0644\u062F\u0641\u0639 \u0641\u0627\u062A\u0648\u0631\u0629 \u0627\u0644\u0628\u0637\u0627\u0642\u0629`).replace(/^when (.+?) (is|are) (live|back|available)$/, (_, x) => `\u0639\u0646\u062F \u062A\u0648\u0641\u0631 ${x}`).replace(/^(when|before) your (card )?bill is due$/, "\u0639\u0646\u062F \u0627\u0642\u062A\u0631\u0627\u0628 \u0645\u0648\u0639\u062F \u0627\u0633\u062A\u062D\u0642\u0627\u0642 \u0627\u0644\u0641\u0627\u062A\u0648\u0631\u0629").replace(/^when your (card )?(bill|statement) is ready$/, "\u0639\u0646\u062F \u0635\u062F\u0648\u0631 \u0643\u0634\u0641 \u0627\u0644\u062D\u0633\u0627\u0628").replace(/^when (the )?check-?in opens( for your flight)?$/, "\u0639\u0646\u062F \u0641\u062A\u062D \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644").replace(/^when your (order|parcel|delivery) (arrives|is delivered)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0637\u0644\u0628\u0643").replace(/^when your refund (arrives|comes through|lands)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0627\u0644\u0645\u0628\u0644\u063A \u0627\u0644\u0645\u0633\u062A\u0631\u062F").replace(/^when your points (expire|are expiring|are about to expire|will expire)$/, "\u0642\u0628\u0644 \u0627\u0646\u062A\u0647\u0627\u0621 \u0635\u0644\u0627\u062D\u064A\u0629 \u0646\u0642\u0627\u0637\u0643").replace(/^when (your )?points (land|arrive|come in)$/, "\u0639\u0646\u062F \u0648\u0635\u0648\u0644 \u0627\u0644\u0646\u0642\u0627\u0637").replace(/^when prices drop for flights to (.+)$/, (_, x) => `\u0639\u0646\u062F \u0627\u0646\u062E\u0641\u0627\u0636 \u0623\u0633\u0639\u0627\u0631 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(x.replace(/^\w/, (ch) => ch.toUpperCase()))}`).replace(/^when flights (?:to )?(.+)$/, (_, x) => `\u0628\u062E\u0635\u0648\u0635 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(x.replace(/^\w/, (ch) => ch.toUpperCase()))}`);
   var P3 = [
     /* chat cards */
+    [/^(\d+) places? to stay in (.+?) for (\d+) nights?\.$/, (m) => `${cnt(m[1], ...LAB["places to stay"])} \u0641\u064A ${c(m[2])} \u0644\u0645\u062F\u0629 ${+m[3] === 2 ? "\u0644\u064A\u0644\u062A\u064A\u0646" : NIGHTS(m[3])}.`],
+    [/^(These leave (?:after|before) \d\d:\d\d\.) (.+)$/, (m) => {
+      const a = tr1(m[1]), b2 = tr1(m[2]);
+      return a != null && b2 != null ? `${a} ${b2}` : null;
+    }],
+    [/^(\d+ places? to stay in .+? for \d+ nights?\.) (.+)$/, (m) => {
+      const a = tr1(m[1]), parts = m[2].split(/(?<=\.) /), tr2 = parts.map((x) => tr1(x));
+      return a != null && tr2.every((x) => x != null) ? `${a} ${tr2.join(" ")}` : null;
+    }],
+    /* flights: extras, check-in, today's flight, upgrades, bags */
+    [/^(\d+) checked bags? on the booking now$/, (m) => `${+m[1] === 1 ? "\u062D\u0642\u064A\u0628\u0629 \u0645\u0633\u062C\u0651\u0644\u0629 \u0648\u0627\u062D\u062F\u0629" : +m[1] === 2 ? "\u062D\u0642\u064A\u0628\u062A\u0627\u0646 \u0645\u0633\u062C\u0651\u0644\u062A\u0627\u0646" : `${m[1]} \u062D\u0642\u0627\u0626\u0628 \u0645\u0633\u062C\u0651\u0644\u0629`} \u0641\u064A \u0627\u0644\u062D\u062C\u0632 \u0627\u0644\u0622\u0646`],
+    [/^(\d+) checked bags?$/, (m) => +m[1] === 1 ? "\u062D\u0642\u064A\u0628\u0629 \u0645\u0633\u062C\u0651\u0644\u0629 \u0648\u0627\u062D\u062F\u0629" : +m[1] === 2 ? "\u062D\u0642\u064A\u0628\u062A\u0627\u0646 \u0645\u0633\u062C\u0651\u0644\u062A\u0627\u0646" : `${m[1]} \u062D\u0642\u0627\u0626\u0628 \u0645\u0633\u062C\u0651\u0644\u0629`],
+    [/^(.+ نقطة|.+ نقاط) added$/, (m) => `\u0623\u064F\u0636\u064A\u0641\u062A ${m[1]}`],
+    [/^(\d+) meals?[,،] both flights$/, (m) => `${+m[1] === 1 ? "\u0648\u062C\u0628\u0629 \u0648\u0627\u062D\u062F\u0629" : `${m[1]} \u0648\u062C\u0628\u0627\u062A`}\u060C \u0639\u0644\u0649 \u0627\u0644\u0631\u062D\u0644\u062A\u064A\u0646`],
+    [/^(\d+) meals?[,،] one each$/, (m) => `${+m[1] === 1 ? "\u0648\u062C\u0628\u0629 \u0648\u0627\u062D\u062F\u0629" : `${m[1]} \u0648\u062C\u0628\u0627\u062A`}\u060C \u0648\u062C\u0628\u0629 \u0644\u0643\u0644 \u0634\u062E\u0635`],
+    [/^(\d+) min late$/, (m) => `\u0645\u062A\u0623\u062E\u0631\u0629 ${m[1]} \u062F\u0642\u064A\u0642\u0629`],
+    [/^([A-Z]{2} \d+) and the return$/, (m) => `${m[1]} \u0648\u0631\u062D\u0644\u0629 \u0627\u0644\u0639\u0648\u062F\u0629`],
+    [/^([A-Z]{2} \d+) from ([A-Z]{3})$/, (m) => `${m[1]} \u0645\u0646 ${m[2]}`],
+    [/^([A-Z]{2} \d+) to (.+?) is running (\d+) minutes late[,،] and the gate has changed to ([A-Z]\d+)\. Everything below is updated; you don't need to do anything\.$/, (m) => `\u0631\u062D\u0644\u0629 ${m[1]} \u0625\u0644\u0649 ${c(m[2])} \u0645\u062A\u0623\u062E\u0631\u0629 ${m[3]} \u062F\u0642\u064A\u0642\u0629\u060C \u0648\u062A\u063A\u064A\u0651\u0631\u062A \u0627\u0644\u0628\u0648\u0627\u0628\u0629 \u0625\u0644\u0649 ${m[4]}. \u0643\u0644 \u0645\u0627 \u064A\u0644\u064A \u0645\u062D\u062F\u0651\u062B\u061B \u0644\u0627 \u062A\u062D\u062A\u0627\u062C \u0625\u0644\u0649 \u0641\u0639\u0644 \u0623\u064A \u0634\u064A\u0621.`],
+    [/^([A-Z]{2} \d+) is running (\d+) minutes late\. Everything below is updated\.$/, (m) => `\u0631\u062D\u0644\u0629 ${m[1]} \u0645\u062A\u0623\u062E\u0631\u0629 ${m[2]} \u062F\u0642\u064A\u0642\u0629. \u0643\u0644 \u0645\u0627 \u064A\u0644\u064A \u0645\u062D\u062F\u0651\u062B.`],
+    [/^The gate changed to ([A-Z]\d+)\.$/, (m) => `\u062A\u063A\u064A\u0651\u0631\u062A \u0627\u0644\u0628\u0648\u0627\u0628\u0629 \u0625\u0644\u0649 ${m[1]}.`],
+    [/^([A-Z]{2} \d+) · up to 23 kg each$/, (m) => `${m[1]} \xB7 \u062D\u062A\u0649 23 \u0643\u063A \u0644\u0644\u062D\u0642\u064A\u0628\u0629`],
+    [/^Add (\d+) and continue$/, (m) => `\u0623\u0636\u0641 ${m[1]} \u0648\u062A\u0627\u0628\u0639`],
+    [/^Add (\d+) bags?$/, (m) => `\u0623\u0636\u0641 ${+m[1] === 1 ? "\u062D\u0642\u064A\u0628\u0629 \u0648\u0627\u062D\u062F\u0629" : +m[1] === 2 ? "\u062D\u0642\u064A\u0628\u062A\u064A\u0646" : `${m[1]} \u062D\u0642\u0627\u0626\u0628`}`],
+    [/^Add ((?:lounge before you fly|fast track security|hot meal on board|car to the airport)(?:, (?:lounge before you fly|fast track security|hot meal on board|car to the airport))*)$/, (m) => `\u0623\u0636\u0641 ${m[1].split(", ").map((x) => ({ "lounge before you fly": "\u0635\u0627\u0644\u0629 \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639", "fast track security": "\u0645\u0633\u0627\u0631\u064B\u0627 \u0633\u0631\u064A\u0639\u064B\u0627 \u0644\u0644\u062A\u0641\u062A\u064A\u0634", "hot meal on board": "\u0648\u062C\u0628\u0629 \u0633\u0627\u062E\u0646\u0629 \u0639\u0644\u0649 \u0645\u062A\u0646 \u0627\u0644\u0637\u0627\u0626\u0631\u0629", "car to the airport": "\u0633\u064A\u0627\u0631\u0629 \u0625\u0644\u0649 \u0627\u0644\u0645\u0637\u0627\u0631" })[x]).join("\u060C ")}`],
+    [/^Added (\d+) checked bags?\. Drop (?:it|them) at the airline desk before you go through security\.$/, (m) => `\u0623\u064F\u0636\u064A\u0641\u062A ${+m[1] === 1 ? "\u062D\u0642\u064A\u0628\u0629 \u0645\u0633\u062C\u0651\u0644\u0629 \u0648\u0627\u062D\u062F\u0629" : `${m[1]} \u062D\u0642\u0627\u0626\u0628 \u0645\u0633\u062C\u0651\u0644\u0629`}. \u0633\u0644\u0651\u0645\u0647\u0627 \u0641\u064A \u0645\u0643\u062A\u0628 \u0634\u0631\u0643\u0629 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0642\u0628\u0644 \u0627\u0644\u062A\u0641\u062A\u064A\u0634 \u0627\u0644\u0623\u0645\u0646\u064A.`],
+    [/^All (\d+) of you[,،] on the way out$/, (m) => `\u062C\u0645\u064A\u0639\u0643\u0645 (${m[1]})\u060C \u0641\u064A \u0631\u062D\u0644\u0629 \u0627\u0644\u0630\u0647\u0627\u0628`],
+    [/^(Business|Premium Economy) chosen$/, (m) => `\u0627\u062E\u062A\u064A\u0631\u062A ${m[1] === "Business" ? "\u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644" : "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629 \u0627\u0644\u0645\u0645\u062A\u0627\u0632\u0629"}`],
+    [/^Check-in opened for ([A-Z]{2} \d+)[,،] so I checked you in as you asked\.(?: (.*))?$/, (m) => `\u0641\u064F\u062A\u062D \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0644\u0644\u0631\u062D\u0644\u0629 ${m[1]}\u060C \u0641\u0633\u062C\u0651\u0644\u062A \u0648\u0635\u0648\u0644\u0643 \u0643\u0645\u0627 \u0637\u0644\u0628\u062A.${m[2] ? " " + t1(m[2]) : ""}`],
+    [/^Check-in is open for ([A-Z]{2} \d+) to (.+)\.$/, (m) => `\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0645\u0641\u062A\u0648\u062D \u0644\u0644\u0631\u062D\u0644\u0629 ${m[1]} \u0625\u0644\u0649 ${c(m[2])}.`],
+    [/^Checked in(?:: (\d+) people)?\. Your boarding pass(?:es are| is) below and in Wallet\.$/, (m) => `\u062A\u0645 \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644${m[1] ? `: ${m[1]} \u0623\u0634\u062E\u0627\u0635` : ""}. \u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0623\u062F\u0646\u0627\u0647 \u0648\u0641\u064A \u0627\u0644\u0645\u062D\u0641\u0638\u0629.`],
+    [/^Checked bags are (.+?) each[,،] per flight\. Pick how many to add\.$/, (m) => `\u0633\u0639\u0631 \u0627\u0644\u062D\u0642\u064A\u0628\u0629 \u0627\u0644\u0645\u0633\u062C\u0651\u0644\u0629 ${m[1]} \u0644\u0643\u0644 \u0631\u062D\u0644\u0629. \u0627\u062E\u062A\u0631 \u0639\u062F\u062F \u0627\u0644\u062D\u0642\u0627\u0626\u0628.`],
+    [/^Gate ([A-Z]\d+)$/, (m) => `\u0627\u0644\u0628\u0648\u0627\u0628\u0629 ${m[1]}`],
+    [/^was ([A-Z]\d+)$/, (m) => `\u0643\u0627\u0646\u062A ${m[1]}`],
+    [/^It opens (.+) at (\d\d:\d\d)\. I can check everyone in the moment it opens and send the boarding passes to Wallet\.$/, (m) => `\u064A\u064F\u0641\u062A\u062D ${m[1]} \u0627\u0644\u0633\u0627\u0639\u0629 ${m[2]}. \u064A\u0645\u0643\u0646\u0646\u064A \u062A\u0633\u062C\u064A\u0644 \u0648\u0635\u0648\u0644 \u0627\u0644\u062C\u0645\u064A\u0639 \u0644\u062D\u0638\u0629 \u0641\u062A\u062D\u0647 \u0648\u0625\u0631\u0633\u0627\u0644 \u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0625\u0644\u0649 \u0627\u0644\u0645\u062D\u0641\u0638\u0629.`],
+    [/^It opens (.+) at (\d\d:\d\d)\. I'll check everyone in then and send the boarding passes to Wallet\.$/, (m) => `\u064A\u064F\u0641\u062A\u062D ${m[1]} \u0627\u0644\u0633\u0627\u0639\u0629 ${m[2]}. \u0633\u0623\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644 \u0627\u0644\u062C\u0645\u064A\u0639 \u062D\u064A\u0646\u0647\u0627 \u0648\u0623\u0631\u0633\u0644 \u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0625\u0644\u0649 \u0627\u0644\u0645\u062D\u0641\u0638\u0629.`],
+    [/^(?:Check-in opens|يُفتح تسجيل الوصول) (.+) at (\d\d:\d\d)[,،] 24 hours before take-off\.$/, (m) => `\u064A\u064F\u0641\u062A\u062D \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 ${m[1]} \u0627\u0644\u0633\u0627\u0639\u0629 ${m[2]}\u060C \u0642\u0628\u0644 \u0627\u0644\u0625\u0642\u0644\u0627\u0639 \u0628\u0640 24 \u0633\u0627\u0639\u0629.`],
+    [/^(Premium Economy|Business) for (everyone|you)\.$/, (m) => `${m[1] === "Business" ? "\u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644" : "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629 \u0627\u0644\u0645\u0645\u062A\u0627\u0632\u0629"} ${m[2] === "everyone" ? "\u0644\u0644\u062C\u0645\u064A\u0639" : "\u0644\u0643"}.`],
+    [/^(Premium Economy|Business) upgrade$/, (m) => `\u0627\u0644\u062A\u0631\u0642\u064A\u0629 \u0625\u0644\u0649 ${m[1] === "Business" ? "\u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644" : "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629 \u0627\u0644\u0645\u0645\u062A\u0627\u0632\u0629"}`],
+    [/^Upgrade to (Premium Economy|Business)$/, (m) => `\u0627\u0644\u062A\u0631\u0642\u064A\u0629 \u0625\u0644\u0649 ${m[1] === "Business" ? "\u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644" : "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629 \u0627\u0644\u0645\u0645\u062A\u0627\u0632\u0629"}`],
+    [/^Upgrade (.+?) to (.+)$/, (m) => `\u062A\u0631\u0642\u064A\u0629 \u0631\u062D\u0644\u0629 ${c(m[1])} \u0625\u0644\u0649 ${c(m[2])}`],
+    [/^Upgraded\. You're in (Premium Economy|Business) now; your seats move with you\.$/, (m) => `\u062A\u0645\u062A \u0627\u0644\u062A\u0631\u0642\u064A\u0629. \u0623\u0646\u062A \u0627\u0644\u0622\u0646 \u0641\u064A ${m[1] === "Business" ? "\u062F\u0631\u062C\u0629 \u0631\u062C\u0627\u0644 \u0627\u0644\u0623\u0639\u0645\u0627\u0644" : "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629 \u0627\u0644\u0645\u0645\u062A\u0627\u0632\u0629"}\u061B \u062A\u0646\u062A\u0642\u0644 \u0645\u0642\u0627\u0639\u062F\u0643 \u0645\u0639\u0643.`],
+    [/^Upgrades are priced for (?:all (\d+) of you|you)(, both flights)?\. Your seats move to the new cabin\.$/, (m) => `\u0623\u0633\u0639\u0627\u0631 \u0627\u0644\u062A\u0631\u0642\u064A\u0629 ${m[1] ? `\u0644\u0643\u0645 \u062C\u0645\u064A\u0639\u064B\u0627 (${m[1]})` : "\u0644\u0643"}${m[2] ? "\u060C \u0639\u0644\u0649 \u0627\u0644\u0631\u062D\u0644\u062A\u064A\u0646" : ""}. \u062A\u0646\u062A\u0642\u0644 \u0645\u0642\u0627\u0639\u062F\u0643\u0645 \u0625\u0644\u0649 \u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u062C\u062F\u064A\u062F\u0629.`],
+    [/^for (\d+) people$/, (m) => forPeople(m[1])],
+    [/^I'll check (everyone|you) in when it opens(?:[,،] once passport details are in)?[,،] and send the boarding passes to Wallet\.$/, (m) => `\u0633\u0623\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644 ${m[1] === "everyone" ? "\u0627\u0644\u062C\u0645\u064A\u0639" : "\u0648\u0635\u0648\u0644\u0643"} \u0639\u0646\u062F \u0641\u062A\u062D\u0647${/passport/.test(m[0]) ? " \u0628\u0639\u062F \u0625\u0636\u0627\u0641\u0629 \u0628\u064A\u0627\u0646\u0627\u062A \u0627\u0644\u062C\u0648\u0627\u0632\u0627\u062A" : ""}\u060C \u0648\u0623\u0631\u0633\u0644 \u0628\u0637\u0627\u0642\u0627\u062A \u0627\u0644\u0635\u0639\u0648\u062F \u0625\u0644\u0649 \u0627\u0644\u0645\u062D\u0641\u0638\u0629.`],
+    [/^Check in (\d+) (?:people|person)$/, (m) => `\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644 ${+m[1] === 1 ? "\u0634\u062E\u0635 \u0648\u0627\u062D\u062F" : `${m[1]} \u0623\u0634\u062E\u0627\u0635`}`],
+    [/^Check in (.+)$/, (m) => `\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644 ${m[1]}`],
+    [/^Check-in is open\. The airline needs passport details for everyone[,،] then I'll check you in\.$/, () => "\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0645\u0641\u062A\u0648\u062D. \u062A\u062D\u062A\u0627\u062C \u0634\u0631\u0643\u0629 \u0627\u0644\u0637\u064A\u0631\u0627\u0646 \u0625\u0644\u0649 \u0628\u064A\u0627\u0646\u0627\u062A \u062C\u0648\u0627\u0632\u0627\u062A \u0627\u0644\u062C\u0645\u064A\u0639\u060C \u062B\u0645 \u0623\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644\u0643\u0645."],
+    [/^Check-in is open\. Tick who's flying and I'll check you in\.$/, () => "\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0645\u0641\u062A\u0648\u062D. \u0627\u062E\u062A\u0631 \u0627\u0644\u0645\u0633\u0627\u0641\u0631\u064A\u0646 \u0648\u0633\u0623\u0633\u062C\u0651\u0644 \u0648\u0635\u0648\u0644\u0643\u0645."],
     [/^(\d+) nights?$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0644\u064A\u0644\u0629" : "\u0644\u064A\u0627\u0644\u064D"}`],
     [/^(\d+) travellers?$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0645\u0633\u0627\u0641\u0631" : "\u0645\u0633\u0627\u0641\u0631\u064A\u0646"}`],
     [/^(\d+) (?:people|person)$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0634\u062E\u0635" : "\u0623\u0634\u062E\u0627\u0635"}`],
@@ -12523,8 +13159,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     }
     const tm = t.match(/^(?:the |book the |i'?ll take the )?(\d{1,2})[:.](\d\d)(?: one| flight)?\??$/);
     if (tm && ((_e = last.opts) == null ? void 0 : _e.length)) {
-      const hhmm = `${tm[1].padStart(2, "0")}:${tm[2]}`, o = last.opts.find((x) => x.dep === hhmm);
-      return o ? chooseFlight({ id: o.id, pax: last.pax, kids: last.kids, inf: last.inf, back: last.back }) : { say: `There's no ${hhmm} flight in these results. The times are ${last.opts.map((x) => x.dep).join(", ")}.`, blocks: [] };
+      const hhmm2 = `${tm[1].padStart(2, "0")}:${tm[2]}`, o = last.opts.find((x) => x.dep === hhmm2);
+      return o ? chooseFlight({ id: o.id, pax: last.pax, kids: last.kids, inf: last.inf, back: last.back }) : { say: `There's no ${hhmm2} flight in these results. The times are ${last.opts.map((x) => x.dep).join(", ")}.`, blocks: [] };
     }
     if (((_f = last.opts) == null ? void 0 : _f.length) && /what time does it (land|arrive)|when does it (land|arrive)/.test(t)) {
       const o = last.opts.find((x) => x.dep === last.bestDep) || last.opts[0];
@@ -13693,7 +14329,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       var _a;
       respond(settlePending());
       (_a = window.__go) == null ? void 0 : _a.call(window, "chat");
-    } }, "Return window ends"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("fraud") }, "Suspicious payment")), /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("card") }, "New card arrives"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("cases") }, "Bank decides cases")), /* @__PURE__ */ React.createElement(Connections, null), /* @__PURE__ */ React.createElement(ResetButton, null)));
+    } }, "Return window ends"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("fraud") }, "Suspicious payment")), /* @__PURE__ */ React.createElement("div", { className: "gr-actions" }, /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("checkin") }, "Check-in opens"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("delay") }, "Delay my next flight"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("card") }, "New card arrives"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => simulate("cases") }, "Bank decides cases")), /* @__PURE__ */ React.createElement(Connections, null), /* @__PURE__ */ React.createElement(ResetButton, null)));
   }
   function Connections() {
     const off = useS((s) => s.seen.apisOff) || {};
@@ -13818,7 +14454,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     } }, "Yes, reset"), /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "secondary", onClick: () => setSure(false) }, "Keep")) : /* @__PURE__ */ React.createElement(Button, { size: "sm", variant: "ghost", onClick: () => setSure(true) }, "Reset demo");
   }
   function simulate(k) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w;
     const s = get(), M3 = window.__M;
     if (k === "cancel") {
       const f = s.bookings.find((b2) => {
@@ -13837,6 +14473,33 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       updateBooking(f.id, { extra: { ...f.extra, disrupted: true } });
       pushMsg({ role: "gr", text: `Your ${(_b = f.extra) == null ? void 0 : _b.dep} flight to ${f.title.split(" to ")[1]} has been cancelled by the airline. Your options are below; there's no need to queue or call anyone.`, blocks: [{ kind: "disruption", id: f.id }] });
     }
+    if (k === "checkin" || k === "delay") {
+      const f = s.bookings.filter((b2) => {
+        var _a2;
+        return b2.cat === "flights" && b2.status === "confirmed" && !((_a2 = b2.extra) == null ? void 0 : _a2.disrupted);
+      }).sort((x, y) => {
+        var _a2, _b2, _c2, _d2;
+        return (((_a2 = x.extra) == null ? void 0 : _a2.date) + ((_b2 = x.extra) == null ? void 0 : _b2.dep)).localeCompare(((_c2 = y.extra) == null ? void 0 : _c2.date) + ((_d2 = y.extra) == null ? void 0 : _d2.dep));
+      })[0];
+      if (!f) {
+        pushMsg({ role: "gr", text: "Book a flight first." });
+        (_c = window.__go) == null ? void 0 : _c.call(window, "chat");
+        return;
+      }
+      if (k === "checkin") {
+        updateBooking(f.id, { extra: { ...f.extra, ciOpen: true } });
+        if ((_d = f.extra) == null ? void 0 : _d.autoCheckin) {
+          const r = checkInDo({ id: f.id, names: (((_e = f.extra) == null ? void 0 : _e.names) || []).slice(0, (((_f = f.extra) == null ? void 0 : _f.pax) || 1) + (((_g = f.extra) == null ? void 0 : _g.inf) || 0)).filter(Boolean).length ? f.extra.names.slice(0, (((_h = f.extra) == null ? void 0 : _h.pax) || 1) + (((_i = f.extra) == null ? void 0 : _i.inf) || 0)) : [get().prefs.full || get().prefs.name] });
+          pushMsg({ role: "gr", text: `Check-in opened for ${(_j = f.extra) == null ? void 0 : _j.number}, so I checked you in as you asked. ${r.say}`, blocks: r.blocks });
+        } else pushMsg({ role: "gr", text: `Check-in is open for ${(_k = f.extra) == null ? void 0 : _k.number} to ${f.title.split(" to ")[1]}.`, blocks: [{ kind: "checkin", id: f.id }] });
+      } else {
+        const was = ((_l = f.extra) == null ? void 0 : _l.gate) || ((_m = window.__gateOf) == null ? void 0 : _m.call(window, f)), gate2 = "B" + ((f.ref || "X").charCodeAt(3) % 30 + 2);
+        updateBooking(f.id, { extra: { ...f.extra, delay: 45, gateWas: was, gate: gate2, ciOpen: true } });
+        pushMsg({ role: "gr", text: `${(_n = f.extra) == null ? void 0 : _n.number} to ${f.title.split(" to ")[1]} is running 45 minutes late, and the gate has changed to ${gate2}. Everything below is updated; you don't need to do anything.`, blocks: [{ kind: "triptl", id: f.id }] });
+      }
+      (_o = window.__go) == null ? void 0 : _o.call(window, "chat");
+      return;
+    }
     if (k === "deliver") {
       const o = s.bookings.find((b2) => {
         var _a2;
@@ -13844,18 +14507,18 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       });
       if (!o) {
         pushMsg({ role: "gr", text: "There's no order on the way. Order something first." });
-        (_c = window.__go) == null ? void 0 : _c.call(window, "chat");
+        (_p = window.__go) == null ? void 0 : _p.call(window, "chat");
         return;
       }
       updateBooking(o.id, { status: "delivered", tracker: { ...o.tracker, current: o.tracker.steps.length - 1, tone: void 0, eta: "Delivered" } });
       pushMsg({ role: "gr", text: `Your ${o.title} order was delivered.`, blocks: [{ kind: "booking", id: o.id }] });
-      (_d = window.__go) == null ? void 0 : _d.call(window, "chat");
+      (_q = window.__go) == null ? void 0 : _q.call(window, "chat");
     }
     if (k === "late") {
       const o = s.bookings.find((b2) => b2.kind === "order" && b2.tracker && b2.status !== "delivered" && !["cancelled", "refunded"].includes(b2.status));
       if (!o) {
         pushMsg({ role: "gr", text: "Order something first, then I can show you a delay." });
-        (_e = window.__go) == null ? void 0 : _e.call(window, "chat");
+        (_r = window.__go) == null ? void 0 : _r.call(window, "chat");
         return;
       }
       const quick = o.cat === "quick", newDay = addDays(iso(/* @__PURE__ */ new Date()), 3);
@@ -13869,12 +14532,12 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       });
       if (!o) {
         pushMsg({ role: "gr", text: "No new card is on its way. Order one from My card, under Lost, stolen or damaged card." });
-        (_f = window.__go) == null ? void 0 : _f.call(window, "chat");
+        (_s = window.__go) == null ? void 0 : _s.call(window, "chat");
         return;
       }
       updateBooking(o.id, { status: "delivered", extra: { ...o.extra, case: "replacement" }, tracker: { ...o.tracker, current: o.tracker.steps.length - 1, tone: void 0, eta: "Delivered" } });
       pushMsg({ role: "gr", text: "Your new card has been delivered. Activate it on My card to start using it." });
-      (_g = window.__go) == null ? void 0 : _g.call(window, "cardx", "activate");
+      (_t = window.__go) == null ? void 0 : _t.call(window, "cardx", "activate");
       return;
     }
     if (k === "cases") {
@@ -13884,7 +14547,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
       });
       if (!open2.length) {
         pushMsg({ role: "gr", text: "There are no disputes or limit requests waiting. Start one from My card." });
-        (_h = window.__go) == null ? void 0 : _h.call(window, "chat");
+        (_u = window.__go) == null ? void 0 : _u.call(window, "chat");
         return;
       }
       open2.forEach((b2) => {
@@ -13897,14 +14560,14 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
           pushMsg({ role: "gr", text: `The bank approved your new credit limit of ${M3.money(b2.extra.to)}. It applies straight away.` });
         }
       });
-      (_i = window.__go) == null ? void 0 : _i.call(window, "cardx", "cases");
+      (_v = window.__go) == null ? void 0 : _v.call(window, "cardx", "cases");
       return;
     }
     if (k === "fraud") {
       set((x) => ({ card: { ...x.card, frozen: true } }));
       pushMsg({ role: "gr", text: `Did you just try to pay ${M3.money(px(649, s.market), 2)} to an online electronics shop abroad? It didn't look like you, so I've frozen your card and blocked the payment.`, blocks: [{ kind: "state", state: "error", title: "Payment blocked", body: "Nothing left your account.", actions: [{ label: "It was me", act: { f: "unfreezeAsk", a: {} } }, { label: "It wasn't me", act: { f: "bank", a: { topic: "fraud" } } }] }] });
     }
-    (_j = window.__go) == null ? void 0 : _j.call(window, "chat");
+    (_w = window.__go) == null ? void 0 : _w.call(window, "chat");
   }
 
   // src/voice.tsx

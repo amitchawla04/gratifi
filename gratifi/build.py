@@ -15,7 +15,7 @@ fonts=f"""@font-face{{font-family:Geist;src:url(data:font/woff2;base64,{b64(F+'G
 @font-face{{font-family:'IBM Plex Sans Arabic';src:url(data:font/woff2;base64,{b64(F+'PlexArabic-700.woff2')}) format('woff2');font-weight:700 900}}
 """
 kitcss=''.join(l for l in open(K+'/src/kit.css').read().splitlines(True) if not l.startswith('@import'))
-css=open(K+'/test/tokens.css').read()+fonts+kitcss+open('src/app.css').read()
+css=open(K+'/test/tokens.css').read()+fonts+kitcss+open('src/app.css').read()+open('src/cards2.css').read()
 js=lambda p: open(p).read().replace('</script','<\\/script')
 html=f"""<title>Gratifi</title>
 <style>{css}</style>

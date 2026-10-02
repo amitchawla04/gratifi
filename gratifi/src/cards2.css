@@ -196,3 +196,5 @@
 .c2-card .ds-btn48:disabled { background: #ECEAE6; color: #8E8D93; opacity: 1; box-shadow: none; }
 .c2-sec-t.inv { fill: #F4F4F3; }
 .c2-ride .c2-prow, .c2-ride .c2-eta, .c2-ride .c2-acts { width: auto; }
+
+.c2-slide { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 2px; }
