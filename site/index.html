@@ -2452,7 +2452,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   function PriceCalendar({ year = 2026, month = 9, prices = {}, low = [], from, to, disabledBefore = 0, today, onPick, onPrev, onNext }) {
     const M3 = useMarket();
     const [a, setA] = useState(from), [b2, setB] = useState(to);
-    const pick = (d2) => {
+    const pick2 = (d2) => {
       if (!a || a && b2) {
         setA(d2);
         setB(void 0);
@@ -2470,7 +2470,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     for (let i = 0; i < lead; i++) cells.push(/* @__PURE__ */ React.createElement("div", { key: "x" + i }));
     for (let d2 = 1; d2 <= days; d2++) {
       const dis = d2 < disabledBefore, s = d2 === a, e = d2 === b2, inr = a && b2 && d2 > a && d2 < b2, p = prices[d2];
-      cells.push(/* @__PURE__ */ React.createElement("button", { key: d2, className: cx("gr-day", s && "gr-start", (e || s && !b2) && "gr-end", inr && "gr-in-range", d2 === today && !s && !e && "gr-today"), "aria-disabled": dis, "aria-pressed": s || e, "aria-label": `${M3.num(d2)} ${mName}${p != null ? ", " + M3.t("fromPrice", { p: M3.money(p) }) : ""}${low.includes(d2) ? ", " + M3.t("cheapestA11y") : ""}`, onClick: () => !dis && pick(d2) }, /* @__PURE__ */ React.createElement("span", null, M3.num(d2)), /* @__PURE__ */ React.createElement("small", { className: low.includes(d2) ? "gr-low" : void 0, "aria-hidden": "true" }, !dis && p != null ? M3.money(p) : "\xA0")));
+      cells.push(/* @__PURE__ */ React.createElement("button", { key: d2, className: cx("gr-day", s && "gr-start", (e || s && !b2) && "gr-end", inr && "gr-in-range", d2 === today && !s && !e && "gr-today"), "aria-disabled": dis, "aria-pressed": s || e, "aria-label": `${M3.num(d2)} ${mName}${p != null ? ", " + M3.t("fromPrice", { p: M3.money(p) }) : ""}${low.includes(d2) ? ", " + M3.t("cheapestA11y") : ""}`, onClick: () => !dis && pick2(d2) }, /* @__PURE__ */ React.createElement("span", null, M3.num(d2)), /* @__PURE__ */ React.createElement("small", { className: low.includes(d2) ? "gr-low" : void 0, "aria-hidden": "true" }, !dis && p != null ? M3.money(p) : "\xA0")));
     }
     return /* @__PURE__ */ React.createElement("div", { className: "gr-cal" }, /* @__PURE__ */ React.createElement("div", { className: "gr-cal-head" }, /* @__PURE__ */ React.createElement("div", { className: "gr-heading" }, M3.monthLabel(year, month)), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { gap: 6 } }, /* @__PURE__ */ React.createElement("button", { className: "gr-ibtn gr-flat gr-sm", "aria-label": M3.t("prevMonth"), disabled: !onPrev, onClick: onPrev }, /* @__PURE__ */ React.createElement(Icon, { name: "back", size: 18 })), /* @__PURE__ */ React.createElement("button", { className: "gr-ibtn gr-flat gr-sm", "aria-label": M3.t("nextMonth"), disabled: !onNext, onClick: onNext }, /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18 })))), /* @__PURE__ */ React.createElement("div", { className: "gr-cal-grid" }, M3.dows().map((x, i) => /* @__PURE__ */ React.createElement("div", { key: i, className: "gr-dow" }, x)), cells), a && /* @__PURE__ */ React.createElement("div", { className: "gr-meta", style: { marginTop: 10 } }, b2 ? M3.t("nights", { n: M3.num(b2 - a) }) : M3.t("pickReturn"), low.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "gr-dot" }), /* @__PURE__ */ React.createElement("span", { style: { color: "var(--good)" } }, M3.t("cheapest")))));
   }
@@ -2504,6 +2504,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var flat = (c2) => `<rect width="480" height="400" fill="${c2}"/>`;
   var sky = (a = SKY1, b2 = SKY2) => `<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b2}"/></linearGradient></defs><rect width="480" height="400" fill="url(#s)"/>`;
   var dusk = () => sky("#FFC9A3", "#FFE9D6");
+  var dusk_ = dusk;
   var sun = (x = 380, y = 90, r = 44, c2 = O2) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c2}" opacity="0.92"/>`;
   var floor = (y, c2, line = true) => `<rect x="0" y="${y}" width="480" height="${400 - y}" fill="${c2}"/>${line ? `<path d="M0 ${y} H480" ${st()}/>` : ""}`;
   var cloud = (x, y, s = 1, o = 0.85) => `<g fill="${W}" opacity="${o}" transform="translate(${x} ${y}) scale(${s})"><circle cx="0" cy="0" r="24"/><circle cx="30" cy="-10" r="30"/><circle cx="62" cy="2" r="22"/><rect x="0" y="0" width="62" height="24"/></g>`;
@@ -2535,13 +2536,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     mountain: () => `${sea(330)}<path d="M60 330 L190 170 L250 236 L300 190 L420 330 Z" fill="${G2}" ${st(4)}/><path d="M164 202 L190 170 L212 196 L196 192 L184 204 Z" fill="${W}" ${st(3)}/>`
   };
   var CITY_LAND = { Lisbon: "oldtown", Barcelona: "beach", Paris: "tower", Edinburgh: "castle", Amsterdam: "canal", Rome: "colosseum", London: "clock", "New York": "skyline", Goa: "beach", Delhi: "arch", Bengaluru: "skyline", Dubai: "spire", Muscat: "fort", Istanbul: "mosque4", "Mal\xE9": "villas", Bangkok: "pagoda", Bali: "splitgate", Tokyo: "fuji", "Kuala Lumpur": "twin", Sydney: "bridge", "Kota Kinabalu": "mountain", Penang: "oldtown", Langkawi: "beach", Singapore: "marina" };
-  var LOW = /* @__PURE__ */ new Set(["beach", "mountain", "oldtown", "canal", "bridge", "villas", "fuji"]);
-  var BASE = { tower: G2, castle: G2, domes: SAND, skyline: GREY, twin: GREY, pagoda: G2, arch: SAND, colosseum: SAND, clock: GREY, spire: SAND, marina: SEA2, mosque4: SAND, fort: SAND, splitgate: G2 };
+  var LOW = /* @__PURE__ */ new Set(["beach", "mountain", "oldtown", "canal", "bridge", "villas"]);
+  var BASE = { fuji: G2, tower: G2, castle: G2, domes: SAND, skyline: GREY, twin: GREY, pagoda: G2, arch: SAND, colosseum: SAND, clock: GREY, spire: SAND, marina: SEA2, mosque4: SAND, fort: SAND, splitgate: G2 };
   var DUSK = /* @__PURE__ */ new Set(["Barcelona", "Goa", "Mal\xE9", "Bali", "Langkawi", "Muscat", "Dubai", "Penang"]);
   var landOf = (city) => CITY_LAND[city] || "skyline";
   function flightTo(city) {
     const d2 = DUSK.has(city), l = landOf(city), low = LOW.has(l);
-    const land = low ? LAND[l]() : `${l === "marina" ? sea(330) : floor(330, BASE[l] || GREY)}<g transform="translate(150 92) scale(0.72)">${LAND[l]()}</g>`;
+    const land = low ? LAND[l]() : `${l === "marina" ? sea(330) : floor(330, BASE[l] || GREY)}<g transform="translate(112 59) scale(0.82)">${LAND[l]()}</g>`;
     return svg(d2 ? dusk() : sky(), `${sun(d2 ? 410 : 414, 74, 34, d2 ? O2 : Y2)}${cloud(40, 110, 0.8)}${cloud(330, 128, 0.6, 0.7)}${land}${low ? plane(300, 160, 0.4, -12) : plane(140, 178, 0.38, -12)}`);
   }
   function cityScene(city) {
@@ -2554,6 +2555,65 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     facade: () => svg(sky(), `${cloud(330, 80, 0.9)}${floor(340, GREY)}<rect x="130" y="90" width="220" height="250" fill="${CREAM}" ${st()}/>${[0, 1, 2].map((r) => [0, 1, 2].map((c2) => `<rect x="${150 + c2 * 70}" y="${112 + r * 62}" width="42" height="40" fill="${SKY2}" ${st(4)}/><path d="M${144 + c2 * 70} ${156 + r * 62} h54" ${st(4)}/>`).join("")).join("")}<path d="M180 300 h120 v-24 h-120 Z" fill="${O}" ${st(4)}/><rect x="216" y="300" width="48" height="40" fill="${K}"/><path d="M350 120 V64" ${st(4)}/><path d="M350 66 h32 l-8 11 l8 11 h-32" fill="${O}" ${st(4)}/>`),
     terrace: () => svg(dusk(), `${sun(380, 110, 46, O2)}<g ${st(4)}><rect x="40" y="190" width="54" height="110" fill="#9CC7E4"/><rect x="100" y="150" width="48" height="150" fill="${W}"/><rect x="330" y="200" width="56" height="100" fill="${CREAM}"/><rect x="392" y="170" width="50" height="130" fill="#9CC7E4"/></g>${floor(300, WOOD)}<path d="M0 300 H480 M0 272 H480" ${st(4)}/>${[30, 90, 150, 210, 270, 330, 390, 450].map((x) => `<path d="M${x} 272 V300" ${st(4)}/>`).join("")}<path d="M240 340 V190" ${st(4)}/><path d="M168 204 Q240 150 312 204 Z" fill="${W}" ${st()}/><path d="M204 204 Q240 160 276 204" fill="none" stroke="${O}" stroke-width="10"/><ellipse cx="240" cy="330" rx="56" ry="12" fill="${W}" ${st(4)}/><path d="M228 318 v-22 h-12 M252 318 v-22 h12" ${st(4)}/><circle cx="216" cy="292" r="6" fill="${O}" ${st(3)}/>`)
   };
+  var seeded = (key) => {
+    let h = 2166136261;
+    for (const c2 of key) {
+      h ^= c2.charCodeAt(0);
+      h = Math.imul(h, 16777619) >>> 0;
+    }
+    return () => {
+      h ^= h << 13;
+      h >>>= 0;
+      h ^= h >> 17;
+      h ^= h << 5;
+      h >>>= 0;
+      return h / 4294967296;
+    };
+  };
+  var pick = (r, xs) => xs[Math.floor(r() * xs.length) % xs.length];
+  var WALLS = [CREAM, ROSE, "#DCEBF7", LAV, MINT, PEACH, "#F3E7D6"];
+  var ACCENTS = [O, Y, SEA2, G, R, "#9CC7E4", "#F2A0B8"];
+  var palm = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0 Q-8 -50 14 -100" fill="none" stroke="${WOOD2}" stroke-width="12" stroke-linecap="round"/><g fill="${G}" ${st(4)}><path d="M14 -100 Q-22 -116 -42 -96 Q-14 -104 14 -96 Z"/><path d="M14 -100 Q48 -122 74 -106 Q42 -106 14 -94 Z"/><path d="M14 -100 Q6 -138 30 -154 Q22 -124 18 -96 Z"/><path d="M14 -100 Q-18 -136 -36 -128 Q-6 -122 12 -94 Z"/></g></g>`;
+  var potPlant = (x, y, c2) => `<g transform="translate(${x} ${y})"><path d="M-16 0 H16 L12 30 H-12 Z" fill="${c2}" ${st(4)}/><path d="M0 0 Q-20 -30 -6 -50 M0 0 Q4 -36 18 -46 M0 0 Q-2 -24 -22 -30" fill="none" stroke="${G}" stroke-width="7" stroke-linecap="round"/></g>`;
+  var lounger = (x, y, c2) => `<g transform="translate(${x} ${y})"><path d="M0 0 H70 L86 -18" fill="none" ${st()}/><path d="M4 -4 H68 L82 -18" fill="none" stroke="${c2}" stroke-width="6"/><path d="M6 0 V24 M64 0 V24" ${st(4)}/></g>`;
+  var brolly = (x, y, c2, h = 130) => `<path d="M${x} ${y} V${y - h}" ${st(4)}/><path d="M${x - 62} ${y - h + 12} Q${x} ${y - h - 42} ${x + 62} ${y - h + 12} Z" fill="${c2}" ${st()}/><path d="M${x - 30} ${y - h + 8} Q${x} ${y - h - 36} ${x + 30} ${y - h + 8}" fill="none" stroke="${W}" stroke-width="5" opacity="0.6"/>`;
+  var view = (city, x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})">${LAND[landOf(city)]()}</g>`;
+  function hotelScene(kind, city, seed) {
+    const r = seeded(seed), dusk2 = r() < 0.4, wall = pick(r, WALLS), acc = pick(r, ACCENTS), acc2 = pick(r, ACCENTS.filter((x) => x !== acc));
+    const bg = dusk2 ? dusk_() : sky();
+    if (kind === "pool") {
+      const wide = r() < 0.5;
+      return svg(bg, `${sun(dusk2 ? 96 : 400, dusk2 ? 92 : 70, 34, dusk2 ? O2 : Y2)}${cloud(60 + r() * 60, 70, 0.7, 0.7)}<g opacity="0.95">${view(city, 150, 92, 0.6)}</g>${floor(250, SAND)}<path d="M0 250 H480" ${st()}/>
+      <rect x="${wide ? 40 : 70}" y="276" width="${wide ? 300 : 230}" height="92" rx="${wide ? 46 : 14}" fill="${SEA2}" ${st()}/><path d="M${wide ? 80 : 100} 306 q24 -12 48 0 t48 0 M${wide ? 150 : 140} 340 q24 -12 48 0 t48 0" fill="none" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+      ${r() < 0.5 ? `<circle cx="${wide ? 290 : 250}" cy="318" r="14" fill="${acc2}" ${st(4)}/><circle cx="${wide ? 290 : 250}" cy="318" r="6" fill="${W}"/>` : ""}
+      ${lounger(360, 300, acc)}${r() < 0.6 ? lounger(366, 352, acc2) : ""}${brolly(430, 300, acc)}${r() < 0.55 ? palm(40, 250, 0.9) : potPlant(40, 220, acc2)}`);
+    }
+    if (kind === "room") {
+      const head = pick(r, ["#CFC3E8", "#9CC7E4", "#F2A0B8", "#D9B37A", G2]), throwC = pick(r, ACCENTS);
+      return svg(flat(wall), `<defs><clipPath id="w"><rect x="292" y="52" width="150" height="128" rx="10"/></clipPath></defs><g clip-path="url(#w)">${dusk2 ? dusk_() : sky()}${view(city, 240, -40, 0.62)}</g><rect x="292" y="52" width="150" height="128" rx="10" fill="none" ${st()}/><path d="M367 52 V180 M292 116 H442" ${st(4)}/>
+      <rect x="60" y="62" width="74" height="56" fill="${W}" ${st(4)}/><path d="M70 108 L92 84 L106 98 L116 88 L126 108 Z" fill="${acc}" ${st(3)}/>
+      ${floor(262, "#D8CDEB")}<path d="M0 262 H480" ${st()}/><rect x="56" y="150" width="232" height="84" rx="22" fill="${head}" ${st()}/>
+      <rect x="46" y="220" width="252" height="70" rx="14" fill="${W}" ${st()}/><path d="M46 250 H298" ${st(4)}/><rect x="190" y="220" width="108" height="70" rx="0" fill="${throwC}" opacity="0.85"/><rect x="46" y="220" width="252" height="70" rx="14" fill="none" ${st()}/>
+      <rect x="74" y="192" width="70" height="34" rx="12" fill="${CREAM}" ${st(4)}/><rect x="154" y="192" width="70" height="34" rx="12" fill="${CREAM}" ${st(4)}/><path d="M60 290 V318 M284 290 V318" ${st()}/>
+      <rect x="318" y="226" width="72" height="66" fill="${WOOD}" ${st(4)}/><path d="M354 226 V198" ${st(4)}/><path d="M334 172 h40 l-8 26 h-24 Z" fill="${acc2}" ${st(4)}/><circle cx="374" cy="216" r="0"/>${potPlant(430, 262, acc)}`);
+    }
+    if (kind === "facade") {
+      const floors = 3 + Math.floor(r() * 2), body = pick(r, [CREAM, ROSE, "#F3E7D6", W, "#DCEBF7"]), top = 330 - floors * 62 - 20;
+      let win = "";
+      for (let f = 0; f < floors; f++) for (let c2 = 0; c2 < 3; c2++) {
+        const x = 150 + c2 * 66, y = top + 26 + f * 62;
+        win += `<rect x="${x}" y="${y}" width="40" height="38" fill="${SKY2}" ${st(4)}/>${r() < 0.5 ? `<path d="M${x - 6} ${y + 44} h52" ${st(4)}/><path d="M${x} ${y + 44} v-8 M${x + 10} ${y + 44} v-8 M${x + 20} ${y + 44} v-8 M${x + 30} ${y + 44} v-8 M${x + 40} ${y + 44} v-8" ${st(2)}/>` : ""}${r() < 0.3 ? `<circle cx="${x + 8}" cy="${y + 40}" r="7" fill="${G}" ${st(2)}/>` : ""}`;
+      }
+      return svg(bg, `${sun(dusk2 ? 90 : 410, 70, 32, dusk2 ? O2 : Y2)}<g opacity="0.9">${view(city, -10, 160, 0.45)}</g>${floor(330, GREY)}<rect x="130" y="${top}" width="220" height="${330 - top}" fill="${body}" ${st()}/><path d="M122 ${top} H358" ${st(7)}/>${win}
+      <path d="M180 300 h120 l10 -22 h-140 Z" fill="${acc}" ${st(4)}/><path d="M190 300 l6 -22 M214 300 l4 -22 M238 300 v-22 M262 300 l-4 -22 M286 300 l-6 -22" stroke="${W}" stroke-width="5" opacity="0.7"/><rect x="216" y="300" width="48" height="30" fill="${K}"/>
+      <path d="M350 ${top + 30} V${top - 26}" ${st(4)}/><path d="M350 ${top - 24} h30 l-8 11 l8 11 h-30" fill="${acc2}" ${st(4)}/>
+      <path d="M400 330 V230" ${st(4)}/><circle cx="400" cy="226" r="12" fill="${Y2}" ${st(4)}/>${r() < 0.6 ? `<circle cx="90" cy="300" r="34" fill="${G}" ${st(4)}/><path d="M90 334 V320" ${st(4)}/>` : potPlant(96, 300, acc)}`);
+    }
+    return svg(dusk2 ? dusk_() : sky(), `${sun(dusk2 ? 120 : 400, dusk2 ? 160 : 74, dusk2 ? 46 : 34, dusk2 ? O2 : Y2)}${view(city, -24, 70, 0.6)}${floor(300, WOOD)}<path d="M0 300 H480 M0 268 H480" ${st(4)}/>${[24, 72, 120, 168, 216, 264, 312, 360, 408, 456].map((x) => `<path d="M${x} 268 V300" ${st(4)}/>`).join("")}
+    <path d="M0 40 Q120 80 240 50 Q360 80 480 40" fill="none" ${st(2)}/>${[40, 100, 160, 220, 280, 340, 400, 450].map((x, i) => `<circle cx="${x}" cy="${58 + i % 2 * 10}" r="6" fill="${Y2}" ${st(2)}/>`).join("")}
+    ${brolly(340, 340, acc, 170)}<ellipse cx="340" cy="334" rx="58" ry="12" fill="${W}" ${st(4)}/><path d="M326 322 v-22 h-14 M354 322 v-22 h14" ${st(4)}/><circle cx="314" cy="292" r="7" fill="${acc2}" ${st(3)}/><path d="M362 296 h12 v-14 h-12 Z" fill="${W}" ${st(3)}/>
+    ${potPlant(250, 300, acc2)}${potPlant(440, 300, acc)}`);
+  }
   var plateAt = (inner, rim = W, bg = "") => `${bg}<g transform="translate(240 300)"><ellipse cx="0" cy="0" rx="150" ry="56" fill="${rim}" ${st()}/><ellipse cx="0" cy="-4" rx="104" ry="36" fill="#F4F1EC" ${st(4)}/>${inner}</g>`;
   var table = (c2 = W) => floor(232, c2);
   var FOOD = {
@@ -2677,6 +2737,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (ns === "tail") return mk(key, () => tail(name));
     if (ns === "city") return mk(key, () => cityScene(name));
     if (ns === "stay" && STAYS[name]) return mk(key, STAYS[name]);
+    if (ns === "hotel") {
+      const [kind, city, seed] = name.split("|");
+      return mk(key, () => hotelScene(kind, city, seed || city + kind));
+    }
     if (ns === "food" && FOOD[name]) return mk(key, FOOD[name]);
     if (ns === "do" && DO[name]) return mk(key, DO[name]);
     if (ns === "shop" && SHOP[name]) return mk(key, SHOP[name]);
@@ -2693,6 +2757,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     return void 0;
   }
   var SCENE_KEYS = [
+    ...["Lisbon", "Paris", "Muscat", "Tokyo"].flatMap((c2) => ["pool", "room", "facade", "terrace"].map((k) => `hotel:${k}|${c2}|${c2}${k}`)),
     ...Object.keys(CITY_LAND).map((c2) => "fly:" + c2),
     "tail:NW",
     "tail:CL",
@@ -2823,7 +2888,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const g0 = NIGHT[cityName] || (c2 ? Math.max(90, c2.gbp) : 120);
     return [0, 1, 2, 3].map((i) => {
       const gbp = Math.round(g0 * (0.8 + i * 0.25 + r() * 0.15)) * 2;
-      return { id: `ST-${cityName}-${i}`, cat: "stays", title: `${W1[(i * 3 + hsh(cityName)) % W1.length]} ${W2[(i + hsh(cityName) * 7) % W2.length]}`, sub: `${(CITY_AREAS[cityName] || AREAS)[i]}, ${cityName}`, img: ["stay:pool", "stay:room", "stay:facade", "stay:terrace"][i], gbp, unit: "2 nights, taxes in", rating: +(4.2 + r() * 0.7).toFixed(1), meta: [["Pool", "Breakfast"], ["Breakfast"], ["Rooftop bar"], ["Gym", "Spa"]][i], city: cityName, opts: { kind: "variants", label: "Room", values: ["Double", "Twin", "Suite (+40%)"] }, policy: i === 2 ? "Non-refundable rate" : "Free cancellation until 3 days before", mode: "order", earn: i === 0 ? "3\xD7 points" : void 0 };
+      return { id: `ST-${cityName}-${i}`, cat: "stays", title: `${W1[(i * 3 + hsh(cityName)) % W1.length]} ${W2[(i + hsh(cityName) * 7) % W2.length]}`, sub: `${(CITY_AREAS[cityName] || AREAS)[i]}, ${cityName}`, img: `hotel:${["pool", "room", "terrace", "facade"][i]}|${cityName}|${cityName}${i}`, gbp, unit: "2 nights, taxes in", rating: +(4.2 + r() * 0.7).toFixed(1), meta: [["Pool", "Breakfast"], ["Breakfast"], ["Rooftop bar"], ["Gym", "Spa"]][i], city: cityName, opts: { kind: "variants", label: "Room", values: ["Double", "Twin", "Suite (+40%)"] }, policy: i === 2 ? "Non-refundable rate" : "Free cancellation until 3 days before", mode: "order", earn: i === 0 ? "3\xD7 points" : void 0 };
     });
   }
   var CITY_EXP = ["Old town walking tour", "Sunset boat trip", "Food market tour", "Cooking class", "Museum with skip-the-line entry", "Day trip to the coast", "Theme park day"];
@@ -3843,7 +3908,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         return !cd ? "" : cd.id === best.id ? ` It's the cheapest direct flight.` : cd.price < best.price ? ` It leaves at a more sociable time; the ${cd.dep} is ${M().money(best.price - cd.price)} cheaper.` : "";
       })()}${inf ? ` An infant under 2 travels on a lap for 10% of the adult fare.` : ""}${d2.assumed ? " I've assumed you come back 2 days later; tell me the return date, or say one way." : ""}`,
       blocks: [{ kind: "flights", city: city.name, date: d2.out, back: d2.back, pax, kids, inf, ids: opts.map((o) => o.id), best: best.id }],
-      steps: [`Checked ${opts.length} flight${opts.length === 1 ? "" : "s"} from ${home(m).city}`, `Priced for ${pax} ${pax > 1 ? "people" : "person"} with points`],
+      steps: [`Checked ${opts.length} flight${opts.length === 1 ? "" : "s"} from ${home(m).city}`, `Checked your ${M().num(get().balance)} points`],
       summary: { city: city.name, date: d2.out, back: d2.back, pax, options: [best, ...opts.filter((o) => o.id !== best.id)].slice(0, 6).map((o, k) => ({ id: o.id, shown: k === 0 ? "first, as the recommended flight" : `${k + 1} in the list`, dep: o.dep, arr: o.arr, airline: AIRLINES[o.airline], stops: o.stops, price_each_way: o.price })) },
       suggest: [a.direct ? "Show all flights" : "Only direct", "Cheaper dates?", "Add a hotel"]
     };
@@ -3880,7 +3945,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       var _a;
       return b2.cat === "flights" && !dead(b2) && ((_a = b2.extra) == null ? void 0 : _a.flightId) === f.id;
     });
-    return { say: `${dup ? `You already have this flight booked (${dup.ref}). Carry on only if you want a second booking. ` : ""}${q2.backF ? `I've matched it with the cheapest direct flight back, the ${q2.backF.dep} on ${M().date(q2.backF.date)}; you can pick another below. ` : ""}Pick a fare; prices are per person${q2.backF ? ", return" : ""}.`, blocks: [{ kind: "fares", id: f.id, pax, back: a.back, kids: a.kids || 0, inf: a.inf || 0 }], steps: ["Checked fare rules"] };
+    return { say: `${dup ? `You already have this flight booked (${dup.ref}). Carry on only if you want a second booking. ` : ""}${q2.backF ? `I've paired it with the ${q2.backF.dep} back on ${M().date(q2.backF.date)}, the cheapest direct return. ` : ""}Pick a fare.`, blocks: [{ kind: "fares", id: f.id, pax, back: a.back, kids: a.kids || 0, inf: a.inf || 0 }], steps: ["Checked fare rules"] };
   }
   function chooseFare(a) {
     var _a;
@@ -4058,7 +4123,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     return {
       say: (a.cat === "stays" && !city && !a.city ? /tonight|near me|nearby|around here/.test(q2) ? `Stays in ${h.city} aren't bookable here yet. These are in ${dests(m)[0].name}; tell me the city if you're travelling somewhere else. ` : `You didn't say where, so here's ${dests(m)[0].name}; tell me the city if you meant somewhere else. ` : "") + lead + (a.links ? "These shops pay extra points when you buy on their own site through Gratifi." : noMatch && a.cat === "shopping" ? `I can't find that here. These are the closest things I can offer.` : `${shown.length} ${shown.length === 1 ? LABEL1[a.cat] || LABEL[a.cat] : LABEL[a.cat]}${where}${a.cat === "stays" && a.date ? `, ${M().date(a.date)}${a.nights ? ` for ${a.nights} night${a.nights > 1 ? "s" : ""}` : ""}` : a.cat === "stays" && a.nights ? `, for ${a.nights} night${a.nights > 1 ? "s" : ""}` : ""}. ${pickLine(a.cat, shown[0], a.pax, a.date, a.time)}${tailNote}`.trim()),
       blocks: [{ kind: "items", cat: a.cat, ids: shown.map((i) => i.id), pax: a.pax, time: room || a.time, room, date: a.date, nights: a.nights, rooms: a.rooms }],
-      steps: [a.links ? `Checked ${shown.length} shops that pay extra points` : shown.length === 1 ? "Found 1 match" : `Searched ${shown.length} ${LABEL[a.cat]}`, ...a.cat === "dining" ? [] : ["Priced with your points"]],
+      steps: [a.links ? `Checked ${shown.length} shops that pay extra points` : `Checked ${shown.length} ${shown.length === 1 ? LABEL1[a.cat] || LABEL[a.cat] : LABEL[a.cat]}${where}`, ...a.cat === "dining" ? [] : [`Checked your ${M().num(get().balance)} points`]],
       summary: shown.map((i) => a.cat === "stays" ? { id: i.id, title: i.title, sub: i.sub, price_total: stayPrice(i, room || "", a.nights || 2) * (a.rooms || 1), for: `${a.nights || 2} night${(a.nights || 2) > 1 ? "s" : ""}, ${a.rooms || 1} ${room ? room.replace(/ \(.*\)/, "").toLowerCase() : "room"}${(a.rooms || 1) > 1 ? "s" : ""}${a.date ? `, from ${a.date}` : ""}, taxes in` } : { id: i.id, title: i.title, sub: i.sub, price: i.gbp ? IP(i) : 0, unit: i.unit || void 0 })
     };
   }
@@ -4636,8 +4701,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     }
     if (/problem|claim|damaged|broken|wrong|missing|late|issue|complain/.test(act)) {
       if ((_m = b2.extra) == null ? void 0 : _m.returning) return { say: "This is already being returned. Your refund comes when the courier collects it.", blocks: [{ kind: "tracker", id: b2.id }] };
-      const said = ((_n = String(a.action).match(/ said:(.+)$/)) == null ? void 0 : _n[1]) || "", pick = b2.cat === "quick" ? (b2.detail || []).filter(([k]) => / × \d+$/.test(k) && k.toLowerCase().split(/[ ,]+/).filter((w) => w.length > 3 && !/litres?|pack|free-range/.test(w)).some((w) => said.includes(w.replace(/s$/, "")))).map(([k]) => k) : [];
-      return { say: "Sorry about that. Tell me what happened and add a photo if you can.", blocks: [{ kind: "claimform", id: b2.id, pick, why: b2.cat === "quick" ? /damaged|broken/.test(act) ? "Something arrived damaged" : /missing/.test(act) ? "Something was missing" : /wrong/.test(act) ? "I got the wrong item" : "" : /damaged|broken/.test(act) ? "It arrived damaged" : /missing/.test(act) ? b2.status === "delivered" ? "Something is missing from it" : "It didn't arrive" : /wrong/.test(act) ? "It's not what I ordered" : "" }] };
+      const said = ((_n = String(a.action).match(/ said:(.+)$/)) == null ? void 0 : _n[1]) || "", pick2 = b2.cat === "quick" ? (b2.detail || []).filter(([k]) => / × \d+$/.test(k) && k.toLowerCase().split(/[ ,]+/).filter((w) => w.length > 3 && !/litres?|pack|free-range/.test(w)).some((w) => said.includes(w.replace(/s$/, "")))).map(([k]) => k) : [];
+      return { say: "Sorry about that. Tell me what happened and add a photo if you can.", blocks: [{ kind: "claimform", id: b2.id, pick: pick2, why: b2.cat === "quick" ? /damaged|broken/.test(act) ? "Something arrived damaged" : /missing/.test(act) ? "Something was missing" : /wrong/.test(act) ? "I got the wrong item" : "" : /damaged|broken/.test(act) ? "It arrived damaged" : /missing/.test(act) ? b2.status === "delivered" ? "Something is missing from it" : "It didn't arrive" : /wrong/.test(act) ? "It's not what I ordered" : "" }] };
     }
     return { say: "", blocks: [{ kind: "booking", id: b2.id }] };
   }
@@ -5746,8 +5811,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         var _a2;
         return b2.cat === "flights" && !((_a2 = b2.extra) == null ? void 0 : _a2.disrupted);
       });
-      const pick = /boarding/.test(t) ? fl : bs;
-      return pick.length ? { say: /boarding/.test(t) ? passNote(pick[0]) : "", blocks: pick.slice(0, 3).map((b2) => ({ kind: "pass", id: b2.id })) } : { say: /boarding/.test(t) ? "You don't have a flight booked." : "You don't have any passes yet.", blocks: [] };
+      const pick2 = /boarding/.test(t) ? fl : bs;
+      return pick2.length ? { say: /boarding/.test(t) ? passNote(pick2[0]) : "", blocks: pick2.slice(0, 3).map((b2) => ({ kind: "pass", id: b2.id })) } : { say: /boarding/.test(t) ? "You don't have a flight booked." : "You don't have any passes yet.", blocks: [] };
     }
     if (/(change|correct|fix|update|wrong|misspel\w*|spelling of) (the |my )?(passenger |traveller )?name|name (change|on (my|the) (ticket|booking|flight))/.test(t)) return { say: "Name changes are the airline's call, and small spelling fixes are usually free. I'll pass it to a person who can arrange it; they can see our conversation.", blocks: [{ kind: "handoff", reason: "Name change on a ticket" }] };
     if (/\bsell\b.*(gold|fund|investment)/.test(t)) {
@@ -7550,7 +7615,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         return (_a = W3.__go) == null ? void 0 : _a.call(W3, "cardx", "txn:" + t.id);
       } : void 0 })));
     },
-    paybill: ({ pick }) => /* @__PURE__ */ React.createElement(PayBill, { pick }),
+    paybill: ({ pick: pick2 }) => /* @__PURE__ */ React.createElement(PayBill, { pick: pick2 }),
     alertcard: ({ k }) => {
       const on3 = useS((s) => !!s.seen[k]);
       const w = String(k).slice(6);
@@ -7811,7 +7876,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const [warn, setWarn] = useState("");
     const seats = legSeats[0], cur = legSeats[leg];
     const extra = light ? 0 : legSeats.flat().filter((s) => /^14/.test(s)).length * legroomFee();
-    const pick = (x) => {
+    const pick2 = (x) => {
       if (TK(leg).includes(x) || cur.includes(x)) return;
       if (/^14/.test(x) && noExit(who)) {
         setWarn(kindOf(who, pax, kids) ? "Children can't sit in an exit row. Pick another seat for them." : "An adult travelling with an infant can't sit in an exit row. Pick another seat.");
@@ -7840,7 +7905,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     } }, /* @__PURE__ */ React.createElement(Names, { pax, names, setNames, kids, inf, dobs, setDobs, first: first2, lastDay }), inf > 0 && /* @__PURE__ */ React.createElement(AssistantNote, null, `${inf > 1 ? "Infants sit" : "Your infant sits"} on ${inf > 1 ? "the laps of the first adults listed" : `${(names[0] || "").trim().split(/\s+/)[0] || "the first adult"}'s lap`}, so ${inf > 1 ? "they don't need seats" : "they don't need a seat"}. Exit rows aren't open to ${inf > 1 ? "them" : "that adult"}.`), !light && /* @__PURE__ */ React.createElement(Opt, { label: pax > 1 ? "Seats" : "Your seat" }, legs > 1 && /* @__PURE__ */ React.createElement(Seg, { items: ["Flight out", "Flight back"], value: leg ? "Flight back" : "Flight out", onChange: (v) => {
       setLeg(v === "Flight back" ? 1 : 0);
       setWho(0);
-    } }), pax > 1 && /* @__PURE__ */ React.createElement("div", { className: "app-days", role: "radiogroup", "aria-label": "Choosing a seat for" }, Array.from({ length: pax }, (_, k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-chip", role: "radio", "aria-checked": who === k, onClick: () => setWho(k) }, `${label(k)} \xB7 ${cur[k]}`))), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "center" } }, /* @__PURE__ */ React.createElement(SeatMap, { noExtra: noExit(who), key: leg + ":" + cur.join() + ":" + who, picked: cur[who], taken: TK(leg), mates: cur.filter((_, k) => k !== who), mateName: pax > 2 ? "Your group" : label(who ? 0 : 1), mateNames: Object.fromEntries(cur.map((x, k) => [x, label(k)])), youName: pax > 1 ? label(who) : void 0, extraPrice: legroomFee(), onPick: pick })), !warn && kindOf(who, pax, kids) === "child" && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, "Exit-row seats (row 14) are for adults only."), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), legs > 1 && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Outbound ${legSeats[0].join(", ")} \xB7 Return ${legSeats[1].join(", ")}`)), /* @__PURE__ */ React.createElement(Count, { label: `Checked bags \xB7 ${flex ? `${pax} included with Flex, more at ${M3.money(bagUnit())} each per flight` : `${M3.money(bagUnit())} each, per flight${legs > 1 ? " (2 flights)" : ""}`}`, value: bags, min: flex ? pax : 0, max: pax * 2, onChange: setBags, fmt: (n) => n ? String(n) : "None" }), why && !done && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s", role: "status" }, why));
+    } }), pax > 1 && /* @__PURE__ */ React.createElement("div", { className: "app-days", role: "radiogroup", "aria-label": "Choosing a seat for" }, Array.from({ length: pax }, (_, k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-chip", role: "radio", "aria-checked": who === k, onClick: () => setWho(k) }, `${label(k)} \xB7 ${cur[k]}`))), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "center" } }, /* @__PURE__ */ React.createElement(SeatMap, { noExtra: noExit(who), key: leg + ":" + cur.join() + ":" + who, picked: cur[who], taken: TK(leg), mates: cur.filter((_, k) => k !== who), mateName: pax > 2 ? "Your group" : label(who ? 0 : 1), mateNames: Object.fromEntries(cur.map((x, k) => [x, label(k)])), youName: pax > 1 ? label(who) : void 0, extraPrice: legroomFee(), onPick: pick2 })), !warn && kindOf(who, pax, kids) === "child" && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, "Exit-row seats (row 14) are for adults only."), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), legs > 1 && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Outbound ${legSeats[0].join(", ")} \xB7 Return ${legSeats[1].join(", ")}`)), /* @__PURE__ */ React.createElement(Count, { label: `Checked bags \xB7 ${flex ? `${pax} included with Flex, more at ${M3.money(bagUnit())} each per flight` : `${M3.money(bagUnit())} each, per flight${legs > 1 ? " (2 flights)" : ""}`}`, value: bags, min: flex ? pax : 0, max: pax * 2, onChange: setBags, fmt: (n) => n ? String(n) : "None" }), why && !done && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s", role: "status" }, why));
   }
   function SeatChange({ id, bk: bk2, leg: leg0 }) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
@@ -7867,7 +7932,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const changed = ls.slice(0, legs).map((x, l) => ({ leg: l, seats: x })).filter((x) => x.seats.join() !== wasOf(x.leg).join());
     const fee = changed.reduce((t, x) => t + Math.max(0, x.seats.filter((y) => /^14/.test(y)).length - wasOf(x.leg).filter((y) => /^14/.test(y)).length) * legroomFee(), 0);
     const label = (i) => (names[i] || "").split(/\s+/)[0] || (i ? `Traveller ${i + 1}` : get().prefs.name);
-    const pick = (x) => {
+    const pick2 = (x) => {
       var _a2, _b2, _c2;
       if (TK(leg).includes(x) || cur.includes(x)) return;
       if (/^14/.test(x) && (kindOf(who, pax, ((_a2 = b2.extra) == null ? void 0 : _a2.kids) || 0) || who < (((_b2 = b2.extra) == null ? void 0 : _b2.inf) || 0))) {
@@ -7886,7 +7951,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     } }, legs > 1 && /* @__PURE__ */ React.createElement(Seg, { items: ["Flight out", "Flight back"], value: leg ? "Flight back" : "Flight out", onChange: (v) => {
       setLeg(v === "Flight back" ? 1 : 0);
       setWho(0);
-    } }), pax > 1 && /* @__PURE__ */ React.createElement("div", { className: "app-days", role: "radiogroup", "aria-label": "Choosing a seat for" }, Array.from({ length: pax }, (_, k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-chip", role: "radio", "aria-checked": who === k, onClick: () => setWho(k) }, `${label(k)} \xB7 ${cur[k]}`))), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "center" } }, /* @__PURE__ */ React.createElement(SeatMap, { noExtra: !!kindOf(who, pax, ((_j = b2.extra) == null ? void 0 : _j.kids) || 0) || who < (((_k = b2.extra) == null ? void 0 : _k.inf) || 0), key: leg + ":" + cur.join() + ":" + who, picked: cur[who], taken: TK(leg), mates: cur.filter((_, k) => k !== who), mateName: pax > 2 ? "Your group" : label(who ? 0 : 1), mateNames: Object.fromEntries(cur.map((x, k) => [x, label(k)])), youName: pax > 1 ? label(who) : void 0, extraPrice: legroomFee(), onPick: pick })), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), legs > 1 && changed.length > 0 && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Changing: ${changed.map((x) => `${x.leg ? "flight back" : "flight out"} ${x.seats.join(", ")}`).join("; ")}`));
+    } }), pax > 1 && /* @__PURE__ */ React.createElement("div", { className: "app-days", role: "radiogroup", "aria-label": "Choosing a seat for" }, Array.from({ length: pax }, (_, k) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-chip", role: "radio", "aria-checked": who === k, onClick: () => setWho(k) }, `${label(k)} \xB7 ${cur[k]}`))), /* @__PURE__ */ React.createElement("div", { className: "gr-row", style: { justifyContent: "center" } }, /* @__PURE__ */ React.createElement(SeatMap, { noExtra: !!kindOf(who, pax, ((_j = b2.extra) == null ? void 0 : _j.kids) || 0) || who < (((_k = b2.extra) == null ? void 0 : _k.inf) || 0), key: leg + ":" + cur.join() + ":" + who, picked: cur[who], taken: TK(leg), mates: cur.filter((_, k) => k !== who), mateName: pax > 2 ? "Your group" : label(who ? 0 : 1), mateNames: Object.fromEntries(cur.map((x, k) => [x, label(k)])), youName: pax > 1 ? label(who) : void 0, extraPrice: legroomFee(), onPick: pick2 })), warn && /* @__PURE__ */ React.createElement(AssistantNote, null, warn), legs > 1 && changed.length > 0 && /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `Changing: ${changed.map((x) => `${x.leg ? "flight back" : "flight out"} ${x.seats.join(", ")}`).join("; ")}`));
   }
   function CalendarBlock({ city, pax }) {
     const M3 = useMarket();
@@ -7902,7 +7967,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     for (let d2 = first2; d2 <= days; d2++) prices[d2] = Math.min(...searchFlights(M3.id, c2, iso3(d2)).map((o) => o.price));
     const low = Object.entries(prices).sort((x, z) => x[1] - z[1]).slice(0, 5).map((x) => +x[0]);
     const dayOf = (x) => x && x.slice(0, 7) === iso3(1).slice(0, 7) ? +x.slice(8) : void 0;
-    const pick = (d2) => {
+    const pick2 = (d2) => {
       const v = iso3(d2);
       if (!a || b2) {
         setA(v);
@@ -7913,7 +7978,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         setB(void 0);
       }
     };
-    return /* @__PURE__ */ React.createElement(Detail, { art: img("fly:" + city), title: `Flights to ${city}`, sub: "Lowest one-way fare per person, each day", cta: a ? `Search ${M3.date(a)}${b2 ? " to " + M3.date(b2) : ", one way"}` : "Pick your dates", disabled: !a, onCta: () => run({ f: "flightSearch", a: { city, date: a, back: b2, pax } }, `${M3.date(a)}${b2 ? " to " + M3.date(b2) : ", one way"}`) }, /* @__PURE__ */ React.createElement(PriceCalendar, { key: iso3(1) + (a || "") + (b2 || ""), year: y, month: mo, prices, low, from: dayOf(a), to: dayOf(b2), disabledBefore: first2, onPick: pick, onPrev: off > 0 ? () => setOff(off - 1) : void 0, onNext: off < 10 ? () => setOff(off + 1) : void 0 }));
+    return /* @__PURE__ */ React.createElement(Detail, { art: img("fly:" + city), title: `Flights to ${city}`, sub: "Lowest one-way fare per person, each day", cta: a ? `Search ${M3.date(a)}${b2 ? " to " + M3.date(b2) : ", one way"}` : "Pick your dates", disabled: !a, onCta: () => run({ f: "flightSearch", a: { city, date: a, back: b2, pax } }, `${M3.date(a)}${b2 ? " to " + M3.date(b2) : ", one way"}`) }, /* @__PURE__ */ React.createElement(PriceCalendar, { key: iso3(1) + (a || "") + (b2 || ""), year: y, month: mo, prices, low, from: dayOf(a), to: dayOf(b2), disabledBefore: first2, onPick: pick2, onPrev: off > 0 ? () => setOff(off - 1) : void 0, onNext: off < 10 ? () => setOff(off + 1) : void 0 }));
   }
   function DayChips({ from, n, value, onChange: onChange2, skip }) {
     const M3 = useMarket();
@@ -8240,7 +8305,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const b2 = useS((s) => s.bookings.find((x) => x.id === id));
     const M3 = useMarket();
     const opts = b2 && !dead2(b2) && !((_a = b2.extra) == null ? void 0 : _a.rebooked) ? rebookOptions(b2) : [];
-    const [pick, setPick] = usePS(bk2 || "dis:" + id, "pick", ((_b = opts[0]) == null ? void 0 : _b.id) || "");
+    const [pick2, setPick] = usePS(bk2 || "dis:" + id, "pick", ((_b = opts[0]) == null ? void 0 : _b.id) || "");
     if (!b2) return null;
     const sorted = dead2(b2) || ((_c = b2.extra) == null ? void 0 : _c.rebooked), sameDay = (o) => {
       var _a2;
@@ -8253,12 +8318,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const comp = () => run({ f: "compensation", a: {} }, "Check compensation");
     if (sorted) return /* @__PURE__ */ React.createElement(StateNote, { title: ((_d = b2.extra) == null ? void 0 : _d.rebooked) ? "Sorted" : "Refunded", body: ((_e = b2.extra) == null ? void 0 : _e.rebooked) ? `Now on ${b2.extra.number} at ${b2.extra.dep} on ${M3.date(b2.extra.date)}, at no cost. You may also be owed compensation under ${M3.flightRule.name}.` : `Refunded the way you paid. You may also be owed compensation under ${M3.flightRule.name}.`, actions: [{ label: "Check compensation" }], onAct: comp });
     return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, /* @__PURE__ */ React.createElement("div", { className: "ds-note gr-state", role: "alert" }, /* @__PURE__ */ React.createElement("div", { className: "ds-note-in" }, /* @__PURE__ */ React.createElement("p", { className: "ds-note-t" }, "Flight cancelled"), /* @__PURE__ */ React.createElement("p", { className: "ds-note-b" }, `The airline cancelled ${(_f = b2.extra) == null ? void 0 : _f.number}, ${b2.when}. You don't need to queue: pick another flight below, or take a full refund. You may also be owed compensation under ${M3.flightRule.name}.`), /* @__PURE__ */ React.createElement("div", { className: "ds-note-a" }, /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white gr-btn", onClick: refund2 }, "Full refund"), /* @__PURE__ */ React.createElement("button", { className: "ds-btn40 ds-white gr-btn", onClick: comp }, "Compensation"))), /* @__PURE__ */ React.createElement("img", { className: "ds-clip", src: ART2.clip, alt: "" })), opts.length ? /* @__PURE__ */ React.createElement(Detail, { art: img(b2.img), title: "Move to another flight", price: /* @__PURE__ */ React.createElement(Price2, { free: "At no cost" }), cta: "Move to this flight", onCta: () => {
-      const o = opts.find((x) => x.id === pick) || opts[0];
+      const o = opts.find((x) => x.id === pick2) || opts[0];
       run({ f: "rebook", a: { id, flightId: o.id } }, `Move me to the ${o.dep}`);
     } }, /* @__PURE__ */ React.createElement(Choice, { list: true, label: "Move to, at no cost", items: opts.map((o) => {
       var _a2;
       return { key: o.id, title: `${o.dep} ${AIRLINES[o.airline]}, ${sameDay(o) ? "same day" : M3.date(o.date)}`, sub: `${o.number} \xB7 ${o.stops ? "1 stop" : "Direct"}${!sameDay(o) && ((_a2 = b2.extra) == null ? void 0 : _a2.back) ? " \xB7 your trip becomes a day shorter" : ""}` };
-    }), value: pick, onChange: setPick })) : /* @__PURE__ */ React.createElement(Detail, { title: "Move both flights", sub: `No other flight lands before your return on ${M3.date(b2.extra.back.date)}`, checks: [`A full refund is ${[b2.pts ? M3.pts(b2.pts) : "", b2.card ? M3.money(b2.card, 2) : ""].filter(Boolean).join(" + ")}`, "Or a person can move both flights for you"], cta: "Move both flights", onCta: () => run({ f: "handoff", a: { reason: `Move both flights: ${b2.title}` } }, "Ask a person to move both flights") }));
+    }), value: pick2, onChange: setPick })) : /* @__PURE__ */ React.createElement(Detail, { title: "Move both flights", sub: `No other flight lands before your return on ${M3.date(b2.extra.back.date)}`, checks: [`A full refund is ${[b2.pts ? M3.pts(b2.pts) : "", b2.card ? M3.money(b2.card, 2) : ""].filter(Boolean).join(" + ")}`, "Or a person can move both flights for you"], cta: "Move both flights", onCta: () => run({ f: "handoff", a: { reason: `Move both flights: ${b2.title}` } }, "Ask a person to move both flights") }));
   }
   function PassFor({ id }) {
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -8305,14 +8370,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const at = c2.gamblingLiftAt ? new Date(c2.gamblingLiftAt) : null;
     return /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(ActionRow, { icon: "shield", title: "Gambling block", sub: !c2.gambling ? "Off. Blocks betting sites, casinos and lotteries when on." : at ? `On until ${M3.date(iso(at))} at ${M3.clock(at.toTimeString().slice(0, 5))}, then it lifts` : "On. Betting sites, casinos and lotteries are blocked.", action: !c2.gambling ? "Turn on" : at ? "Keep the block" : "Lift", primary: !c2.gambling || !!at, onAction: () => !c2.gambling ? run({ f: "gamblingOn", a: {} }, "Block gambling payments") : at ? run({ f: "gamblingKeep", a: {} }, "Keep the block") : respond(gamblingLiftAsk()) }));
   }
-  function ClaimForm({ id, bk: bk2, why: why0, pick }) {
+  function ClaimForm({ id, bk: bk2, why: why0, pick: pick2 }) {
     var _a;
     const [why, setWhy] = useState(why0 || "");
     const [files, setFiles] = useState([]);
     const [done, setDone] = useDone(bk2);
     const inp = React.useRef(null);
     const bb = get().bookings.find((x) => x.id === id), physical = (bb == null ? void 0 : bb.kind) === "order" && bb.cat !== "giftcards";
-    const quick = (bb == null ? void 0 : bb.cat) === "quick", [picked, setPicked] = useState(pick || []);
+    const quick = (bb == null ? void 0 : bb.cat) === "quick", [picked, setPicked] = useState(pick2 || []);
     const [opts] = useState(() => quick ? ["Something was missing", "Something arrived damaged", "I got the wrong item", "I was charged wrongly"] : physical ? (bb == null ? void 0 : bb.status) === "delivered" ? ["It arrived damaged", "It's not what I ordered", "Something is missing from it", "I was charged wrongly"] : ["It didn't arrive", "I was charged wrongly"] : ["Service wasn't delivered", "It wasn't as described", "I was charged wrongly"]);
     const itemTicks = quick && why && !/charged/.test(why), gone = ((_a = bb == null ? void 0 : bb.extra) == null ? void 0 : _a.refundedItems) || [];
     const rows = ((bb == null ? void 0 : bb.detail) || []).filter(([k]) => / × \d+$/.test(k));
@@ -8329,12 +8394,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       return (_a2 = inp.current) == null ? void 0 : _a2.click();
     } }, /* @__PURE__ */ React.createElement(Icon, { name: "plus", size: 16, stroke: 2.4 }), "Add a photo"), files.map((f) => /* @__PURE__ */ React.createElement("span", { key: f, className: "ds-added-s" }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 13, stroke: 2.6 }), f)))));
   }
-  function PayBill({ pick }) {
+  function PayBill({ pick: pick2 }) {
     const c2 = useS((s) => s.card);
     const M3 = useMarket();
     const dd = () => openConfirm(ddAsk("full"));
     if (c2.due <= 0) return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(AssistantNote, null, `Paid. Nothing is due now${c2.autopay ? `; ${M3.directDebit} is set up for the next bill` : ""}.`), !c2.autopay && on("card.directdebit") && /* @__PURE__ */ React.createElement("div", { className: "ds-btnrow" }, /* @__PURE__ */ React.createElement(Pill, { onClick: dd }, M3.t("setUp", { dd: M3.directDebit }))));
-    const first2 = pick === "min" && c2.min > 0 ? "min" : "full";
+    const first2 = pick2 === "min" && c2.min > 0 ? "min" : "full";
     const full = /* @__PURE__ */ React.createElement(Pill, { key: "f", primary: first2 === "full", onClick: () => respond(payBillAsk({ amount: c2.due })) }, `Pay ${M3.money(c2.due, 2)}`);
     const min = c2.min > 0 ? /* @__PURE__ */ React.createElement(Pill, { key: "m", primary: first2 === "min", onClick: () => respond(payBillAsk({ amount: c2.min })) }, `Minimum ${M3.money(c2.min, 2)}`) : null;
     return /* @__PURE__ */ React.createElement(Amount, { label: `Due ${M3.date(c2.dueDate, "day")}`, right: `\u2022\u2022\u2022\u2022 ${c2.last4}`, value: M3.money(c2.due, 2), meta: c2.min > 0 ? `Minimum ${M3.money(c2.min, 2)}` : "Minimum paid" }, /* @__PURE__ */ React.createElement("div", { className: "ds-ac-pills" }, first2 === "min" ? [min, full] : [full, min], on("card.pay") && /* @__PURE__ */ React.createElement(Pill, { onClick: () => {
@@ -11213,12 +11278,19 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     [/^(Online payments|Payments abroad|Cash withdrawals) are already on\.$|^Contactless is already on\.$/, (m) => `${t1(m[1] || "contactless")} \u0645\u0641\u0639\u0651\u0644 \u0628\u0627\u0644\u0641\u0639\u0644.`],
     [/^(Upcoming|Orders|Subscriptions|Requests|Past) · (\d+)$/, (m) => `${D[m[1]]} \xB7 ${m[2]}`],
     [/^Checked (\S+) (flights?|restaurants|places to stay|things to do|products|gift cards|subscriptions|events|airport services|ways to get there) from (.+)$/, (m) => `\u0628\u062D\u062B\u062A \u0641\u064A ${FLIGHTS(m[1])} \u0645\u0646 ${c(m[3])}`],
+    [/^Checked your ([\d,]+) points$/, (m) => `\u062A\u062D\u0642\u0642\u062A \u0645\u0646 \u0646\u0642\u0627\u0637\u0643 \u0627\u0644\u0628\u0627\u0644\u063A\u0629 ${m[1]}`],
+    [/^Checked (\S+) (restaurants?|places? to stay|things? to do|products?|gift cards?|subscriptions?|events?|airport services?|ways? to get there)(?: in (.+))?$/, (m) => {
+      const PL = { restaurant: "restaurants", "place to stay": "places to stay", "thing to do": "things to do", product: "products", "gift card": "gift cards", subscription: "subscriptions", event: "events", "airport service": "airport services", "way to get there": "ways to get there" };
+      const L = LAB[PL[m[2]] || m[2]];
+      return L ? `\u0628\u062D\u062B\u062A \u0641\u064A ${cnt(m[1], ...L)}${m[3] ? ` \u0641\u064A ${c(m[3])}` : ""}` : null;
+    }],
     [/^(?:Checked|Searched) (\S+) (restaurants|places to stay|things to do|products|gift cards|subscriptions|events|airport services|ways to get there)$/, (m) => `\u0628\u062D\u062B\u062A \u0641\u064A ${cnt(m[1], ...LAB[m[2]])}`],
     [/^Checked the nearest store: open, (\d+) min$/, (m) => `\u062A\u062D\u0642\u0642\u062A \u0645\u0646 \u0623\u0642\u0631\u0628 \u0645\u062A\u062C\u0631: \u0645\u0641\u062A\u0648\u062D\u060C ${m[1]} \u062F\u0642\u064A\u0642\u0629`],
     [/^Priced for (\d+) (people|person) with points$/, (m) => `\u0627\u0644\u0623\u0633\u0639\u0627\u0631 ${forPeople(m[1])}\u060C \u0628\u0627\u0644\u0646\u0642\u0627\u0637 \u0623\u064A\u0636\u064B\u0627`],
     [/^Held the fare for (\d+) minutes$/, (m) => `\u062D\u062C\u0632\u062A \u0627\u0644\u0633\u0639\u0631 \u0644\u0645\u062F\u0629 ${MINS(m[1])}`],
     [/^(\d+) flights to (.+?) on (.+?)(?:, back (.+?))?\. I'd pick the (\S+) (.+?): (direct|1 stop), (.+) each\.$/, (m) => `${m[1]} \u0631\u062D\u0644\u0627\u062A \u0625\u0644\u0649 ${c(m[2])} \u064A\u0648\u0645 ${m[3]}${m[4] ? `\u060C \u0648\u0627\u0644\u0639\u0648\u062F\u0629 ${m[4]}` : ""}. \u0623\u0646\u0635\u062D \u0628\u0631\u062D\u0644\u0629 ${m[5]} \u0639\u0644\u0649 ${m[6]}: ${m[7] === "direct" ? "\u0645\u0628\u0627\u0634\u0631\u0629" : "\u062A\u0648\u0642\u0641 \u0648\u0627\u062D\u062F"}\u060C ${m[8]} \u0644\u0644\u0634\u062E\u0635.`],
     [/^(I can only book flights from (.+?) at the moment, so these leave from there\. )?(\d+) (direct )?(?:(morning|afternoon|evening) )?flights? to (.+?) on (.+?)(?:, back (.+?)|, one way)(?:, for (\d+) (?:people|person)(?: and (\d+) infants? on a lap)?)?\. (?:I'd pick|The closest to [\d:]+(?: \(morning or evening\))? is) the (\S+) (.+?): (direct|1 stop), (.+?) one way per person(?:; a Standard return with the cheapest direct flight back is (.+) per person)?\.( It's the cheapest direct flight\.| It leaves at a more (?:convenient|sociable) time; the (\d\d:\d\d) is (.+?) cheaper\.)?( An infant under 2 travels on a lap for 10% of the adult fare\.)?( I've assumed you come back 2 days later; tell me the return date, or say one way\.)?$/, (m) => `${m[1] ? `\u0623\u062D\u062C\u0632 \u062D\u0627\u0644\u064A\u064B\u0627 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0645\u0646 ${c(m[2])} \u0641\u0642\u0637\u060C \u0644\u0630\u0627 \u062A\u0646\u0637\u0644\u0642 \u0647\u0630\u0647 \u0627\u0644\u0631\u062D\u0644\u0627\u062A \u0645\u0646 \u0647\u0646\u0627\u0643. ` : ""}${FLIGHTS(m[3])}${m[4] ? " \u0645\u0628\u0627\u0634\u0631\u0629" : ""}${m[5] ? { morning: " \u0635\u0628\u0627\u062D\u064A\u0629", afternoon: " \u0628\u0639\u062F \u0627\u0644\u0638\u0647\u0631", evening: " \u0645\u0633\u0627\u0626\u064A\u0629" }[m[5]] : ""} \u0625\u0644\u0649 ${c(m[6])} \u064A\u0648\u0645 ${m[7]}${m[8] ? `\u060C \u0648\u0627\u0644\u0639\u0648\u062F\u0629 ${m[8]}` : "\u060C \u0630\u0647\u0627\u0628 \u0641\u0642\u0637"}${m[9] ? ` ${forPeople(m[9])}${m[10] ? ` ${+m[9] === 1 ? "\u0648\u0645\u0639\u0647" : "\u0648\u0645\u0639\u0647\u0645"} ${+m[10] === 1 ? "\u0631\u0636\u064A\u0639" : m[10] + " \u0631\u0636\u0651\u0639"} \u0641\u064A \u0627\u0644\u062D\u0636\u0646` : ""}` : ""}. \u0623\u0646\u0635\u062D \u0628\u0631\u062D\u0644\u0629 ${m[11]} \u0639\u0644\u0649 ${m[12]}: ${m[13] === "direct" ? "\u0645\u0628\u0627\u0634\u0631\u0629" : "\u062A\u0648\u0642\u0641 \u0648\u0627\u062D\u062F"}\u060C ${m[14]} \u0644\u0644\u0634\u062E\u0635 \u0630\u0647\u0627\u0628\u064B\u0627 \u0641\u0642\u0637${m[15] ? `\u061B \u0648\u062A\u0630\u0643\u0631\u0629 \u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0639\u0627\u062F\u064A\u0629 \u0630\u0647\u0627\u0628\u064B\u0627 \u0648\u0639\u0648\u062F\u0629 \u0645\u0639 \u0623\u0631\u062E\u0635 \u0631\u062D\u0644\u0629 \u0639\u0648\u062F\u0629 \u0645\u0628\u0627\u0634\u0631\u0629 ${m[15]} \u0644\u0644\u0634\u062E\u0635` : ""}.${m[16] ? m[17] ? ` \u0645\u0648\u0639\u062F\u0647\u0627 \u0623\u0646\u0633\u0628\u061B \u0631\u062D\u0644\u0629 ${m[17]} \u0623\u0631\u062E\u0635 \u0628\u0640 ${m[18]}.` : " \u0625\u0646\u0647\u0627 \u0623\u0631\u062E\u0635 \u0631\u062D\u0644\u0629 \u0645\u0628\u0627\u0634\u0631\u0629." : ""}${m[19] ? " \u064A\u0633\u0627\u0641\u0631 \u0627\u0644\u0631\u0636\u064A\u0639 \u062F\u0648\u0646 \u0633\u0646\u062A\u064A\u0646 \u0641\u064A \u062D\u0636\u0646 \u0623\u062D\u062F \u0627\u0644\u0628\u0627\u0644\u063A\u064A\u0646 \u0628\u0640 10% \u0645\u0646 \u0633\u0639\u0631 \u062A\u0630\u0643\u0631\u0629 \u0627\u0644\u0628\u0627\u0644\u063A." : ""}${m[20] ? " \u0627\u0641\u062A\u0631\u0636\u062A \u0623\u0646\u0643 \u062A\u0639\u0648\u062F \u0628\u0639\u062F \u064A\u0648\u0645\u064A\u0646\u061B \u0623\u062E\u0628\u0631\u0646\u064A \u0628\u062A\u0627\u0631\u064A\u062E \u0627\u0644\u0639\u0648\u062F\u0629\u060C \u0623\u0648 \u0642\u0644 \u0630\u0647\u0627\u0628 \u0641\u0642\u0637." : ""}`],
+    [/^(?:I've paired it with the (\S+) back on (.+?), the cheapest direct return\. )?Pick a fare\.$/, (m) => `${m[1] ? `\u0627\u062E\u062A\u0631\u062A \u0645\u0639\u0647\u0627 \u0631\u062D\u0644\u0629 \u0627\u0644\u0639\u0648\u062F\u0629 ${m[1]} \u064A\u0648\u0645 ${d(m[2])}\u060C \u0623\u0631\u062E\u0635 \u0639\u0648\u062F\u0629 \u0645\u0628\u0627\u0634\u0631\u0629. ` : ""}\u0627\u062E\u062A\u0631 \u0627\u0644\u062F\u0631\u062C\u0629.`],
     [/^(?:Good choice\. )?(?:I've matched it with the cheapest direct flight back, the (\S+) on (.+?); you can pick another below\. )?Pick a fare; prices are per person(, return)?\.$/, (m) => `${m[1] ? `\u0627\u062E\u062A\u0631\u062A \u0645\u0639\u0647\u0627 \u0623\u0631\u062E\u0635 \u0631\u062D\u0644\u0629 \u0639\u0648\u062F\u0629 \u0645\u0628\u0627\u0634\u0631\u0629\u060C ${m[1]} \u064A\u0648\u0645 ${d(m[2])}\u061B \u064A\u0645\u0643\u0646\u0643 \u0627\u062E\u062A\u064A\u0627\u0631 \u063A\u064A\u0631\u0647\u0627 \u0623\u062F\u0646\u0627\u0647. ` : ""}\u0627\u062E\u062A\u0631 \u0627\u0644\u062F\u0631\u062C\u0629\u061B \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0644\u0644\u0634\u062E\u0635${m[3] ? "\u060C \u0630\u0647\u0627\u0628\u064B\u0627 \u0648\u0639\u0648\u062F\u0629" : ""}.`],
     [/^Per person(, return)?\.(?: (\d+) travellers: (.+) in total\.)?$/, (m) => `\u0644\u0644\u0634\u062E\u0635${m[1] ? "\u060C \u0630\u0647\u0627\u0628\u064B\u0627 \u0648\u0639\u0648\u062F\u0629" : ""}.${m[2] ? ` ${PEOPLE(m[2])}: ${m[3]} \u0625\u062C\u0645\u0627\u0644\u064B\u0627.` : ""}`],
     [/^(\d+) ways to get there\. Prices are fixed when you book\.$/, (m) => `${cnt(m[1], "\u0648\u0633\u064A\u0644\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0648\u0633\u064A\u0644\u062A\u0627\u0646", "\u0648\u0633\u0627\u0626\u0644", "\u0648\u0633\u064A\u0644\u0629")} \u0644\u0644\u062A\u0646\u0642\u0644. \u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u062B\u0627\u0628\u062A\u0629 \u0639\u0646\u062F \u0627\u0644\u062D\u062C\u0632.`],
@@ -13016,18 +13088,18 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     const c2 = useS((s) => s.card);
     const M3 = useMarket();
     const OPTS = ["In full", "Minimum", "Other"];
-    const [pick, setPick] = useState(arg === "min" && c2.min > 0 ? "Minimum" : arg === "other" ? "Other" : "In full");
+    const [pick2, setPick] = useState(arg === "min" && c2.min > 0 ? "Minimum" : arg === "other" ? "Other" : "In full");
     const [other, setOther] = useState("");
     if (c2.due <= 0) return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { value: M3.money(0, 2), title: "Nothing to pay now", sub: c2.balance > 0 ? `${M3.money(c2.balance, 2)} of new spending goes on your next statement.` : "Your statement is paid." }), on("card.statements") && /* @__PURE__ */ React.createElement(List, null, /* @__PURE__ */ React.createElement(Row, { icon: "doc", title: "Statements", chev: true, onClick: () => nav.go("cardx", "statements") })));
-    const amt = pick === "In full" ? c2.due : pick === "Minimum" ? c2.min : Math.round(Math.min(c2.due, num(other)) * 100) / 100;
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Seg, { items: c2.min > 0 ? OPTS : ["In full", "Other"], value: pick, onChange: setPick }), pick === "Other" ? /* @__PURE__ */ React.createElement(Field, { label: "Amount", prefix: sym(M3), inputMode: "decimal", value: other, onChange: setOther, placeholder: "0.00", autoFocus: true, hint: num(other) > c2.due ? `That's more than you owe, so it's set to ${M3.money(c2.due, 2)}.` : num(other) > 0 && num(other) < c2.min ? `Below the minimum of ${M3.money(c2.min, 2)}. Pay at least that by ${M3.date(c2.dueDate, "day")} to avoid a late fee.` : `You owe ${M3.money(c2.due, 2)}. The minimum is ${M3.money(c2.min, 2)}.` }) : /* @__PURE__ */ React.createElement(Hero, { value: M3.money(amt, 2), title: pick === "In full" ? "Your statement balance" : "The minimum", sub: pick === "In full" ? `Due ${M3.date(c2.dueDate, "day")} \xB7 no interest` : `Due ${M3.date(c2.dueDate, "day")} \xB7 interest is charged on the rest` }), /* @__PURE__ */ React.createElement(KV, { rows: [{ label: "From", value: "Current account \u2022\u2022\u2022\u2022 7781" }, { label: "Arrives", value: "Straight away" }] }), amt > 0 && /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(payBillAsk({ amount: amt })) }, `Pay ${M3.money(amt, 2)}`));
+    const amt = pick2 === "In full" ? c2.due : pick2 === "Minimum" ? c2.min : Math.round(Math.min(c2.due, num(other)) * 100) / 100;
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Seg, { items: c2.min > 0 ? OPTS : ["In full", "Other"], value: pick2, onChange: setPick }), pick2 === "Other" ? /* @__PURE__ */ React.createElement(Field, { label: "Amount", prefix: sym(M3), inputMode: "decimal", value: other, onChange: setOther, placeholder: "0.00", autoFocus: true, hint: num(other) > c2.due ? `That's more than you owe, so it's set to ${M3.money(c2.due, 2)}.` : num(other) > 0 && num(other) < c2.min ? `Below the minimum of ${M3.money(c2.min, 2)}. Pay at least that by ${M3.date(c2.dueDate, "day")} to avoid a late fee.` : `You owe ${M3.money(c2.due, 2)}. The minimum is ${M3.money(c2.min, 2)}.` }) : /* @__PURE__ */ React.createElement(Hero, { value: M3.money(amt, 2), title: pick2 === "In full" ? "Your statement balance" : "The minimum", sub: pick2 === "In full" ? `Due ${M3.date(c2.dueDate, "day")} \xB7 no interest` : `Due ${M3.date(c2.dueDate, "day")} \xB7 interest is charged on the rest` }), /* @__PURE__ */ React.createElement(KV, { rows: [{ label: "From", value: "Current account \u2022\u2022\u2022\u2022 7781" }, { label: "Arrives", value: "Straight away" }] }), amt > 0 && /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(payBillAsk({ amount: amt })) }, `Pay ${M3.money(amt, 2)}`));
   }
   function DirectDebit() {
     const c2 = useS((s) => s.card);
     const M3 = useMarket();
     const cur = !c2.autopay ? "off" : c2.autopayMode === "min" ? "min" : "full";
-    const [pick, setPick] = useState(cur === "off" ? "full" : cur);
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { title: cur === "off" ? "Off" : cur === "min" ? "Pays the minimum" : "Pays the full balance", sub: cur === "off" ? "You pay each bill yourself." : `Each month from your current account \u2022\u2022\u2022\u2022 7781, on the due date.` }), /* @__PURE__ */ React.createElement(Choice, { list: true, label: "What it pays", value: pick, onChange: setPick, items: [{ key: "full", title: "The full balance", sub: "No interest, ever" }, { key: "min", title: "The minimum", sub: "Interest is charged on the rest" }, ...cur !== "off" ? [{ key: "off", title: "Turn it off", sub: "You pay each bill yourself" }] : []] }), pick !== cur && /* @__PURE__ */ React.createElement(Primary, { onClick: () => openConfirm(ddAskX(pick)) }, pick === "off" ? "Turn off" : cur === "off" ? "Set up" : "Change"));
+    const [pick2, setPick] = useState(cur === "off" ? "full" : cur);
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { title: cur === "off" ? "Off" : cur === "min" ? "Pays the minimum" : "Pays the full balance", sub: cur === "off" ? "You pay each bill yourself." : `Each month from your current account \u2022\u2022\u2022\u2022 7781, on the due date.` }), /* @__PURE__ */ React.createElement(Choice, { list: true, label: "What it pays", value: pick2, onChange: setPick, items: [{ key: "full", title: "The full balance", sub: "No interest, ever" }, { key: "min", title: "The minimum", sub: "Interest is charged on the rest" }, ...cur !== "off" ? [{ key: "off", title: "Turn it off", sub: "You pay each bill yourself" }] : []] }), pick2 !== cur && /* @__PURE__ */ React.createElement(Primary, { onClick: () => openConfirm(ddAskX(pick2)) }, pick2 === "off" ? "Turn off" : cur === "off" ? "Set up" : "Change"));
   }
   var ddAskX = (m) => W5.__ddAsk ? W5.__ddAsk(m) : null;
   function Benefits({ nav }) {
@@ -13288,18 +13360,18 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
     useS((s) => s.bookings);
     const M3 = useMarket();
     const [mode2, setMode2] = useState("Ask for more");
-    const [pick, setPick] = useState("");
+    const [pick2, setPick] = useState("");
     const [other, setOther] = useState("");
     const step = c2.limit >= 2e4 ? 1e3 : 500, floor2 = Math.ceil(Math.max(c2.balance, step) / step) * step;
     const lower = [0.75, 0.5, 0.25].map((f) => Math.round(c2.limit * f / step) * step).filter((v, i, xs) => v >= floor2 && v < c2.limit && xs.indexOf(v) === i);
     const higher = [1.25, 1.5, 2].map((f) => Math.round(c2.limit * f / step) * step);
     const req = openCase("limit")[0];
-    const to = pick === "other" ? Math.round(num(other)) : +pick;
+    const to = pick2 === "other" ? Math.round(num(other)) : +pick2;
     return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { value: M3.money(c2.limit), title: "Your credit limit", sub: `${c2.balance < 0 ? `${M3.money(-c2.balance, 2)} in credit` : `${M3.money(c2.balance, 2)} used`} \xB7 ${M3.money(Math.max(0, c2.limit - c2.balance), 2)} left` }), /* @__PURE__ */ React.createElement(Seg, { items: ["Ask for more", "Lower it"], value: mode2, onChange: (x) => {
       setMode2(x);
       setPick("");
       setOther("");
-    } }), mode2 === "Lower it" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "Lowering it happens straight away. Raising it again later needs a check by the bank."), /* @__PURE__ */ React.createElement(Choice, { label: "New limit", value: pick, onChange: setPick, items: [...lower.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "New limit", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true, hint: to && to < c2.balance ? `It has to be at least your balance, ${M3.money(c2.balance, 2)}.` : to >= c2.limit ? `Pick an amount below ${M3.money(c2.limit)}.` : void 0 }), to > 0 && to < c2.limit && to >= c2.balance && /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(limitAsk({ to })) }, `Lower to ${M3.money(to)}`)) : req ? /* @__PURE__ */ React.createElement(React.Fragment, null, req.tracker && /* @__PURE__ */ React.createElement(Track, { title: req.title, sub: `${req.sub} \xB7 ${req.ref}`, steps: req.tracker.steps, current: req.tracker.current, eta: ((_a = req.extra) == null ? void 0 : _a.outcome) || req.tracker.eta })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "The bank checks what you can afford before saying yes. It won't affect your credit score unless you go ahead."), /* @__PURE__ */ React.createElement(Choice, { label: "Limit you'd like", value: pick, onChange: setPick, items: [...higher.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Limit you'd like", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true }), to > c2.limit && /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(FLOWS.limitRequestAsk({ to })) }, "Send to the bank")));
+    } }), mode2 === "Lower it" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "Lowering it happens straight away. Raising it again later needs a check by the bank."), /* @__PURE__ */ React.createElement(Choice, { label: "New limit", value: pick2, onChange: setPick, items: [...lower.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick2 === "other" && /* @__PURE__ */ React.createElement(Field, { label: "New limit", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true, hint: to && to < c2.balance ? `It has to be at least your balance, ${M3.money(c2.balance, 2)}.` : to >= c2.limit ? `Pick an amount below ${M3.money(c2.limit)}.` : void 0 }), to > 0 && to < c2.limit && to >= c2.balance && /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(limitAsk({ to })) }, `Lower to ${M3.money(to)}`)) : req ? /* @__PURE__ */ React.createElement(React.Fragment, null, req.tracker && /* @__PURE__ */ React.createElement(Track, { title: req.title, sub: `${req.sub} \xB7 ${req.ref}`, steps: req.tracker.steps, current: req.tracker.current, eta: ((_a = req.extra) == null ? void 0 : _a.outcome) || req.tracker.eta })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("p", { className: "ds-row-s" }, "The bank checks what you can afford before saying yes. It won't affect your credit score unless you go ahead."), /* @__PURE__ */ React.createElement(Choice, { label: "Limit you'd like", value: pick2, onChange: setPick, items: [...higher.map((v) => ({ key: String(v), title: M3.money(v) })), { key: "other", title: "Another amount" }] }), pick2 === "other" && /* @__PURE__ */ React.createElement(Field, { label: "Limit you'd like", prefix: sym(M3), inputMode: "numeric", value: other, onChange: setOther, autoFocus: true }), to > c2.limit && /* @__PURE__ */ React.createElement(Primary, { onClick: () => here(FLOWS.limitRequestAsk({ to })) }, "Send to the bank")));
   }
   function PhoneWallet() {
     const w = useS((s) => s.seen.wallets || {});

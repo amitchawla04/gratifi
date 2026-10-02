@@ -123,7 +123,7 @@ export function hotels(m: string, cityName: string): Item[] {
   const g0 = NIGHT[cityName] || (c ? Math.max(90, c.gbp) : 120)
   return [0, 1, 2, 3].map(i => {
     const gbp = Math.round(g0 * (0.8 + i * 0.25 + r() * 0.15)) * 2
-    return { id: `ST-${cityName}-${i}`, cat: 'stays', title: `${W1[(i * 3 + hsh(cityName)) % W1.length]} ${W2[(i + hsh(cityName) * 7) % W2.length]}`, sub: `${(CITY_AREAS[cityName] || AREAS)[i]}, ${cityName}`, img: ['stay:pool', 'stay:room', 'stay:facade', 'stay:terrace'][i], gbp, unit: '2 nights, taxes in', rating: +(4.2 + r() * 0.7).toFixed(1), meta: [['Pool', 'Breakfast'], ['Breakfast'], ['Rooftop bar'], ['Gym', 'Spa']][i], city: cityName, opts: { kind: 'variants', label: 'Room', values: ['Double', 'Twin', 'Suite (+40%)'] }, policy: i === 2 ? 'Non-refundable rate' : 'Free cancellation until 3 days before', mode: 'order', earn: i === 0 ? '3× points' : undefined } as Item
+    return { id: `ST-${cityName}-${i}`, cat: 'stays', title: `${W1[(i * 3 + hsh(cityName)) % W1.length]} ${W2[(i + hsh(cityName) * 7) % W2.length]}`, sub: `${(CITY_AREAS[cityName] || AREAS)[i]}, ${cityName}`, img: `hotel:${['pool', 'room', 'terrace', 'facade'][i]}|${cityName}|${cityName}${i}`, gbp, unit: '2 nights, taxes in', rating: +(4.2 + r() * 0.7).toFixed(1), meta: [['Pool', 'Breakfast'], ['Breakfast'], ['Rooftop bar'], ['Gym', 'Spa']][i], city: cityName, opts: { kind: 'variants', label: 'Room', values: ['Double', 'Twin', 'Suite (+40%)'] }, policy: i === 2 ? 'Non-refundable rate' : 'Free cancellation until 3 days before', mode: 'order', earn: i === 0 ? '3× points' : undefined } as Item
   })
 }
 

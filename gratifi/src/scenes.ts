@@ -12,6 +12,7 @@ const svg = (bg: string, body: string) => `<svg xmlns="http://www.w3.org/2000/sv
 const flat = (c: string) => `<rect width="480" height="400" fill="${c}"/>`
 const sky = (a = SKY1, b = SKY2) => `<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="480" height="400" fill="url(#s)"/>`
 const dusk = () => sky('#FFC9A3', '#FFE9D6')
+const dusk_ = dusk
 const sun = (x = 380, y = 90, r = 44, c = O2) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" opacity="0.92"/>`
 const floor = (y: number, c: string, line = true) => `<rect x="0" y="${y}" width="480" height="${400 - y}" fill="${c}"/>${line ? `<path d="M0 ${y} H480" ${st()}/>` : ''}`
 const cloud = (x: number, y: number, s = 1, o = 0.85) => `<g fill="${W}" opacity="${o}" transform="translate(${x} ${y}) scale(${s})"><circle cx="0" cy="0" r="24"/><circle cx="30" cy="-10" r="30"/><circle cx="62" cy="2" r="22"/><rect x="0" y="0" width="62" height="24"/></g>`
@@ -47,13 +48,13 @@ const LAND: Record<string, () => string> = {
   mountain: () => `${sea(330)}<path d="M60 330 L190 170 L250 236 L300 190 L420 330 Z" fill="${G2}" ${st(4)}/><path d="M164 202 L190 170 L212 196 L196 192 L184 204 Z" fill="${W}" ${st(3)}/>`,
 }
 const CITY_LAND: Record<string, string> = { Lisbon: 'oldtown', Barcelona: 'beach', Paris: 'tower', Edinburgh: 'castle', Amsterdam: 'canal', Rome: 'colosseum', London: 'clock', 'New York': 'skyline', Goa: 'beach', Delhi: 'arch', Bengaluru: 'skyline', Dubai: 'spire', Muscat: 'fort', Istanbul: 'mosque4', 'Malé': 'villas', Bangkok: 'pagoda', Bali: 'splitgate', Tokyo: 'fuji', 'Kuala Lumpur': 'twin', Sydney: 'bridge', 'Kota Kinabalu': 'mountain', Penang: 'oldtown', Langkawi: 'beach', Singapore: 'marina' }
-const LOW = new Set(['beach', 'mountain', 'oldtown', 'canal', 'bridge', 'villas', 'fuji'])
-const BASE: Record<string, string> = { tower: G2, castle: G2, domes: SAND, skyline: GREY, twin: GREY, pagoda: G2, arch: SAND, colosseum: SAND, clock: GREY, spire: SAND, marina: SEA2, mosque4: SAND, fort: SAND, splitgate: G2 }
+const LOW = new Set(['beach', 'mountain', 'oldtown', 'canal', 'bridge', 'villas'])
+const BASE: Record<string, string> = { fuji: G2, tower: G2, castle: G2, domes: SAND, skyline: GREY, twin: GREY, pagoda: G2, arch: SAND, colosseum: SAND, clock: GREY, spire: SAND, marina: SEA2, mosque4: SAND, fort: SAND, splitgate: G2 }
 const DUSK = new Set(['Barcelona', 'Goa', 'Malé', 'Bali', 'Langkawi', 'Muscat', 'Dubai', 'Penang'])
 export const landOf = (city: string) => CITY_LAND[city] || 'skyline'
 function flightTo(city: string) {
   const d = DUSK.has(city), l = landOf(city), low = LOW.has(l)
-  const land = low ? LAND[l]() : `${l === 'marina' ? sea(330) : floor(330, BASE[l] || GREY)}<g transform="translate(150 92) scale(0.72)">${LAND[l]()}</g>`
+  const land = low ? LAND[l]() : `${l === 'marina' ? sea(330) : floor(330, BASE[l] || GREY)}<g transform="translate(112 59) scale(0.82)">${LAND[l]()}</g>`
   return svg(d ? dusk() : sky(), `${sun(d ? 410 : 414, 74, 34, d ? O2 : Y2)}${cloud(40, 110, 0.8)}${cloud(330, 128, 0.6, 0.7)}${land}${low ? plane(300, 160, 0.4, -12) : plane(140, 178, 0.38, -12)}`)
 }
 function cityScene(city: string) { const d = DUSK.has(city); return svg(d ? dusk() : sky(), `${sun(d ? 380 : 392, 92, 46, d ? O2 : Y2)}${cloud(70, 110, 0.9)}${LAND[landOf(city)]()}`) }
@@ -64,6 +65,51 @@ const STAYS: Record<string, () => string> = {
   room: () => svg(flat(LAV), `<rect x="300" y="50" width="130" height="120" rx="10" fill="${SKY2}" ${st()}/><path d="M365 50 V170 M300 110 H430" ${st(4)}/>${sun(340, 90, 16, Y2)}${floor(250, '#D8CDEB')}<rect x="70" y="150" width="210" height="80" rx="20" fill="${W}" ${st()}/><rect x="60" y="216" width="230" height="74" rx="12" fill="${W}" ${st()}/><path d="M60 246 H290" ${st(4)}/><rect x="86" y="190" width="70" height="34" rx="12" fill="${CREAM}" ${st(4)}/><rect x="166" y="190" width="70" height="34" rx="12" fill="${CREAM}" ${st(4)}/><path d="M74 290 V316 M276 290 V316" ${st()}/><rect x="320" y="226" width="70" height="64" fill="${WOOD}" ${st(4)}/><path d="M355 226 V196 M334 170 h42 l-8 26 h-26 Z" fill="${O}" ${st(4)}/>`),
   facade: () => svg(sky(), `${cloud(330, 80, 0.9)}${floor(340, GREY)}<rect x="130" y="90" width="220" height="250" fill="${CREAM}" ${st()}/>${[0, 1, 2].map(r => [0, 1, 2].map(c => `<rect x="${150 + c * 70}" y="${112 + r * 62}" width="42" height="40" fill="${SKY2}" ${st(4)}/><path d="M${144 + c * 70} ${156 + r * 62} h54" ${st(4)}/>`).join('')).join('')}<path d="M180 300 h120 v-24 h-120 Z" fill="${O}" ${st(4)}/><rect x="216" y="300" width="48" height="40" fill="${K}"/><path d="M350 120 V64" ${st(4)}/><path d="M350 66 h32 l-8 11 l8 11 h-32" fill="${O}" ${st(4)}/>`),
   terrace: () => svg(dusk(), `${sun(380, 110, 46, O2)}<g ${st(4)}><rect x="40" y="190" width="54" height="110" fill="#9CC7E4"/><rect x="100" y="150" width="48" height="150" fill="${W}"/><rect x="330" y="200" width="56" height="100" fill="${CREAM}"/><rect x="392" y="170" width="50" height="130" fill="#9CC7E4"/></g>${floor(300, WOOD)}<path d="M0 300 H480 M0 272 H480" ${st(4)}/>${[30, 90, 150, 210, 270, 330, 390, 450].map(x => `<path d="M${x} 272 V300" ${st(4)}/>`).join('')}<path d="M240 340 V190" ${st(4)}/><path d="M168 204 Q240 150 312 204 Z" fill="${W}" ${st()}/><path d="M204 204 Q240 160 276 204" fill="none" stroke="${O}" stroke-width="10"/><ellipse cx="240" cy="330" rx="56" ry="12" fill="${W}" ${st(4)}/><path d="M228 318 v-22 h-12 M252 318 v-22 h12" ${st(4)}/><circle cx="216" cy="292" r="6" fill="${O}" ${st(3)}/>`),
+}
+
+
+/* ---------- one hotel, one picture: the kind of stay, drawn with its own colours and its city's landmark in the view ---------- */
+const seeded = (key: string) => { let h = 2166136261; for (const c of key) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0 } return () => { h ^= h << 13; h >>>= 0; h ^= h >> 17; h ^= h << 5; h >>>= 0; return h / 4294967296 } }
+const pick = <T,>(r: () => number, xs: T[]) => xs[Math.floor(r() * xs.length) % xs.length]
+const WALLS = [CREAM, ROSE, '#DCEBF7', LAV, MINT, PEACH, '#F3E7D6']
+const ACCENTS = [O, Y, SEA2, G, R, '#9CC7E4', '#F2A0B8']
+const palm = (x: number, y: number, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0 Q-8 -50 14 -100" fill="none" stroke="${WOOD2}" stroke-width="12" stroke-linecap="round"/><g fill="${G}" ${st(4)}><path d="M14 -100 Q-22 -116 -42 -96 Q-14 -104 14 -96 Z"/><path d="M14 -100 Q48 -122 74 -106 Q42 -106 14 -94 Z"/><path d="M14 -100 Q6 -138 30 -154 Q22 -124 18 -96 Z"/><path d="M14 -100 Q-18 -136 -36 -128 Q-6 -122 12 -94 Z"/></g></g>`
+const potPlant = (x: number, y: number, c: string) => `<g transform="translate(${x} ${y})"><path d="M-16 0 H16 L12 30 H-12 Z" fill="${c}" ${st(4)}/><path d="M0 0 Q-20 -30 -6 -50 M0 0 Q4 -36 18 -46 M0 0 Q-2 -24 -22 -30" fill="none" stroke="${G}" stroke-width="7" stroke-linecap="round"/></g>`
+const lounger = (x: number, y: number, c: string) => `<g transform="translate(${x} ${y})"><path d="M0 0 H70 L86 -18" fill="none" ${st()}/><path d="M4 -4 H68 L82 -18" fill="none" stroke="${c}" stroke-width="6"/><path d="M6 0 V24 M64 0 V24" ${st(4)}/></g>`
+const brolly = (x: number, y: number, c: string, h = 130) => `<path d="M${x} ${y} V${y - h}" ${st(4)}/><path d="M${x - 62} ${y - h + 12} Q${x} ${y - h - 42} ${x + 62} ${y - h + 12} Z" fill="${c}" ${st()}/><path d="M${x - 30} ${y - h + 8} Q${x} ${y - h - 36} ${x + 30} ${y - h + 8}" fill="none" stroke="${W}" stroke-width="5" opacity="0.6"/>`
+const view = (city: string, x: number, y: number, s: number) => `<g transform="translate(${x} ${y}) scale(${s})">${LAND[landOf(city)]()}</g>`
+function hotelScene(kind: string, city: string, seed: string) {
+  const r = seeded(seed), dusk = r() < 0.4, wall = pick(r, WALLS), acc = pick(r, ACCENTS), acc2 = pick(r, ACCENTS.filter(x => x !== acc))
+  const bg = dusk ? dusk_() : sky()
+  if (kind === 'pool') {
+    const wide = r() < 0.5
+    return svg(bg, `${sun(dusk ? 96 : 400, dusk ? 92 : 70, 34, dusk ? O2 : Y2)}${cloud(60 + r() * 60, 70, 0.7, 0.7)}<g opacity="0.95">${view(city, 150, 92, 0.6)}</g>${floor(250, SAND)}<path d="M0 250 H480" ${st()}/>
+      <rect x="${wide ? 40 : 70}" y="276" width="${wide ? 300 : 230}" height="92" rx="${wide ? 46 : 14}" fill="${SEA2}" ${st()}/><path d="M${wide ? 80 : 100} 306 q24 -12 48 0 t48 0 M${wide ? 150 : 140} 340 q24 -12 48 0 t48 0" fill="none" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+      ${r() < 0.5 ? `<circle cx="${wide ? 290 : 250}" cy="318" r="14" fill="${acc2}" ${st(4)}/><circle cx="${wide ? 290 : 250}" cy="318" r="6" fill="${W}"/>` : ''}
+      ${lounger(360, 300, acc)}${r() < 0.6 ? lounger(366, 352, acc2) : ''}${brolly(430, 300, acc)}${r() < 0.55 ? palm(40, 250, 0.9) : potPlant(40, 220, acc2)}`)
+  }
+  if (kind === 'room') {
+    const head = pick(r, ['#CFC3E8', '#9CC7E4', '#F2A0B8', '#D9B37A', G2]), throwC = pick(r, ACCENTS)
+    return svg(flat(wall), `<defs><clipPath id="w"><rect x="292" y="52" width="150" height="128" rx="10"/></clipPath></defs><g clip-path="url(#w)">${dusk ? dusk_() : sky()}${view(city, 240, -40, 0.62)}</g><rect x="292" y="52" width="150" height="128" rx="10" fill="none" ${st()}/><path d="M367 52 V180 M292 116 H442" ${st(4)}/>
+      <rect x="60" y="62" width="74" height="56" fill="${W}" ${st(4)}/><path d="M70 108 L92 84 L106 98 L116 88 L126 108 Z" fill="${acc}" ${st(3)}/>
+      ${floor(262, '#D8CDEB')}<path d="M0 262 H480" ${st()}/><rect x="56" y="150" width="232" height="84" rx="22" fill="${head}" ${st()}/>
+      <rect x="46" y="220" width="252" height="70" rx="14" fill="${W}" ${st()}/><path d="M46 250 H298" ${st(4)}/><rect x="190" y="220" width="108" height="70" rx="0" fill="${throwC}" opacity="0.85"/><rect x="46" y="220" width="252" height="70" rx="14" fill="none" ${st()}/>
+      <rect x="74" y="192" width="70" height="34" rx="12" fill="${CREAM}" ${st(4)}/><rect x="154" y="192" width="70" height="34" rx="12" fill="${CREAM}" ${st(4)}/><path d="M60 290 V318 M284 290 V318" ${st()}/>
+      <rect x="318" y="226" width="72" height="66" fill="${WOOD}" ${st(4)}/><path d="M354 226 V198" ${st(4)}/><path d="M334 172 h40 l-8 26 h-24 Z" fill="${acc2}" ${st(4)}/><circle cx="374" cy="216" r="0"/>${potPlant(430, 262, acc)}`)
+  }
+  if (kind === 'facade') {
+    const floors = 3 + Math.floor(r() * 2), body = pick(r, [CREAM, ROSE, '#F3E7D6', W, '#DCEBF7']), top = 330 - floors * 62 - 20
+    let win = ''; for (let f = 0; f < floors; f++) for (let c = 0; c < 3; c++) { const x = 150 + c * 66, y = top + 26 + f * 62; win += `<rect x="${x}" y="${y}" width="40" height="38" fill="${SKY2}" ${st(4)}/>${r() < 0.5 ? `<path d="M${x - 6} ${y + 44} h52" ${st(4)}/><path d="M${x} ${y + 44} v-8 M${x + 10} ${y + 44} v-8 M${x + 20} ${y + 44} v-8 M${x + 30} ${y + 44} v-8 M${x + 40} ${y + 44} v-8" ${st(2)}/>` : ''}${r() < 0.3 ? `<circle cx="${x + 8}" cy="${y + 40}" r="7" fill="${G}" ${st(2)}/>` : ''}` }
+    return svg(bg, `${sun(dusk ? 90 : 410, 70, 32, dusk ? O2 : Y2)}<g opacity="0.9">${view(city, -10, 160, 0.45)}</g>${floor(330, GREY)}<rect x="130" y="${top}" width="220" height="${330 - top}" fill="${body}" ${st()}/><path d="M122 ${top} H358" ${st(7)}/>${win}
+      <path d="M180 300 h120 l10 -22 h-140 Z" fill="${acc}" ${st(4)}/><path d="M190 300 l6 -22 M214 300 l4 -22 M238 300 v-22 M262 300 l-4 -22 M286 300 l-6 -22" stroke="${W}" stroke-width="5" opacity="0.7"/><rect x="216" y="300" width="48" height="30" fill="${K}"/>
+      <path d="M350 ${top + 30} V${top - 26}" ${st(4)}/><path d="M350 ${top - 24} h30 l-8 11 l8 11 h-30" fill="${acc2}" ${st(4)}/>
+      <path d="M400 330 V230" ${st(4)}/><circle cx="400" cy="226" r="12" fill="${Y2}" ${st(4)}/>${r() < 0.6 ? `<circle cx="90" cy="300" r="34" fill="${G}" ${st(4)}/><path d="M90 334 V320" ${st(4)}/>` : potPlant(96, 300, acc)}`)
+  }
+  /* terrace */
+  return svg(dusk ? dusk_() : sky(), `${sun(dusk ? 120 : 400, dusk ? 160 : 74, dusk ? 46 : 34, dusk ? O2 : Y2)}${view(city, -24, 70, 0.6)}${floor(300, WOOD)}<path d="M0 300 H480 M0 268 H480" ${st(4)}/>${[24, 72, 120, 168, 216, 264, 312, 360, 408, 456].map(x => `<path d="M${x} 268 V300" ${st(4)}/>`).join('')}
+    <path d="M0 40 Q120 80 240 50 Q360 80 480 40" fill="none" ${st(2)}/>${[40, 100, 160, 220, 280, 340, 400, 450].map((x, i) => `<circle cx="${x}" cy="${58 + (i % 2) * 10}" r="6" fill="${Y2}" ${st(2)}/>`).join('')}
+    ${brolly(340, 340, acc, 170)}<ellipse cx="340" cy="334" rx="58" ry="12" fill="${W}" ${st(4)}/><path d="M326 322 v-22 h-14 M354 322 v-22 h14" ${st(4)}/><circle cx="314" cy="292" r="7" fill="${acc2}" ${st(3)}/><path d="M362 296 h12 v-14 h-12 Z" fill="${W}" ${st(3)}/>
+    ${potPlant(250, 300, acc2)}${potPlant(440, 300, acc)}`)
 }
 
 /* ---------- food ---------- */
@@ -193,6 +239,7 @@ export function scene(key?: string): string | undefined {
   if (ns === 'tail') return mk(key, () => tail(name))
   if (ns === 'city') return mk(key, () => cityScene(name))
   if (ns === 'stay' && STAYS[name]) return mk(key, STAYS[name])
+  if (ns === 'hotel') { const [kind, city, seed] = name.split('|'); return mk(key, () => hotelScene(kind, city, seed || city + kind)) }
   if (ns === 'food' && FOOD[name]) return mk(key, FOOD[name])
   if (ns === 'do' && DO[name]) return mk(key, DO[name])
   if (ns === 'shop' && SHOP[name]) return mk(key, SHOP[name])
@@ -203,6 +250,7 @@ export function scene(key?: string): string | undefined {
   return undefined
 }
 export const SCENE_KEYS = [
+  ...['Lisbon', 'Paris', 'Muscat', 'Tokyo'].flatMap(c => ['pool', 'room', 'facade', 'terrace'].map(k => `hotel:${k}|${c}|${c}${k}`)),
   ...Object.keys(CITY_LAND).map(c => 'fly:' + c), 'tail:NW', 'tail:CL', 'tail:AU', ...Object.keys(STAYS).map(k => 'stay:' + k), ...Object.keys(FOOD).map(k => 'food:' + k), ...Object.keys(DO).map(k => 'do:' + k),
   ...Object.keys(SHOP).map(k => 'shop:' + k), ...Object.keys(MOVE).map(k => 'move:' + k), ...Object.keys(GIFT_ART).map(k => 'gift:' + k + '|#2E5E4E'), ...Object.keys(SUB_ART).map(k => 'sub:' + k + '|#C0301C'), ...Object.keys(MONEY).map(k => 'money:' + k),
 ]
