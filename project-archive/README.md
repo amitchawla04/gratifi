@@ -4,7 +4,8 @@ Everything behind the Gratifi build, from the first idea (27 Sep 2026) to the li
 
 | Folder | What's in it |
 | --- | --- |
-| `conversation/` | The working conversation with Claude, as Markdown, in blocks of five turns (`turns-000-004.md` onwards). Amit's messages are copied word for word. Claude's replies are kept word for word, and each run of tool work is shortened to one line. |
+| `full-conversation.md` | The whole working conversation with Claude in one file, all 321 turns. Amit's messages are word for word. Claude's replies are word for word, with each run of tool work shortened to one line. |
+| `conversation/` | The same conversation split into blocks of five turns. |
 | `research/` | Working notes and briefs: the commerce-in-chat use-case doc, the system map notes, the design-system brief, the review briefs, copy scans and review scores, and the use-case spreadsheets with the scripts that built them. |
 | `design-references/` | The approved design originals from 27 Sep (`approved-originals-27-sep/`), Amit's reference screenshots (`ref-01` to `ref-09`), the screens used in the handover doc, and the design-system tokens. |
 | `artifacts/` | Pages published along the way: the Gratifi system map, the pitch deck source, and the chat components sheet for sign-off (2 Oct). |
@@ -24,7 +25,3 @@ These stay live in Claude and are the latest versions:
 - The app on the web: https://project-95d8n.vercel.app
 
 These links open only for people the owner has shared them with.
-
-## Still to add
-
-Some conversation turns are not in `conversation/` yet: 20–25, 41–51, 65–77 and 208–259, plus everything after turn 308. The tool that reads past turns allows a fixed number of reads an hour, so these follow in a later commit.
