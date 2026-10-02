@@ -48,6 +48,8 @@ module.exports = {
     await full('split'); await click(/^Pay /); await confirm(); await full('booked')
     await ask('add a bag'); await full('bags'); await cta(); await click(/^Pay /); await confirm(); await full('bag-added')
     await ask('upgrade my flight to business'); await full('upgrade'); await cta(); await click(/^Pay /); await confirm(); await full('upgraded')
+    await ask('the spelling of my name is wrong on my ticket'); await full('namefix')
+    { const inp = A().locator('.c2-in input'); if (await inp.count()) { await A().locator('.c2-prow').first().click(); await inp.fill(((await inp.inputValue()) || 'Amit Chawla').replace(/a$/, 'aa')); await cta(); await full('namefixed') } else errs.push('NO NAME FIX') }
     await ask('check in for my flight'); await full('ci-closed')
     { const b = A().locator('.gr-state .gr-btn'); if (await b.count()) await b.first().click(); else errs.push('NO AUTO CHECK-IN') } await p.waitForTimeout(400)
     await nav(5); await click('Check-in opens'); await full('ci-auto')
@@ -55,6 +57,46 @@ module.exports = {
     await ask('flight status'); await full('status')
     await nav(5); await click('Delay my next flight'); await full('delayed')
     if (!(await p.locator('.c2-tl li.chg').count())) errs.push('NO CHANGE SHOWN')
+    await ask('my luggage never arrived'); await full('lostbag'); if (await A().locator('.c2-slot').count()) { await cta(); await full('lostbag-sent') } else errs.push('NO LOST BAG FORM')
+  },
+  async fares(h) {
+    const { ask, click, full, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const BACK = { UK: 'Barcelona', EU: 'Paris', IN: 'Delhi', AE: 'Istanbul', AR: 'Istanbul', SG: 'Bangkok', MY: 'Langkawi' }
+    await nav(3); await ask(`Flights to ${CITY[mk()]} next Friday`); await full('search')
+    await click('Watch price'); await full('watching')
+    if (!(await A().locator('.gr-state').count())) errs.push('NO WATCH CARD')
+    await nav(5); await click('Fare drops'); await full('dropped')
+    if (!(await A().locator('.ds-fl').count())) errs.push('NO FLIGHTS AFTER DROP')
+    await ask(`Flights to ${CITY[mk()]} next Friday back from ${BACK[mk()]} on Monday`); await full('openjaw')
+    if (!(await A().locator('.ds-fl').count())) errs.push('NO OPEN-JAW FLIGHTS')
+    else { await A().locator('.ds-fl').first().click(); await p.waitForTimeout(500); await full('openjaw-fare'); if (!(await A().locator('.app-fs').count())) errs.push('NO OPEN-JAW FARES') }
+  },
+  async cardchat(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const need = async (sel, what) => { if (!(await A().locator(sel).count())) { errs.push('NO ' + what); return false } return true }
+    const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
+    await nav(3)
+    await ask('I was charged twice'); await full('dispute')
+    if (await need('.c2-prow', 'DISPUTE PICKER')) { await A().locator('.c2-prow').first().click(); await p.waitForTimeout(200); await cta(); await confirm(); await full('dispute-sent') }
+    await ask('I want to spread the cost of a big purchase'); await full('plan')
+    if (await A().locator('.c2-card').count()) { await cta(); await confirm(); await full('plan-set') }
+    await ask('balance transfer'); await full('bt')
+    if (await need('.c2-in input', 'BT FORM')) { const ins = A().locator('.c2-in input'); await ins.nth(0).fill('Harbour Bank'); await ins.nth(1).fill('4417'); await ins.nth(2).fill('300'); await cta(); await confirm(); await full('bt-sent') }
+    await ask('add my wife to my card'); await full('holder')
+    if (await need('.c2-in input', 'HOLDER FORM')) { const ins = A().locator('.c2-in input'); await ins.nth(0).fill('Priya Shah'); await ins.nth(1).fill('1990-05-14'); await cta(); await confirm(); await full('holder-sent') }
+    await ask('pay off a purchase with my points'); await full('ptspay')
+    if (await need('.c2-prow', 'POINTS PAY')) { await cta(); await confirm(); await full('ptspay-done') }
+    await ask('send 1000 points to my wife'); await full('ptssend')
+    if (await need('.c2-in input', 'SEND POINTS FORM')) { const ins = A().locator('.c2-in input'); await ins.nth(0).fill('Priya Shah'); await ins.nth(1).fill('48201937'); await cta(); await confirm(); await full('ptssend-done') }
+    await ask("I didn't get my points for a purchase"); await full('ptsclaim')
+    if (await need('.c2-prow', 'POINTS CLAIM')) { await A().locator('.c2-prow').first().click(); await cta(); await full('ptsclaim-done') }
+    await ask('claim on purchase protection'); await full('protect')
+    if (await A().locator('.c2-prow').count()) { await A().locator('.c2-prow').first().click(); await A().locator('.c2-slot').first().click(); await A().locator('.c2-in input').fill('Headphones'); await cta(); await confirm(); await full('protect-sent') } else errs.push('NO PROTECT LIST')
+    await ask('upgrade my card'); await full('cardswitch'); if (await need('.c2-cmp', 'CARD COMPARE')) { await cta(); await confirm(); await full('cardswitch-sent') }
+    await ask('remove my wife from my card'); await full('holder-remove'); { const b = A().locator('.ds-opill'); if (await b.count()) { await b.first().click(); await p.waitForTimeout(300); await confirm(); await full('holder-removed') } else errs.push('NO REMOVE CARDHOLDER') }
+    await nav(5); await click('Bank decides cases'); await full('cases')
   },
   async stays(h) { await h.nav(3); await buyFirst(h, `A hotel in ${CITY[mk()]} with a pool`, 'stay') },
   async dining(h) { await h.nav(3); await buyFirst(h, 'A table tonight for two', 'dine', 0, async () => { await h.p.locator('.gr-slot').nth(2).click() }) },

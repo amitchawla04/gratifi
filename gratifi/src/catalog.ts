@@ -91,6 +91,8 @@ export const AIRLINES: Record<string, string> = { NW: 'Northway Air', CL: 'Coast
 export type FlightOpt = { id: string; airline: string; number: string; dep: string; arr: string; plus: number; from: string; to: string; dur: string; durMin: number; stops: number; via?: string; price: number; points: number; bag: string; left?: number; date: string; city: string }
 const hm = (n: number) => `${String(Math.floor(((n % 1440) + 1440) % 1440 / 60)).padStart(2, '0')}:${String((((n % 1440) + 1440) % 1440) % 60).padStart(2, '0')}`
 export const durTxt = (n: number) => `${Math.floor(n / 60)}h${n % 60 ? ' ' + String(n % 60).padStart(2, '0') + 'm' : ''}`
+/** Fares that have dropped on a watched route, set from the app state (route code → multiplier). */
+export const FARE_DROP: Record<string, number> = {}
 export function searchFlights(m: string, city: City, date: string, back = false): FlightOpt[] {
   const r = rnd(m + city.code + date + back), h = home(m)
   const times = [370, 445, 580, 700, 855, 1070, 1230]
@@ -103,7 +105,7 @@ export function searchFlights(m: string, city: City, date: string, back = false)
     const arrAbs = t + durMin + Math.round((to.tz - from.tz) * 60)
     const plus = Math.floor(arrAbs / 1440)
     const g = city.gbp * (stops ? 0.82 : 1) * (0.9 + r() * 0.5) * (t < 480 || t > 1200 ? 0.92 : 1.06)
-    const price = px(g, m)
+    const price = px(g * (back ? 1 : FARE_DROP[city.code + date] || 1), m)
     out.push({ id: `FL-${city.code}-${date}-${i}-${back ? 'b' : 'o'}`, airline: al, number: (r(), `${al} ${200 + Math.round(rnd(m + city.code + back + i)() * 700)}`), dep: hm(t), arr: hm(arrAbs), plus, from: from.code, to: to.code, dur: durTxt(durMin), durMin, stops, via: stops ? city.stops : undefined, price, points: ptsFor(price, m), bag: 'Cabin bag', left: r() < 0.3 ? 2 + Math.floor(r() * 3) : undefined, date, city: city.name })
   })
   return out.sort((a, b) => a.price - b.price)

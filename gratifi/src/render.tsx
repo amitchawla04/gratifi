@@ -40,6 +40,7 @@ export const FLOWS: Record<string, (a: any) => F.R> = {
   docs: F.docs, concierge: F.concierge, handoff: F.handoff, alertSet: F.alertSet, challenges: F.challenges, usePoints: F.usePoints, cardControl: F.cardControl, flexDates: F.flexDates, route: (a: any) => F.route('', a.text),
   reopen: (a: any) => { const d = St.get().drafts[a.draft]; if (!d) return { say: 'That checkout has already been paid.', blocks: [] }; return { say: '', blocks: [{ kind: 'checkout', draft: a.draft, method: a.method, fresh: true }] } },
   affiliateBuy: F.affiliateBuy,
+  disputeStart: F.disputeStart, planStart: F.planStart, btStart: F.btStart, holderStart: F.holderStart, ptsPayStart: F.ptsPayStart, sendPtsStart: F.sendPtsStart, missingPtsStart: F.missingPtsStart, protectStart: F.protectStart, cardSwitchStart: F.cardSwitchStart, holderRemoveStart: F.holderRemoveStart, nameFixStart: F.nameFixStart, nameFixDo: F.nameFixDo, lostBagStart: F.lostBagStart, lostBagDo: F.lostBagDo, priceWatch: F.priceWatch, priceUnwatch: F.priceUnwatch,
   extrasDone: F.extrasDone, checkIn: F.checkIn, autoCheckin: F.autoCheckin, checkInDo: F.checkInDo, flightStatus: F.flightStatus, upgradeOffer: F.upgradeOffer, upgradeDo: F.upgradeDo, addBags: F.addBags, addBagsDo: F.addBagsDo,
   settlePending: F.settlePending,
   cardSet: (a: any) => { St.set(s => ({ card: { ...s.card, [a.k]: true } })); return { say: ({ online: 'Online payments are on.', abroad: 'Payments abroad are on.', contactless: 'Contactless is on.', atm: 'Cash withdrawals are on.' } as any)[a.k], blocks: [{ kind: 'controls' }] } },
@@ -49,7 +50,7 @@ export const FLOWS: Record<string, (a: any) => F.R> = {
   replaceCard: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; return { say: 'Confirm it\'s you to order the new card.', blocks: [], confirm: { kind: 'action', title: 'Order a replacement card', summary: St.get().card.frozen ? `To your home address · card ending ${St.get().card.last4} stays frozen and is cancelled` : `To your home address · card ending ${St.get().card.last4} works until you activate the new one`, lines: [['New card', St.get().card.frozen ? 'New number, 3 to 5 working days' : 'Same number, 3 to 5 working days']], total: ['To pay', 'Free'], act: { f: 'replaceCardDo', a: {} } } } },
   replaceCardDo: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; const r = St.pay({ id: 'x', cat: 'bank', title: 'Replacement card', sub: 'To your home address', qty: 1, unit: 0, total: 0, kind: 'order', extra: { case: 'replacement', newNumber: St.get().card.frozen }, tracker: { steps: ['Ordered', 'Printed', 'Posted', 'Delivered'], current: 1, eta: '3 to 5 days' } } as any, 0, 0); return { say: St.get().card.frozen ? 'A new card with a new number is on its way to your home address. Your old card stays frozen, so nobody can use it.' : 'A new card with the same number is on its way to your home address. Your current card works until you activate the new one.', blocks: r.ok ? [{ kind: 'tracker', id: r.booking.id }] : [] } },
   /* Card servicing through the bank connection layer. A missing API answers plainly instead of failing. */
-  ...Object.fromEntries((['replaceAsk', 'replaceDo', 'activate', 'disputeAsk', 'disputeDo', 'limitRequestAsk', 'limitRequestDo', 'walletAsk', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin'] as const).map(k => [k, (a: any) => bankCall(() => (Bk as any)[k](a))])),
+  ...Object.fromEntries((['replaceAsk', 'replaceDo', 'activate', 'disputeAsk', 'disputeDo', 'limitRequestAsk', 'limitRequestDo', 'walletAsk', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin', 'planAsk', 'planDo', 'btAsk', 'btDo', 'holderAsk', 'holderDo', 'ptsPayAsk', 'ptsPayDo', 'sendPtsAsk', 'sendPtsDo', 'missingPtsDo', 'protectAsk', 'protectDo', 'upgradeCardAsk', 'upgradeCardDo', 'holderRemoveAsk', 'holderRemoveDo'] as const).map(k => [k, (a: any) => bankCall(() => (Bk as any)[k](a))])),
   open: (a: any) => { W.__go?.('cardx', a.to); return { say: '', blocks: [] } },
 }
 function bankCall(f: () => F.R): F.R { try { return f() } catch (e: any) { if (e?.code === 'unavailable') { const m = Mod.MODULES.find(x => x.apis.includes(e.api)); return { say: `${m ? Mod.unavailable(m.id) : 'That isn\'t available in this app'}. Your bank's app or a person at the bank can help with it.`, blocks: [], suggest: ['Talk to a person'] } } throw e } }
@@ -189,6 +190,18 @@ const BLOCKS: Record<string, (p: any) => any> = {
   fares: (p: any) => <FaresBlock {...p} />,
   seats: (p: any) => <SeatsBlock {...p} />,
   extras: (p: any) => <ExtrasBlock {...p} />,
+  disputepick: (p: any) => <DisputePickBlock {...p} />,
+  planpick: (p: any) => <PlanPickBlock {...p} />,
+  btform: (p: any) => <BTFormBlock {...p} />,
+  holderform: (p: any) => <HolderFormBlock {...p} />,
+  ptspay: (p: any) => <PtsPayBlock {...p} />,
+  ptssend: (p: any) => <SendPtsBlock {...p} />,
+  ptsclaim: (p: any) => <PtsClaimBlock {...p} />,
+  protect: (p: any) => <ProtectBlock {...p} />,
+  cardswitch: (p: any) => <CardSwitchBlock {...p} />,
+  holderremove: (p: any) => <HolderRemoveBlock {...p} />,
+  namefix: (p: any) => <NameFixBlock {...p} />,
+  lostbag: (p: any) => <LostBagBlock {...p} />,
   checkin: (p: any) => <CheckInBlock {...p} />,
   triptl: (p: any) => <TripTimelineBlock {...p} />,
   upgrade: (p: any) => <UpgradeBlock {...p} />,
@@ -251,14 +264,14 @@ const BLOCKS: Record<string, (p: any) => any> = {
 }
 
 /* ---------- blocks with their own state ---------- */
-function FlightsBlock({ back, pax, ids, best, kids, inf }: any) {
+function FlightsBlock({ back, pax, ids, best, kids, inf, backCity }: any) {
   const M = useMarket(); const price = usePrice()
   const opts = (ids.map((i: string) => F.flightById(i)).filter(Boolean) as Cat.FlightOpt[]).sort((a, b) => Number(b.id === best) - Number(a.id === best))
   if (!opts.length) return <C.StateNote title="No flights match" body="Try all flights or another day." />
-  const go = (o: Cat.FlightOpt) => run({ f: 'chooseFlight', a: { id: o.id, pax, back, kids, inf } }, `The ${o.dep} ${Cat.AIRLINES[o.airline]}`)
+  const go = (o: Cat.FlightOpt) => run({ f: 'chooseFlight', a: { id: o.id, pax, back, kids, inf, backCity } }, `The ${o.dep} ${Cat.AIRLINES[o.airline]}`)
   const [o0, ...rest] = opts
   const row = (o: Cat.FlightOpt, i: number): C.ResultItem => ({ key: o.id, cls: 'ds-fl', art: Cat.img(i ? 'tail:' + o.airline : 'fly:' + o.city), tag: o.id === best ? 'Best match' : 'Earliest', title: `${o.dep}–${o.arr}${o.plus ? ' +1' : ''} · ${o.stops ? `1 stop, ${o.via}` : 'Direct'}`, meta: [Cat.AIRLINES[o.airline], o.dur, o.bag === 'Small bag only' ? 'Small bag only' : '', o.left ? `${o.left} seats left` : ''], price: price(o.price), cta: 'Book', onOpen: () => go(o) })
-  return <C.Results items={[o0, ...[...rest].sort((x, y) => x.dep.localeCompare(y.dep))].map(row)} count={`${opts.length} flight${opts.length > 1 ? 's' : ''} · one way, per person`} filters={['Direct only', 'Morning', 'Evening', 'Cheaper dates']} onFilter={(f: string) => sendText(f === 'Direct only' ? 'Only direct' : f === 'Cheaper dates' ? 'Cheaper dates?' : `${f} flights`)} />
+  return <C.Results items={[o0, ...[...rest].sort((x, y) => x.dep.localeCompare(y.dep))].map(row)} count={`${opts.length} flight${opts.length > 1 ? 's' : ''} · one way, per person`} filters={['Direct only', 'Morning', 'Evening', 'Cheaper dates', 'Watch price']} onFilter={(f: string) => f === 'Watch price' ? run({ f: 'priceWatch', a: { city: o0.city, date: o0.date, back, pax } }, 'Watch the price') : sendText(f === 'Direct only' ? 'Only direct' : f === 'Cheaper dates' ? 'Cheaper dates?' : `${f} flights`)} />
 }
 function ItemsBlock({ ids, pax, time, date, nights, rooms, room }: any) {
   const M = useMarket(); const price0 = usePrice(); const seen = St.useS(s => s.bookings)
@@ -302,21 +315,21 @@ function Charities({ pts }: { pts?: number }) {
     {Cat.CHARITIES.map(c => <div key={c.id} className="ds-give"><img src={Cat.img(c.img)} alt="" /><div className="ds-give-b"><span className="ds-coming-t">{c.name}</span><span className="ds-coming-s">{c.cause}</span><D.Bar used={c.raised / c.goal} thin tone="black" label={`${Math.round(c.raised / c.goal * 100)}% of the goal`} /><span className="ds-row-s">{`${Math.round(c.raised / c.goal * 100)}% of the goal raised`}</span></div><button className="ds-opill primary gr-btn" onClick={() => bal >= n ? run({ f: 'donate', a: { id: c.id, pts: n } }, `Give ${M.num(n)} points to ${c.name}`) : St.pushMsg({ role: 'gr', text: `You have ${M.pts(bal)}, which isn't enough for that gift.` })}>Give</button></div>)}
   </div>
 }
-function FaresBlock({ id, pax, back, bk, kids = 0, inf = 0 }: any) {
+function FaresBlock({ id, pax, back, bk, kids = 0, inf = 0, backCity }: any) {
   const M = useMarket(); const price = usePrice(); const [v, setV] = usePS(bk, 'fare', 'std'); const [done, setDone] = useDone(bk)
-  const backs = back ? F.backOptions(id, back).slice(0, 4).sort((x, y) => x.dep.localeCompare(y.dep)) : []; const [bid, setBid] = usePS<string | undefined>(bk, 'back', back ? F.fareQuote(id, 'std', back).backF?.id : undefined)
-  const q = (fare: string) => F.fareQuote(id, fare, back, bid)
+  const backs = back ? F.backOptions(id, back, backCity).slice(0, 4).sort((x, y) => x.dep.localeCompare(y.dep)) : []; const [bid, setBid] = usePS<string | undefined>(bk, 'back', back ? F.fareQuote(id, 'std', back, undefined, backCity).backF?.id : undefined)
+  const q = (fare: string) => F.fareQuote(id, fare, back, bid, backCity)
   const s = q('std'), f = s.f
   const name = (x: string) => (x === 'std' ? 'Standard' : x === 'flex' ? 'Flex' : 'Light')
   const late = new Date(f.date + 'T' + f.dep + ':00').getTime() - Date.now() < 864e5
   const fares = [{ id: 'light', sub: 'Small bag only', inc: ['A small bag under the seat', 'Seats given at check-in', 'No changes or refunds'] }, { id: 'std', sub: 'Cabin bag, seat, free date change', pop: true, inc: ['A small bag and a cabin bag', 'Choose a standard seat', 'Change the date for free'] }, { id: 'flex', sub: 'Checked bag, any seat, refundable', inc: ['A cabin bag and a checked bag', 'Any seat, extra legroom included', late ? 'Refund less 30%' : 'Full refund up to 24 hours before', 'Fast track at security'] }]
   const leg = (x: Cat.FlightOpt, out: boolean) => <div className="ds-leg" key={x.id}><span className="ds-row-ic"><Icon name={out ? 'takeoff' : 'landing'} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{`${x.dep}–${x.arr}${x.plus ? ' +1' : ''} · ${x.from} to ${x.to}`}</span><span className="ds-row-s">{`${M.date(x.date)} · ${x.stops ? `1 stop, ${x.via}` : 'Direct'} · ${x.dur} · ${Cat.AIRLINES[x.airline]}`}</span></span></div>
   const tot = q(v).each * pax + F.infantFare(q(v).each) * inf
-  return <fieldset className="app-fs" disabled={done}><C.Detail art={Cat.img('fly:' + f.city)} title={`${Cat.home(M.id).city} to ${f.city}`} price={price(q(v).each, `per person${s.backF ? ', both ways' : ''}`)} checks={fares.find(x => x.id === v)!.inc}
-    cta={`Continue with ${name(v)}`} done={done ? `${name(v)} fare chosen` : undefined} disabled={done} onCta={() => { setDone(true); run({ f: 'chooseFare', a: { id, fare: v, pax, back, backId: bid, kids, inf } }, `${name(v)} fare`) }}
+  return <fieldset className="app-fs" disabled={done}><C.Detail art={Cat.img('fly:' + f.city)} title={`${Cat.home(M.id).city} to ${f.city}`} price={price(q(v).each, `per person${s.backF ? (backCity ? `, home from ${backCity}` : ', both ways') : ''}`)} checks={fares.find(x => x.id === v)!.inc}
+    cta={`Continue with ${name(v)}`} done={done ? `${name(v)} fare chosen` : undefined} disabled={done} onCta={() => { setDone(true); run({ f: 'chooseFare', a: { id, fare: v, pax, back, backId: bid, kids, inf, backCity } }, `${name(v)} fare`) }}
     caption={pax > 1 || inf ? `${pax} traveller${pax > 1 ? 's' : ''}${inf ? ` and ${inf} infant${inf > 1 ? 's' : ''} on a lap` : ''}: ${M.pts(F.ptsOf(tot))} or ${M.money(tot)} in total` : undefined}>
     <div className="ds-legs">{leg(f, true)}{s.backF && leg(s.backF, false)}</div>
-    {backs.length > 1 && <C.Opt label={`Return on ${M.date(back!)}`} id={'rt-' + id}><div className="gr-slots" role="radiogroup" aria-labelledby={'rt-' + id}>{backs.map(o => <button key={o.id} className="gr-slot" role="radio" aria-checked={bid === o.id} onClick={() => setBid(o.id)}>{`${o.dep} · ${o.stops ? '1 stop' : 'Direct'}`}</button>)}</div></C.Opt>}
+    {backs.length > 1 && <C.Opt label={backCity ? `Home from ${backCity} on ${M.date(back!)}` : `Return on ${M.date(back!)}`} id={'rt-' + id}><div className="gr-slots" role="radiogroup" aria-labelledby={'rt-' + id}>{backs.map(o => <button key={o.id} className="gr-slot" role="radio" aria-checked={bid === o.id} onClick={() => setBid(o.id)}>{`${o.dep} · ${o.stops ? '1 stop' : 'Direct'}`}</button>)}</div></C.Opt>}
     <C.Opt label="Fare" id={'fr-' + id}><div className="ds-fares" role="radiogroup" aria-labelledby={'fr-' + id}>{fares.map(x => <button key={x.id} role="radio" aria-checked={v === x.id} className="ds-fare" onClick={() => { if (!done) setV(x.id) }}><span className="ds-row-b"><span className="ds-row-t">{name(x.id)}{x.pop && <span className="ds-fare-tag">Most picked</span>}</span><span className="ds-row-s">{x.sub}</span></span><span className="ds-fare-p">{price(q(x.id).each)}</span><span className="ds-tick" aria-hidden="true">{v === x.id && <Icon name="check" size={14} stroke={2.6} />}</span></button>)}</div></C.Opt>
   </C.Detail></fieldset>
 }
@@ -368,6 +381,163 @@ function SeatsBlock({ draft, pax, bk, kids = 0, inf = 0 }: any) {
     <C.Count label={`Checked bags · ${flex ? `${pax} included with Flex, more at ${M.money(F.bagUnit())} each per flight` : `${M.money(F.bagUnit())} each, per flight${legs > 1 ? ' (2 flights)' : ''}`}`} value={bags} min={flex ? pax : 0} max={pax * 2} onChange={setBags} fmt={(n: number) => (n ? String(n) : 'None')} />
     {why && !done && <span className="ds-row-s" role="status">{why}</span>}
   </C.Detail>
+}
+/* ---------- card servicing in the chat: disputes, monthly payments, balance transfer, cardholders, points ---------- */
+const nm = (m: string) => m.replace(/^[^:]+: /, '')
+const icOf = (cat: string) => ({ Dining: 'fork', Groceries: 'bag', Shopping: 'bag', Travel: 'plane', Transport: 'car', Subscriptions: 'refresh', Entertainment: 'ticket' } as any)[cat] || 'card'
+function TxnRows({ txns, value, onPick, right }: { txns: St.Txn[]; value: string; onPick: (id: string) => void; right?: (t: St.Txn) => any }) {
+  const M = useMarket()
+  return <div className="c2-list" role="radiogroup">{txns.map(t => <button key={t.id} className="c2-prow" role="radio" aria-checked={value === t.id} onClick={() => onPick(t.id)}><span className="c2-ph sm"><Icon name={icOf(t.cat)} size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">{nm(t.merchant)}</span><span className="ds-row-s">{`${M.date(F.iso(new Date(t.at)))} · ${t.cat}`}</span></span>{right ? right(t) : <b className="c2-amt">{M.money(t.amount, 2)}</b>}<C2Tick on={value === t.id} /></button>)}</div>
+}
+function useBk<T>(f: () => T, fb: T): T { try { return f() } catch (e) { return fb } }
+function DisputePickBlock({ reason, bk }: any) {
+  const M = useMarket(); St.useS(s => s.txns.length); const txns = useBk(() => Bk.transactions().filter(t => !t.refund && !t.pending && t.cat !== 'Payment' && t.at >= Date.now() - 90 * 864e5 && !/^(Temporary credit|Paid with points)/.test(t.merchant)).slice(0, 8), [] as St.Txn[])
+  const [id, setId] = usePS<string>(bk, 'txn', ''); const [why, setWhy] = usePS<string>(bk, 'why', reason || ''); const [amt, setAmt] = useState(''); const [note, setNote] = useState(''); const [done, setDone] = useDone(bk)
+  const t = txns.find(x => x.id === id), a = amt ? +amt : t?.amount || 0
+  if (done) return <D.AssistantNote>Payment and reason chosen.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Which payment?</p><p className="c2-s">Last 90 days</p></div>
+    <TxnRows txns={txns} value={id} onPick={x => { setId(x); setAmt('') }} />
+    {t && <><C.Opt label="What went wrong?"><div className="c2-slots" role="radiogroup" aria-label="What went wrong?">{Bk.DISPUTE_REASONS.map(r => <button key={r} className="c2-slot" role="radio" aria-checked={why === r} onClick={() => setWhy(r)}>{r}</button>)}</div></C.Opt>
+      <div className="c2-grid2"><label className="c2-in"><span>Amount to dispute</span><input inputMode="decimal" value={amt} placeholder={String(t.amount)} onChange={(e: any) => setAmt(e.target.value.replace(/[^\d.]/g, ''))} /></label><label className="c2-in"><span>Note (optional)</span><input value={note} onChange={(e: any) => setNote(e.target.value)} /></label></div>
+      {a > t.amount && <span className="ds-row-s" role="status">{`That's more than the payment, ${M.money(t.amount, 2)}.`}</span>}</>}
+    <button className="ds-btn48 gr-btn" disabled={!t || !why || !(a > 0) || a > (t?.amount || 0)} onClick={() => { setDone(true); run({ f: 'disputeAsk', a: { txn: id, reason: why, amount: a, note } }, `Dispute ${nm(t!.merchant)}`) }}>Continue</button>
+  </div>
+}
+function PlanPickBlock({ bk }: any) {
+  const M = useMarket(); St.useS(s => s.bookings.length); const txns = useBk(() => Bk.planEligible(), [] as St.Txn[])
+  const [id, setId] = usePS<string>(bk, 'txn', txns[0]?.id || ''); const [mo, setMo] = usePS<number>(bk, 'mo', 6); const [done, setDone] = useDone(bk)
+  const t = txns.find(x => x.id === id) || txns[0]
+  if (done) return <D.AssistantNote>Plan chosen.</D.AssistantNote>
+  if (!t) return <D.AssistantNote>{`There's no purchase of ${M.money(Bk.planMin())} or more from the last 60 days to spread.`}</D.AssistantNote>
+  const opts = Bk.planOptions(t.amount)
+  return <div className="c2-card">
+    {txns.length > 1 ? <><div className="c2-head"><p className="c2-t">Which purchase?</p><p className="c2-s">{`${M.money(Bk.planMin())} or more, last 60 days`}</p></div><TxnRows txns={txns} value={t.id} onPick={setId} /></> : <div className="c2-prow"><span className="c2-ph sm"><Icon name={icOf(t.cat)} size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">{nm(t.merchant)}</span><span className="ds-row-s">{`${M.date(F.iso(new Date(t.at)))} · ${M.money(t.amount, 2)}`}</span></span></div>}
+    <div className="c2-head"><p className="c2-t">Pay it monthly</p></div>
+    <div className="c2-list" role="radiogroup" aria-label="Plan">{opts.map(o => <button key={o.months} className="c2-prow" role="radio" aria-checked={mo === o.months} onClick={() => setMo(o.months)}><span className="c2-b"><span className="ds-row-t">{`${o.months} months · ${M.money(o.monthly, 2)} a month`}</span><span className="ds-row-s">{o.fee ? `${M.money(o.fee, 2)} in fees · ${M.money(o.total, 2)} in all` : `No fee · ${M.money(o.total, 2)} in all`}</span></span><C2Tick on={mo === o.months} /></button>)}</div>
+    <D.AssistantNote>The first payment is on your next statement. You can pay it off early at any time.</D.AssistantNote>
+    <button className="ds-btn48 gr-btn" onClick={() => { setDone(true); run({ f: 'planAsk', a: { txn: t.id, months: mo } }, `${mo} monthly payments for ${nm(t.merchant)}`) }}>{`Set up ${mo} monthly payments`}</button>
+  </div>
+}
+function BTFormBlock({ bk }: any) {
+  const M = useMarket(); const [bank, setBank] = useState(''); const [l4, setL4] = useState(''); const [amt, setAmt] = useState(''); const [done, setDone] = useDone(bk)
+  const a = +amt || 0, fee = Math.round(a * Bk.BT.feePct) / 100
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Move a balance here</p><p className="c2-s">{`0% for ${Bk.BT.months} months · ${Bk.BT.feePct}% fee`}</p></div>
+    <div className="c2-form">
+      <label className="c2-in"><span>The other card's bank</span><input value={bank} onChange={(e: any) => setBank(e.target.value)} /></label>
+      <div className="c2-grid2"><label className="c2-in"><span>Last 4 digits</span><input inputMode="numeric" maxLength={4} value={l4} onChange={(e: any) => setL4(e.target.value.replace(/\D/g, '').slice(0, 4))} /></label><label className="c2-in"><span>Amount</span><input inputMode="decimal" value={amt} onChange={(e: any) => setAmt(e.target.value.replace(/[^\d.]/g, ''))} /></label></div>
+    </div>
+    {a > 0 && <div className="c2-kv"><div className="ds-kv-r"><span>Fee</span><b>{M.money(fee, 2)}</b></div><div className="ds-kv-r"><span>Added to this card</span><b>{M.money(a + fee, 2)}</b></div></div>}
+    <button className="ds-btn48 gr-btn" disabled={!bank.trim() || l4.length !== 4 || !(a > 0)} onClick={() => { setDone(true); run({ f: 'btAsk', a: { bank, last4: l4, amount: a } }, `Move ${M.money(a)} from ${bank.trim()}`) }}>Continue</button>
+  </div>
+}
+function HolderFormBlock({ bk }: any) {
+  const M = useMarket(); const [name, setName] = useState(''); const [rel, setRel] = useState('Partner'); const [dob, setDob] = useState(''); const [lim, setLim] = useState(0); const [done, setDone] = useDone(bk)
+  const lims = [0, Cat.px(250, M.id), Cat.px(500, M.id), Cat.px(1000, M.id)]
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Add someone to your card</p><p className="c2-s">Their own card on your account</p></div>
+    <div className="c2-form">
+      <label className="c2-in"><span>Full name, as on their ID</span><input value={name} onChange={(e: any) => setName(e.target.value)} autoComplete="off" /></label>
+      <C.Opt label="They are your"><div className="c2-slots" role="radiogroup" aria-label="They are your">{['Partner', 'Child', 'Parent', 'Other'].map(x => <button key={x} className="c2-slot" role="radio" aria-checked={rel === x} onClick={() => setRel(x)}>{x}</button>)}</div></C.Opt>
+      <label className="c2-in"><span>Date of birth</span><input type="date" value={dob} max={F.iso(new Date())} onChange={(e: any) => setDob(e.target.value)} /></label>
+      <C.Opt label="Their spending limit"><div className="c2-slots" role="radiogroup" aria-label="Their spending limit">{lims.map(x => <button key={x} className="c2-slot" role="radio" aria-checked={lim === x} onClick={() => setLim(x)}>{x ? M.money(x) : 'Your full limit'}</button>)}</div></C.Opt>
+    </div>
+    <button className="ds-btn48 gr-btn" disabled={name.trim().split(/\s+/).length < 2 || !dob} onClick={() => { setDone(true); run({ f: 'holderAsk', a: { name, rel, dob, limit: lim || undefined } }, `Add ${name.trim()} to my card`) }}>Continue</button>
+  </div>
+}
+function PtsPayBlock({ bk }: any) {
+  const M = useMarket(); const bal = St.useS(s => s.balance); const txns = useBk(() => Bk.ptsPayEligible(), [] as St.Txn[])
+  const [id, setId] = usePS<string>(bk, 'txn', txns[0]?.id || ''); const [pts, setPts] = useState<number | undefined>(); const [done, setDone] = useDone(bk)
+  const t = txns.find(x => x.id === id) || txns[0]
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  if (!t) return <D.AssistantNote>There are no card purchases in the last 90 days to pay off.</D.AssistantNote>
+  const max = Math.max(100, Math.min(Math.floor(bal / 100) * 100, Math.ceil(t.amount / St.rate() / 100) * 100)), p = Math.min(max, pts ?? max), val = Math.min(t.amount, p * St.rate())
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Pay off a purchase with points</p><p className="c2-s">{`You have ${M.pts(bal)}`}</p></div>
+    <TxnRows txns={txns} value={t.id} onPick={x => { setId(x); setPts(undefined) }} />
+    <div className="c2-split"><div><span>Points</span><b>{M.num(p)}</b></div><div><span>Taken off the card</span><b>{M.money(val, 2)}</b></div></div>
+    {max > 100 && <><input className="c2-range" type="range" min={100} max={max} step={100} value={p} onChange={(e: any) => setPts(+e.target.value)} style={{ ['--p' as any]: `${((p - 100) / Math.max(1, max - 100)) * 100}%` }} aria-label="Points to use" /><div className="c2-range-l"><span>Fewer points</span><span>More points</span></div></>}
+    <button className="ds-btn48 gr-btn" disabled={bal < 100} onClick={() => { setDone(true); run({ f: 'ptsPayAsk', a: { txn: t.id, pts: p } }, `Use ${M.num(p)} points on ${nm(t.merchant)}`) }}>{`Use ${M.num(p)} points`}</button>
+  </div>
+}
+function SendPtsBlock({ bk }: any) {
+  const M = useMarket(); const bal = St.useS(s => s.balance); const [name, setName] = useState(''); const [mem, setMem] = useState(''); const [n, setN] = useState(1000); const [done, setDone] = useDone(bk)
+  const opts = [500, 1000, 2500, 5000].filter(x => x <= bal)
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Send points to family</p><p className="c2-s">{`You have ${M.pts(bal)}`}</p></div>
+    <div className="c2-form"><label className="c2-in"><span>Their full name</span><input value={name} onChange={(e: any) => setName(e.target.value)} /></label><label className="c2-in"><span>Their membership number (8 digits)</span><input inputMode="numeric" value={mem} onChange={(e: any) => setMem(e.target.value.replace(/\D/g, '').slice(0, 8))} /></label></div>
+    {opts.length > 0 && <C.Opt label="How many points"><div className="c2-slots" role="radiogroup" aria-label="How many points">{opts.map(x => <button key={x} className="c2-slot" role="radio" aria-checked={n === x} onClick={() => setN(x)}>{M.num(x)}</button>)}</div></C.Opt>}
+    <button className="ds-btn48 gr-btn" disabled={name.trim().split(/\s+/).length < 2 || mem.length !== 8 || n > bal} onClick={() => { setDone(true); run({ f: 'sendPtsAsk', a: { name, member: mem, pts: n } }, `Send ${M.num(n)} points to ${name.trim()}`) }}>{`Send ${M.num(n)} points`}</button>
+  </div>
+}
+function PtsClaimBlock({ bk }: any) {
+  const M = useMarket(); const txns = useBk(() => Bk.claimEligible(), [] as St.Txn[]); const [id, setId] = usePS<string>(bk, 'txn', ''); const [done, setDone] = useDone(bk)
+  if (done) return <D.AssistantNote>Sent to the bank.</D.AssistantNote>
+  if (!txns.length) return <D.AssistantNote>There are no card purchases in the last 90 days.</D.AssistantNote>
+  const t = txns.find(x => x.id === id)
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Which purchase is missing points?</p><p className="c2-s">Last 90 days</p></div>
+    <TxnRows txns={txns} value={id} onPick={setId} right={x => <b className="c2-amt">{x.points ? `+${M.num(x.points)}` : M.money(x.amount, 2)}</b>} />
+    <button className="ds-btn48 gr-btn" disabled={!t} onClick={() => { setDone(true); run({ f: 'missingPtsDo', a: { txn: id } }, `Missing points on ${nm(t!.merchant)}`) }}>Ask the bank to check</button>
+  </div>
+}
+function ProtectBlock({ bk }: any) {
+  const M = useMarket(); const txns = useBk(() => Bk.protectEligible(), [] as St.Txn[]); const [id, setId] = usePS<string>(bk, 'txn', ''); const [why, setWhy] = usePS<string>(bk, 'why', ''); const [what, setWhat] = useState(''); const [done, setDone] = useDone(bk)
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  if (!txns.length) return <D.AssistantNote>There are no shopping purchases on the card in the last year to claim on.</D.AssistantNote>
+  const t = txns.find(x => x.id === id)
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Which purchase?</p><p className="c2-s">Bought with this card</p></div>
+    <TxnRows txns={txns} value={id} onPick={setId} />
+    {t && <><C.Opt label="What happened?"><div className="c2-slots" role="radiogroup" aria-label="What happened?">{Bk.PROTECT_REASONS.map(r => <button key={r} className="c2-slot" role="radio" aria-checked={why === r} onClick={() => setWhy(r)}>{r}</button>)}</div></C.Opt>
+      <label className="c2-in"><span>What is it?</span><input value={what} placeholder="Headphones" onChange={(e: any) => setWhat(e.target.value)} /></label></>}
+    <button className="ds-btn48 gr-btn" disabled={!t || !why || !what.trim()} onClick={() => { setDone(true); run({ f: 'protectAsk', a: { txn: id, reason: why, what } }, `Claim for ${what.trim()}`) }}>Continue</button>
+  </div>
+}
+function CardSwitchBlock({ bk }: any) {
+  const M = useMarket(); const cards = Bk.CARDS(); const [done, setDone] = useDone(bk); const [cur, next] = cards
+  const fee = (x: any) => x.fee ? `${M.money(x.fee)} a year` : 'No annual fee'
+  if (done) return <D.AssistantNote>Card chosen.</D.AssistantNote>
+  return <div className="c2-card c2-cmp">
+    <div className="c2-cmp-h">{cards.map(c => <div key={c.id}><img src={Cat.img('money:card')} alt="" /><b>{c.id === 'core' ? `${c.name} (yours)` : c.name}</b></div>)}</div>
+    {[['Annual fee', fee(cur), fee(next)], ['Points', cur.earn.replace('£1', M.money(1)), next.earn.replace('£1', M.money(1))], ['Lounges', cur.perks[0], next.perks[0]], ['Travel insurance', 'When you pay for the trip with the card', next.perks[1]], ['Purchase protection', '120 days', '180 days'], ['Welcome bonus', 'None', M.pts(25000)]].map(([k, a, b]) => <div key={k} className="c2-cmp-r"><span className="c2-cmp-k">{k}</span><div className="c2-cmp-v"><span>{a}</span><span>{b}</span></div></div>)}
+    <button className="ds-btn48 gr-btn" onClick={() => { setDone(true); run({ f: 'upgradeCardAsk', a: { to: 'plus' } }, `Move to ${next.name}`) }}>{`Move to ${next.name}`}</button>
+  </div>
+}
+function HolderRemoveBlock({ bk }: any) {
+  const hs = St.useS(s => s.bookings.filter(b => b.extra?.case === 'holder' && !b.extra?.removed && !['cancelled', 'refunded'].includes(b.status))); const [done, setDone] = useDone(bk)
+  if (done || !hs.length) return <D.AssistantNote>No additional cardholders left on the card.</D.AssistantNote>
+  return <C.Offers title="Cards on your account" items={hs.map(b => ({ key: b.id, art: undefined, title: b.extra.name, sub: b.sub, action: 'Remove', onAction: () => { setDone(true); run({ f: 'holderRemoveAsk', a: { id: b.id } }, `Remove ${b.extra.name.split(' ')[0]}'s card`) }, primary: false }))} />
+}
+function NameFixBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const [i, setI] = usePS<number>(bk, 'i', 0); const [nw, setNw] = useState(''); const [done, setDone] = useDone(bk)
+  if (!b) return null
+  if (done) return <D.AssistantNote>Name sent to the airline.</D.AssistantNote>
+  const pax = b.extra?.pax || 1, names: string[] = b.extra?.names && b.extra.names.length ? b.extra.names.slice(0, pax + (b.extra.inf || 0)) : [St.get().prefs.full || St.get().prefs.name]
+  const far = nw.trim().split(/\s+/).length > 1 && F.editDist(names[i] || '', nw.trim()) > 3
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Fix a name</p><p className="c2-s">{`${b.extra?.number} · ${b.title}`}</p></div>
+    <div className="c2-list" role="radiogroup" aria-label="Whose name">{names.map((n, k) => <button key={n + k} className="c2-prow" role="radio" aria-checked={i === k} onClick={() => { setI(k); setNw(n) }}><span className="c2-av-c">{ini(n)}</span><span className="c2-b"><span className="ds-row-t">{n}</span><span className="ds-row-s">As booked</span></span><C2Tick on={i === k} /></button>)}</div>
+    <label className="c2-in"><span>Correct name, as on the passport</span><input value={nw} onChange={(e: any) => setNw(e.target.value)} autoComplete="off" /></label>
+    {far && <span className="ds-row-s" role="status">That's more than a spelling fix. The airline treats it as a new traveller.</span>}
+    <button className="ds-btn48 gr-btn" disabled={nw.trim().split(/\s+/).length < 2 || nw.trim() === names[i]} onClick={() => { setDone(true); run({ f: 'nameFixDo', a: { id, i, name: nw } }, `Change ${names[i]} to ${nw.trim()}`) }}>{far ? 'Ask a person' : 'Fix the name'}</button>
+  </div>
+}
+function LostBagBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const [type, setType] = useState('Suitcase'); const [col, setCol] = useState('Black'); const [addr, setAddr] = useState(St.get().addresses[0]?.id || ''); const [done, setDone] = useDone(bk)
+  if (!b) return null
+  if (done) return <D.AssistantNote>Reported to the airline.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Report a missing bag</p><p className="c2-s">{`${b.extra?.number} · ${b.title}`}</p></div>
+    <C.Opt label="What kind of bag?"><div className="c2-slots" role="radiogroup" aria-label="What kind of bag?">{['Suitcase', 'Backpack', 'Holdall', 'Box'].map(x => <button key={x} className="c2-slot" role="radio" aria-checked={type === x} onClick={() => setType(x)}>{x}</button>)}</div></C.Opt>
+    <C.Opt label="Colour"><div className="c2-slots" role="radiogroup" aria-label="Colour">{['Black', 'Grey', 'Blue', 'Red', 'Green', 'Other'].map(x => <button key={x} className="c2-slot" role="radio" aria-checked={col === x} onClick={() => setCol(x)}>{x}</button>)}</div></C.Opt>
+    <C.Opt label="Deliver it to"><div className="c2-list" role="radiogroup" aria-label="Deliver it to">{St.get().addresses.map(a => <button key={a.id} className="c2-prow" role="radio" aria-checked={addr === a.id} onClick={() => setAddr(a.id)}><span className="c2-ph sm"><Icon name="pin" size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">{a.label}</span><span className="ds-row-s">{a.line}</span></span><C2Tick on={addr === a.id} /></button>)}</div></C.Opt>
+    <button className="ds-btn48 gr-btn" onClick={() => { setDone(true); run({ f: 'lostBagDo', a: { id, type, colour: col, addr } }, `Report my ${col.toLowerCase()} ${type.toLowerCase()}`) }}>Report it</button>
+  </div>
 }
 /* ---------- flights: extras before paying, and check-in, today's flight, upgrades and bags after booking ---------- */
 const C2Tick = ({ on }: { on: boolean }) => <span className={'c2-tick' + (on ? ' on' : '')} aria-hidden="true">{on && <Icon name="check" size={14} stroke={3} />}</span>
@@ -733,7 +903,7 @@ function PassFor({ id }: { id: string }) {
   if (b.cat === 'flights' && b.extra?.disrupted) return <C.StateNote title="No pass yet" body="The airline cancelled this flight. Pick another flight or a full refund, and your new passes appear here." />
   if (b.cat === 'flights') {
     const e = b.extra, pax = e.pax || 1, names: string[] = e.names && e.names.length >= pax ? e.names : [St.get().prefs.full || St.get().prefs.name, ...Array.from({ length: pax - 1 }, (_, i) => `Guest ${i + 1}`)]
-    const legs = [{ airline: e.airline, number: e.number, from: e.from, to: e.to, fromCity: Cat.home(M.id).city, toCity: b.title.split(' to ')[1], date: e.date, dep: e.dep }, ...(e.back ? [{ airline: e.back.airline, number: e.back.number, from: e.back.from, to: e.back.to, fromCity: b.title.split(' to ')[1], toCity: Cat.home(M.id).city, date: e.back.date, dep: e.back.dep }] : [])]
+    const legs = [{ airline: e.airline, number: e.number, from: e.from, to: e.to, fromCity: Cat.home(M.id).city, toCity: b.title.split(' to ')[1], date: e.date, dep: e.dep }, ...(e.back ? [{ airline: e.back.airline, number: e.back.number, from: e.back.from, to: e.back.to, fromCity: e.backCity || b.title.split(' to ')[1], toCity: Cat.home(M.id).city, date: e.back.date, dep: e.back.dep }] : [])]
     const opensOf = (l: any) => new Date(new Date(l.date + 'T' + l.dep + ':00').getTime() - 864e5)
     const board = (t: string) => { const n = +t.slice(0, 2) * 60 + +t.slice(3) - 40; return `${String(Math.floor(((n + 1440) % 1440) / 60)).padStart(2, '0')}:${String(((n + 1440) % 1440) % 60).padStart(2, '0')}` }
     const seatOf = (li: number, ni: number) => ni >= pax ? 'Lap' : (li ? e.backSeats?.[ni] || e.seats?.[ni] : e.seats?.[ni]) || (e.fare === 'light' ? 'At check-in' : '—')
