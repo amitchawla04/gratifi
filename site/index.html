@@ -3190,6 +3190,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       { id: "GT-4", cat: "rides", title: "Car hire: compact automatic", sub: "Pick up at the airport", img: "move:hire", gbp: 38, unit: "per day", meta: ["Unlimited miles", "Full-to-full fuel"], opts: { kind: "dates", label: "Days", values: ["1", "2", "3", "5", "7"] }, policy: "Free cancellation up to 48 hours before", mode: "order" },
       { id: "GT-5", cat: "rides", title: "Chauffeur, half day", sub: h.city, img: "move:chauffeur", gbp: 180, unit: "4 hours", policy: "Free cancellation up to 24 hours before", mode: "order" }
     ];
+    const coach = { UK: ["Coach to Oxford", 12], EU: ["Coach to Galway", 16], IN: ["Bus to Nashik", 7], AE: ["Bus to Abu Dhabi", 6], SG: ["Coach to Kuala Lumpur", 22], MY: ["Coach to Singapore", 18] }[m === "AR" ? "AE" : m];
+    if (coach) out.push({ id: "GT-B1", cat: "rides", title: coach[0], sub: "Reserved seat, luggage included", img: "move:van", icon: "car", gbp: coach[1], unit: "per person", opts: { kind: "slots", label: "Departure", values: ["08:00", "11:30", "15:00", "19:30"] }, policy: "Changes before departure for a fee", mode: "order" });
     if (rail) out.splice(3, 0, { id: "GT-6", cat: "rides", title: rail, sub: "Standard class, reserved seat", img: "move:train", gbp: 42, unit: "per person", opts: { kind: "slots", label: "Departure", values: ["07:30", "09:00", "12:30", "16:00"] }, policy: "Changes before departure for a fee", mode: "order" });
     const more = { UK: [["Manchester", 34], ["Birmingham", 27], ["York", 36], ["Bristol", 30]], EU: [["Galway", 24], ["Belfast", 28], ["Limerick", 22]], IN: [["Ahmedabad", 30], ["Goa", 38], ["Surat", 22]], MY: [["Penang", 36], ["Johor Bahru", 40]] }[m] || [];
     more.forEach(([to, gbp], k) => out.push({ id: `GT-R${k + 1}`, cat: "rides", title: `Train to ${to}`, sub: "Standard class, reserved seat", img: "move:train", icon: "train", gbp, unit: "per person", opts: { kind: "slots", label: "Departure", values: ["07:15", "09:30", "13:00", "17:30"] }, policy: "Changes before departure for a fee", mode: "order" }));
@@ -5460,7 +5462,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (i.cat === "tickets" && /this week/i.test(i.title) && a.date && (a.date < iso2(/* @__PURE__ */ new Date()) || a.date > addDays(iso2(/* @__PURE__ */ new Date()), 6))) return fix(`This offer runs until ${M2().date(addDays(iso2(/* @__PURE__ */ new Date()), 6))}. Pick a day before then.`);
     {
       const today = iso2(/* @__PURE__ */ new Date()), nowHM = new Date(Date.now() + 15 * 6e4).toTimeString().slice(0, 5);
-      if (isTime && (["experiences", "tickets"].includes(i.cat) || /^Train to /.test(i.title)) && (a.date === today || !a.date && i.cat === "tickets") && slot <= nowHM) {
+      if (isTime && (["experiences", "tickets"].includes(i.cat) || /^(Train|Coach|Bus) to /.test(i.title)) && (a.date === today || !a.date && i.cat === "tickets") && slot <= nowHM) {
         const later = (((_e = i.opts) == null ? void 0 : _e.values) || []).filter((v) => /^\d\d:\d\d$/.test(v) && v > nowHM);
         if (!a.date && i.cat === "tickets") a = { ...a, date: addDays(today, 1) };
         else return fix(`${M2().clock(slot)} has already gone today. ${later.length ? `Later today: ${later.map((v) => M2().clock(v)).join(", ")}, or pick another day.` : "Pick another day."}`);
@@ -5503,7 +5505,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       ...a.dest ? [["To", a.dest]] : [],
       ...when ? [[i.cat === "stays" ? "Dates" : "When", when]] : [],
       ...i.cat === "stays" ? [["Nights", String(nights)], ...rooms > 1 ? [["Rooms", String(rooms)]] : [], ["Guests", String(qty)]] : [],
-      .../^Train to /.test(i.title) ? [["Passengers", String(qty)]] : ["rides", "stays", "subs", "giftcards"].includes(i.cat) ? [] : [[i.cat === "dining" ? "Guests" : ["tickets", "experiences", "airport"].includes(i.cat) ? "People" : "Quantity", String(qty)]],
+      .../^(Train|Coach|Bus) to /.test(i.title) ? [["Passengers", String(qty)]] : ["rides", "stays", "subs", "giftcards"].includes(i.cat) ? [] : [[i.cat === "dining" ? "Guests" : ["tickets", "experiences", "airport"].includes(i.cat) ? "People" : "Quantity", String(qty)]],
       ...i.unit === "for two" && qty % 2 ? [["Seats", `${qty + 1}: the offer is sold in pairs`]] : [],
       ...freeN ? [["Free visits used", freeN < qty ? `${freeN} free, ${qty - freeN} paid` : String(freeN)]] : [],
       ...i.cat === "subs" && !unit ? [["Plan", "Included with your card"]] : [],
@@ -5809,8 +5811,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       if (b2.cat === "giftcards" && /problem|not work|doesn.t work|invalid|declined/.test(act)) return giftProblem({ id: b2.id });
       if (b2.cat === "rides" && /^Ride|transfer|chauffeur/i.test(b2.title) && /problem|wrong|issue/.test(act)) return rideProblem({ id: b2.id });
       if (b2.cat === "rides" && /^Car hire/.test(b2.title) && /extend|more days|keep/.test(act)) return hireExtend({ id: b2.id });
+      if (b2.cat === "rides" && /^Car hire/.test(b2.title) && /change|date|move/.test(act)) return hireChange({ id: b2.id });
       if (b2.cat === "rides" && /^Car hire/.test(b2.title) && /pick.?up|collect|bring/.test(act)) return hirePickup({ id: b2.id });
-      if (b2.cat === "rides" && /^Train/.test(b2.title) && /change|another|next/.test(act)) return trainChange({ id: b2.id });
+      if (b2.cat === "rides" && /^(Train|Coach|Bus) to /.test(b2.title) && /change|another|next|time/.test(act)) return trainChange({ id: b2.id });
       if (b2.cat === "airport" && /problem|wrong|issue/.test(act)) return airportProblem({ id: b2.id });
       if (b2.cat === "docs" && /^eSIM/.test(b2.title) && /install|set ?up/.test(act)) return esimInstall({ id: b2.id });
       if (b2.cat === "docs" && /^eSIM/.test(b2.title) && /top ?up|more data/.test(act)) return esimTopUp({ id: b2.id });
@@ -6723,6 +6726,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       if (dn && /\b(change|move)\b.{0,25}\b(my |the )?(table|reservation|dinner booking)\b|\b(add|one more|extra) (a )?(guest|person|people) (to|for) (my |the )?(table|reservation|booking)\b/.test(t)) return tableChange({ id: dn.id });
       if (ex && /\b(change|move)\b.{0,25}\b(my |the )?(tour|experience|activity)\b/.test(t)) return tourChange({ id: ex.id });
     }
+    if (/\b(coach|bus)\b/.test(t) && !/\b(school|stop|lane|pass|card)\b/.test(t)) {
+      const cb = rides(m).find((x) => /^(Coach|Bus) to /.test(x.title));
+      if (cb && /\b(coach|bus) (to|for)\b|\bbook (a )?(coach|bus)\b|\b(coach|bus) tickets?\b/.test(t)) {
+        const dest = cb.title.replace(/^(Coach|Bus) to /, "").toLowerCase();
+        if (t.includes(dest) || !/\b(to|for) [a-z]/.test(t.replace(/\b(coach|bus) (to|for)\b/, ""))) return showItem({ id: cb.id });
+      }
+    }
     {
       const tk = get().bookings.filter((b2) => b2.cat === "tickets" && !dead(b2))[0];
       if (tk && /\b(send|transfer|give|pass)\b.{0,20}\b(my |the )?tickets?\b.{0,20}\b(to|for)\b/.test(t)) return ticketSend({ id: tk.id });
@@ -6734,8 +6744,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         var _a2;
         return !dead(b2) && !((_a2 = b2.extra) == null ? void 0 : _a2.addonFor) && f(b2);
       })[0];
-      const ride = last2((b2) => b2.cat === "rides" && /^Ride|transfer|chauffeur/i.test(b2.title)), hire = last2((b2) => /^Car hire/.test(b2.title)), train = last2((b2) => /^Train/.test(b2.title)), es = last2((b2) => /^eSIM/.test(b2.title));
+      const ride = last2((b2) => b2.cat === "rides" && /^Ride|transfer|chauffeur/i.test(b2.title)), hire = last2((b2) => /^Car hire/.test(b2.title)), train = last2((b2) => /^(Train|Coach|Bus) to /.test(b2.title)), es = last2((b2) => /^eSIM/.test(b2.title));
       if (ride && /\b(driver|taxi|ride|cab)\b.{0,30}\b(didn.?t (turn up|show|come|arrive)|no.?show|never (came|arrived))\b|\b(overcharged|charged (me )?too much)\b.{0,30}\b(ride|taxi|driver)\b|\bleft (my |something )?.{0,20}\b(in|on) the (car|taxi|cab)\b/.test(t)) return rideProblem({ id: ride.id, what: /turn up|show|come|arrive|never/.test(t) ? RIDE_PROBLEMS[0] : /charged/.test(t) ? RIDE_PROBLEMS[1] : RIDE_PROBLEMS[2] });
+      if (hire && /\b(change|move)\b.{0,25}\b(the |my )?(hire car|rental|car hire)\b/.test(t)) return hireChange({ id: hire.id });
       if (hire && /\b(extend|keep)\b.{0,25}\b(the |my )?(hire car|rental|car hire|car)\b|\bcar for (another|more|an extra) day/.test(t)) return hireExtend({ id: hire.id });
       if (hire && /\b(pick.?up|collect)(ing)?\b.{0,20}\b(the |my )?(hire car|rental|car)\b|what do i need (to|for) (pick|collect)/.test(t)) return hirePickup({ id: hire.id });
       if (train && /\b(change|move|swap)\b.{0,20}\b(my |the )?train\b|\b(later|earlier|another) train\b/.test(t)) return trainChange({ id: train.id });
@@ -7106,7 +7117,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       return { say: `Your ${AIRLINES[e.airline] || ""} flight ${e.number || ""} to ${f.title.split(" to ")[1]} leaves at ${e.dep} on ${M2().date(e.date)}${e.back ? `, and the flight back leaves at ${e.back.dep} on ${M2().date(e.back.date)}` : ""}. Times are local.`.replace(/\s+/g, " ").replace(" flight  ", " flight "), blocks: [{ kind: "booking", id: f.id }] };
     }
     if (/boarding pass|where (is|are) my (pass|passes|ticket|tickets)|my e-?ticket/.test(t)) {
-      const bs = get().bookings.filter((b2) => !dead(b2) && (b2.cat === "flights" || b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "rides" && /^Train/.test(b2.title)));
+      const bs = get().bookings.filter((b2) => !dead(b2) && (b2.cat === "flights" || b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "rides" && /^(Train|Coach|Bus) to /.test(b2.title)));
       const fl = bs.filter((b2) => {
         var _a2;
         return b2.cat === "flights" && !((_a2 = b2.extra) == null ? void 0 : _a2.disrupted);
@@ -7346,7 +7357,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (/pay (the |my )?(minimum|full|whole|balance|statement)/.test(t)) return bank({ topic: "pay " + t });
     if (/my subscriptions|subs do i have|subscriptions do i have|what am i subscribed/.test(t)) return myStuff({ filter: "sub" });
     if (/show (me )?my (passes|tickets|boarding)/.test(t)) {
-      const bs = get().bookings.filter((b2) => !dead(b2) && (b2.cat === "flights" || b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "experiences" || b2.cat === "rides" && /^Train/.test(b2.title)));
+      const bs = get().bookings.filter((b2) => !dead(b2) && (b2.cat === "flights" || b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "experiences" || b2.cat === "rides" && /^(Train|Coach|Bus) to /.test(b2.title)));
       return bs.length ? { say: "", blocks: bs.slice(0, 3).map((b2) => ({ kind: "pass", id: b2.id })) } : { say: "You don't have any passes yet.", blocks: [] };
     }
     if (/\b(add|buy|need|want|book|get|take|bring)\b.{0,25}\b(checked |hold |extra |another |a second |more )?(bag|bags|suitcase|suitcases|luggage|baggage)\b/.test(t) && !/\b(grocer|shop|basket|carrier|tote|handbag|backpack|flights? to)\b|\bbags? of\b/.test(t)) {
@@ -7813,11 +7824,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (!sb) return { say: "You don't have a paid subscription that renews. Start one, then I can show you the reminder.", blocks: [] };
     return { say: `${sb.title} renews in 3 days for ${M2().money(sb.card || sb.unit || 0, 2)}. Keep it, pause it, or cancel before then and you won't be charged.`, blocks: [{ kind: "booking", id: sb.id }] };
   }
+  var lc1 = (x) => x.charAt(0).toLowerCase() + x.slice(1);
   var RIDE_PROBLEMS = ["The driver didn't turn up", "I was charged too much", "I left something in the car", "Something else"];
   function rideProblem(a) {
     const b2 = bk(a.id);
     if (!b2) return { say: "I can't find that ride.", blocks: [] };
-    if (!a.what) return { say: `What went wrong with the ${b2.title.toLowerCase()}?`, blocks: [{ kind: "pickone", id: b2.id, f: "rideProblem", title: "What went wrong?", items: RIDE_PROBLEMS }] };
+    if (!a.what) return { say: `What went wrong with the ${lc1(b2.title)}?`, blocks: [{ kind: "pickone", id: b2.id, f: "rideProblem", title: "What went wrong?", items: RIDE_PROBLEMS }] };
     if (/turn up/.test(a.what)) {
       const r = refund(b2.id, 1, "Refund");
       return { say: `Sorry about that. You've got everything back${r ? `: ${backLine({ pts: r.pts, card: r.card })}` : ""}. Want me to book another ride now?`, blocks: [], suggest: ["A ride now"] };
@@ -7842,29 +7854,48 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const d2 = draft({ cat: "rides", title: `${n} more day${n > 1 ? "s" : ""}: ${b2.title}`, sub: b2.title, when: b2.when, qty: n, unit: per, total: tot, img: b2.img, icon: "car", kind: "order", refundable: true, policy: b2.policy, detail: [["Extra days", String(n)]], extra: { addonFor: b2.id, patch: { option: String(had + n) }, newWhen: ((_b = b2.extra) == null ? void 0 : _b.date) ? `${M2().date(b2.extra.date)} to ${M2().date(addDays(b2.extra.date, had + n))}` : void 0, rows: [[`Extended by ${n} day${n > 1 ? "s" : ""}`, M2().money(tot, 2)]], doneSay: `Extended. You now have the car for ${had + n} days. Return it full of fuel, as before.` } });
     return { say: "Pay with points, card, or both.", blocks: [{ kind: "checkout", draft: d2 }] };
   }
+  function hireChange(a) {
+    var _a, _b;
+    const b2 = bk(a.id);
+    if (!b2 || dead(b2)) return { say: "I can't find that car.", blocks: [] };
+    const days = +(((_a = b2.extra) == null ? void 0 : _a.option) || 1), start = ((_b = b2.extra) == null ? void 0 : _b.date) || addDays(iso2(/* @__PURE__ */ new Date()), 1);
+    if (!a.date) {
+      const opts = Array.from({ length: 7 }, (_, k) => addDays(start, k - 2)).filter((x) => x > iso2(/* @__PURE__ */ new Date()) && x !== start);
+      return { say: `Pick a new pick-up day. You keep the car for ${days} day${days > 1 ? "s" : ""}, and changing is free up to 48 hours before.`, blocks: [{ kind: "pickone", id: b2.id, f: "hireChange", title: "New pick-up day", items: opts.map((x) => M2().date(x, "day")), field: "date", vals: opts }] };
+    }
+    const d0 = /^\d{4}-\d\d-\d\d$/.test(a.date) ? a.date : Array.from({ length: 9 }, (_, k) => addDays(start, k - 3)).find((x) => M2().date(x, "day") === a.date) || start;
+    const when = `${M2().date(d0)} to ${M2().date(addDays(d0, days))}`;
+    updateBooking(b2.id, { when, detail: setRows(b2.detail, "When", when), extra: { ...b2.extra, date: d0 } });
+    return { say: `Changed, at no cost. You pick the car up on ${M2().date(d0)} and return it on ${M2().date(addDays(d0, days))}.`, blocks: [{ kind: "booking", id: b2.id }] };
+  }
   function hirePickup(a) {
     const b2 = bk(a.id);
     if (!b2) return { say: "I can't find that car.", blocks: [] };
     return { say: `At the desk for your ${b2.title.replace(/^Car hire: /, "")}, have these ready. The desk is in the arrivals hall; follow the car hire signs.`, blocks: [{ kind: "state", state: "empty", title: "Bring with you", body: "Your driving licence \xB7 The card you paid with, in the driver's name \xB7 Your booking reference " + b2.ref + " \xB7 A deposit is held on the card and released when the car comes back full", actions: [] }] };
   }
   function trainChange(a) {
-    var _a, _b;
+    var _a, _b, _c, _d;
     const b2 = bk(a.id);
     if (!b2 || dead(b2)) return { say: "I can't find that train.", blocks: [] };
     const i = findItem(b2.itemId || ""), slots = (((_a = i == null ? void 0 : i.opts) == null ? void 0 : _a.kind) === "slots" ? i.opts.values : ["07:30", "09:00", "12:00", "15:30", "18:00"]).filter((x) => {
       var _a2, _b2;
       return /^\d\d:\d\d/.test(x) && x !== (((_a2 = b2.extra) == null ? void 0 : _a2.at) || ((_b2 = b2.extra) == null ? void 0 : _b2.option));
     });
-    if (!a.at) return { say: `Pick another departure for the ${b2.title.toLowerCase()}. Changing is free on the same day's tickets.`, blocks: [{ kind: "pickone", id: b2.id, f: "trainChange", title: "New departure", items: slots }] };
-    const day = ((_b = b2.extra) == null ? void 0 : _b.date) || addDays(iso2(/* @__PURE__ */ new Date()), 1), when = `${M2().date(day)}, ${M2().clock(a.at)}`;
-    updateBooking(b2.id, { when, detail: setRows(b2.detail, "When", when), extra: { ...b2.extra, at: a.at, option: a.at } });
+    if (!a.at) return { say: ((_b = b2.extra) == null ? void 0 : _b.disrupted) ? `Pick another departure for the ${lc1(b2.title)}. It's free, because yours was cancelled.` : `Pick another departure for the ${lc1(b2.title)}. ${b2.policy || "Changes before departure for a fee"}.`, blocks: [{ kind: "pickone", id: b2.id, f: "trainChange", title: "New departure", items: slots }] };
+    const day = ((_c = b2.extra) == null ? void 0 : _c.date) || addDays(iso2(/* @__PURE__ */ new Date()), 1), when = `${M2().date(day)}, ${M2().clock(a.at)}`;
+    if (!((_d = b2.extra) == null ? void 0 : _d.disrupted)) {
+      const fee = px(10, mk2());
+      const d2 = draft({ cat: "rides", title: `Change fee: ${b2.title}`, sub: when, when, qty: 1, unit: fee, total: fee, img: b2.img, icon: "train", kind: "order", refundable: false, policy: "Change fee", detail: [["New departure", when]], extra: { addonFor: b2.id, patch: { at: a.at, option: a.at }, newWhen: when, newDetail: setRows(b2.detail, "When", when), rows: [], doneSay: `Changed. You're on the ${M2().clock(a.at)} now. Your ticket is updated.` } });
+      return { say: `Changing costs ${M2().money(fee, 2)}. Pay with points, card, or both.`, blocks: [{ kind: "checkout", draft: d2 }] };
+    }
+    updateBooking(b2.id, { when, detail: setRows(b2.detail, "When", when), extra: { ...b2.extra, at: a.at, option: a.at, disrupted: false } });
     return { say: `Changed, at no cost. You're on the ${M2().clock(a.at)} now. Your ticket is updated.`, blocks: [{ kind: "booking", id: b2.id }] };
   }
   function trainCancelled() {
-    const b2 = get().bookings.find((x) => x.cat === "rides" && /^Train/.test(x.title) && !dead(x));
+    const b2 = get().bookings.find((x) => x.cat === "rides" && /^(Train|Coach|Bus) to /.test(x.title) && !dead(x));
     if (!b2) return { say: "Book a train first, then I can show you what happens when it's cancelled.", blocks: [] };
     updateBooking(b2.id, { extra: { ...b2.extra, disrupted: true } });
-    return { say: `Your ${b2.title.toLowerCase()} has been cancelled by the rail company. Take the next one at no cost, or get a full refund.`, blocks: [{ kind: "state", state: "error", title: "Train cancelled", body: b2.when || b2.title, actions: [{ label: "Next train", act: { f: "trainChange", a: { id: b2.id } } }, { label: "Full refund", act: { f: "refundFull", a: { id: b2.id } } }] }] };
+    return { say: `Your ${lc1(b2.title)} has been cancelled by the rail company. Take the next one at no cost, or get a full refund.`, blocks: [{ kind: "state", state: "error", title: "Train cancelled", body: b2.when || b2.title, actions: [{ label: "Next train", act: { f: "trainChange", a: { id: b2.id } } }, { label: "Full refund", act: { f: "refundFull", a: { id: b2.id } } }] }] };
   }
   function refundFull(a) {
     const b2 = bk(a.id);
@@ -8621,6 +8652,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     },
     affiliateBuy,
     ctlLimitStart: (a) => ({ say: `What should the ${limName(a).toLowerCase()} be?`, blocks: [{ kind: "ctllimit", lim: { key: a.key, ch: a.ch, where: a.where } }] }),
+    hireChange,
     rideProblem,
     hireExtend,
     trainChange,
@@ -9590,7 +9622,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (done) return /* @__PURE__ */ React.createElement(AssistantNote, null, "Chosen.");
     return /* @__PURE__ */ React.createElement("div", { className: "c2-card" }, /* @__PURE__ */ React.createElement("div", { className: "c2-head" }, /* @__PURE__ */ React.createElement("p", { className: "c2-t" }, title), note && /* @__PURE__ */ React.createElement("p", { className: "c2-s" }, note)), /* @__PURE__ */ React.createElement("div", { className: "c2-slots", role: "radiogroup", "aria-label": title }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x, className: "c2-slot", role: "radio", "aria-checked": v === x, onClick: () => setV(x) }, /^\d\d:\d\d$/.test(x) ? M3.clock(x) : x))), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", disabled: !v, onClick: () => {
       setDone(true);
-      run({ f, a: { id, [k]: v } }, /^\d\d:\d\d$/.test(v) ? M3.clock(v) : v);
+      run({ f, a: { id, [k]: rest.vals ? rest.vals[items.indexOf(v)] : v } }, /^\d\d:\d\d$/.test(v) ? M3.clock(v) : v);
     } }, "Continue"));
   }
   function VisaFormBlock({ city, bk: bk2 }) {
@@ -10112,14 +10144,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (i.cat === "stays") price = stayPrice(i, opt, nights) * roomsE;
     if (i.cat === "rides" && /^Ride/.test(i.title) && dest) price = rideUnit(i, dest);
     else if (/\+£(\d+)/.test(opt || "")) price += P2(+RegExp.$1 * local(i.cat));
-    const nowHM = (/* @__PURE__ */ new Date()).toTimeString().slice(0, 5), dvals = ((i.cat === "dining" || /^Train to /.test(i.title)) && date === iso2(/* @__PURE__ */ new Date()) || i.cat === "tickets" && vals.every((v) => /^\d\d:\d\d$/.test(v)) && (!/this week/i.test(i.title) || date === iso2(/* @__PURE__ */ new Date()))) && ((_i = i.opts) == null ? void 0 : _i.kind) === "slots" ? vals.filter((v) => v > nowHM) : vals;
+    const nowHM = (/* @__PURE__ */ new Date()).toTimeString().slice(0, 5), dvals = ((i.cat === "dining" || /^(Train|Coach|Bus) to /.test(i.title)) && date === iso2(/* @__PURE__ */ new Date()) || i.cat === "tickets" && vals.every((v) => /^\d\d:\d\d$/.test(v)) && (!/this week/i.test(i.title) || date === iso2(/* @__PURE__ */ new Date()))) && ((_i = i.opts) == null ? void 0 : _i.kind) === "slots" ? vals.filter((v) => v > nowHM) : vals;
     const qMax = i.cat === "dining" ? 12 : i.cat === "stays" ? perRoom * 4 : 8;
-    const qLabel = /^Train to /.test(i.title) ? "Passengers" : i.cat === "dining" ? "Guests" : i.cat === "stays" ? "Guests" : i.cat === "tickets" || i.cat === "experiences" || i.cat === "airport" ? "People" : "Quantity";
+    const qLabel = /^(Train|Coach|Bus) to /.test(i.title) ? "Passengers" : i.cat === "dining" ? "Guests" : i.cat === "stays" ? "Guests" : i.cat === "tickets" || i.cat === "experiences" || i.cat === "airport" ? "People" : "Quantity";
     const isRide = i.cat === "rides" && /^Ride/.test(i.title), isTransfer = i.cat === "rides" && /Airport transfer/.test(i.title);
     const needsEmail = i.cat === "giftcards" && to !== "Me";
     const needSize = i.cat === "shopping" && ((_j = i.opts) == null ? void 0 : _j.label) === "Size" && !vals.includes(opt);
     const far = isRide && dest.trim() ? rideFar(dest) : void 0;
-    const blocked = !!far || needSize || needsEmail && (!who.trim() || !EMAIL.test(email.trim())) || isRide && !dest.trim() || isRide && sched && !rTime || (["dining", "tickets"].includes(i.cat) || /^Train to /.test(i.title)) && ((_k = i.opts) == null ? void 0 : _k.kind) === "slots" && !dvals.includes(opt);
+    const blocked = !!far || needSize || needsEmail && (!who.trim() || !EMAIL.test(email.trim())) || isRide && !dest.trim() || isRide && sched && !rTime || (["dining", "tickets"].includes(i.cat) || /^(Train|Coach|Bus) to /.test(i.title)) && ((_k = i.opts) == null ? void 0 : _k.kind) === "slots" && !dvals.includes(opt);
     const total = i.cat === "stays" || i.cat === "dining" ? price : price * billUnits(i, Math.max(0, Math.min(qty, qMax) - freeLeft));
     const label = `${i.title}${opt && i.cat !== "stays" ? ", " + show(opt).replace(/ \(\+.*\)/, "") : ""}${i.cat === "stays" ? `, ${nights} night${nights > 1 ? "s" : ""} from ${M3.date(date)}` : ""}${qty > 1 && i.cat !== "stays" ? " \xD7 " + qty : ""}${needsEmail ? " for " + who.trim() : ""}${isRide ? " to " + dest.trim() : ""}`;
     const bal = get().balance, need2 = total ? ptsOf(total) : 0;
@@ -10144,7 +10176,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         }
       },
       i.cat === "stays" && /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, "Check in"), /* @__PURE__ */ React.createElement(DayChips, { from: iso2(/* @__PURE__ */ new Date()), n: 90, value: date, onChange: setDate }), /* @__PURE__ */ React.createElement(Count, { label: "Nights", value: nights, min: 1, max: Math.max(14, nights), onChange: setNights }), trip && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "Matched to your flight: ", M3.date(trip.in), " to ", M3.date(trip.out))),
-      (i.cat === "experiences" || i.cat === "rides" && (((_m = i.opts) == null ? void 0 : _m.kind) === "slots" || ((_n = i.opts) == null ? void 0 : _n.kind) === "dates")) && /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, ((_o = i.opts) == null ? void 0 : _o.kind) === "dates" ? "Pick-up day" : "Day"), /* @__PURE__ */ React.createElement(DayChips, { from: /^Train to /.test(i.title) ? iso2(/* @__PURE__ */ new Date()) : addDays(iso2(/* @__PURE__ */ new Date()), 1), n: 45, value: date, onChange: setDate })),
+      (i.cat === "experiences" || i.cat === "rides" && (((_m = i.opts) == null ? void 0 : _m.kind) === "slots" || ((_n = i.opts) == null ? void 0 : _n.kind) === "dates")) && /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, ((_o = i.opts) == null ? void 0 : _o.kind) === "dates" ? "Pick-up day" : "Day"), /* @__PURE__ */ React.createElement(DayChips, { from: /^(Train|Coach|Bus) to /.test(i.title) ? iso2(/* @__PURE__ */ new Date()) : addDays(iso2(/* @__PURE__ */ new Date()), 1), n: 45, value: date, onChange: setDate })),
       i.cat === "airport" && /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, "Day of travel"), /* @__PURE__ */ React.createElement(DayChips, { from: iso2(/* @__PURE__ */ new Date()), n: 45, value: date, onChange: setDate }), tripDates() && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, `Matched to your ${(_p = tripDates().flight.extra) == null ? void 0 : _p.number} on ${M3.date(tripDates().in)}, leaving ${(_q = tripDates().flight.extra) == null ? void 0 : _q.dep}`)),
       isRide && /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, "Pick up from"), /* @__PURE__ */ React.createElement("div", { className: "gr-slots", role: "radiogroup", "aria-label": "Pick up from" }, ["Your location", ...get().addresses.map((a) => `${a.label}, ${a.line}`)].map((p) => /* @__PURE__ */ React.createElement("button", { key: p, className: "gr-slot", role: "radio", "aria-checked": from === p, onClick: () => setFrom(p) }, p === "Your location" ? "Here" : p.split(",")[0])))),
       isRide && /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, "Where to?"), /* @__PURE__ */ React.createElement("input", { className: "app-in", placeholder: "Address or place", value: dest, onChange: (e) => setDest(e.target.value), "aria-label": "Where to?" }), /* @__PURE__ */ React.createElement("div", { className: "gr-slots", role: "radiogroup", "aria-label": "Quick picks" }, [...get().addresses.map((a) => [a.label, `${a.label}, ${a.line}`]), ["Airport", airportName(M3.id)]].map(([l, p]) => /* @__PURE__ */ React.createElement("button", { key: p, className: "gr-slot", role: "radio", "aria-checked": dest === p, onClick: () => setDest(p) }, l))), /* @__PURE__ */ React.createElement(Seg, { items: ["Now", "Schedule"], value: sched ? "Schedule" : "Now", onChange: (v) => setSched(v === "Schedule") }), sched ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(DayChips, { from: iso2(/* @__PURE__ */ new Date()), n: 30, value: rDate, onChange: setRDate }), /* @__PURE__ */ React.createElement("input", { className: "app-in", type: "time", "aria-label": "Pick-up time", value: rTime, onChange: (e) => setRTime(e.target.value) }), /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, rTime ? from === "Your location" ? `Pick-up from your location at ${M3.clock(rTime)}, ${M3.date(rDate)}.` : `Pick-up from ${from} at ${M3.clock(rTime)}, ${M3.date(rDate)}.` : "Choose a pick-up time.")) : /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, from === "Your location" ? "Pick-up from where you are now." : `Pick-up from ${from}.`)),
@@ -10157,11 +10189,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         if (d2 !== iso2(/* @__PURE__ */ new Date()) && !opt) setOpt0(vals[0]);
       } })),
       i.cat === "tickets" && dvals.length === 0 && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, /this week/i.test(i.title) ? "No more showings today. Pick another day." : "No more showings today."),
-      /^Train to /.test(i.title) && dvals.length === 0 && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "No more trains today. Pick another day."),
+      /^(Train|Coach|Bus) to /.test(i.title) && dvals.length === 0 && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, "No more trains today. Pick another day."),
       dvals.length > 0 && (((_s = i.opts) == null ? void 0 : _s.kind) === "slots" ? /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, i.opts.label), /* @__PURE__ */ React.createElement("div", { className: "gr-slots", role: "radiogroup", "aria-label": i.opts.label }, dvals.map((v) => /* @__PURE__ */ React.createElement("button", { key: v, className: "gr-slot", role: "radio", "aria-checked": opt === v, onClick: () => setOpt(v) }, M3.clock(v))))) : /* @__PURE__ */ React.createElement(VariantPicker, { label: i.cat === "giftcards" ? "Amount" : ((_t = i.opts) == null ? void 0 : _t.label) || "Option", options: vals.map(show), value: show(opt), onChange: (v) => setOpt(vals[vals.map(show).indexOf(v)]) })),
       i.cat === "giftcards" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(VariantPicker, { label: "Who is it for?", options: ["Someone else", "Myself"], value: to === "Me" ? "Myself" : to, onChange: (v) => setTo(v === "Myself" ? "Me" : v) }), to !== "Me" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("input", { className: "app-in", placeholder: "Their name", value: who, onChange: (e) => setWho(e.target.value), "aria-label": "Their name" }), /* @__PURE__ */ React.createElement("input", { className: "app-in", type: "email", inputMode: "email", placeholder: "Their email address", value: email, onChange: (e) => setEmail(e.target.value), "aria-label": "Their email address" }), email && !EMAIL.test(email.trim()) && /* @__PURE__ */ React.createElement("div", { className: "gr-meta", style: { color: "var(--danger)" } }, "Check the email address."))),
       freeVisit && Math.min(qty, qMax) > freeLeft && /* @__PURE__ */ React.createElement("div", { className: "gr-meta" }, `${freeLeft} free visit${freeLeft > 1 ? "s" : ""} left, so ${Math.min(qty, qMax) - freeLeft} ${Math.min(qty, qMax) - freeLeft > 1 ? "people are" : "person is"} paid.`),
-      (!["subs", "rides", "giftcards"].includes(i.cat) || /^Train to /.test(i.title)) && /* @__PURE__ */ React.createElement(Count, { label: qLabel, value: Math.min(qty, qMax), min: 1, max: qMax, onChange: (n) => {
+      (!["subs", "rides", "giftcards"].includes(i.cat) || /^(Train|Coach|Bus) to /.test(i.title)) && /* @__PURE__ */ React.createElement(Count, { label: qLabel, value: Math.min(qty, qMax), min: 1, max: qMax, onChange: (n) => {
         setQty(n);
         if (i.cat === "stays") setRooms(Math.min(4, Math.max(1, Math.ceil(n / perRoom))));
       } }),
@@ -10174,6 +10206,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   function GroceryBlock() {
     const basket = useS((s) => s.basket);
     const M3 = useMarket();
+    const [slot, setSlot] = useState("now");
+    const [subs2, setSubs] = useState("similar");
+    const SLOTS = [["now", "Now", "In about 15 minutes"], ["tonight", "Tonight, 19:00 to 20:00", `Tonight, ${M3.clock("19:00")} to ${M3.clock("20:00")}`], ["morning", "Tomorrow, 08:00 to 09:00", `Tomorrow, ${M3.clock("08:00")} to ${M3.clock("09:00")}`]], sl = SLOTS.find((x) => x[0] === slot);
     const lines = GROCERY.filter((g) => basket[g.id]).map((g) => ({ id: g.id, title: g.title, price: IP(g), qty: basket[g.id] }));
     const fee = groceryFee();
     const total = Math.round((lines.reduce((s, l) => s + l.price * l.qty, 0) + (lines.length ? fee : 0)) * 100) / 100;
@@ -10186,10 +10221,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const checkout = () => {
       var _a;
       const n = lines.reduce((s, l) => s + l.qty, 0);
-      const d2 = draft({ cat: "quick", title: "Groceries", img: "money:basket", sub: `${n} items \xB7 ${(_a = get().addresses.find((a) => a.id === get().addr)) == null ? void 0 : _a.label}`, qty: 1, unit: total, total, icon: "bag", kind: "order", policy: "Missing or damaged items refunded straight away", refundable: true, tracker: { steps: ["Order placed", "Packed", "Out for delivery", "Delivered"], current: 1, eta: "15 min" }, detail: [...lines.map((l) => [`${l.title} \xD7 ${l.qty}`, M3.money(l.price * l.qty, 2)]), ["Delivery", M3.money(fee, 2)], ["Arrives", "In about 15 minutes"]] });
+      const d2 = draft({ cat: "quick", title: "Groceries", img: "money:basket", sub: `${n} items \xB7 ${(_a = get().addresses.find((a) => a.id === get().addr)) == null ? void 0 : _a.label}`, qty: 1, unit: total, total, icon: "bag", kind: "order", policy: "Missing or damaged items refunded straight away", refundable: true, tracker: { steps: ["Order placed", "Packed", "Out for delivery", "Delivered"], current: slot === "now" ? 1 : 0, eta: slot === "now" ? "15 min" : sl[2] }, when: slot === "now" ? void 0 : sl[2], detail: [...lines.map((l) => [`${l.title} \xD7 ${l.qty}`, M3.money(l.price * l.qty, 2)]), ["Delivery", M3.money(fee, 2)], ["Arrives", sl[2]], ["If something is out of stock", subs2 === "similar" ? "Swap it for the closest match" : "Leave it out and refund it"]], extra: { slot, subs: subs2 } });
       respond({ say: "Here's your total.", blocks: [{ kind: "checkout", draft: d2 }] });
     };
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, !lines.length && /* @__PURE__ */ React.createElement(AssistantNote, null, "Tap items to add them. Your basket and total show here; delivery takes about 15 minutes."), /* @__PURE__ */ React.createElement("div", { className: "ds-again ds-addchips", "aria-label": "Add to basket" }, GROCERY.filter((g) => !basket[g.id]).map((g) => /* @__PURE__ */ React.createElement("button", { key: g.id, className: "app-gchip", onClick: () => set((s) => ({ basket: { ...s.basket, [g.id]: (s.basket[g.id] || 0) + 1 } })) }, /* @__PURE__ */ React.createElement("span", { className: "ds-addchips-p" }, /* @__PURE__ */ React.createElement(Icon, { name: "plus", size: 14, stroke: 2.6 })), g.title, /* @__PURE__ */ React.createElement("b", null, M3.money(IP(g), 2))))), lines.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ds-paycard" }, /* @__PURE__ */ React.createElement("div", { className: "ds-pay-h" }, /* @__PURE__ */ React.createElement("img", { src: img("money:basket"), alt: "" }), /* @__PURE__ */ React.createElement("span", { className: "ds-coming-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-coming-t" }, "Your basket"), /* @__PURE__ */ React.createElement("span", { className: "ds-coming-s" }, `${lines.reduce((t, l) => t + l.qty, 0)} items \xB7 arrives in about 15 minutes`))), /* @__PURE__ */ React.createElement("div", { className: "ds-pay-rows" }, lines.map((l) => /* @__PURE__ */ React.createElement("div", { key: l.id, className: "ds-kv-r ds-bline" }, /* @__PURE__ */ React.createElement("span", null, l.title), /* @__PURE__ */ React.createElement("select", { className: "ds-qty", "aria-label": `${l.title}, how many`, value: l.qty, onChange: (e) => setQ(l.id, +e.target.value) }, Array.from({ length: Math.min(20, capOf(GROCERY.find((g) => g.id === l.id)) || 20) + 1 }, (_, n) => /* @__PURE__ */ React.createElement("option", { key: n, value: n }, n ? `\xD7 ${n}` : "Remove"))), /* @__PURE__ */ React.createElement("b", null, M3.money(l.price * l.qty, 2)))), /* @__PURE__ */ React.createElement("div", { className: "ds-kv-r" }, /* @__PURE__ */ React.createElement("span", null, "Delivery"), /* @__PURE__ */ React.createElement("b", null, M3.money(fee, 2))), /* @__PURE__ */ React.createElement("div", { className: "ds-kv-r ds-total" }, /* @__PURE__ */ React.createElement("span", null, "Total"), /* @__PURE__ */ React.createElement("b", null, /* @__PURE__ */ React.createElement(Price2, { pts: M3.pts(ptsOf(total)), cash: M3.money(total, 2) })))), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", onClick: checkout }, "Checkout")));
+    return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, !lines.length && /* @__PURE__ */ React.createElement(AssistantNote, null, "Tap items to add them. Your basket and total show here; delivery takes about 15 minutes."), /* @__PURE__ */ React.createElement("div", { className: "ds-again ds-addchips", "aria-label": "Add to basket" }, GROCERY.filter((g) => !basket[g.id]).map((g) => /* @__PURE__ */ React.createElement("button", { key: g.id, className: "app-gchip", onClick: () => set((s) => ({ basket: { ...s.basket, [g.id]: (s.basket[g.id] || 0) + 1 } })) }, /* @__PURE__ */ React.createElement("span", { className: "ds-addchips-p" }, /* @__PURE__ */ React.createElement(Icon, { name: "plus", size: 14, stroke: 2.6 })), g.title, /* @__PURE__ */ React.createElement("b", null, M3.money(IP(g), 2))))), lines.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ds-paycard" }, /* @__PURE__ */ React.createElement("div", { className: "ds-pay-h" }, /* @__PURE__ */ React.createElement("img", { src: img("money:basket"), alt: "" }), /* @__PURE__ */ React.createElement("span", { className: "ds-coming-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-coming-t" }, "Your basket"), /* @__PURE__ */ React.createElement("span", { className: "ds-coming-s" }, `${lines.reduce((t, l) => t + l.qty, 0)} items \xB7 ${slot === "now" ? "arrives in about 15 minutes" : sl[2].charAt(0).toLowerCase() + sl[2].slice(1)}`))), /* @__PURE__ */ React.createElement("div", { className: "ds-pay-rows" }, lines.map((l) => /* @__PURE__ */ React.createElement("div", { key: l.id, className: "ds-kv-r ds-bline" }, /* @__PURE__ */ React.createElement("span", null, l.title), /* @__PURE__ */ React.createElement("select", { className: "ds-qty", "aria-label": `${l.title}, how many`, value: l.qty, onChange: (e) => setQ(l.id, +e.target.value) }, Array.from({ length: Math.min(20, capOf(GROCERY.find((g) => g.id === l.id)) || 20) + 1 }, (_, n) => /* @__PURE__ */ React.createElement("option", { key: n, value: n }, n ? `\xD7 ${n}` : "Remove"))), /* @__PURE__ */ React.createElement("b", null, M3.money(l.price * l.qty, 2)))), /* @__PURE__ */ React.createElement("div", { className: "ds-kv-r" }, /* @__PURE__ */ React.createElement("span", null, "Delivery"), /* @__PURE__ */ React.createElement("b", null, M3.money(fee, 2))), /* @__PURE__ */ React.createElement("div", { className: "ds-kv-r ds-total" }, /* @__PURE__ */ React.createElement("span", null, "Total"), /* @__PURE__ */ React.createElement("b", null, /* @__PURE__ */ React.createElement(Price2, { pts: M3.pts(ptsOf(total)), cash: M3.money(total, 2) })))), /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, "Delivery"), /* @__PURE__ */ React.createElement("div", { className: "gr-slots", role: "radiogroup", "aria-label": "Delivery" }, SLOTS.map((x) => /* @__PURE__ */ React.createElement("button", { key: x[0], className: "gr-slot", role: "radio", "aria-checked": slot === x[0], onClick: () => setSlot(x[0]) }, x[0] === "now" ? "Now" : x[0] === "tonight" ? `Tonight ${M3.clock("19:00")}` : `Tomorrow ${M3.clock("08:00")}`)))), /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 8 } }, /* @__PURE__ */ React.createElement("span", { className: "gr-label" }, "If something is out of stock"), /* @__PURE__ */ React.createElement("div", { className: "gr-slots", role: "radiogroup", "aria-label": "If something is out of stock" }, [["similar", "Swap it"], ["refund", "Refund it"]].map(([k, l]) => /* @__PURE__ */ React.createElement("button", { key: k, className: "gr-slot", role: "radio", "aria-checked": subs2 === k, onClick: () => setSubs(k) }, l)))), /* @__PURE__ */ React.createElement("button", { className: "ds-btn48 gr-btn", onClick: checkout }, "Checkout")));
   }
   function CheckoutBlock({ draft: draft2, method: m0, fresh }) {
     var _a;
@@ -10268,9 +10303,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       const it = findItem(b2.itemId || ""), nm2 = /named|no resale/i.test(b2.policy || (it == null ? void 0 : it.policy) || "");
       return ["Show pass", ...((_j = it == null ? void 0 : it.opts) == null ? void 0 : _j.kind) === "slots" && !/no refunds/i.test(b2.policy || "") ? [/^\d\d:\d\d/.test(it.opts.values[0]) ? "Change showing" : "Change date"] : [], "Get there", ...nm2 ? [] : ["Send to a friend", ...!b2.refundable ? ["Resell"] : []], ...b2.refundable ? ["Cancel"] : []];
     }
-    if (b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "experiences" || b2.cat === "rides" && /^Train/.test(b2.title)) return ["Show pass", ...b2.cat === "experiences" ? ["Change date"] : [], ...b2.refundable ? ["Cancel"] : []];
-    if (b2.cat === "rides" && /^Car hire/.test(b2.title)) return ["Pick-up guide", "Extend", ...b2.refundable !== false ? ["Cancel"] : []];
-    if (b2.cat === "rides" && /^Train/.test(b2.title)) return ["Show pass", "Change train", ...b2.refundable ? ["Cancel"] : []];
+    if (b2.cat === "rides" && /^(Train|Coach|Bus) to /.test(b2.title)) return ["Show pass", /^Train/.test(b2.title) ? "Change train" : "Change time", ...b2.refundable ? ["Cancel"] : []];
+    if (b2.kind === "ticket" || b2.cat === "airport" || b2.cat === "experiences" || b2.cat === "rides" && /^(Train|Coach|Bus) to /.test(b2.title)) return ["Show pass", ...b2.cat === "experiences" ? ["Change date"] : [], ...b2.refundable ? ["Cancel"] : []];
+    if (b2.cat === "rides" && /^Car hire/.test(b2.title)) return ["Pick-up guide", "Extend", "Change date", ...b2.refundable !== false ? ["Cancel"] : []];
     if (b2.cat === "rides") return [...b2.tracker && b2.tracker.current < b2.tracker.steps.length - 1 ? ["Track"] : [], "Report a problem", ...b2.refundable !== false && b2.status !== "done" ? ["Cancel"] : []];
     if (b2.cat === "airport") return ["Show pass", "Report a problem", ...b2.refundable ? ["Cancel"] : []];
     if (b2.kind === "order") return ((_k = b2.extra) == null ? void 0 : _k.returning) ? ["Track"] : b2.status === "delivered" ? ["Return", "Report a problem"] : b2.cat === "bank" ? ["Track"] : ["Track", "Cancel"];
@@ -10297,7 +10332,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     ];
     const where = b2.cat === "flights" || b2.cat === "stays" ? "your trip in Wallet" : "Wallet";
     const line = changed ? dead2(live2) ? `${live2.status === "refunded" ? "Refunded" : "Cancelled"} since. Wallet has the latest.` : "Changed since. Wallet has the latest." : `I've added it to ${where}${b2.kind === "order" && b2.tracker ? ", where you can track it" : ""}, and emailed your confirmation.`;
-    const qr = !changed && !dead2(live2) && (["tickets", "airport", "experiences", "giftcards"].includes(b2.cat) || b2.cat === "rides" && /^Train/.test(b2.title));
+    const qr = !changed && !dead2(live2) && (["tickets", "airport", "experiences", "giftcards"].includes(b2.cat) || b2.cat === "rides" && /^(Train|Coach|Bus) to /.test(b2.title));
     return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Booked, { headline: head, title: b2.title, sub: [b2.when, b2.sub && b2.sub !== b2.title ? b2.sub : ""].filter(Boolean).join(" \xB7 "), rows: spent.length || rows.length ? rows : [], line, actions: /* @__PURE__ */ React.createElement("div", { className: "ds-btnrow" }, /* @__PURE__ */ React.createElement("button", { className: "ds-opill" + (qr ? "" : " primary"), onClick: () => {
       var _a;
       return (_a = W3.__go) == null ? void 0 : _a.call(W3, "wallet");
@@ -10443,7 +10478,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (b2.cat === "airport") return /* @__PURE__ */ React.createElement(Ticket, { title: b2.title, count: n > 1 ? `${n} people` : "Pass", code: b2.ref, lines: [["Where", (b2.sub || "").split(" \xB7 ")[0]], ["Valid", b2.when || "On the day"], ["Holder", get().prefs.name]], caption: "Show this at the entrance", onWallet: wallet });
     if (b2.cat === "giftcards") return /* @__PURE__ */ React.createElement(Ticket, { title: b2.title, count: ((_e = (_d = b2.detail) == null ? void 0 : _d.find((d2) => d2[0] === "Amount")) == null ? void 0 : _e[1]) || "", code: b2.ref.replace("GR", "GIFT"), caption: `${((_f = b2.extra) == null ? void 0 : _f.to) && b2.extra.to !== "Me" ? `Sent to ${b2.extra.to}` : "For you"} \xB7 code ${b2.ref.replace("GR", "GIFT")} \xB7 valid for 12 months`, onWallet: wallet });
     const area = (_h = (_g = b2.detail) == null ? void 0 : _g.find((d2) => /Area|Stand/.test(d2[0]))) == null ? void 0 : _h[1];
-    return /* @__PURE__ */ React.createElement(Ticket, { title: b2.title, count: `${n} ${b2.cat === "tickets" ? n > 1 ? "tickets" : "ticket" : n > 1 ? "people" : "person"}`, code: b2.ref, lines: [["When", b2.when || M3.date(/* @__PURE__ */ new Date())], ...area ? [["Area", area]] : [], ["Holder", get().prefs.name]], caption: `Show this at the ${/^Train/.test(b2.title) ? "gate" : b2.cat === "tickets" ? "box office" : "entrance"} \xB7 ${b2.ref}`, onWallet: wallet });
+    return /* @__PURE__ */ React.createElement(Ticket, { title: b2.title, count: `${n} ${b2.cat === "tickets" ? n > 1 ? "tickets" : "ticket" : n > 1 ? "people" : "person"}`, code: b2.ref, lines: [["When", b2.when || M3.date(/* @__PURE__ */ new Date())], ...area ? [["Area", area]] : [], ["Holder", get().prefs.name]], caption: `Show this at the ${/^(Train|Coach|Bus) to /.test(b2.title) ? "gate" : b2.cat === "tickets" ? "box office" : "entrance"} \xB7 ${b2.ref}`, onWallet: wallet });
   }
   function ddAsk(mode2) {
     const M3 = W3.__M, c2 = get().card, name = M3.directDebit.charAt(0).toUpperCase() + M3.directDebit.slice(1);
@@ -10564,6 +10599,27 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     "Refunded if nothing is needed for your passport": "\u062A\u064F\u0633\u062A\u0631\u062F \u0625\u0646 \u0644\u0645 \u064A\u062D\u062A\u062C \u062C\u0648\u0627\u0632\u0643 \u0625\u0644\u0649 \u0634\u064A\u0621",
     "No refunds unless the event is cancelled or moved. Resell at face value through the official resale.": "\u0644\u0627 \u0627\u0633\u062A\u0631\u062F\u0627\u062F \u0625\u0644\u0627 \u0625\u0630\u0627 \u0623\u064F\u0644\u063A\u064A\u062A \u0627\u0644\u0641\u0639\u0627\u0644\u064A\u0629 \u0623\u0648 \u0623\u064F\u062C\u0651\u0644\u062A. \u064A\u0645\u0643\u0646 \u0625\u0639\u0627\u062F\u0629 \u0627\u0644\u0628\u064A\u0639 \u0628\u0633\u0639\u0631\u0647\u0627 \u0627\u0644\u0623\u0635\u0644\u064A \u0639\u0628\u0631 \u0645\u0646\u0635\u0629 \u0625\u0639\u0627\u062F\u0629 \u0627\u0644\u0628\u064A\u0639 \u0627\u0644\u0631\u0633\u0645\u064A\u0629.",
     "No refunds unless the event is cancelled or moved. Resell at face value through the official resale": "\u0644\u0627 \u0627\u0633\u062A\u0631\u062F\u0627\u062F \u0625\u0644\u0627 \u0625\u0630\u0627 \u0623\u064F\u0644\u063A\u064A\u062A \u0627\u0644\u0641\u0639\u0627\u0644\u064A\u0629 \u0623\u0648 \u0623\u064F\u062C\u0651\u0644\u062A. \u064A\u0645\u0643\u0646 \u0625\u0639\u0627\u062F\u0629 \u0627\u0644\u0628\u064A\u0639 \u0628\u0633\u0639\u0631\u0647\u0627 \u0627\u0644\u0623\u0635\u0644\u064A \u0639\u0628\u0631 \u0645\u0646\u0635\u0629 \u0625\u0639\u0627\u062F\u0629 \u0627\u0644\u0628\u064A\u0639 \u0627\u0644\u0631\u0633\u0645\u064A\u0629",
+    "Delivery": "\u0627\u0644\u062A\u0648\u0635\u064A\u0644",
+    "Now": "\u0627\u0644\u0622\u0646",
+    "If something is out of stock": "\u0625\u0646 \u0646\u0641\u062F \u0634\u064A\u0621",
+    "Swap for the closest match": "\u0627\u0633\u062A\u0628\u062F\u0644\u0647 \u0628\u0623\u0642\u0631\u0628 \u0628\u062F\u064A\u0644",
+    "Swap it": "\u0627\u0633\u062A\u0628\u062F\u0644\u0647",
+    "Refund it": "\u0627\u0633\u062A\u0631\u062F \u062B\u0645\u0646\u0647",
+    "Swap it for the closest match": "\u0627\u0633\u062A\u0628\u062F\u0644\u0647 \u0628\u0623\u0642\u0631\u0628 \u0628\u062F\u064A\u0644",
+    "Leave it out and refund it": "\u0627\u062A\u0631\u0643\u0647 \u0648\u0627\u0633\u062A\u0631\u062F \u062B\u0645\u0646\u0647",
+    "In about 15 minutes": "\u062E\u0644\u0627\u0644 15 \u062F\u0642\u064A\u0642\u0629 \u062A\u0642\u0631\u064A\u0628\u064B\u0627",
+    "New pick-up day": "\u064A\u0648\u0645 \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645 \u0627\u0644\u062C\u062F\u064A\u062F",
+    "Departure": "\u0627\u0644\u0645\u063A\u0627\u062F\u0631\u0629",
+    "Coach to Oxford": "\u062D\u0627\u0641\u0644\u0629 \u0625\u0644\u0649 \u0623\u0643\u0633\u0641\u0648\u0631\u062F",
+    "Coach to Galway": "\u062D\u0627\u0641\u0644\u0629 \u0625\u0644\u0649 \u063A\u0627\u0644\u0648\u0627\u064A",
+    "Bus to Nashik": "\u062D\u0627\u0641\u0644\u0629 \u0625\u0644\u0649 \u0646\u0627\u0634\u064A\u0643",
+    "Bus to Abu Dhabi": "\u062D\u0627\u0641\u0644\u0629 \u0625\u0644\u0649 \u0623\u0628\u0648\u0638\u0628\u064A",
+    "Coach to Kuala Lumpur": "\u062D\u0627\u0641\u0644\u0629 \u0625\u0644\u0649 \u0643\u0648\u0627\u0644\u0627\u0644\u0645\u0628\u0648\u0631",
+    "Coach to Singapore": "\u062D\u0627\u0641\u0644\u0629 \u0625\u0644\u0649 \u0633\u0646\u063A\u0627\u0641\u0648\u0631\u0629",
+    "Reserved seat, luggage included": "\u0645\u0642\u0639\u062F \u0645\u062D\u062C\u0648\u0632\u060C \u0627\u0644\u0623\u0645\u062A\u0639\u0629 \u0645\u0634\u0645\u0648\u0644\u0629",
+    "Change time": "\u063A\u064A\u0651\u0631 \u0627\u0644\u0645\u0648\u0639\u062F",
+    "Changes before departure for a fee": "\u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u0642\u0628\u0644 \u0627\u0644\u0645\u063A\u0627\u062F\u0631\u0629 \u0645\u0642\u0627\u0628\u0644 \u0631\u0633\u0648\u0645",
+    "Change fee": "\u0631\u0633\u0648\u0645 \u0627\u0644\u062A\u063A\u064A\u064A\u0631",
     "The driver didn't turn up": "\u0627\u0644\u0633\u0627\u0626\u0642 \u0644\u0645 \u064A\u062D\u0636\u0631",
     "I was charged too much": "\u062F\u0641\u0639\u062A \u0623\u0643\u062B\u0631 \u0645\u0646 \u0627\u0644\u0644\u0627\u0632\u0645",
     "I left something in the car": "\u0646\u0633\u064A\u062A \u0634\u064A\u0626\u064B\u0627 \u0641\u064A \u0627\u0644\u0633\u064A\u0627\u0631\u0629",
@@ -13321,7 +13377,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     [/^The insurer approved your claim \((.+?)\)\. (.+?) is paid to your card\.$/, (m) => `\u0648\u0627\u0641\u0642\u062A \u0634\u0631\u0643\u0629 \u0627\u0644\u062A\u0623\u0645\u064A\u0646 \u0639\u0644\u0649 \u0645\u0637\u0627\u0644\u0628\u062A\u0643 (${{ "trip cancelled": "\u0623\u064F\u0644\u063A\u064A\u062A \u0627\u0644\u0631\u062D\u0644\u0629", "flight delayed over 6 hours": "\u062A\u0623\u062E\u0631\u062A \u0627\u0644\u0631\u062D\u0644\u0629 \u0623\u0643\u062B\u0631 \u0645\u0646 6 \u0633\u0627\u0639\u0627\u062A", "bag lost or delayed": "\u062D\u0642\u064A\u0628\u0629 \u0645\u0641\u0642\u0648\u062F\u0629 \u0623\u0648 \u0645\u062A\u0623\u062E\u0631\u0629", "medical costs abroad": "\u062A\u0643\u0627\u0644\u064A\u0641 \u0637\u0628\u064A\u0629 \u0641\u064A \u0627\u0644\u062E\u0627\u0631\u062C" }[m[1]] || m[1]}). \u062F\u064F\u0641\u0639 ${m[2]} \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643.`],
     [/^Your travel authorisation for (.+?) is approved\. It's linked to your passport, and a copy is in Wallet\.$/, (m) => `\u062A\u0645\u062A \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629 \u0639\u0644\u0649 \u062A\u0635\u0631\u064A\u062D \u0633\u0641\u0631\u0643 \u0625\u0644\u0649 ${c(m[1])}. \u0645\u0631\u062A\u0628\u0637 \u0628\u062C\u0648\u0627\u0632\u0643\u060C \u0648\u0646\u0633\u062E\u0629 \u0645\u0646\u0647 \u0641\u064A \u0627\u0644\u0645\u062D\u0641\u0638\u0629.`],
     [/^(.+), (Seated, lower|Seated, upper|Standing)$/, (m) => `${m[1]}\u060C ${{ "Seated, lower": "\u0627\u0644\u0645\u0642\u0627\u0639\u062F \u0627\u0644\u0633\u0641\u0644\u064A\u0629", "Seated, upper": "\u0627\u0644\u0645\u0642\u0627\u0639\u062F \u0627\u0644\u0639\u0644\u0648\u064A\u0629", Standing: "\u0627\u0644\u0648\u0642\u0648\u0641" }[m[2]]}`],
-    [/^What went wrong with the (.+?)\?$/, (m) => `\u0645\u0627 \u0627\u0644\u0630\u064A \u062D\u062F\u062B \u0645\u0639 ${m[1]}\u061F`],
+    [/^(Tonight|Tomorrow) (\d\d:\d\d)$/, (m) => `${m[1] === "Tonight" ? "\u0627\u0644\u0644\u064A\u0644\u0629" : "\u063A\u062F\u064B\u0627"} ${m[2]}`],
+    [/^(Tonight|Tomorrow), (\d\d:\d\d) to (\d\d:\d\d)$/, (m) => `${m[1] === "Tonight" ? "\u0627\u0644\u0644\u064A\u0644\u0629" : "\u063A\u062F\u064B\u0627"}\u060C ${m[2]} \u0625\u0644\u0649 ${m[3]}`],
+    [/^(\d+) items · (arrives in about 15 minutes|tonight, (\d\d:\d\d) to (\d\d:\d\d)|tomorrow, (\d\d:\d\d) to (\d\d:\d\d))$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0645\u0646\u062A\u062C" : "\u0645\u0646\u062A\u062C\u0627\u062A"} \xB7 ${m[2].startsWith("arrives") ? "\u064A\u0635\u0644 \u062E\u0644\u0627\u0644 15 \u062F\u0642\u064A\u0642\u0629 \u062A\u0642\u0631\u064A\u0628\u064B\u0627" : m[3] ? `\u0627\u0644\u0644\u064A\u0644\u0629\u060C ${m[3]} \u0625\u0644\u0649 ${m[4]}` : `\u063A\u062F\u064B\u0627\u060C ${m[5]} \u0625\u0644\u0649 ${m[6]}`}`],
+    [/^Pick a new pick-up day\. You keep the car for (\d+) days?, and changing is free up to 48 hours before\.$/, (m) => `\u0627\u062E\u062A\u0631 \u064A\u0648\u0645 \u0627\u0633\u062A\u0644\u0627\u0645 \u062C\u062F\u064A\u062F\u064B\u0627. \u062A\u0628\u0642\u0649 \u0627\u0644\u0633\u064A\u0627\u0631\u0629 \u0645\u0639\u0643 ${m[1]} ${+m[1] === 1 ? "\u064A\u0648\u0645" : "\u0623\u064A\u0627\u0645"}\u060C \u0648\u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u0645\u062C\u0627\u0646\u064A \u062D\u062A\u0649 48 \u0633\u0627\u0639\u0629 \u0642\u0628\u0644 \u0627\u0644\u0645\u0648\u0639\u062F.`],
+    [/^Changed, at no cost\. You pick the car up on (.+?) and return it on (.+?)\.$/, (m) => `\u062A\u0645 \u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u0645\u062C\u0627\u0646\u064B\u0627. \u062A\u0633\u062A\u0644\u0645 \u0627\u0644\u0633\u064A\u0627\u0631\u0629 \u064A\u0648\u0645 ${d(m[1])} \u0648\u062A\u0639\u064A\u062F\u0647\u0627 \u064A\u0648\u0645 ${d(m[2])}.`],
+    [/^Pick another departure for the (.+?)\. (It's free, because yours was cancelled\.|Changes before departure for a fee\.)$/, (m) => `\u0627\u062E\u062A\u0631 \u0645\u0648\u0639\u062F\u064B\u0627 \u0622\u062E\u0631 \u0644\u0640 ${tr1(m[1].charAt(0).toUpperCase() + m[1].slice(1)) || m[1]}. ${/free/.test(m[2]) ? "\u0645\u062C\u0627\u0646\u064B\u0627\u060C \u0644\u0623\u0646 \u0631\u062D\u0644\u062A\u0643 \u0623\u064F\u0644\u063A\u064A\u062A." : "\u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u0642\u0628\u0644 \u0627\u0644\u0645\u063A\u0627\u062F\u0631\u0629 \u0645\u0642\u0627\u0628\u0644 \u0631\u0633\u0648\u0645."}`],
+    [/^Changing costs (.+?)\. Pay with points, card, or both\.$/, (m) => `\u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u064A\u0643\u0644\u0641 ${m[1].replace(/\.$/, "")}. \u0627\u062F\u0641\u0639 \u0628\u0627\u0644\u0646\u0642\u0627\u0637 \u0623\u0648 \u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0623\u0648 \u0643\u0644\u064A\u0647\u0645\u0627.`],
+    [/^Change fee: (.+)$/, (m) => `\u0631\u0633\u0648\u0645 \u0627\u0644\u062A\u063A\u064A\u064A\u0631: ${tr1(m[1]) || m[1]}`],
+    [/^What went wrong with the (.+?)\?$/, (m) => `\u0645\u0627 \u0627\u0644\u0630\u064A \u062D\u062F\u062B \u0645\u0639 ${tr1(m[1].charAt(0).toUpperCase() + m[1].slice(1)) || m[1]}\u061F`],
     [/^Sorry about that\. You've got everything back(?:: (.+?))?\. Want me to book another ride now\?$/, (m) => `\u0646\u0623\u0633\u0641 \u0644\u0630\u0644\u0643. \u0627\u0633\u062A\u0631\u062F\u062F\u062A \u0643\u0644 \u0634\u064A\u0621${m[1] ? `: ${m[1].replace(/ and /, " \u0648").replace(/ to your card/, " \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643")}` : ""}. \u0647\u0644 \u0623\u062D\u062C\u0632 \u0644\u0643 \u062A\u0648\u0635\u064A\u0644\u0629 \u0623\u062E\u0631\u0649 \u0627\u0644\u0622\u0646\u061F`],
     [/^The fare was fixed when you booked, so anything above it comes back\. (.+?) (?:is|are) back, and the driver's company has been told\.$/, (m) => `\u0627\u0644\u0633\u0639\u0631 \u062B\u0627\u0628\u062A \u0645\u0646\u0630 \u0627\u0644\u062D\u062C\u0632\u060C \u0641\u0623\u064A \u0645\u0628\u0644\u063A \u0641\u0648\u0642\u0647 \u064A\u064F\u0639\u0627\u062F. \u0623\u064F\u0639\u064A\u062F ${m[1].replace(/ and /, " \u0648").replace(/ to your card/, " \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643")}\u060C \u0648\u062A\u0645 \u0625\u0628\u0644\u0627\u063A \u0634\u0631\u0643\u0629 \u0627\u0644\u0633\u0627\u0626\u0642.`],
     [/^(\d+) more days?: (.+)$/, (m) => `${+m[1] === 1 ? "\u064A\u0648\u0645 \u0625\u0636\u0627\u0641\u064A" : `${m[1]} \u0623\u064A\u0627\u0645 \u0625\u0636\u0627\u0641\u064A\u0629`}: ${m[2]}`],
@@ -13332,7 +13396,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     [/^Your driving licence · The card you paid with, in the driver's name · Your booking reference (GR-[\d-]+) · A deposit is held on the card and released when the car comes back full$/, (m) => `\u0631\u062E\u0635\u0629 \u0627\u0644\u0642\u064A\u0627\u062F\u0629 \xB7 \u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0627\u0644\u062A\u064A \u062F\u0641\u0639\u062A \u0628\u0647\u0627 \u0628\u0627\u0633\u0645 \u0627\u0644\u0633\u0627\u0626\u0642 \xB7 \u0631\u0642\u0645 \u0627\u0644\u062D\u062C\u0632 ${m[1]} \xB7 \u064A\u064F\u062D\u062C\u0632 \u0645\u0628\u0644\u063A \u062A\u0623\u0645\u064A\u0646 \u0639\u0644\u0649 \u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0648\u064A\u064F\u0641\u0631\u062C \u0639\u0646\u0647 \u0639\u0646\u062F \u0625\u0639\u0627\u062F\u0629 \u0627\u0644\u0633\u064A\u0627\u0631\u0629 \u0628\u062E\u0632\u0627\u0646 \u0645\u0645\u062A\u0644\u0626`],
     [/^Pick another departure for the (.+?)\. Changing is free on the same day's tickets\.$/, (m) => `\u0627\u062E\u062A\u0631 \u0645\u0648\u0639\u062F\u064B\u0627 \u0622\u062E\u0631 \u0644\u0640 ${m[1]}. \u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u0645\u062C\u0627\u0646\u064A \u0644\u062A\u0630\u0627\u0643\u0631 \u0627\u0644\u064A\u0648\u0645 \u0646\u0641\u0633\u0647.`],
     [/^Changed, at no cost\. You're on the (.+?) now\. Your ticket is updated\.$/, (m) => `\u062A\u0645 \u0627\u0644\u062A\u063A\u064A\u064A\u0631 \u0645\u062C\u0627\u0646\u064B\u0627. \u0623\u0646\u062A \u0627\u0644\u0622\u0646 \u0639\u0644\u0649 \u0642\u0637\u0627\u0631 ${m[1]}. \u062A\u0645 \u062A\u062D\u062F\u064A\u062B \u062A\u0630\u0643\u0631\u062A\u0643.`],
-    [/^Your (.+?) has been cancelled by the rail company\. Take the next one at no cost, or get a full refund\.$/, (m) => `\u0623\u0644\u063A\u062A \u0634\u0631\u0643\u0629 \u0627\u0644\u0642\u0637\u0627\u0631\u0627\u062A ${m[1]}. \u0627\u0633\u062A\u0642\u0644 \u0627\u0644\u0642\u0637\u0627\u0631 \u0627\u0644\u062A\u0627\u0644\u064A \u0645\u062C\u0627\u0646\u064B\u0627\u060C \u0623\u0648 \u0627\u0633\u062A\u0631\u062F \u0627\u0644\u0645\u0628\u0644\u063A \u0643\u0627\u0645\u0644\u064B\u0627.`],
+    [/^Your (.+?) has been cancelled by the rail company\. Take the next one at no cost, or get a full refund\.$/, (m) => `\u0623\u0644\u063A\u062A \u0634\u0631\u0643\u0629 \u0627\u0644\u0642\u0637\u0627\u0631\u0627\u062A ${tr1(m[1].charAt(0).toUpperCase() + m[1].slice(1)) || m[1]}. \u0627\u0633\u062A\u0642\u0644 \u0627\u0644\u0642\u0637\u0627\u0631 \u0627\u0644\u062A\u0627\u0644\u064A \u0645\u062C\u0627\u0646\u064B\u0627\u060C \u0623\u0648 \u0627\u0633\u062A\u0631\u062F \u0627\u0644\u0645\u0628\u0644\u063A \u0643\u0627\u0645\u0644\u064B\u0627.`],
     [/^Refunded in full: (.+?)\.$/, (m) => `\u0627\u0633\u062A\u064F\u0631\u062F \u0628\u0627\u0644\u0643\u0627\u0645\u0644: ${m[1].replace(/ and /, " \u0648").replace(/ to your card/, " \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643")}.`],
     [/^What happened with (.+?)\?$/, (m) => `\u0645\u0627\u0630\u0627 \u062D\u062F\u062B \u0645\u0639 ${m[1]}\u061F`],
     [/^Sorry it went wrong\. You've got everything back(?:: (.+?))?, and the provider has been told\.$/, (m) => `\u0646\u0623\u0633\u0641 \u0644\u0645\u0627 \u062D\u062F\u062B. \u0627\u0633\u062A\u0631\u062F\u062F\u062A \u0643\u0644 \u0634\u064A\u0621${m[1] ? `: ${m[1].replace(/ and /, " \u0648").replace(/ to your card/, " \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643").replace(/^the free visit is back on your card$/, "\u0639\u0627\u062F\u062A \u0627\u0644\u0632\u064A\u0627\u0631\u0629 \u0627\u0644\u0645\u062C\u0627\u0646\u064A\u0629 \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643")}` : ""}\u060C \u0648\u062A\u0645 \u0625\u0628\u0644\u0627\u063A \u0645\u0642\u062F\u0645 \u0627\u0644\u062E\u062F\u0645\u0629.`],
@@ -13365,7 +13429,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     [/^I'm watching (.+?)\. It's (.+?) now; I'll message you as soon as the price drops\.$/, (m) => `\u0623\u0631\u0627\u0642\u0628 ${m[1]}. \u0633\u0639\u0631\u0647 \u0627\u0644\u0622\u0646 ${m[2]}\u061B \u0633\u0623\u0631\u0627\u0633\u0644\u0643 \u0641\u0648\u0631 \u0627\u0646\u062E\u0641\u0627\u0636\u0647.`],
     [/^Watching (.+)$/, (m) => /[a-z]/.test(m[1]) && !/^[A-Z][a-z]+( [A-Z][a-z]+)?$/.test(m[1]) ? `\u0623\u0631\u0627\u0642\u0628 ${m[1]}` : null],
     [/^(.+?) now$/, (m) => isMoney(m[1]) ? `${m[1]} \u0627\u0644\u0622\u0646` : null],
-    [/^Stopped watching (.+?)\.$/, (m) => `\u0623\u0648\u0642\u0641\u062A \u0645\u0631\u0627\u0642\u0628\u0629 ${m[1]}.`],
+    [/^Stopped watching (.+?)\.$/, (m) => /^flights to /.test(m[1]) ? null : `\u0623\u0648\u0642\u0641\u062A \u0645\u0631\u0627\u0642\u0628\u0629 ${m[1]}.`],
     [/^(.+?) just dropped to (.+?), from (.+?)\.$/, (m) => `\u0627\u0646\u062E\u0641\u0636 \u0633\u0639\u0631 ${m[1]} \u0644\u0644\u062A\u0648 \u0625\u0644\u0649 ${m[2]}\u060C \u0628\u0639\u062F \u0623\u0646 \u0643\u0627\u0646 ${m[3]}.`],
     [/^I've cancelled the old code and issued a new one for (.+?), with the full balance on it\. The old code no longer works\.$/, (m) => `\u0623\u0644\u063A\u064A\u062A \u0627\u0644\u0631\u0645\u0632 \u0627\u0644\u0642\u062F\u064A\u0645 \u0648\u0623\u0635\u062F\u0631\u062A \u0631\u0645\u0632\u064B\u0627 \u062C\u062F\u064A\u062F\u064B\u0627 \u0644\u0640 ${m[1]} \u0628\u0643\u0627\u0645\u0644 \u0627\u0644\u0631\u0635\u064A\u062F. \u0627\u0644\u0631\u0645\u0632 \u0627\u0644\u0642\u062F\u064A\u0645 \u0644\u0645 \u064A\u0639\u062F \u064A\u0639\u0645\u0644.`],
     [/^(.+?) renews in 3 days for (.+?)\. Keep it, pause it, or cancel before then and you won't be charged\.$/, (m) => `\u064A\u062A\u062C\u062F\u062F ${m[1]} \u062E\u0644\u0627\u0644 3 \u0623\u064A\u0627\u0645 \u0628\u0645\u0628\u0644\u063A ${m[2].replace(/\.$/, "")}. \u0623\u0628\u0642\u0650\u0647 \u0623\u0648 \u0623\u0648\u0642\u0641\u0647 \u0645\u0624\u0642\u062A\u064B\u0627 \u0623\u0648 \u0623\u0644\u063A\u0650\u0647 \u0642\u0628\u0644 \u0630\u0644\u0643 \u0648\u0644\u0646 \u062A\u064F\u062E\u0635\u0645 \u0645\u0646\u0643.`],

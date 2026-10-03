@@ -155,6 +155,7 @@ module.exports = {
     await buyFirst(h, 'Hire a car at the airport', 'hire')
     await ask('extend my car hire'); await full('hire-extend'); await pick(1, 'hire-days'); await pay('hire-extended')
     await ask('what do I need to pick up the car'); await full('hire-pickup')
+    await ask('change my car hire'); await full('hire-change'); await pick(0, 'hire-moved')
     await buyFirst(h, 'Book a lounge', 'lounge')
     await ask("the lounge wouldn't let me in"); await full('lounge-refund')
     await ask('eSIM for data abroad'); await full('esim')
@@ -166,6 +167,16 @@ module.exports = {
     await ask('make a claim on my travel insurance'); await full('claim')
     if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').nth(2).click(); await A().locator('.c2-in input').fill('120'); await cta(); await full('claim-sent') } else errs.push('NO CLAIM FORM')
     await nav(5); await click('Visa and claims decided'); await full('decided')
+  },
+  async transit(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
+    const COACH = { UK: 'Oxford', EU: 'Galway', IN: 'Nashik', AE: 'Abu Dhabi', AR: 'Abu Dhabi', SG: 'Kuala Lumpur', MY: 'Singapore' }
+    await nav(3); await ask(`a coach to ${COACH[mk()]}`); await full('coach')
+    { const b = A().locator('.gr-detail .gr-btn').last(); if (await b.count()) { await b.scrollIntoViewIfNeeded(); await b.click(); await p.waitForTimeout(450); await full('coach-checkout'); await payOrFree(h, 'coach') } else errs.push('NO COACH DETAIL') }
+    await nav(5); await click('Train cancelled'); await full('cancelled')
+    if (await A().locator('.gr-state .gr-btn').count()) { await A().locator('.gr-state .gr-btn').first().click(); await p.waitForTimeout(450); await full('next-options'); if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').first().click(); await cta(); await full('moved') } else errs.push('NO DEPARTURES') } else errs.push('NO CANCEL NOTICE')
   },
   async fares(h) {
     const { ask, click, full, nav, p, errs } = h
@@ -211,6 +222,7 @@ module.exports = {
   async grocery(h) {
     const { ask, click, full, confirm, nav, p } = h
     await nav(3); await ask('Milk, eggs and bread'); await full('basket')
+    { const sl = p.locator('.gr-answer').last().locator('.ds-paycard .gr-slot'); if (await sl.count() > 1) { await sl.nth(1).click(); await sl.nth(4).click(); await p.waitForTimeout(150) } else h.errs.push('NO DELIVERY SLOTS') }
     await click('Checkout'); await full('checkout'); await click(/^Pay /); await confirm(); await full('done')
     await ask('Track my order'); await nav(5); await click('Delay my order'); await full('late')
     await click('Cancel for a full refund'); await full('cancel-ask'); await click('Yes, cancel'); await full('refunded')
