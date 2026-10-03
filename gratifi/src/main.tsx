@@ -5,7 +5,7 @@ import { MarketProvider, fmt } from '../../kit/src/market'
 import * as St from './store'
 import * as Br from './brain'
 import * as FL from './flows'
-import { ConfirmHost, setGoChat, setSendText } from './render'
+import { ConfirmHost, InfoHost, setGoChat, setSendText } from './render'
 import { Home, Explore, Chat, Wallet, Me, Offers, Alerts, Tier, Bank, Card, Tab, Nav } from './screens'
 import { CardX } from './cardx'
 import { ToastHost } from './design'
@@ -109,6 +109,7 @@ function App() {
       <ToastHost />
       {voice && <Voice market={s.market} onClose={() => setVoice(false)} onSend={(t: string) => { setVoice(false); go('chat'); Br.ask(t) }} onType={() => { setVoice(false); setTimeout(() => (document.querySelector('.gr-ask input') as HTMLInputElement | null)?.focus(), 60) }} />}
       <ConfirmHost />
+      <InfoHost />
     </div>
   </MarketProvider>
 }

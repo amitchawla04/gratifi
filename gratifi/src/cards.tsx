@@ -15,17 +15,63 @@ export function Price({ pts, cash, unit, free, text }: { pts?: string; cash?: st
   return <span className="ds-price">{pts ? <b>{pts}</b> : <b>{cash}</b>}{pts && cash && <span>{`or ${cash}`}</span>}{unit && <span className="ds-price-u">{unit}</span>}</span>
 }
 
-export type ResultItem = { key: string; art?: string; title: string; meta?: string[]; price?: any; cta?: string; onOpen: () => void; cls?: string; tag?: string }
-/** The Hotels page: the best match as a big picture card with one black button, the rest as picture rows. */
-export function Results({ items, filters, onFilter, count, sort }: { items: ResultItem[]; filters?: string[]; onFilter?: (f: string) => void; count?: string; sort?: string }) {
+export type ResultLine = { t: string; tone?: 'good' | 'warn' | 'accent' }
+export type ResultItem = { key: string; art?: string; title: string; meta?: string[]; price?: any; cta?: string; onOpen: () => void; cls?: string; tag?: string
+  /** times you can book straight from the list, as OpenTable shows them */ slots?: { label: string; onClick: () => void }[]
+  /** hotel class, 1 to 5 */ stars?: number
+  /** review score: the number, the word, how many reviews */ score?: { v: string; word: string; n?: string }
+  /** short facts under the name; good ones get a tick, warnings are amber */ lines?: ResultLine[]
+  /** above and below the price: what it covers, and what it includes */ top?: string; note?: string }
+export type SortTab = { key: string; label: string; sub: string }
+const Stars = ({ n }: { n: number }) => <span className="ds-ip-stars" aria-label={`${n} stars`}>{'★'.repeat(n)}</span>
+const Score = ({ s }: { s: NonNullable<ResultItem['score']> }) => <span className="ds-ip-score"><b>{s.v}</b><span>{[s.word, s.n].filter(Boolean).join(' · ')}</span></span>
+const Lines = ({ ls }: { ls?: ResultLine[] }) => ls && ls.length ? <span className="ds-ip-ls">{ls.map((l, k) => <span key={k} className={'ds-ip-l' + (l.tone ? ' ' + l.tone : '')}>{l.tone === 'good' && <Icon name="check" size={13} stroke={2.6} />}{l.t}</span>)}</span> : null
+const PriceBlock = ({ i }: { i: ResultItem }) => <span className="ds-ip-pb">{i.top && <span className="ds-ip-top">{i.top}</span>}<span className="ds-ip-p">{i.price}</span>{i.note && <span className="ds-ip-note">{i.note}</span>}</span>
+/** The Hotels page: the best match as a big picture card with one black button, the rest as picture rows.
+    What each card says follows the two leaders in each service (for example Booking.com and Expedia for stays,
+    Google Flights and Skyscanner for flights): score and reviews, the facts that decide it, and the full price. */
+export function Results({ items, filters, onFilter, count, sort, tabs, tab, onTab, summary, big, active }: { items: ResultItem[]; filters?: string[]; onFilter?: (f: string) => void; count?: string; sort?: string; tabs?: SortTab[]; tab?: string; onTab?: (k: string) => void; summary?: { title: string; sub: string }; big?: boolean; active?: string[] }) {
   const best = items[0]?.art ? items[0] : undefined
   const meta = (m?: string[]) => (m || []).filter(Boolean).join(' · ')
+  const head = (i: ResultItem, big: boolean) => <>{big ? <p className="ds-ip-t">{i.title}{i.stars ? <> <Stars n={i.stars} /></> : null}</p> : <span className="ds-ip-t">{i.title}{i.stars ? <> <Stars n={i.stars} /></> : null}</span>}
+    {i.score && <Score s={i.score} />}
+    {meta(i.meta) && (big ? <p className="ds-ip-s">{i.meta!.filter(Boolean).map((x, k) => <span key={k} className={k ? 'ds-ip-u' : undefined}>{x}</span>)}</p> : <span className="ds-ip-s">{i.meta!.filter(Boolean).map((x, k) => <span key={k} className={k ? 'ds-ip-u' : undefined}>{x}</span>)}</span>)}
+    <Lines ls={i.lines} /></>
   return <div className="gr-col ds-results" style={{ gap: 12 }}>
-    {filters && filters.length > 0 && <div className="ds-filters" role="group" aria-label="Refine"><span className="ds-filters-ic" aria-hidden="true"><Icon name="filter" size={16} stroke={2.2} /></span>{filters.map(f => <button key={f} className="ds-fchip" onClick={() => onFilter?.(f)}>{f}</button>)}</div>}
+    {summary && <div className="ds-sum"><span className="ds-sum-t">{summary.title}</span><span className="ds-sum-s">{summary.sub}</span></div>}
+    {filters && filters.length > 0 && <div className="ds-filters" role="group" aria-label="Refine"><span className="ds-filters-ic" aria-hidden="true"><Icon name="filter" size={16} stroke={2.2} /></span>{filters.map(f => <button key={f} className="ds-fchip" aria-pressed={active ? active.includes(f) : undefined} onClick={() => onFilter?.(f)}>{f}</button>)}</div>}
+    {tabs && tabs.length > 0 && <div className="ds-seg ds-sorttabs" role="tablist" aria-label="Sort">{tabs.map(t => <button key={t.key} role="tab" aria-selected={tab === t.key} onClick={() => onTab?.(t.key)}><b>{t.label}</b><span>{t.sub}</span></button>)}</div>}
     {count && <div className="ds-rhead"><span>{count}</span>{sort && <b>{sort}</b>}</div>}
-    {best && <div className="ds-best"><button className={'ds-best-ph ' + (best.cls || '')} onClick={best.onOpen} aria-label={best.title}><img src={best.art} alt="" /><span className="ds-best-tag">{best.tag || 'Best match'}</span></button><div className="ds-best-f"><div className="ds-best-b"><p className="ds-ip-t">{best.title}</p>{meta(best.meta) && <p className="ds-ip-s">{best.meta!.filter(Boolean).map((x, k) => <span key={k} className={k ? 'ds-ip-u' : undefined}>{x}</span>)}</p>}<p className="ds-ip-p">{best.price}</p></div>{best.cta && <button className="ds-btn40" onClick={best.onOpen}>{best.cta}</button>}</div></div>}
-    {items.filter(i => i !== best).map(i => <button key={i.key} className={'ds-irow ' + (i.cls || '')} onClick={i.onOpen}><span className="ds-irow-ph">{i.art ? <img src={i.art} alt="" /> : <Icon name="grid" size={24} />}</span><span className="ds-irow-b"><span className="ds-ip-t">{i.title}</span>{meta(i.meta) && <span className="ds-ip-s">{i.meta!.filter(Boolean).map((x, k) => <span key={k} className={k ? 'ds-ip-u' : undefined}>{x}</span>)}</span>}<span className="ds-ip-p">{i.price}</span></span><Icon name="chev" size={18} stroke={2.2} /></button>)}
+    {big && items.map((i, k) => <div key={i.key} className="ds-best"><button className={'ds-best-ph ' + (i.cls || '')} onClick={i.onOpen} aria-label={i.title}><img src={i.art} alt="" />{k === 0 && <span className="ds-best-tag">{i.tag || 'Best match'}</span>}</button><div className="ds-best-f"><div className="ds-best-b">{head(i, true)}<PriceBlock i={i} /></div>{i.cta && <button className="ds-btn40" onClick={i.onOpen}>{i.cta}</button>}</div></div>)}
+    {!big && best && <div className="ds-best"><button className={'ds-best-ph ' + (best.cls || '')} onClick={best.onOpen} aria-label={best.title}><img src={best.art} alt="" /><span className="ds-best-tag">{best.tag || 'Best match'}</span></button><div className="ds-best-f"><div className="ds-best-b">{head(best, true)}<PriceBlock i={best} /></div>{best.cta && <button className="ds-btn40" onClick={best.onOpen}>{best.cta}</button>}</div>{best.slots && <div className="ds-irow-sl ds-best-sl">{best.slots.map(x => <button key={x.label} className="gr-slot" onClick={x.onClick}>{x.label}</button>)}</div>}</div>}
+    {!big && items.filter(i => i !== best).map(i => i.slots ? <div key={i.key} className={'ds-irow ds-irow-slots ' + (i.cls || '')}><button className="ds-irow-main" onClick={i.onOpen}><span className="ds-irow-ph">{i.art ? <img src={i.art} alt="" /> : <Icon name="grid" size={24} />}</span><span className="ds-irow-b">{head(i, false)}<PriceBlock i={i} /></span><Icon name="chev" size={18} stroke={2.2} /></button><div className="ds-irow-sl">{i.slots.map(x => <button key={x.label} className="gr-slot" onClick={x.onClick}>{x.label}</button>)}</div></div> : <button key={i.key} className={'ds-irow ' + (i.cls || '')} onClick={i.onOpen}><span className="ds-irow-ph">{i.art ? <img src={i.art} alt="" /> : <Icon name="grid" size={24} />}</span><span className="ds-irow-b">{head(i, false)}<PriceBlock i={i} /></span><Icon name="chev" size={18} stroke={2.2} /></button>)}
   </div>
+}
+
+export type FlightCardItem = { key: string; logo: string; airline: string; tag?: string; dep: string; arr: string; plus?: number; from: string; to: string; dur: string; stops: string; direct: boolean; price: any; who: string; chip?: string; warn?: string; onOpen: () => void; onStops: () => void; onPrice: () => void }
+/** A flight as Tripsure, Google Flights and Skyscanner show it: the airline, then departure and arrival with the time in the air and the stops between,
+    then the price for everyone travelling. Tap the stops for the timeline; tap the price for what it is made of. */
+export function FlightCards({ items }: { items: FlightCardItem[] }) {
+  return <div className="gr-col ds-flcs" style={{ gap: 12 }}>{items.map(i => <div key={i.key} className="ds-flc">
+    <button className="ds-flc-top" onClick={i.onOpen} aria-label={`${i.airline}, ${i.dep} to ${i.arr}, ${i.stops}`}>
+      <span className="ds-flc-h"><img src={i.logo} alt="" /><span className="ds-flc-air">{i.airline}</span>{i.tag && <span className="ds-flc-tag">{i.tag}</span>}{i.warn && <span className="ds-flc-warn">{i.warn}</span>}</span>
+      <span className="ds-flc-route"><span className="ds-flc-end"><b>{i.dep}</b><span>{i.from}</span></span>
+        <span className="ds-flc-mid"><span className="ds-flc-dur">{i.dur}</span><span className={'ds-flc-line' + (i.direct ? ' direct' : '')} aria-hidden="true"><i /><i className="stop" /><i /></span><span className="ds-flc-gap" /></span>
+        <span className="ds-flc-end r"><b>{i.arr}{i.plus ? <sup>+{i.plus}</sup> : null}</b><span>{i.to}</span></span></span>
+    </button>
+    <button className={'ds-flc-stops' + (i.direct ? ' direct' : '')} onClick={i.onStops}>{i.stops}</button>
+    <div className="ds-flc-f"><button className="ds-flc-price" onClick={i.onPrice}><span className="ds-flc-pv">{i.price}</span><span className="ds-flc-who">{i.who}</span></button>{i.chip && <span className="ds-flc-chip"><Icon name="check" size={13} stroke={2.6} />{i.chip}</span>}</div>
+  </div>)}</div>
+}
+/** The timeline of one flight, stop by stop, with the change of planes picked out. */
+export function FlightTimeline({ rows }: { rows: ({ kind: 'stop'; time: string; code: string; name: string; hollow?: boolean } | { kind: 'leg'; dur: string; logo: string; flight: string } | { kind: 'wait'; dur: string; title: string; sub: string })[] }) {
+  return <div className="ds-ftl">{rows.map((r, k) => r.kind === 'stop' ? <div key={k} className="ds-ftl-r"><b className="ds-ftl-t">{r.time}</b><span className={'ds-ftl-dot' + (r.hollow ? ' hollow' : '')} /><span className="ds-ftl-b"><span className="ds-ftl-c">{r.code}</span><span className="ds-ftl-n">{r.name}</span></span></div>
+    : r.kind === 'leg' ? <div key={k} className="ds-ftl-r leg"><span className="ds-ftl-t s">{r.dur}</span><span className="ds-ftl-ar"><Icon name="down" size={14} stroke={2} /></span><span className="ds-ftl-b row"><img src={r.logo} alt="" /><span className="ds-ftl-c">{r.flight}</span></span></div>
+    : <div key={k} className="ds-ftl-r wait"><span className="ds-ftl-t s">{r.dur}</span><span className="ds-ftl-sq" /><span className="ds-ftl-b"><span className="ds-ftl-c">{r.title}</span><span className="ds-ftl-n">{r.sub}</span></span></div>)}</div>
+}
+/** A short list of what a price is made of, with the total last. */
+export function PriceBreakup({ rows, total }: { rows: [string, string][]; total: [string, string] }) {
+  return <div className="ds-pbk">{rows.map(([l, v]) => <div key={l} className="ds-kv-r"><span>{l}</span><b>{v}</b></div>)}<div className="ds-kv-r ds-total"><span>{total[0]}</span><b>{total[1]}</b></div></div>
 }
 
 /** Rewards tiles, two to a row: picture, name, points, one pill. */

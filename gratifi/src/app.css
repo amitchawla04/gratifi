@@ -902,3 +902,86 @@ html, body { overflow: hidden; }
 .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: #E8E6E2; }
 [data-theme="dark"] .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: var(--line); }
 .ds-ctl-edit{padding:4px 0 14px}.ds-ctl-edit .ds-btnrow{margin-top:10px}
+
+/* listing facts: stars, review score, ticked facts, price with what it covers */
+.ds-ip-stars { color: var(--ink); font-size: 0.6875rem; letter-spacing: 1px; font-weight: 400; vertical-align: 2px; }
+.ds-ip-score { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--ink-soft); margin-top: 1px; }
+.ds-ip-score b { background: var(--pill); color: var(--on-pill); font-size: 0.75rem; font-weight: 700; min-width: 30px; height: 22px; padding: 0 6px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; }
+.ds-ip-ls { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
+.ds-ip-l { font-size: 0.8125rem; color: var(--ink-soft); line-height: 1.35; display: inline-flex; align-items: center; gap: 4px; }
+.ds-ip-l.good { color: var(--good); font-weight: 600; }
+.ds-ip-l.good svg { flex-shrink: 0; }
+.ds-ip-l.warn { color: var(--warn); font-weight: 600; }
+.ds-ip-l.accent { color: var(--accent-ink); font-weight: 600; }
+.ds-ip-pb { display: flex; flex-direction: column; gap: 1px; margin-top: 4px; }
+.ds-ip-pb .ds-ip-p { margin: 0; }
+.ds-ip-top, .ds-ip-note { font-size: 0.75rem; color: var(--ink-soft); }
+.ds-sorttabs button { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 7px 4px; height: auto; line-height: 1.2; }
+.ds-sorttabs button b { font-size: 0.8125rem; font-weight: 700; }
+.ds-sorttabs button span { font-size: 0.6875rem; color: var(--ink-soft); font-weight: 500; white-space: nowrap; }
+
+/* results summary: where, when, who (as Tripsure's search pill) */
+.ds-sum { display: flex; flex-direction: column; gap: 2px; background: var(--card); border-radius: 22px; padding: 10px 16px; box-shadow: inset 0 0 0 1px #E4E2DE; }
+.ds-sum-t { font-size: 0.9375rem; font-weight: 700; }
+.ds-sum-s { font-size: 0.8125rem; color: var(--ink-soft); }
+.ds-fchip[aria-pressed="true"] { background: var(--pill); color: var(--on-pill); box-shadow: none; }
+/* rows with bookable times */
+.ds-irow-slots { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px 12px 10px; }
+.ds-irow-main { display: flex; align-items: center; gap: 12px; text-align: start; width: 100%; }
+.ds-irow-main > svg { color: #9A9AA2; flex-shrink: 0; }
+.ds-irow-sl { display: flex; gap: 6px; flex-wrap: wrap; padding-inline-start: 80px; }
+.ds-best-sl { padding: 0 6px 6px; }
+.ds-irow-sl .gr-slot { height: 32px; min-width: 0; padding: 0 12px; font-size: 0.8125rem; }
+/* flight card */
+.ds-flc { background: var(--card); border-radius: 24px; box-shadow: 0 8px 20px rgba(20,20,22,0.05); display: flex; flex-direction: column; overflow: hidden; }
+.ds-flc-top { display: flex; flex-direction: column; gap: 10px; padding: 14px 14px 4px; text-align: start; width: 100%; }
+.ds-flc-h { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ds-flc-h img { width: 32px; height: 32px; border-radius: 9px; object-fit: cover; flex-shrink: 0; }
+.ds-flc-air { font-size: 0.9375rem; font-weight: 700; }
+.ds-flc-tag { background: var(--sticky-yellow); color: #141416; font-size: 0.6875rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+.ds-flc-warn { margin-inline-start: auto; color: var(--warn); font-size: 0.75rem; font-weight: 600; }
+.ds-flc-route { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; background: var(--card-sunk); border-radius: 18px; padding: 12px 14px 22px; }
+.ds-flc-end { display: flex; flex-direction: column; gap: 2px; }
+.ds-flc-end.r { text-align: end; align-items: flex-end; }
+.ds-flc-end b { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.3px; font-variant-numeric: tabular-nums; }
+.ds-flc-end b sup { font-size: 0.625rem; font-weight: 700; color: var(--accent-ink); margin-inline-start: 2px; }
+.ds-flc-end > span { font-size: 0.8125rem; color: var(--ink-soft); }
+.ds-flc-mid { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.ds-flc-dur { font-size: 0.75rem; color: var(--ink-soft); font-weight: 600; }
+.ds-flc-line { position: relative; display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 140px; height: 8px; }
+.ds-flc-line::before { content: ""; position: absolute; left: 4px; right: 4px; top: 3.5px; height: 1px; background: var(--ink-faint); }
+.ds-flc-line i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); }
+.ds-flc-line i.stop { border-radius: 2px; background: var(--accent); }
+.ds-flc-line.direct i.stop { visibility: hidden; }
+.ds-flc-gap { height: 14px; }
+.ds-flc-stops { align-self: center; margin-top: -30px; margin-bottom: 14px; position: relative; font-size: 0.75rem; font-weight: 600; color: var(--ink); text-decoration: underline dashed var(--ink-faint); text-underline-offset: 3px; padding: 2px 6px; }
+.ds-flc-stops.direct { color: var(--good); }
+.ds-flc-f { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px 14px; }
+.ds-flc-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; text-align: start; }
+.ds-flc-pv { text-decoration: underline dashed var(--ink-faint); text-underline-offset: 4px; }
+.ds-flc-who { font-size: 0.75rem; color: var(--ink-soft); }
+.ds-flc-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; color: var(--good); background: var(--good-soft); padding: 5px 10px; border-radius: 12px; white-space: nowrap; }
+/* flight timeline (sheet) */
+.ds-ftl { display: flex; flex-direction: column; }
+.ds-ftl-r { display: grid; grid-template-columns: 64px 20px 1fr; align-items: center; gap: 10px; padding: 10px 0; }
+.ds-ftl-t { font-size: 1.0625rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ds-ftl-t.s { font-size: 0.8125rem; font-weight: 500; color: var(--ink-soft); }
+.ds-ftl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ink-faint); justify-self: center; }
+.ds-ftl-dot.hollow { background: var(--card); box-shadow: inset 0 0 0 2px var(--ink-faint); }
+.ds-ftl-ar { color: var(--ink-faint); justify-self: center; display: flex; }
+.ds-ftl-sq { width: 9px; height: 9px; border-radius: 2px; background: var(--accent); justify-self: center; }
+.ds-ftl-b { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ds-ftl-b.row { flex-direction: row; align-items: center; gap: 8px; }
+.ds-ftl-b img { width: 26px; height: 26px; border-radius: 7px; object-fit: cover; }
+.ds-ftl-c { font-size: 0.9375rem; font-weight: 700; }
+.ds-ftl-n { font-size: 0.8125rem; color: var(--ink-soft); }
+.ds-ftl-r.wait { background: var(--warn-soft); margin: 4px -20px; padding: 10px 20px; }
+.ds-ftl-r.wait .ds-ftl-c, .ds-ftl-r.wait .ds-ftl-t { color: var(--warn); }
+.ds-pbk { display: flex; flex-direction: column; gap: 4px; }
+.ds-sheet-h { font-size: 1.25rem; font-weight: 800; margin: 4px 0 6px; letter-spacing: -0.3px; }
+
+.ds-fare-ls { display: flex; flex-direction: column; gap: 2px; margin-top: 3px; }
+.ds-fare-l { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--ink-soft); }
+.ds-fare-l svg { color: var(--ink-faint); flex-shrink: 0; }
+.ds-fare-l.ok { color: var(--ink); }
+.ds-fare-l.ok svg { color: var(--good); }

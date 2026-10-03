@@ -80,6 +80,17 @@ let liveKey = -1
 const otpFails = () => { const o = St.get().seen.otp; return o && Date.now() - o.at < 15 * 6e4 ? o.n : 0 }
 let open: Open = null; const cSubs = new Set<() => void>(); let seq = 0
 export function openConfirm(c: F.Confirm | null) { open = c ? { c, d: c.kind === 'pay' ? St.get().drafts[c.draft] : undefined, key: ++seq } : null; cSubs.forEach(f => f()) }
+/* A plain information sheet from the bottom: a flight's timeline, what a price is made of. */
+let info: { title: string; body: any; key: number } | null = null; const iSubs = new Set<() => void>()
+export function openInfo(title: string, body: any) { info = { title, body, key: ++seq }; iSubs.forEach(f => f()) }
+export function InfoHost() {
+  const [, force] = React.useReducer((x: number) => x + 1, 0)
+  React.useEffect(() => { iSubs.add(force); return () => { iSubs.delete(force) } }, [])
+  React.useEffect(() => { if (!info) return; const k = (e: KeyboardEvent) => { if (e.key === 'Escape') { info = null; force() } }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k) })
+  if (!info) return null
+  const close = () => { info = null; force() }
+  return <div className="app-sheet" onClick={e => { if (e.target === e.currentTarget) close() }}><div className="app-sheet-in" role="dialog" aria-label={info.title}><div className="gr-sheet"><button className="app-sheet-x" aria-label="Close" onClick={close} /><p className="ds-sheet-h">{info.title}</p>{info.body}</div></div></div>
+}
 export function ConfirmHost() {
   const [, force] = React.useReducer((x: number) => x + 1, 0)
   React.useEffect(() => { cSubs.add(force); return () => { cSubs.delete(force) } }, [])
@@ -158,11 +169,12 @@ export function ConfirmHost() {
 
 /* ---------- blocks ---------- */
 export function Blocks({ blocks, msgId }: { blocks: St.Block[]; msgId?: string }) { return <>{blocks.map((b, i) => <Block key={i} b={b} bk={msgId ? msgId + ':' + i : undefined} />)}</> }
-function Block({ b, bk }: { b: St.Block; bk?: string }) {
+/** Each answer card renders again only when its own data changes, so a long chat stays quick. */
+const Block = React.memo(function Block({ b, bk }: { b: St.Block; bk?: string }) {
   const C = (BLOCKS as any)[b.kind]
   if (!C) return null
   return <C {...b} bk={bk} />
-}
+})
 /** Remembers that a card's button was used, so going back to an old message never re-arms it. */
 function useDone(bk?: string): [boolean, (v?: any) => void] { const [d, setD] = useState(false); const [u, mark] = useOnce(bk); return [d || u, (v: any) => { setD(v !== false); if (v !== false) mark() }] }
 /** A choice inside a card that survives reloads, so old cards show what was actually picked. */
@@ -281,31 +293,105 @@ const BLOCKS: Record<string, (p: any) => any> = {
 }
 
 /* ---------- blocks with their own state ---------- */
-function FlightsBlock({ back, pax, ids, best, kids, inf, backCity }: any) {
-  const M = useMarket(); const price = usePrice()
-  const opts = (ids.map((i: string) => F.flightById(i)).filter(Boolean) as Cat.FlightOpt[]).sort((a, b) => Number(b.id === best) - Number(a.id === best))
-  if (!opts.length) return <C.StateNote title="No flights match" body="Try all flights or another day." />
-  const go = (o: Cat.FlightOpt) => run({ f: 'chooseFlight', a: { id: o.id, pax, back, kids, inf, backCity } }, `The ${o.dep} ${Cat.AIRLINES[o.airline]}`)
-  const [o0, ...rest] = opts
-  const row = (o: Cat.FlightOpt, i: number): C.ResultItem => ({ key: o.id, cls: 'ds-fl', art: Cat.img(i ? 'tail:' + o.airline : 'fly:' + o.city), tag: o.id === best ? 'Best match' : 'Earliest', title: `${o.dep}–${o.arr}${o.plus ? ' +1' : ''} · ${o.stops ? `1 stop, ${o.via}` : 'Direct'}`, meta: [Cat.AIRLINES[o.airline], o.dur, o.bag === 'Small bag only' ? 'Small bag only' : '', o.left ? `${o.left} seats left` : ''], price: price(o.price), cta: 'Book', onOpen: () => go(o) })
-  return <C.Results items={[o0, ...[...rest].sort((x, y) => x.dep.localeCompare(y.dep))].map(row)} count={`${opts.length} flight${opts.length > 1 ? 's' : ''} · one way, per person`} filters={['Direct only', 'Morning', 'Evening', 'Cheaper dates', 'Watch price']} onFilter={(f: string) => f === 'Watch price' ? run({ f: 'priceWatch', a: { city: o0.city, date: o0.date, back, pax } }, 'Watch the price') : sendText(f === 'Direct only' ? 'Only direct' : f === 'Cheaper dates' ? 'Cheaper dates?' : `${f} flights`)} />
+/** The stop-by-stop timeline of one flight, from the times the airline publishes. Leg times share the published total; the change of planes sits between. */
+function flightRows(o: Cat.FlightOpt, M: any) {
+  const h = Cat.home(M.id), city = Cat.dests(M.id).find(c => c.name === o.city), back = o.from !== h.code
+  const name = (code: string) => code === h.code ? `${h.airport}${/Airport|^KLIA$/.test(h.airport) ? '' : ' Airport'}` : code === city?.code ? `${city.name} Airport` : ({ BLR: 'Bengaluru Airport', DOH: 'Doha Hamad Airport', DPS: 'Bali Airport', DUB: 'Dublin Airport', IST: 'Istanbul Airport', KCH: 'Kuching Airport', KUL: 'Kuala Lumpur Airport', MAD: 'Madrid Airport', MCT: 'Muscat Airport', MXP: 'Milan Malpensa Airport', OPO: 'Porto Airport', PEN: 'Penang Airport', TPE: 'Taipei Taoyuan Airport' } as Record<string, string>)[code] || 'Connecting airport'
+  const term = (code: string) => code === h.code ? ` · Terminal ${h.terminal.replace(/^T/, '')}` : ''
+  const logo = Cat.img('tail:' + o.airline), num = (n: string, k: number) => k ? n.replace(/(\d+)$/, d => String(+d + 1)) : n
+  const hm = (m: number) => `${String(Math.floor(((m % 1440) + 1440) % 1440 / 60)).padStart(2, '0')}:${String(((m % 60) + 60) % 60).padStart(2, '0')}`
+  const mins = (t: string) => +t.slice(0, 2) * 60 + +t.slice(3)
+  const dur = (m: number) => `${Math.floor(m / 60)}h${m % 60 ? ` ${m % 60}m` : ''}`
+  if (!o.stops) return [{ kind: 'stop' as const, time: o.dep, code: `${o.from}${term(o.from)}`, name: name(o.from) }, { kind: 'leg' as const, dur: o.dur, logo, flight: `${Cat.AIRLINES[o.airline]} · ${o.number}` }, { kind: 'stop' as const, time: o.arr, code: `${o.to}${term(o.to)}`, name: name(o.to) }]
+  const wait = Math.min(o.durMin - 90, 75 + (o.number.charCodeAt(o.number.length - 1) % 6) * 15), fly = o.durMin - wait, l1 = Math.round(fly * 0.45), l2 = fly - l1
+  const arrAbs = mins(o.arr) + o.plus * 1440, a1 = arrAbs - l2 - wait, d2 = arrAbs - l2
+  return [{ kind: 'stop' as const, time: o.dep, code: `${o.from}${term(o.from)}`, name: name(o.from) }, { kind: 'leg' as const, dur: dur(l1), logo, flight: `${Cat.AIRLINES[o.airline]} · ${o.number}` }, { kind: 'stop' as const, time: hm(a1), code: o.via!, name: name(o.via!), hollow: true },
+    { kind: 'wait' as const, dur: dur(wait), title: wait >= 180 ? 'Long layover' : 'Change planes', sub: 'Same airport; your bag goes through' }, { kind: 'stop' as const, time: hm(d2), code: o.via!, name: name(o.via!) }, { kind: 'leg' as const, dur: dur(l2), logo, flight: `${Cat.AIRLINES[o.airline]} · ${num(o.number, 1)}` }, { kind: 'stop' as const, time: o.arr, code: `${o.to}${term(o.to)}`, name: name(o.to) }]
 }
-function ItemsBlock({ ids, pax, time, date, nights, rooms, room }: any) {
-  const M = useMarket(); const price0 = usePrice(); const seen = St.useS(s => s.bookings)
+function FlightsBlock({ back, pax, ids, best, kids, inf, backCity, bk }: any) {
+  const M = useMarket(); const price = usePrice(); const [tab, setTab] = usePS<string>(bk, 'sort', 'best')
+  const all = (ids.map((i: string) => F.flightById(i)).filter(Boolean) as Cat.FlightOpt[])
+  if (!all.length) return <C.StateNote title="No flights match" body="Try all flights or another day." />
+  const go = (o: Cat.FlightOpt) => run({ f: 'chooseFlight', a: { id: o.id, pax, back, kids, inf, backCity } }, `The ${o.dep} ${Cat.AIRLINES[o.airline]}`)
+  /* Skyscanner's three sorts: the best balance, the cheapest, the fastest, each with its price and time */
+  const cheap = [...all].sort((a, b) => a.price - b.price || a.durMin - b.durMin), fast = [...all].sort((a, b) => a.durMin - b.durMin || a.price - b.price)
+  const bestO = all.find(o => o.id === best) || all[0], bestList = [bestO, ...all.filter(o => o !== bestO).sort((x, y) => x.dep.localeCompare(y.dep))]
+  const list = tab === 'cheap' ? cheap : tab === 'fast' ? fast : bestList
+  const tabs: C.SortTab[] = [{ key: 'best', label: 'Best', sub: `${M.money(bestO.price)} · ${bestO.dur}` }, { key: 'cheap', label: 'Cheapest', sub: `${M.money(cheap[0].price)} · ${cheap[0].dur}` }, { key: 'fast', label: 'Fastest', sub: `${M.money(fast[0].price)} · ${fast[0].dur}` }]
+  const n = pax || 1, who = `for ${n} traveller${n > 1 ? 's' : ''}`
+  const breakup = (o: Cat.FlightOpt) => { const tot = Math.round(o.price * n * 100) / 100, base = Math.round(tot * 0.74 * 100) / 100; openInfo('Price breakup', <C.PriceBreakup rows={[['Base fare', M.money(base, 2)], ['Taxes and airport fees', `+${M.money(tot - base, 2)}`], ['Booking fee', 'None']]} total={['Total', `${M.money(tot, 2)} or ${M.pts(F.ptsOf(tot))}`]} />) }
+  const timeline = (o: Cat.FlightOpt) => openInfo(`${o.from} to ${o.to} · ${M.date(o.date)}`, <C.FlightTimeline rows={flightRows(o, M)} />)
+  const cards: C.FlightCardItem[] = list.map((o, k) => ({ key: o.id, logo: Cat.img('tail:' + o.airline)!, airline: Cat.AIRLINES[o.airline], tag: k === 0 ? (tab === 'cheap' ? 'Cheapest' : tab === 'fast' ? 'Fastest' : o.id === best ? 'Best match' : undefined) : undefined, dep: o.dep, arr: o.arr, plus: o.plus, from: o.from, to: o.to, dur: o.dur, stops: o.stops ? `1 stop · ${o.via}` : 'Direct', direct: !o.stops, price: price(o.price), who: n > 1 ? `each, ${who}` : who, chip: 'Free date change', warn: o.left ? `${o.left} seats left` : undefined, onOpen: () => go(o), onStops: () => timeline(o), onPrice: () => breakup(o) }))
+  const h = Cat.home(M.id), back0 = back ? ` – ${M.date(back)}` : ''
+  return <div className="gr-col" style={{ gap: 12 }}><C.Results items={[]} summary={{ title: `${h.code} → ${bestO.to}`, sub: `${M.date(bestO.date)}${back0} · ${n} traveller${n > 1 ? 's' : ''} · Economy` }} tabs={all.length > 2 ? tabs : undefined} tab={tab} onTab={setTab} count={`${all.length} flight${all.length > 1 ? 's' : ''} · one way`} filters={['Direct only', 'Morning', 'Evening', 'Cheaper dates', 'Watch price']} onFilter={(f: string) => f === 'Watch price' ? run({ f: 'priceWatch', a: { city: bestO.city, date: bestO.date, back, pax } }, 'Watch the price') : sendText(f === 'Direct only' ? 'Only direct' : f === 'Cheaper dates' ? 'Cheaper dates?' : `${f} flights`)} />
+    <C.FlightCards items={cards} /></div>
+}
+function ItemsBlock({ ids, pax, time, date, nights, rooms, room, bk }: any) {
+  const M = useMarket(); const price0 = usePrice(); const seen = St.useS(s => s.bookings); const [filt, setFilt] = usePS<string[]>(bk, 'filt', [])
   const items = ids.map((i: string) => F.findItem(i)).filter(Boolean) as Cat.Item[]
   if (!items.length) return null
   const stayP = (i: Cat.Item) => F.stayPrice(i, room || '', nights || 2) * (rooms || 1)
   const open = (i: Cat.Item) => run({ f: 'showItem', a: { id: i.id, pax, time, date, nights, rooms } }, i.title)
   const cash = (i: Cat.Item) => i.cat === 'giftcards' || i.mode === 'link' ? undefined : i.included && i.cat === 'airport' && St.get().loungeLeft ? 0 : i.cat === 'stays' ? stayP(i) : F.IP(i)
-  const unit = (i: Cat.Item) => i.cat === 'stays' ? `${nights || 2} night${(nights || 2) > 1 ? 's' : ''}${rooms > 1 ? `, ${rooms} rooms` : ''}` : i.cat === 'dining' ? undefined : i.unit
+  const unit = (i: Cat.Item) => i.cat === 'stays' || i.cat === 'dining' ? undefined : i.unit
   const price = (i: Cat.Item) => { const c = cash(i); if (i.cat === 'giftcards') return <C.Price pts={`From ${M.pts(F.ptsOf(+F.giftAmounts()[0]))}`} cash={M.money(+F.giftAmounts()[0])} />; if (i.mode === 'link') return <C.Price text={i.earn} />; if (i.included && i.cat === 'subs') return <C.Price free="Included" />; if (i.cat === 'dining') return <C.Price text={i.earn || 'Free to book'} />; if (c === 0) return <C.Price free={M.t('free')} unit={i.cat === 'airport' ? 'with your card' : undefined} />; if (c == null) return null; return price0(c, unit(i)) }
-  const meta = (i: Cat.Item) => [i.rating ? `★ ${i.rating}` : '', i.cat === 'dining' ? i.sub?.split(' · ')[0] : i.sub, ...((i.meta || []).slice(0, 1))]
+  const meta = (i: Cat.Item) => [i.cat === 'dining' ? i.sub?.split(' · ')[0] : i.sub, ...((i.meta || []).slice(0, 1))]
   const art = (i: Cat.Item) => Cat.img(i.img) || D.STAMP[i.cat]
   const cat = items[0].cat
   /* subscriptions and travel extras read as the Offers list; gift cards and shopping as Rewards tiles; the rest as Hotels */
   if (cat === 'subs' || cat === 'airport') return <C.Offers items={items.map(i => { const own = seen.find(b => b.itemId === i.id && ['active', 'paused', 'confirmed'].includes(b.status)); return { key: i.id, art: art(i), title: i.title, sub: i.cat === 'subs' ? i.sub : (i.meta?.[0] || i.sub), price: price(i), onOpen: () => open(i), action: own && i.cat === 'subs' ? undefined : i.included ? (i.cat === 'subs' ? 'Turn on' : 'Use') : i.cat === 'subs' ? 'Add' : 'Book', onAction: () => open(i), status: own && i.cat === 'subs' ? (own.status === 'paused' ? 'Paused' : 'Added') : undefined, primary: true } })} />
   if (cat === 'giftcards' || (cat === 'shopping' && items.length > 3)) return <C.Grid items={items.map(i => ({ key: i.id, art: art(i), title: i.title, price: price(i), cta: i.cat === 'giftcards' ? 'Buy' : i.mode === 'link' ? 'Shop' : 'View', onOpen: () => open(i) }))} />
-  return <C.Results items={items.map(i => ({ key: i.id, art: art(i), title: i.title, meta: meta(i), price: price(i), cta: i.cat === 'shopping' ? 'View' : i.cat === 'rides' ? 'Choose' : 'Book', onOpen: () => open(i) }))} />
+  const rows = items.map(i => ({ key: i.id, art: art(i), title: i.title, meta: meta(i), price: price(i), cta: i.cat === 'shopping' ? 'View' : i.cat === 'rides' ? 'Choose' : 'Book', onOpen: () => open(i), ...facts(i, M, { nights: nights || 2, pax: pax || 2, rooms: rooms || 1 }),
+    ...(i.cat === 'dining' ? { slots: tablesFor(i, time, date).map(v => ({ label: M.clock(v), onClick: () => run({ f: 'showItem', a: { id: i.id, pax, time: v, date } }, `${i.title}, ${M.clock(v)}`) })) } : {}) }) as C.ResultItem & { _i: Cat.Item })
+  rows.forEach((r, k) => (r as any)._i = items[k])
+  if (cat === 'stays') {
+    /* Tripsure and Booking.com: every hotel as a picture card, with the search above and quick filters */
+    const F0 = ['Free cancellation', 'Breakfast included', 'Price: low to high', 'Star rating']
+    let shown = rows.filter(r => filt.every(f => !/^(Free cancellation|Breakfast included)$/.test(f) || (r.lines || []).some(l => l.t === f)))
+    if (filt.includes('Price: low to high')) shown = [...shown].sort((a, b) => stayP((a as any)._i) - stayP((b as any)._i))
+    if (filt.includes('Star rating')) shown = [...shown].sort((a, b) => (b.stars || 0) - (a.stars || 0))
+    const flip = (f: string) => setFilt(filt.includes(f) ? filt.filter(x => x !== f) : [...filt.filter(x => !(/^(Price|Star)/.test(f) && /^(Price|Star)/.test(x))), f])
+    const city = items[0].city || '', din = date || F.stayDefault(), n0 = nights || 2
+    return <div className="gr-col" style={{ gap: 12 }}><C.Results items={[]} summary={{ title: city, sub: `${M.date(din)} – ${M.date(F.addDays(din, n0))} · ${rooms || 1} room${(rooms || 1) > 1 ? 's' : ''} · ${pax || 2} guest${(pax || 2) > 1 ? 's' : ''}` }} filters={F0} active={filt} onFilter={flip} count={`${shown.length} of ${rows.length} places to stay`} />
+      {shown.length ? <C.Results items={shown} big /> : <C.StateNote title="Nothing matches" body="Clear a filter to see more places." />}</div>
+  }
+  return <C.Results items={rows} />
+}
+/** The tables a restaurant still has: its own times, later than now when the booking is for today, near the time asked for. */
+function tablesFor(i: Cat.Item, time?: string, date?: string) {
+  const all = (i.opts?.values || []).filter(v => /^\d\d:\d\d/.test(v)), now = new Date(), today = !date || date === F.iso(now), nowM = now.getHours() * 60 + now.getMinutes() + 30
+  const m = (v: string) => +v.slice(0, 2) * 60 + +v.slice(3, 5), h = hsh(i.id + (date || ''))
+  const open = all.filter((v, k) => (!today || m(v) > nowM) && (h >> k) % 4 !== 0)
+  const want = time && /^\d\d:\d\d/.test(String(time)) ? m(String(time)) : null
+  return (want == null ? open.slice(0, 4) : [...open].sort((a, b) => Math.abs(m(a) - want) - Math.abs(m(b) - want)).slice(0, 4)).sort((a, b) => m(a) - m(b))
+}
+const hsh = (x: string) => { let h = 2166136261; for (const c of x) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) } h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995); h ^= h >>> 15; return h >>> 0 }
+/** The word the leaders put next to a review score, on a five-point scale. */
+export const scoreWord = (r: number) => r >= 4.8 ? 'Exceptional' : r >= 4.6 ? 'Excellent' : r >= 4.3 ? 'Very good' : r >= 4 ? 'Good' : 'Pleasant'
+const reviews = (i: Cat.Item, M: any) => `${M.num(180 + hsh(i.id) % 2900)} reviews`
+/** What each listing says, by service. Stays follow Booking.com and Expedia; dining OpenTable and TheFork; experiences GetYourGuide and Viator;
+    events Ticketmaster and StubHub; rides Uber and Lyft; car hire Rentalcars.com; trains Trainline and Omio; shopping Amazon and Walmart. */
+function facts(i: Cat.Item, M: any, o: { nights: number; pax: number; rooms: number }): Partial<C.ResultItem> {
+  const score = i.rating ? { v: i.rating.toFixed(1), word: scoreWord(i.rating), n: reviews(i, M) } : undefined
+  const free = /free cancel|refund/i.test(i.policy || '') && !/non-refundable|no refunds/i.test(i.policy || '')
+  const h = hsh(i.id), idx = +(i.id.match(/-(\d+)$/)?.[1] || 0)
+  if (i.cat === 'stays') {
+    const extras = (i.meta || []).filter(x => x !== 'Breakfast')
+    return { stars: [4, 4, 5, 5][idx] || 4, score, meta: [i.sub || '', `${(/airport/i.test(i.sub || '') ? 9 + (h % 60) / 10 : /centre|center|old town|george town|panjim|on the island/i.test(i.sub || '') ? 0.2 + (h % 6) / 10 : /station/i.test(i.sub || '') ? 0.6 + (h % 9) / 10 : 1.5 + (h % 25) / 10).toFixed(1)} km from centre`],
+      lines: [{ t: `${(i.opts?.values[0] || 'Double').replace(/ \(.*\)/, '')} room${extras.length ? ` · ${extras.join(' · ')}` : ''}` }, ...(free ? [{ t: 'Free cancellation', tone: 'good' as const }] : []), ...((i.meta || []).includes('Breakfast') ? [{ t: 'Breakfast included', tone: 'good' as const }] : []), ...(h % 3 === 0 ? [{ t: `Only ${2 + h % 3} rooms left at this price`, tone: 'warn' as const }] : [])],
+      top: `${o.nights} night${o.nights > 1 ? 's' : ''}, ${o.pax} ${o.pax > 1 ? 'adults' : 'adult'}${o.rooms > 1 ? `, ${o.rooms} rooms` : ''}`, note: 'Includes taxes and fees' }
+  }
+  if (i.cat === 'dining') {
+    const [band, ...rest] = i.meta || [], offer = rest.find(x => /off|points|×/.test(x)), slots = (() => { const all = (i.opts?.values || []).filter(v => /^\d\d:\d\d/.test(v)), st = h % Math.max(1, all.length - 2); return all.slice(st, st + 3) })()
+    return { score, meta: [i.sub?.split(' · ')[0] || '', band || ''], lines: [...(offer && offer !== i.earn ? [{ t: offer, tone: 'accent' as const }] : []), { t: `Booked ${4 + h % 40} times today` }] }
+  }
+  if (i.cat === 'experiences') return { score, meta: [i.sub || '', ...(i.meta || []).slice(0, 2)], lines: [...(free ? [{ t: 'Free cancellation', tone: 'good' as const }] : []), ...(h % 4 === 0 ? [{ t: 'Likely to sell out', tone: 'warn' as const }] : [])], top: 'From' }
+  if (i.cat === 'tickets') { const [venue, when] = (i.sub || '').split(' · '); return { meta: [when || '', venue || ''], lines: [...((i.meta || []).map(x => ({ t: x, tone: 'accent' as const }))), ...(i.soldOut?.length ? [{ t: 'Selling fast', tone: 'warn' as const }] : []), ...(free ? [{ t: i.policy || '', tone: 'good' as const }] : [])], top: 'From' } }
+  if (i.cat === 'rides' && /^Car hire/.test(i.title)) return { title: `${i.title.replace(/^Car hire: /, '').replace(/^\w/, c => c.toUpperCase())}, or similar`, meta: [i.sub || ''], lines: [{ t: '5 seats · 2 bags · Automatic · Air con' }, ...((i.meta || []).length ? [{ t: (i.meta || []).join(' · ') }] : []), ...(free ? [{ t: 'Free cancellation', tone: 'good' as const }] : [])] }
+  if (i.cat === 'rides' && /^(Train|Coach|Bus) to /.test(i.title)) { const slots = (i.opts?.values || []).slice(0, 3); return { meta: [i.sub || ''], lines: [{ t: `Departs ${slots.map(v => M.clock(v)).join(', ')}` }, { t: 'E-ticket on your phone' }], top: 'From' } }
+  if (i.cat === 'rides') return { meta: [i.sub || '', ...(i.meta || []).slice(0, 1)], lines: [...(free || /cancel/i.test(i.policy || '') ? [{ t: /until the driver/i.test(i.policy || '') ? 'Free to cancel until the driver arrives' : 'Free cancellation', tone: 'good' as const }] : [])] }
+  if (i.cat === 'shopping') return { score, meta: [i.sub || ''], lines: [{ t: (i.meta || []).find(x => /deliver/i.test(x)) || `Delivery by ${M.date(F.addDays(F.iso(new Date()), 2), 'day')}`, tone: 'good' }, ...(/return/i.test(i.policy || '') ? [{ t: 'Free returns within 30 days' }] : [])] }
+  return { score }
 }
 function StateWrap({ state, title, body, was, now, actions = [], bk }: any) {
   const [used0, setUsed0] = useState(''); const u = St.useS(s => (bk ? s.seen['usedv:' + bk] : '')) as any; const used = used0 || u || ''; const setUsed = (v: string) => { setUsed0(v); if (bk) St.set(s => ({ seen: { ...s.seen, ['usedv:' + bk]: v as any } })) }
@@ -340,14 +426,17 @@ function FaresBlock({ id, pax, back, bk, kids = 0, inf = 0, backCity }: any) {
   const name = (x: string) => (x === 'std' ? 'Standard' : x === 'flex' ? 'Flex' : 'Light')
   const late = new Date(f.date + 'T' + f.dep + ':00').getTime() - Date.now() < 864e5
   const fares = [{ id: 'light', sub: 'Small bag only', inc: ['A small bag under the seat', 'Seats given at check-in', 'No changes or refunds'] }, { id: 'std', sub: 'Cabin bag, seat, free date change', pop: true, inc: ['A small bag and a cabin bag', 'Choose a standard seat', 'Change the date for free'] }, { id: 'flex', sub: 'Checked bag, any seat, refundable', inc: ['A cabin bag and a checked bag', 'Any seat, extra legroom included', late ? 'Refund less 30%' : 'Full refund up to 24 hours before', 'Fast track at security'] }]
+  /* as Tripsure and the airlines lay out a fare: what is included, then what changing or cancelling costs */
+  const fee = (x: string) => M.money(Math.round(q(x).each * 0.3))
+  const facts: Record<string, { t: string; ok: boolean }[]> = { light: [{ t: 'Small bag under the seat', ok: true }, { t: 'Seat given at check-in', ok: false }, { t: 'No date changes', ok: false }, { t: 'No refund', ok: false }], std: [{ t: 'Small bag and 10 kg cabin bag', ok: true }, { t: 'Choose a standard seat', ok: true }, { t: 'Date change free', ok: true }, { t: `Cancellation fee ${fee('std')}`, ok: false }], flex: [{ t: 'Cabin bag and 23 kg checked bag', ok: true }, { t: 'Any seat, extra legroom', ok: true }, { t: 'Date change free', ok: true }, { t: late ? `Refund less ${fee('flex')}` : 'Full refund up to 24 hours before', ok: true }] }
   const leg = (x: Cat.FlightOpt, out: boolean) => <div className="ds-leg" key={x.id}><span className="ds-row-ic"><Icon name={out ? 'takeoff' : 'landing'} size={18} stroke={2} /></span><span className="ds-row-b"><span className="ds-row-t">{`${x.dep}–${x.arr}${x.plus ? ' +1' : ''} · ${x.from} to ${x.to}`}</span><span className="ds-row-s">{`${M.date(x.date)} · ${x.stops ? `1 stop, ${x.via}` : 'Direct'} · ${x.dur} · ${Cat.AIRLINES[x.airline]}`}</span></span></div>
   const tot = q(v).each * pax + F.infantFare(q(v).each) * inf
-  return <fieldset className="app-fs" disabled={done}><C.Detail art={Cat.img('fly:' + f.city)} title={`${Cat.home(M.id).city} to ${f.city}`} price={price(q(v).each, `per person${s.backF ? (backCity ? `, home from ${backCity}` : ', both ways') : ''}`)} checks={fares.find(x => x.id === v)!.inc}
+  return <fieldset className="app-fs" disabled={done}><C.Detail art={Cat.img('fly:' + f.city)} title={`${Cat.home(M.id).city} to ${f.city}`} price={price(q(v).each, `per person${s.backF ? (backCity ? `, home from ${backCity}` : ', both ways') : ''}`)}
     cta={`Continue with ${name(v)}`} done={done ? `${name(v)} fare chosen` : undefined} disabled={done} onCta={() => { setDone(true); run({ f: 'chooseFare', a: { id, fare: v, pax, back, backId: bid, kids, inf, backCity } }, `${name(v)} fare`) }}
     caption={pax > 1 || inf ? `${pax} traveller${pax > 1 ? 's' : ''}${inf ? ` and ${inf} infant${inf > 1 ? 's' : ''} on a lap` : ''}: ${M.pts(F.ptsOf(tot))} or ${M.money(tot)} in total` : undefined}>
     <div className="ds-legs">{leg(f, true)}{s.backF && leg(s.backF, false)}</div>
     {backs.length > 1 && <C.Opt label={backCity ? `Home from ${backCity} on ${M.date(back!)}` : `Return on ${M.date(back!)}`} id={'rt-' + id}><div className="gr-slots" role="radiogroup" aria-labelledby={'rt-' + id}>{backs.map(o => <button key={o.id} className="gr-slot" role="radio" aria-checked={bid === o.id} onClick={() => setBid(o.id)}>{`${o.dep} · ${o.stops ? '1 stop' : 'Direct'}`}</button>)}</div></C.Opt>}
-    <C.Opt label="Fare" id={'fr-' + id}><div className="ds-fares" role="radiogroup" aria-labelledby={'fr-' + id}>{fares.map(x => <button key={x.id} role="radio" aria-checked={v === x.id} className="ds-fare" onClick={() => { if (!done) setV(x.id) }}><span className="ds-row-b"><span className="ds-row-t">{name(x.id)}{x.pop && <span className="ds-fare-tag">Most picked</span>}</span><span className="ds-row-s">{x.sub}</span></span><span className="ds-fare-p">{price(q(x.id).each)}</span><span className="ds-tick" aria-hidden="true">{v === x.id && <Icon name="check" size={14} stroke={2.6} />}</span></button>)}</div></C.Opt>
+    <C.Opt label="Fare" id={'fr-' + id}><div className="ds-fares" role="radiogroup" aria-labelledby={'fr-' + id}>{fares.map(x => <button key={x.id} role="radio" aria-checked={v === x.id} className="ds-fare" onClick={() => { if (!done) setV(x.id) }}><span className="ds-row-b"><span className="ds-row-t">{name(x.id)}{x.pop && <span className="ds-fare-tag">Most picked</span>}</span><span className="ds-fare-ls">{facts[x.id].map(l => <span key={l.t} className={'ds-fare-l' + (l.ok ? ' ok' : '')}><Icon name={l.ok ? 'check' : 'minus'} size={12} stroke={2.6} />{l.t}</span>)}</span></span><span className="ds-fare-p">{price(q(x.id).each)}</span><span className="ds-tick" aria-hidden="true">{v === x.id && <Icon name="check" size={14} stroke={2.6} />}</span></button>)}</div></C.Opt>
   </C.Detail></fieldset>
 }
 const TAKEN = ['12A', '12B', '13F', '14C', '15A', '15B', '16E', '16F']

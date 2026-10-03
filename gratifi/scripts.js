@@ -25,7 +25,10 @@ module.exports = {
   async flight(h) {
     const { ask, click, full, confirm, nav, p } = h
     await nav(3); await ask(`Flights to ${CITY[mk()]} next weekend for two`); await full('results')
-    await p.locator('.gr-answer').last().locator('.ds-fl').first().click(); await p.waitForTimeout(400); await full('fares')
+    { const A = () => p.locator('.gr-answer').last(); const t = A().locator('.ds-sorttabs [role=tab]'); if (await t.count() > 2) { await t.nth(2).click(); await p.waitForTimeout(250); await t.nth(0).click() } else h.errs.push('NO SORT TABS')
+      await A().locator('.ds-flc-stops').first().click(); await p.waitForTimeout(400); if (!(await p.locator('.ds-ftl').count())) h.errs.push('NO TIMELINE SHEET'); await full('timeline'); await p.locator('.app-sheet-x').click(); await p.waitForTimeout(250)
+      await A().locator('.ds-flc-price').first().click(); await p.waitForTimeout(400); if (!(await p.locator('.ds-pbk').count())) h.errs.push('NO PRICE BREAKUP'); await full('breakup'); await p.locator('.app-sheet-x').click(); await p.waitForTimeout(250) }
+    await p.locator('.gr-answer').last().locator('.ds-flc-top').first().click(); await p.waitForTimeout(400); await full('fares')
     await click(/Continue with/); await full('seats')
     { const ins = p.locator('.gr-answer').last().locator('input.app-in'); for (let i = 0; i < await ins.count(); i++) { if (!(await ins.nth(i).inputValue())) await ins.nth(i).fill('Sam Taylor') } } await click('Continue', { exact: true }); await full('extras'); await click('Continue', { exact: true }); await full('checkout')
     await click(/^Pay /); await confirm(); await full('receipt')
@@ -40,7 +43,7 @@ module.exports = {
     const A = () => p.locator('.gr-answer').last()
     const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
     await nav(3); await ask(`Flights to ${CITY[mk()]} next weekend for two`)
-    await A().locator('.ds-fl').first().click(); await p.waitForTimeout(400); await cta()
+    await A().locator('.ds-flc-top').first().click(); await p.waitForTimeout(400); await cta()
     { const ins = A().locator('input.app-in'); for (let i = 0; i < await ins.count(); i++) { if (!(await ins.nth(i).inputValue())) await ins.nth(i).fill('Sam Taylor') } } await cta(); await full('extras')
     if (!(await A().locator('.c2-prow').count())) errs.push('NO EXTRAS CARD')
     await A().locator('.c2-prow').nth(0).click(); await A().locator('.c2-prow').nth(2).click(); await cta(); await full('checkout-extras')
@@ -186,10 +189,10 @@ module.exports = {
     await click('Watch price'); await full('watching')
     if (!(await A().locator('.gr-state').count())) errs.push('NO WATCH CARD')
     await nav(5); await click('Prices drop'); await full('dropped')
-    if (!(await A().locator('.ds-fl').count())) errs.push('NO FLIGHTS AFTER DROP')
+    if (!(await A().locator('.ds-flc-top').count())) errs.push('NO FLIGHTS AFTER DROP')
     await ask(`Flights to ${CITY[mk()]} next Friday back from ${BACK[mk()]} on Monday`); await full('openjaw')
-    if (!(await A().locator('.ds-fl').count())) errs.push('NO OPEN-JAW FLIGHTS')
-    else { await A().locator('.ds-fl').first().click(); await p.waitForTimeout(500); await full('openjaw-fare'); if (!(await A().locator('.app-fs').count())) errs.push('NO OPEN-JAW FARES') }
+    if (!(await A().locator('.ds-flc-top').count())) errs.push('NO OPEN-JAW FLIGHTS')
+    else { await A().locator('.ds-flc-top').first().click(); await p.waitForTimeout(500); await full('openjaw-fare'); if (!(await A().locator('.app-fs').count())) errs.push('NO OPEN-JAW FARES') }
   },
   async cardchat(h) {
     const { ask, click, full, confirm, nav, p, errs } = h
@@ -217,7 +220,8 @@ module.exports = {
     await ask('remove my wife from my card'); await full('holder-remove'); { const b = A().locator('.ds-opill'); if (await b.count()) { await b.first().click(); await p.waitForTimeout(300); await confirm(); await full('holder-removed') } else errs.push('NO REMOVE CARDHOLDER') }
     await nav(5); await click('Bank decides cases'); await full('cases')
   },
-  async stays(h) { await h.nav(3); await buyFirst(h, `A hotel in ${CITY[mk()]} with a pool`, 'stay') },
+  async stays(h) { await h.nav(3); await h.ask(`Hotels in ${CITY[mk()]}`); await h.full('hotels'); { const A = () => h.p.locator('.gr-answer').last(); const n0 = await A().locator('.ds-best').count(); await A().locator('.ds-fchip').first().click(); await h.p.waitForTimeout(300); const n1 = await A().locator('.ds-best').count(); if (!(n1 <= n0 && n0 > 1)) h.errs.push('HOTEL FILTER DID NOTHING ' + n0 + '>' + n1); await A().locator('.ds-fchip').first().click(); await h.p.waitForTimeout(200) }
+    await buyFirst(h, `A hotel in ${CITY[mk()]} with a pool`, 'stay') },
   async dining(h) { await h.nav(3); await buyFirst(h, 'A table tonight for two', 'dine', 0, async () => { await h.p.locator('.gr-slot').nth(2).click() }) },
   async grocery(h) {
     const { ask, click, full, confirm, nav, p } = h
@@ -296,7 +300,7 @@ module.exports.manage = async function (h) {
   await ask('my jacket arrived damaged'); await full('claim-form')
   await p.locator('.gr-answer').last().locator('button').nth(1).click().catch(() => {}); await click('Send claim'); await full('claim-sent')
   await nav(3); await ask('Flights to ' + ({ UK: 'Lisbon', EU: 'Rome', IN: 'Goa', AE: 'Muscat', AR: 'Muscat', SG: 'Bali', MY: 'Penang' })[process.argv[2] || 'UK'] + ' next weekend for two')
-  await p.locator('.gr-answer').last().locator('.ds-fl').first().click(); await p.waitForTimeout(400); await click(/Continue with/); { const ins = p.locator('.gr-answer').last().locator('input.app-in'); for (let i = 0; i < await ins.count(); i++) { if (!(await ins.nth(i).inputValue())) await ins.nth(i).fill('Sam Taylor') } } await click('Continue', { exact: true }); await click('Continue', { exact: true }); await click(/^Pay /); await confirm(); await full('flight-booked')
+  await p.locator('.gr-answer').last().locator('.ds-flc-top').first().click(); await p.waitForTimeout(400); await click(/Continue with/); { const ins = p.locator('.gr-answer').last().locator('input.app-in'); for (let i = 0; i < await ins.count(); i++) { if (!(await ins.nth(i).inputValue())) await ins.nth(i).fill('Sam Taylor') } } await click('Continue', { exact: true }); await click('Continue', { exact: true }); await click(/^Pay /); await confirm(); await full('flight-booked')
   await ask('change my flight'); await full('change-ask')
   await p.locator('.gr-answer').last().locator('.gr-slot').nth(0).click(); await full('change-pick')
   await p.locator('.gr-answer').last().locator('.gr-btn').last().click(); await p.waitForTimeout(500); await full('change-next')

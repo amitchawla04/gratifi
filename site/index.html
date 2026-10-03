@@ -1521,6 +1521,89 @@ html, body { overflow: hidden; }
 .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: #E8E6E2; }
 [data-theme="dark"] .ds-cine .ds-kv-r + .ds-kv-r { border-top-color: var(--line); }
 .ds-ctl-edit{padding:4px 0 14px}.ds-ctl-edit .ds-btnrow{margin-top:10px}
+
+/* listing facts: stars, review score, ticked facts, price with what it covers */
+.ds-ip-stars { color: var(--ink); font-size: 0.6875rem; letter-spacing: 1px; font-weight: 400; vertical-align: 2px; }
+.ds-ip-score { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--ink-soft); margin-top: 1px; }
+.ds-ip-score b { background: var(--pill); color: var(--on-pill); font-size: 0.75rem; font-weight: 700; min-width: 30px; height: 22px; padding: 0 6px; border-radius: 7px; display: inline-flex; align-items: center; justify-content: center; }
+.ds-ip-ls { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
+.ds-ip-l { font-size: 0.8125rem; color: var(--ink-soft); line-height: 1.35; display: inline-flex; align-items: center; gap: 4px; }
+.ds-ip-l.good { color: var(--good); font-weight: 600; }
+.ds-ip-l.good svg { flex-shrink: 0; }
+.ds-ip-l.warn { color: var(--warn); font-weight: 600; }
+.ds-ip-l.accent { color: var(--accent-ink); font-weight: 600; }
+.ds-ip-pb { display: flex; flex-direction: column; gap: 1px; margin-top: 4px; }
+.ds-ip-pb .ds-ip-p { margin: 0; }
+.ds-ip-top, .ds-ip-note { font-size: 0.75rem; color: var(--ink-soft); }
+.ds-sorttabs button { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 7px 4px; height: auto; line-height: 1.2; }
+.ds-sorttabs button b { font-size: 0.8125rem; font-weight: 700; }
+.ds-sorttabs button span { font-size: 0.6875rem; color: var(--ink-soft); font-weight: 500; white-space: nowrap; }
+
+/* results summary: where, when, who (as Tripsure's search pill) */
+.ds-sum { display: flex; flex-direction: column; gap: 2px; background: var(--card); border-radius: 22px; padding: 10px 16px; box-shadow: inset 0 0 0 1px #E4E2DE; }
+.ds-sum-t { font-size: 0.9375rem; font-weight: 700; }
+.ds-sum-s { font-size: 0.8125rem; color: var(--ink-soft); }
+.ds-fchip[aria-pressed="true"] { background: var(--pill); color: var(--on-pill); box-shadow: none; }
+/* rows with bookable times */
+.ds-irow-slots { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px 12px 10px; }
+.ds-irow-main { display: flex; align-items: center; gap: 12px; text-align: start; width: 100%; }
+.ds-irow-main > svg { color: #9A9AA2; flex-shrink: 0; }
+.ds-irow-sl { display: flex; gap: 6px; flex-wrap: wrap; padding-inline-start: 80px; }
+.ds-best-sl { padding: 0 6px 6px; }
+.ds-irow-sl .gr-slot { height: 32px; min-width: 0; padding: 0 12px; font-size: 0.8125rem; }
+/* flight card */
+.ds-flc { background: var(--card); border-radius: 24px; box-shadow: 0 8px 20px rgba(20,20,22,0.05); display: flex; flex-direction: column; overflow: hidden; }
+.ds-flc-top { display: flex; flex-direction: column; gap: 10px; padding: 14px 14px 4px; text-align: start; width: 100%; }
+.ds-flc-h { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ds-flc-h img { width: 32px; height: 32px; border-radius: 9px; object-fit: cover; flex-shrink: 0; }
+.ds-flc-air { font-size: 0.9375rem; font-weight: 700; }
+.ds-flc-tag { background: var(--sticky-yellow); color: #141416; font-size: 0.6875rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+.ds-flc-warn { margin-inline-start: auto; color: var(--warn); font-size: 0.75rem; font-weight: 600; }
+.ds-flc-route { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; background: var(--card-sunk); border-radius: 18px; padding: 12px 14px 22px; }
+.ds-flc-end { display: flex; flex-direction: column; gap: 2px; }
+.ds-flc-end.r { text-align: end; align-items: flex-end; }
+.ds-flc-end b { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.3px; font-variant-numeric: tabular-nums; }
+.ds-flc-end b sup { font-size: 0.625rem; font-weight: 700; color: var(--accent-ink); margin-inline-start: 2px; }
+.ds-flc-end > span { font-size: 0.8125rem; color: var(--ink-soft); }
+.ds-flc-mid { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.ds-flc-dur { font-size: 0.75rem; color: var(--ink-soft); font-weight: 600; }
+.ds-flc-line { position: relative; display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 140px; height: 8px; }
+.ds-flc-line::before { content: ""; position: absolute; left: 4px; right: 4px; top: 3.5px; height: 1px; background: var(--ink-faint); }
+.ds-flc-line i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); }
+.ds-flc-line i.stop { border-radius: 2px; background: var(--accent); }
+.ds-flc-line.direct i.stop { visibility: hidden; }
+.ds-flc-gap { height: 14px; }
+.ds-flc-stops { align-self: center; margin-top: -30px; margin-bottom: 14px; position: relative; font-size: 0.75rem; font-weight: 600; color: var(--ink); text-decoration: underline dashed var(--ink-faint); text-underline-offset: 3px; padding: 2px 6px; }
+.ds-flc-stops.direct { color: var(--good); }
+.ds-flc-f { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px 14px; }
+.ds-flc-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; text-align: start; }
+.ds-flc-pv { text-decoration: underline dashed var(--ink-faint); text-underline-offset: 4px; }
+.ds-flc-who { font-size: 0.75rem; color: var(--ink-soft); }
+.ds-flc-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; color: var(--good); background: var(--good-soft); padding: 5px 10px; border-radius: 12px; white-space: nowrap; }
+/* flight timeline (sheet) */
+.ds-ftl { display: flex; flex-direction: column; }
+.ds-ftl-r { display: grid; grid-template-columns: 64px 20px 1fr; align-items: center; gap: 10px; padding: 10px 0; }
+.ds-ftl-t { font-size: 1.0625rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ds-ftl-t.s { font-size: 0.8125rem; font-weight: 500; color: var(--ink-soft); }
+.ds-ftl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ink-faint); justify-self: center; }
+.ds-ftl-dot.hollow { background: var(--card); box-shadow: inset 0 0 0 2px var(--ink-faint); }
+.ds-ftl-ar { color: var(--ink-faint); justify-self: center; display: flex; }
+.ds-ftl-sq { width: 9px; height: 9px; border-radius: 2px; background: var(--accent); justify-self: center; }
+.ds-ftl-b { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ds-ftl-b.row { flex-direction: row; align-items: center; gap: 8px; }
+.ds-ftl-b img { width: 26px; height: 26px; border-radius: 7px; object-fit: cover; }
+.ds-ftl-c { font-size: 0.9375rem; font-weight: 700; }
+.ds-ftl-n { font-size: 0.8125rem; color: var(--ink-soft); }
+.ds-ftl-r.wait { background: var(--warn-soft); margin: 4px -20px; padding: 10px 20px; }
+.ds-ftl-r.wait .ds-ftl-c, .ds-ftl-r.wait .ds-ftl-t { color: var(--warn); }
+.ds-pbk { display: flex; flex-direction: column; gap: 4px; }
+.ds-sheet-h { font-size: 1.25rem; font-weight: 800; margin: 4px 0 6px; letter-spacing: -0.3px; }
+
+.ds-fare-ls { display: flex; flex-direction: column; gap: 2px; margin-top: 3px; }
+.ds-fare-l { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--ink-soft); }
+.ds-fare-l svg { color: var(--ink-faint); flex-shrink: 0; }
+.ds-fare-l.ok { color: var(--ink); }
+.ds-fare-l.ok svg { color: var(--good); }
 /* Chat components for the full flows (cards2.tsx). Same tokens, radii, shadows and accent as app.css. */
 .c2-card { background: var(--card); border-radius: 26px; padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 16px 32px rgba(20,20,22,0.07); color: var(--ink); }
 .c2-head { display: flex; flex-direction: column; gap: 3px; }
@@ -8397,11 +8480,25 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     if (!pts2 && !cash) return null;
     return /* @__PURE__ */ React.createElement("span", { className: "ds-price" }, pts2 ? /* @__PURE__ */ React.createElement("b", null, pts2) : /* @__PURE__ */ React.createElement("b", null, cash), pts2 && cash && /* @__PURE__ */ React.createElement("span", null, `or ${cash}`), unit && /* @__PURE__ */ React.createElement("span", { className: "ds-price-u" }, unit));
   }
-  function Results({ items, filters, onFilter, count, sort }) {
+  var Stars = ({ n }) => /* @__PURE__ */ React.createElement("span", { className: "ds-ip-stars", "aria-label": `${n} stars` }, "\u2605".repeat(n));
+  var Score = ({ s }) => /* @__PURE__ */ React.createElement("span", { className: "ds-ip-score" }, /* @__PURE__ */ React.createElement("b", null, s.v), /* @__PURE__ */ React.createElement("span", null, [s.word, s.n].filter(Boolean).join(" \xB7 ")));
+  var Lines = ({ ls }) => ls && ls.length ? /* @__PURE__ */ React.createElement("span", { className: "ds-ip-ls" }, ls.map((l, k) => /* @__PURE__ */ React.createElement("span", { key: k, className: "ds-ip-l" + (l.tone ? " " + l.tone : "") }, l.tone === "good" && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 13, stroke: 2.6 }), l.t))) : null;
+  var PriceBlock = ({ i }) => /* @__PURE__ */ React.createElement("span", { className: "ds-ip-pb" }, i.top && /* @__PURE__ */ React.createElement("span", { className: "ds-ip-top" }, i.top), /* @__PURE__ */ React.createElement("span", { className: "ds-ip-p" }, i.price), i.note && /* @__PURE__ */ React.createElement("span", { className: "ds-ip-note" }, i.note));
+  function Results({ items, filters, onFilter, count, sort, tabs, tab, onTab, summary, big, active }) {
     var _a;
     const best = ((_a = items[0]) == null ? void 0 : _a.art) ? items[0] : void 0;
     const meta = (m) => (m || []).filter(Boolean).join(" \xB7 ");
-    return /* @__PURE__ */ React.createElement("div", { className: "gr-col ds-results", style: { gap: 12 } }, filters && filters.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ds-filters", role: "group", "aria-label": "Refine" }, /* @__PURE__ */ React.createElement("span", { className: "ds-filters-ic", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement(Icon, { name: "filter", size: 16, stroke: 2.2 })), filters.map((f) => /* @__PURE__ */ React.createElement("button", { key: f, className: "ds-fchip", onClick: () => onFilter == null ? void 0 : onFilter(f) }, f))), count && /* @__PURE__ */ React.createElement("div", { className: "ds-rhead" }, /* @__PURE__ */ React.createElement("span", null, count), sort && /* @__PURE__ */ React.createElement("b", null, sort)), best && /* @__PURE__ */ React.createElement("div", { className: "ds-best" }, /* @__PURE__ */ React.createElement("button", { className: "ds-best-ph " + (best.cls || ""), onClick: best.onOpen, "aria-label": best.title }, /* @__PURE__ */ React.createElement("img", { src: best.art, alt: "" }), /* @__PURE__ */ React.createElement("span", { className: "ds-best-tag" }, best.tag || "Best match")), /* @__PURE__ */ React.createElement("div", { className: "ds-best-f" }, /* @__PURE__ */ React.createElement("div", { className: "ds-best-b" }, /* @__PURE__ */ React.createElement("p", { className: "ds-ip-t" }, best.title), meta(best.meta) && /* @__PURE__ */ React.createElement("p", { className: "ds-ip-s" }, best.meta.filter(Boolean).map((x, k) => /* @__PURE__ */ React.createElement("span", { key: k, className: k ? "ds-ip-u" : void 0 }, x))), /* @__PURE__ */ React.createElement("p", { className: "ds-ip-p" }, best.price)), best.cta && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: best.onOpen }, best.cta))), items.filter((i) => i !== best).map((i) => /* @__PURE__ */ React.createElement("button", { key: i.key, className: "ds-irow " + (i.cls || ""), onClick: i.onOpen }, /* @__PURE__ */ React.createElement("span", { className: "ds-irow-ph" }, i.art ? /* @__PURE__ */ React.createElement("img", { src: i.art, alt: "" }) : /* @__PURE__ */ React.createElement(Icon, { name: "grid", size: 24 })), /* @__PURE__ */ React.createElement("span", { className: "ds-irow-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ip-t" }, i.title), meta(i.meta) && /* @__PURE__ */ React.createElement("span", { className: "ds-ip-s" }, i.meta.filter(Boolean).map((x, k) => /* @__PURE__ */ React.createElement("span", { key: k, className: k ? "ds-ip-u" : void 0 }, x))), /* @__PURE__ */ React.createElement("span", { className: "ds-ip-p" }, i.price)), /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18, stroke: 2.2 }))));
+    const head = (i, big2) => /* @__PURE__ */ React.createElement(React.Fragment, null, big2 ? /* @__PURE__ */ React.createElement("p", { className: "ds-ip-t" }, i.title, i.stars ? /* @__PURE__ */ React.createElement(React.Fragment, null, " ", /* @__PURE__ */ React.createElement(Stars, { n: i.stars })) : null) : /* @__PURE__ */ React.createElement("span", { className: "ds-ip-t" }, i.title, i.stars ? /* @__PURE__ */ React.createElement(React.Fragment, null, " ", /* @__PURE__ */ React.createElement(Stars, { n: i.stars })) : null), i.score && /* @__PURE__ */ React.createElement(Score, { s: i.score }), meta(i.meta) && (big2 ? /* @__PURE__ */ React.createElement("p", { className: "ds-ip-s" }, i.meta.filter(Boolean).map((x, k) => /* @__PURE__ */ React.createElement("span", { key: k, className: k ? "ds-ip-u" : void 0 }, x))) : /* @__PURE__ */ React.createElement("span", { className: "ds-ip-s" }, i.meta.filter(Boolean).map((x, k) => /* @__PURE__ */ React.createElement("span", { key: k, className: k ? "ds-ip-u" : void 0 }, x)))), /* @__PURE__ */ React.createElement(Lines, { ls: i.lines }));
+    return /* @__PURE__ */ React.createElement("div", { className: "gr-col ds-results", style: { gap: 12 } }, summary && /* @__PURE__ */ React.createElement("div", { className: "ds-sum" }, /* @__PURE__ */ React.createElement("span", { className: "ds-sum-t" }, summary.title), /* @__PURE__ */ React.createElement("span", { className: "ds-sum-s" }, summary.sub)), filters && filters.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ds-filters", role: "group", "aria-label": "Refine" }, /* @__PURE__ */ React.createElement("span", { className: "ds-filters-ic", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement(Icon, { name: "filter", size: 16, stroke: 2.2 })), filters.map((f) => /* @__PURE__ */ React.createElement("button", { key: f, className: "ds-fchip", "aria-pressed": active ? active.includes(f) : void 0, onClick: () => onFilter == null ? void 0 : onFilter(f) }, f))), tabs && tabs.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "ds-seg ds-sorttabs", role: "tablist", "aria-label": "Sort" }, tabs.map((t) => /* @__PURE__ */ React.createElement("button", { key: t.key, role: "tab", "aria-selected": tab === t.key, onClick: () => onTab == null ? void 0 : onTab(t.key) }, /* @__PURE__ */ React.createElement("b", null, t.label), /* @__PURE__ */ React.createElement("span", null, t.sub)))), count && /* @__PURE__ */ React.createElement("div", { className: "ds-rhead" }, /* @__PURE__ */ React.createElement("span", null, count), sort && /* @__PURE__ */ React.createElement("b", null, sort)), big && items.map((i, k) => /* @__PURE__ */ React.createElement("div", { key: i.key, className: "ds-best" }, /* @__PURE__ */ React.createElement("button", { className: "ds-best-ph " + (i.cls || ""), onClick: i.onOpen, "aria-label": i.title }, /* @__PURE__ */ React.createElement("img", { src: i.art, alt: "" }), k === 0 && /* @__PURE__ */ React.createElement("span", { className: "ds-best-tag" }, i.tag || "Best match")), /* @__PURE__ */ React.createElement("div", { className: "ds-best-f" }, /* @__PURE__ */ React.createElement("div", { className: "ds-best-b" }, head(i, true), /* @__PURE__ */ React.createElement(PriceBlock, { i })), i.cta && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: i.onOpen }, i.cta)))), !big && best && /* @__PURE__ */ React.createElement("div", { className: "ds-best" }, /* @__PURE__ */ React.createElement("button", { className: "ds-best-ph " + (best.cls || ""), onClick: best.onOpen, "aria-label": best.title }, /* @__PURE__ */ React.createElement("img", { src: best.art, alt: "" }), /* @__PURE__ */ React.createElement("span", { className: "ds-best-tag" }, best.tag || "Best match")), /* @__PURE__ */ React.createElement("div", { className: "ds-best-f" }, /* @__PURE__ */ React.createElement("div", { className: "ds-best-b" }, head(best, true), /* @__PURE__ */ React.createElement(PriceBlock, { i: best })), best.cta && /* @__PURE__ */ React.createElement("button", { className: "ds-btn40", onClick: best.onOpen }, best.cta)), best.slots && /* @__PURE__ */ React.createElement("div", { className: "ds-irow-sl ds-best-sl" }, best.slots.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.label, className: "gr-slot", onClick: x.onClick }, x.label)))), !big && items.filter((i) => i !== best).map((i) => i.slots ? /* @__PURE__ */ React.createElement("div", { key: i.key, className: "ds-irow ds-irow-slots " + (i.cls || "") }, /* @__PURE__ */ React.createElement("button", { className: "ds-irow-main", onClick: i.onOpen }, /* @__PURE__ */ React.createElement("span", { className: "ds-irow-ph" }, i.art ? /* @__PURE__ */ React.createElement("img", { src: i.art, alt: "" }) : /* @__PURE__ */ React.createElement(Icon, { name: "grid", size: 24 })), /* @__PURE__ */ React.createElement("span", { className: "ds-irow-b" }, head(i, false), /* @__PURE__ */ React.createElement(PriceBlock, { i })), /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18, stroke: 2.2 })), /* @__PURE__ */ React.createElement("div", { className: "ds-irow-sl" }, i.slots.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.label, className: "gr-slot", onClick: x.onClick }, x.label)))) : /* @__PURE__ */ React.createElement("button", { key: i.key, className: "ds-irow " + (i.cls || ""), onClick: i.onOpen }, /* @__PURE__ */ React.createElement("span", { className: "ds-irow-ph" }, i.art ? /* @__PURE__ */ React.createElement("img", { src: i.art, alt: "" }) : /* @__PURE__ */ React.createElement(Icon, { name: "grid", size: 24 })), /* @__PURE__ */ React.createElement("span", { className: "ds-irow-b" }, head(i, false), /* @__PURE__ */ React.createElement(PriceBlock, { i })), /* @__PURE__ */ React.createElement(Icon, { name: "chev", size: 18, stroke: 2.2 }))));
+  }
+  function FlightCards({ items }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "gr-col ds-flcs", style: { gap: 12 } }, items.map((i) => /* @__PURE__ */ React.createElement("div", { key: i.key, className: "ds-flc" }, /* @__PURE__ */ React.createElement("button", { className: "ds-flc-top", onClick: i.onOpen, "aria-label": `${i.airline}, ${i.dep} to ${i.arr}, ${i.stops}` }, /* @__PURE__ */ React.createElement("span", { className: "ds-flc-h" }, /* @__PURE__ */ React.createElement("img", { src: i.logo, alt: "" }), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-air" }, i.airline), i.tag && /* @__PURE__ */ React.createElement("span", { className: "ds-flc-tag" }, i.tag), i.warn && /* @__PURE__ */ React.createElement("span", { className: "ds-flc-warn" }, i.warn)), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-route" }, /* @__PURE__ */ React.createElement("span", { className: "ds-flc-end" }, /* @__PURE__ */ React.createElement("b", null, i.dep), /* @__PURE__ */ React.createElement("span", null, i.from)), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-mid" }, /* @__PURE__ */ React.createElement("span", { className: "ds-flc-dur" }, i.dur), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-line" + (i.direct ? " direct" : ""), "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("i", null), /* @__PURE__ */ React.createElement("i", { className: "stop" }), /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-gap" })), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-end r" }, /* @__PURE__ */ React.createElement("b", null, i.arr, i.plus ? /* @__PURE__ */ React.createElement("sup", null, "+", i.plus) : null), /* @__PURE__ */ React.createElement("span", null, i.to)))), /* @__PURE__ */ React.createElement("button", { className: "ds-flc-stops" + (i.direct ? " direct" : ""), onClick: i.onStops }, i.stops), /* @__PURE__ */ React.createElement("div", { className: "ds-flc-f" }, /* @__PURE__ */ React.createElement("button", { className: "ds-flc-price", onClick: i.onPrice }, /* @__PURE__ */ React.createElement("span", { className: "ds-flc-pv" }, i.price), /* @__PURE__ */ React.createElement("span", { className: "ds-flc-who" }, i.who)), i.chip && /* @__PURE__ */ React.createElement("span", { className: "ds-flc-chip" }, /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 13, stroke: 2.6 }), i.chip)))));
+  }
+  function FlightTimeline({ rows }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-ftl" }, rows.map((r, k) => r.kind === "stop" ? /* @__PURE__ */ React.createElement("div", { key: k, className: "ds-ftl-r" }, /* @__PURE__ */ React.createElement("b", { className: "ds-ftl-t" }, r.time), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-dot" + (r.hollow ? " hollow" : "") }), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-c" }, r.code), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-n" }, r.name))) : r.kind === "leg" ? /* @__PURE__ */ React.createElement("div", { key: k, className: "ds-ftl-r leg" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-t s" }, r.dur), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-ar" }, /* @__PURE__ */ React.createElement(Icon, { name: "down", size: 14, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-b row" }, /* @__PURE__ */ React.createElement("img", { src: r.logo, alt: "" }), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-c" }, r.flight))) : /* @__PURE__ */ React.createElement("div", { key: k, className: "ds-ftl-r wait" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-t s" }, r.dur), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-sq" }), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-c" }, r.title), /* @__PURE__ */ React.createElement("span", { className: "ds-ftl-n" }, r.sub)))));
+  }
+  function PriceBreakup({ rows, total }) {
+    return /* @__PURE__ */ React.createElement("div", { className: "ds-pbk" }, rows.map(([l, v]) => /* @__PURE__ */ React.createElement("div", { key: l, className: "ds-kv-r" }, /* @__PURE__ */ React.createElement("span", null, l), /* @__PURE__ */ React.createElement("b", null, v))), /* @__PURE__ */ React.createElement("div", { className: "ds-kv-r ds-total" }, /* @__PURE__ */ React.createElement("span", null, total[0]), /* @__PURE__ */ React.createElement("b", null, total[1])));
   }
   function Grid({ items }) {
     return /* @__PURE__ */ React.createElement("div", { className: "ds-grid" }, items.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.key, className: "ds-rtile", onClick: x.onOpen }, /* @__PURE__ */ React.createElement("span", { className: "ds-rtile-ph" }, x.art && /* @__PURE__ */ React.createElement("img", { src: x.art, alt: "" })), /* @__PURE__ */ React.createElement("span", { className: "ds-rtile-t" }, x.title), /* @__PURE__ */ React.createElement("span", { className: "ds-rtile-f" }, /* @__PURE__ */ React.createElement("span", { className: "ds-rtile-p" }, x.price), x.cta && /* @__PURE__ */ React.createElement("span", { className: "ds-rtile-c" }, x.cta)))));
@@ -8781,6 +8878,40 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     open = c2 ? { c: c2, d: c2.kind === "pay" ? get().drafts[c2.draft] : void 0, key: ++seq } : null;
     cSubs.forEach((f) => f());
   }
+  var info = null;
+  var iSubs = /* @__PURE__ */ new Set();
+  function openInfo(title, body) {
+    info = { title, body, key: ++seq };
+    iSubs.forEach((f) => f());
+  }
+  function InfoHost() {
+    const [, force] = React.useReducer((x) => x + 1, 0);
+    React.useEffect(() => {
+      iSubs.add(force);
+      return () => {
+        iSubs.delete(force);
+      };
+    }, []);
+    React.useEffect(() => {
+      if (!info) return;
+      const k = (e) => {
+        if (e.key === "Escape") {
+          info = null;
+          force();
+        }
+      };
+      window.addEventListener("keydown", k);
+      return () => window.removeEventListener("keydown", k);
+    });
+    if (!info) return null;
+    const close = () => {
+      info = null;
+      force();
+    };
+    return /* @__PURE__ */ React.createElement("div", { className: "app-sheet", onClick: (e) => {
+      if (e.target === e.currentTarget) close();
+    } }, /* @__PURE__ */ React.createElement("div", { className: "app-sheet-in", role: "dialog", "aria-label": info.title }, /* @__PURE__ */ React.createElement("div", { className: "gr-sheet" }, /* @__PURE__ */ React.createElement("button", { className: "app-sheet-x", "aria-label": "Close", onClick: close }), /* @__PURE__ */ React.createElement("p", { className: "ds-sheet-h" }, info.title), info.body)));
+  }
   function ConfirmHost() {
     var _a, _b;
     const [, force] = React.useReducer((x) => x + 1, 0);
@@ -8952,11 +9083,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   function Blocks({ blocks, msgId }) {
     return /* @__PURE__ */ React.createElement(React.Fragment, null, blocks.map((b2, i) => /* @__PURE__ */ React.createElement(Block, { key: i, b: b2, bk: msgId ? msgId + ":" + i : void 0 })));
   }
-  function Block({ b: b2, bk: bk2 }) {
+  var Block = React.memo(function Block2({ b: b2, bk: bk2 }) {
     const C = BLOCKS2[b2.kind];
     if (!C) return null;
     return /* @__PURE__ */ React.createElement(C, { ...b2, bk: bk2 });
-  }
+  });
   function useDone(bk2) {
     const [d2, setD] = useState(false);
     const [u, mark] = useOnce(bk2);
@@ -9265,26 +9396,59 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       } })) });
     }
   };
-  function FlightsBlock({ back, pax, ids, best, kids, inf, backCity }) {
+  function flightRows(o, M3) {
+    const h = home(M3.id), city = dests(M3.id).find((c2) => c2.name === o.city), back = o.from !== h.code;
+    const name = (code) => code === h.code ? `${h.airport}${/Airport|^KLIA$/.test(h.airport) ? "" : " Airport"}` : code === (city == null ? void 0 : city.code) ? `${city.name} Airport` : { BLR: "Bengaluru Airport", DOH: "Doha Hamad Airport", DPS: "Bali Airport", DUB: "Dublin Airport", IST: "Istanbul Airport", KCH: "Kuching Airport", KUL: "Kuala Lumpur Airport", MAD: "Madrid Airport", MCT: "Muscat Airport", MXP: "Milan Malpensa Airport", OPO: "Porto Airport", PEN: "Penang Airport", TPE: "Taipei Taoyuan Airport" }[code] || "Connecting airport";
+    const term = (code) => code === h.code ? ` \xB7 Terminal ${h.terminal.replace(/^T/, "")}` : "";
+    const logo = img("tail:" + o.airline), num2 = (n, k) => k ? n.replace(/(\d+)$/, (d3) => String(+d3 + 1)) : n;
+    const hm2 = (m) => `${String(Math.floor((m % 1440 + 1440) % 1440 / 60)).padStart(2, "0")}:${String((m % 60 + 60) % 60).padStart(2, "0")}`;
+    const mins = (t) => +t.slice(0, 2) * 60 + +t.slice(3);
+    const dur = (m) => `${Math.floor(m / 60)}h${m % 60 ? ` ${m % 60}m` : ""}`;
+    if (!o.stops) return [{ kind: "stop", time: o.dep, code: `${o.from}${term(o.from)}`, name: name(o.from) }, { kind: "leg", dur: o.dur, logo, flight: `${AIRLINES[o.airline]} \xB7 ${o.number}` }, { kind: "stop", time: o.arr, code: `${o.to}${term(o.to)}`, name: name(o.to) }];
+    const wait = Math.min(o.durMin - 90, 75 + o.number.charCodeAt(o.number.length - 1) % 6 * 15), fly = o.durMin - wait, l1 = Math.round(fly * 0.45), l2 = fly - l1;
+    const arrAbs = mins(o.arr) + o.plus * 1440, a1 = arrAbs - l2 - wait, d2 = arrAbs - l2;
+    return [
+      { kind: "stop", time: o.dep, code: `${o.from}${term(o.from)}`, name: name(o.from) },
+      { kind: "leg", dur: dur(l1), logo, flight: `${AIRLINES[o.airline]} \xB7 ${o.number}` },
+      { kind: "stop", time: hm2(a1), code: o.via, name: name(o.via), hollow: true },
+      { kind: "wait", dur: dur(wait), title: wait >= 180 ? "Long layover" : "Change planes", sub: "Same airport; your bag goes through" },
+      { kind: "stop", time: hm2(d2), code: o.via, name: name(o.via) },
+      { kind: "leg", dur: dur(l2), logo, flight: `${AIRLINES[o.airline]} \xB7 ${num2(o.number, 1)}` },
+      { kind: "stop", time: o.arr, code: `${o.to}${term(o.to)}`, name: name(o.to) }
+    ];
+  }
+  function FlightsBlock({ back, pax, ids, best, kids, inf, backCity, bk: bk2 }) {
     const M3 = useMarket();
     const price = usePrice();
-    const opts = ids.map((i) => flightById(i)).filter(Boolean).sort((a, b2) => Number(b2.id === best) - Number(a.id === best));
-    if (!opts.length) return /* @__PURE__ */ React.createElement(StateNote, { title: "No flights match", body: "Try all flights or another day." });
+    const [tab, setTab] = usePS(bk2, "sort", "best");
+    const all = ids.map((i) => flightById(i)).filter(Boolean);
+    if (!all.length) return /* @__PURE__ */ React.createElement(StateNote, { title: "No flights match", body: "Try all flights or another day." });
     const go = (o) => run({ f: "chooseFlight", a: { id: o.id, pax, back, kids, inf, backCity } }, `The ${o.dep} ${AIRLINES[o.airline]}`);
-    const [o0, ...rest] = opts;
-    const row = (o, i) => ({ key: o.id, cls: "ds-fl", art: img(i ? "tail:" + o.airline : "fly:" + o.city), tag: o.id === best ? "Best match" : "Earliest", title: `${o.dep}\u2013${o.arr}${o.plus ? " +1" : ""} \xB7 ${o.stops ? `1 stop, ${o.via}` : "Direct"}`, meta: [AIRLINES[o.airline], o.dur, o.bag === "Small bag only" ? "Small bag only" : "", o.left ? `${o.left} seats left` : ""], price: price(o.price), cta: "Book", onOpen: () => go(o) });
-    return /* @__PURE__ */ React.createElement(Results, { items: [o0, ...[...rest].sort((x, y) => x.dep.localeCompare(y.dep))].map(row), count: `${opts.length} flight${opts.length > 1 ? "s" : ""} \xB7 one way, per person`, filters: ["Direct only", "Morning", "Evening", "Cheaper dates", "Watch price"], onFilter: (f) => f === "Watch price" ? run({ f: "priceWatch", a: { city: o0.city, date: o0.date, back, pax } }, "Watch the price") : sendText(f === "Direct only" ? "Only direct" : f === "Cheaper dates" ? "Cheaper dates?" : `${f} flights`) });
+    const cheap = [...all].sort((a, b2) => a.price - b2.price || a.durMin - b2.durMin), fast = [...all].sort((a, b2) => a.durMin - b2.durMin || a.price - b2.price);
+    const bestO = all.find((o) => o.id === best) || all[0], bestList = [bestO, ...all.filter((o) => o !== bestO).sort((x, y) => x.dep.localeCompare(y.dep))];
+    const list = tab === "cheap" ? cheap : tab === "fast" ? fast : bestList;
+    const tabs = [{ key: "best", label: "Best", sub: `${M3.money(bestO.price)} \xB7 ${bestO.dur}` }, { key: "cheap", label: "Cheapest", sub: `${M3.money(cheap[0].price)} \xB7 ${cheap[0].dur}` }, { key: "fast", label: "Fastest", sub: `${M3.money(fast[0].price)} \xB7 ${fast[0].dur}` }];
+    const n = pax || 1, who = `for ${n} traveller${n > 1 ? "s" : ""}`;
+    const breakup = (o) => {
+      const tot = Math.round(o.price * n * 100) / 100, base3 = Math.round(tot * 0.74 * 100) / 100;
+      openInfo("Price breakup", /* @__PURE__ */ React.createElement(PriceBreakup, { rows: [["Base fare", M3.money(base3, 2)], ["Taxes and airport fees", `+${M3.money(tot - base3, 2)}`], ["Booking fee", "None"]], total: ["Total", `${M3.money(tot, 2)} or ${M3.pts(ptsOf(tot))}`] }));
+    };
+    const timeline = (o) => openInfo(`${o.from} to ${o.to} \xB7 ${M3.date(o.date)}`, /* @__PURE__ */ React.createElement(FlightTimeline, { rows: flightRows(o, M3) }));
+    const cards = list.map((o, k) => ({ key: o.id, logo: img("tail:" + o.airline), airline: AIRLINES[o.airline], tag: k === 0 ? tab === "cheap" ? "Cheapest" : tab === "fast" ? "Fastest" : o.id === best ? "Best match" : void 0 : void 0, dep: o.dep, arr: o.arr, plus: o.plus, from: o.from, to: o.to, dur: o.dur, stops: o.stops ? `1 stop \xB7 ${o.via}` : "Direct", direct: !o.stops, price: price(o.price), who: n > 1 ? `each, ${who}` : who, chip: "Free date change", warn: o.left ? `${o.left} seats left` : void 0, onOpen: () => go(o), onStops: () => timeline(o), onPrice: () => breakup(o) }));
+    const h = home(M3.id), back0 = back ? ` \u2013 ${M3.date(back)}` : "";
+    return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, /* @__PURE__ */ React.createElement(Results, { items: [], summary: { title: `${h.code} \u2192 ${bestO.to}`, sub: `${M3.date(bestO.date)}${back0} \xB7 ${n} traveller${n > 1 ? "s" : ""} \xB7 Economy` }, tabs: all.length > 2 ? tabs : void 0, tab, onTab: setTab, count: `${all.length} flight${all.length > 1 ? "s" : ""} \xB7 one way`, filters: ["Direct only", "Morning", "Evening", "Cheaper dates", "Watch price"], onFilter: (f) => f === "Watch price" ? run({ f: "priceWatch", a: { city: bestO.city, date: bestO.date, back, pax } }, "Watch the price") : sendText(f === "Direct only" ? "Only direct" : f === "Cheaper dates" ? "Cheaper dates?" : `${f} flights`) }), /* @__PURE__ */ React.createElement(FlightCards, { items: cards }));
   }
-  function ItemsBlock({ ids, pax, time, date, nights, rooms, room }) {
+  function ItemsBlock({ ids, pax, time, date, nights, rooms, room, bk: bk2 }) {
     const M3 = useMarket();
     const price0 = usePrice();
     const seen = useS((s) => s.bookings);
+    const [filt, setFilt] = usePS(bk2, "filt", []);
     const items = ids.map((i) => findItem(i)).filter(Boolean);
     if (!items.length) return null;
     const stayP = (i) => stayPrice(i, room || "", nights || 2) * (rooms || 1);
     const open2 = (i) => run({ f: "showItem", a: { id: i.id, pax, time, date, nights, rooms } }, i.title);
     const cash = (i) => i.cat === "giftcards" || i.mode === "link" ? void 0 : i.included && i.cat === "airport" && get().loungeLeft ? 0 : i.cat === "stays" ? stayP(i) : IP(i);
-    const unit = (i) => i.cat === "stays" ? `${nights || 2} night${(nights || 2) > 1 ? "s" : ""}${rooms > 1 ? `, ${rooms} rooms` : ""}` : i.cat === "dining" ? void 0 : i.unit;
+    const unit = (i) => i.cat === "stays" || i.cat === "dining" ? void 0 : i.unit;
     const price = (i) => {
       const c2 = cash(i);
       if (i.cat === "giftcards") return /* @__PURE__ */ React.createElement(Price2, { pts: `From ${M3.pts(ptsOf(+giftAmounts()[0]))}`, cash: M3.money(+giftAmounts()[0]) });
@@ -9297,7 +9461,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     };
     const meta = (i) => {
       var _a;
-      return [i.rating ? `\u2605 ${i.rating}` : "", i.cat === "dining" ? (_a = i.sub) == null ? void 0 : _a.split(" \xB7 ")[0] : i.sub, ...(i.meta || []).slice(0, 1)];
+      return [i.cat === "dining" ? (_a = i.sub) == null ? void 0 : _a.split(" \xB7 ")[0] : i.sub, ...(i.meta || []).slice(0, 1)];
     };
     const art = (i) => img(i.img) || STAMP[i.cat];
     const cat = items[0].cat;
@@ -9307,7 +9471,87 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       return { key: i.id, art: art(i), title: i.title, sub: i.cat === "subs" ? i.sub : ((_a = i.meta) == null ? void 0 : _a[0]) || i.sub, price: price(i), onOpen: () => open2(i), action: own && i.cat === "subs" ? void 0 : i.included ? i.cat === "subs" ? "Turn on" : "Use" : i.cat === "subs" ? "Add" : "Book", onAction: () => open2(i), status: own && i.cat === "subs" ? own.status === "paused" ? "Paused" : "Added" : void 0, primary: true };
     }) });
     if (cat === "giftcards" || cat === "shopping" && items.length > 3) return /* @__PURE__ */ React.createElement(Grid, { items: items.map((i) => ({ key: i.id, art: art(i), title: i.title, price: price(i), cta: i.cat === "giftcards" ? "Buy" : i.mode === "link" ? "Shop" : "View", onOpen: () => open2(i) })) });
-    return /* @__PURE__ */ React.createElement(Results, { items: items.map((i) => ({ key: i.id, art: art(i), title: i.title, meta: meta(i), price: price(i), cta: i.cat === "shopping" ? "View" : i.cat === "rides" ? "Choose" : "Book", onOpen: () => open2(i) })) });
+    const rows = items.map((i) => ({
+      key: i.id,
+      art: art(i),
+      title: i.title,
+      meta: meta(i),
+      price: price(i),
+      cta: i.cat === "shopping" ? "View" : i.cat === "rides" ? "Choose" : "Book",
+      onOpen: () => open2(i),
+      ...facts(i, M3, { nights: nights || 2, pax: pax || 2, rooms: rooms || 1 }),
+      ...i.cat === "dining" ? { slots: tablesFor(i, time, date).map((v) => ({ label: M3.clock(v), onClick: () => run({ f: "showItem", a: { id: i.id, pax, time: v, date } }, `${i.title}, ${M3.clock(v)}`) })) } : {}
+    }));
+    rows.forEach((r, k) => r._i = items[k]);
+    if (cat === "stays") {
+      const F0 = ["Free cancellation", "Breakfast included", "Price: low to high", "Star rating"];
+      let shown = rows.filter((r) => filt.every((f) => !/^(Free cancellation|Breakfast included)$/.test(f) || (r.lines || []).some((l) => l.t === f)));
+      if (filt.includes("Price: low to high")) shown = [...shown].sort((a, b2) => stayP(a._i) - stayP(b2._i));
+      if (filt.includes("Star rating")) shown = [...shown].sort((a, b2) => (b2.stars || 0) - (a.stars || 0));
+      const flip = (f) => setFilt(filt.includes(f) ? filt.filter((x) => x !== f) : [...filt.filter((x) => !(/^(Price|Star)/.test(f) && /^(Price|Star)/.test(x))), f]);
+      const city = items[0].city || "", din = date || stayDefault(), n0 = nights || 2;
+      return /* @__PURE__ */ React.createElement("div", { className: "gr-col", style: { gap: 12 } }, /* @__PURE__ */ React.createElement(Results, { items: [], summary: { title: city, sub: `${M3.date(din)} \u2013 ${M3.date(addDays(din, n0))} \xB7 ${rooms || 1} room${(rooms || 1) > 1 ? "s" : ""} \xB7 ${pax || 2} guest${(pax || 2) > 1 ? "s" : ""}` }, filters: F0, active: filt, onFilter: flip, count: `${shown.length} of ${rows.length} places to stay` }), shown.length ? /* @__PURE__ */ React.createElement(Results, { items: shown, big: true }) : /* @__PURE__ */ React.createElement(StateNote, { title: "Nothing matches", body: "Clear a filter to see more places." }));
+    }
+    return /* @__PURE__ */ React.createElement(Results, { items: rows });
+  }
+  function tablesFor(i, time, date) {
+    var _a;
+    const all = (((_a = i.opts) == null ? void 0 : _a.values) || []).filter((v) => /^\d\d:\d\d/.test(v)), now = /* @__PURE__ */ new Date(), today = !date || date === iso2(now), nowM = now.getHours() * 60 + now.getMinutes() + 30;
+    const m = (v) => +v.slice(0, 2) * 60 + +v.slice(3, 5), h = hsh2(i.id + (date || ""));
+    const open2 = all.filter((v, k) => (!today || m(v) > nowM) && (h >> k) % 4 !== 0);
+    const want = time && /^\d\d:\d\d/.test(String(time)) ? m(String(time)) : null;
+    return (want == null ? open2.slice(0, 4) : [...open2].sort((a, b2) => Math.abs(m(a) - want) - Math.abs(m(b2) - want)).slice(0, 4)).sort((a, b2) => m(a) - m(b2));
+  }
+  var hsh2 = (x) => {
+    let h = 2166136261;
+    for (const c2 of x) {
+      h ^= c2.charCodeAt(0);
+      h = Math.imul(h, 16777619);
+    }
+    h ^= h >>> 13;
+    h = Math.imul(h, 1540483477);
+    h ^= h >>> 15;
+    return h >>> 0;
+  };
+  var scoreWord = (r) => r >= 4.8 ? "Exceptional" : r >= 4.6 ? "Excellent" : r >= 4.3 ? "Very good" : r >= 4 ? "Good" : "Pleasant";
+  var reviews = (i, M3) => `${M3.num(180 + hsh2(i.id) % 2900)} reviews`;
+  function facts(i, M3, o) {
+    var _a, _b, _c, _d, _e;
+    const score = i.rating ? { v: i.rating.toFixed(1), word: scoreWord(i.rating), n: reviews(i, M3) } : void 0;
+    const free = /free cancel|refund/i.test(i.policy || "") && !/non-refundable|no refunds/i.test(i.policy || "");
+    const h = hsh2(i.id), idx = +(((_a = i.id.match(/-(\d+)$/)) == null ? void 0 : _a[1]) || 0);
+    if (i.cat === "stays") {
+      const extras = (i.meta || []).filter((x) => x !== "Breakfast");
+      return {
+        stars: [4, 4, 5, 5][idx] || 4,
+        score,
+        meta: [i.sub || "", `${(/airport/i.test(i.sub || "") ? 9 + h % 60 / 10 : /centre|center|old town|george town|panjim|on the island/i.test(i.sub || "") ? 0.2 + h % 6 / 10 : /station/i.test(i.sub || "") ? 0.6 + h % 9 / 10 : 1.5 + h % 25 / 10).toFixed(1)} km from centre`],
+        lines: [{ t: `${(((_b = i.opts) == null ? void 0 : _b.values[0]) || "Double").replace(/ \(.*\)/, "")} room${extras.length ? ` \xB7 ${extras.join(" \xB7 ")}` : ""}` }, ...free ? [{ t: "Free cancellation", tone: "good" }] : [], ...(i.meta || []).includes("Breakfast") ? [{ t: "Breakfast included", tone: "good" }] : [], ...h % 3 === 0 ? [{ t: `Only ${2 + h % 3} rooms left at this price`, tone: "warn" }] : []],
+        top: `${o.nights} night${o.nights > 1 ? "s" : ""}, ${o.pax} ${o.pax > 1 ? "adults" : "adult"}${o.rooms > 1 ? `, ${o.rooms} rooms` : ""}`,
+        note: "Includes taxes and fees"
+      };
+    }
+    if (i.cat === "dining") {
+      const [band, ...rest] = i.meta || [], offer = rest.find((x) => /off|points|×/.test(x)), slots = (() => {
+        var _a2;
+        const all = (((_a2 = i.opts) == null ? void 0 : _a2.values) || []).filter((v) => /^\d\d:\d\d/.test(v)), st2 = h % Math.max(1, all.length - 2);
+        return all.slice(st2, st2 + 3);
+      })();
+      return { score, meta: [((_c = i.sub) == null ? void 0 : _c.split(" \xB7 ")[0]) || "", band || ""], lines: [...offer && offer !== i.earn ? [{ t: offer, tone: "accent" }] : [], { t: `Booked ${4 + h % 40} times today` }] };
+    }
+    if (i.cat === "experiences") return { score, meta: [i.sub || "", ...(i.meta || []).slice(0, 2)], lines: [...free ? [{ t: "Free cancellation", tone: "good" }] : [], ...h % 4 === 0 ? [{ t: "Likely to sell out", tone: "warn" }] : []], top: "From" };
+    if (i.cat === "tickets") {
+      const [venue, when] = (i.sub || "").split(" \xB7 ");
+      return { meta: [when || "", venue || ""], lines: [...(i.meta || []).map((x) => ({ t: x, tone: "accent" })), ...((_d = i.soldOut) == null ? void 0 : _d.length) ? [{ t: "Selling fast", tone: "warn" }] : [], ...free ? [{ t: i.policy || "", tone: "good" }] : []], top: "From" };
+    }
+    if (i.cat === "rides" && /^Car hire/.test(i.title)) return { title: `${i.title.replace(/^Car hire: /, "").replace(/^\w/, (c2) => c2.toUpperCase())}, or similar`, meta: [i.sub || ""], lines: [{ t: "5 seats \xB7 2 bags \xB7 Automatic \xB7 Air con" }, ...(i.meta || []).length ? [{ t: (i.meta || []).join(" \xB7 ") }] : [], ...free ? [{ t: "Free cancellation", tone: "good" }] : []] };
+    if (i.cat === "rides" && /^(Train|Coach|Bus) to /.test(i.title)) {
+      const slots = (((_e = i.opts) == null ? void 0 : _e.values) || []).slice(0, 3);
+      return { meta: [i.sub || ""], lines: [{ t: `Departs ${slots.map((v) => M3.clock(v)).join(", ")}` }, { t: "E-ticket on your phone" }], top: "From" };
+    }
+    if (i.cat === "rides") return { meta: [i.sub || "", ...(i.meta || []).slice(0, 1)], lines: [...free || /cancel/i.test(i.policy || "") ? [{ t: /until the driver/i.test(i.policy || "") ? "Free to cancel until the driver arrives" : "Free cancellation", tone: "good" }] : []] };
+    if (i.cat === "shopping") return { score, meta: [i.sub || ""], lines: [{ t: (i.meta || []).find((x) => /deliver/i.test(x)) || `Delivery by ${M3.date(addDays(iso2(/* @__PURE__ */ new Date()), 2), "day")}`, tone: "good" }, .../return/i.test(i.policy || "") ? [{ t: "Free returns within 30 days" }] : []] };
+    return { score };
   }
   function StateWrap({ state, title, body, was, now, actions = [], bk: bk2 }) {
     const [used0, setUsed0] = useState("");
@@ -9370,6 +9614,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     const name = (x) => x === "std" ? "Standard" : x === "flex" ? "Flex" : "Light";
     const late = (/* @__PURE__ */ new Date(f.date + "T" + f.dep + ":00")).getTime() - Date.now() < 864e5;
     const fares = [{ id: "light", sub: "Small bag only", inc: ["A small bag under the seat", "Seats given at check-in", "No changes or refunds"] }, { id: "std", sub: "Cabin bag, seat, free date change", pop: true, inc: ["A small bag and a cabin bag", "Choose a standard seat", "Change the date for free"] }, { id: "flex", sub: "Checked bag, any seat, refundable", inc: ["A cabin bag and a checked bag", "Any seat, extra legroom included", late ? "Refund less 30%" : "Full refund up to 24 hours before", "Fast track at security"] }];
+    const fee = (x) => M3.money(Math.round(q2(x).each * 0.3));
+    const facts2 = { light: [{ t: "Small bag under the seat", ok: true }, { t: "Seat given at check-in", ok: false }, { t: "No date changes", ok: false }, { t: "No refund", ok: false }], std: [{ t: "Small bag and 10 kg cabin bag", ok: true }, { t: "Choose a standard seat", ok: true }, { t: "Date change free", ok: true }, { t: `Cancellation fee ${fee("std")}`, ok: false }], flex: [{ t: "Cabin bag and 23 kg checked bag", ok: true }, { t: "Any seat, extra legroom", ok: true }, { t: "Date change free", ok: true }, { t: late ? `Refund less ${fee("flex")}` : "Full refund up to 24 hours before", ok: true }] };
     const leg = (x, out) => /* @__PURE__ */ React.createElement("div", { className: "ds-leg", key: x.id }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-ic" }, /* @__PURE__ */ React.createElement(Icon, { name: out ? "takeoff" : "landing", size: 18, stroke: 2 })), /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, `${x.dep}\u2013${x.arr}${x.plus ? " +1" : ""} \xB7 ${x.from} to ${x.to}`), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, `${M3.date(x.date)} \xB7 ${x.stops ? `1 stop, ${x.via}` : "Direct"} \xB7 ${x.dur} \xB7 ${AIRLINES[x.airline]}`)));
     const tot = q2(v).each * pax + infantFare(q2(v).each) * inf;
     return /* @__PURE__ */ React.createElement("fieldset", { className: "app-fs", disabled: done }, /* @__PURE__ */ React.createElement(
@@ -9378,7 +9624,6 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         art: img("fly:" + f.city),
         title: `${home(M3.id).city} to ${f.city}`,
         price: price(q2(v).each, `per person${s.backF ? backCity ? `, home from ${backCity}` : ", both ways" : ""}`),
-        checks: fares.find((x) => x.id === v).inc,
         cta: `Continue with ${name(v)}`,
         done: done ? `${name(v)} fare chosen` : void 0,
         disabled: done,
@@ -9392,7 +9637,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       backs.length > 1 && /* @__PURE__ */ React.createElement(Opt, { label: backCity ? `Home from ${backCity} on ${M3.date(back)}` : `Return on ${M3.date(back)}`, id: "rt-" + id }, /* @__PURE__ */ React.createElement("div", { className: "gr-slots", role: "radiogroup", "aria-labelledby": "rt-" + id }, backs.map((o) => /* @__PURE__ */ React.createElement("button", { key: o.id, className: "gr-slot", role: "radio", "aria-checked": bid === o.id, onClick: () => setBid(o.id) }, `${o.dep} \xB7 ${o.stops ? "1 stop" : "Direct"}`)))),
       /* @__PURE__ */ React.createElement(Opt, { label: "Fare", id: "fr-" + id }, /* @__PURE__ */ React.createElement("div", { className: "ds-fares", role: "radiogroup", "aria-labelledby": "fr-" + id }, fares.map((x) => /* @__PURE__ */ React.createElement("button", { key: x.id, role: "radio", "aria-checked": v === x.id, className: "ds-fare", onClick: () => {
         if (!done) setV(x.id);
-      } }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, name(x.id), x.pop && /* @__PURE__ */ React.createElement("span", { className: "ds-fare-tag" }, "Most picked")), /* @__PURE__ */ React.createElement("span", { className: "ds-row-s" }, x.sub)), /* @__PURE__ */ React.createElement("span", { className: "ds-fare-p" }, price(q2(x.id).each)), /* @__PURE__ */ React.createElement("span", { className: "ds-tick", "aria-hidden": "true" }, v === x.id && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6 }))))))
+      } }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-b" }, /* @__PURE__ */ React.createElement("span", { className: "ds-row-t" }, name(x.id), x.pop && /* @__PURE__ */ React.createElement("span", { className: "ds-fare-tag" }, "Most picked")), /* @__PURE__ */ React.createElement("span", { className: "ds-fare-ls" }, facts2[x.id].map((l) => /* @__PURE__ */ React.createElement("span", { key: l.t, className: "ds-fare-l" + (l.ok ? " ok" : "") }, /* @__PURE__ */ React.createElement(Icon, { name: l.ok ? "check" : "minus", size: 12, stroke: 2.6 }), l.t)))), /* @__PURE__ */ React.createElement("span", { className: "ds-fare-p" }, price(q2(x.id).each)), /* @__PURE__ */ React.createElement("span", { className: "ds-tick", "aria-hidden": "true" }, v === x.id && /* @__PURE__ */ React.createElement(Icon, { name: "check", size: 14, stroke: 2.6 }))))))
     ));
   }
   var TAKEN = ["12A", "12B", "13F", "14C", "15A", "15B", "16E", "16F"];
@@ -10570,7 +10815,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   // src/ar-dict.ts
   var CITY = { Dubai: "\u062F\u0628\u064A", Muscat: "\u0645\u0633\u0642\u0637", London: "\u0644\u0646\u062F\u0646", Istanbul: "\u0625\u0633\u0637\u0646\u0628\u0648\u0644", "Mal\xE9": "\u0645\u0627\u0644\u064A\u0647", Bangkok: "\u0628\u0627\u0646\u0643\u0648\u0643" };
   var COUNTRY = { Oman: "\u0639\u064F\u0645\u0627\u0646", UK: "\u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0645\u062A\u062D\u062F\u0629", "T\xFCrkiye": "\u062A\u0631\u0643\u064A\u0627", Maldives: "\u062C\u0632\u0631 \u0627\u0644\u0645\u0627\u0644\u062F\u064A\u0641", Thailand: "\u062A\u0627\u064A\u0644\u0627\u0646\u062F", UAE: "\u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062A" };
-  var c = (s) => CITY[s] || s;
+  var WORLD = { Tokyo: "\u0637\u0648\u0643\u064A\u0648", Japan: "\u0627\u0644\u064A\u0627\u0628\u0627\u0646", Reykjavik: "\u0631\u064A\u0643\u064A\u0627\u0641\u064A\u0643", Peru: "\u0628\u064A\u0631\u0648", Manchester: "\u0645\u0627\u0646\u0634\u0633\u062A\u0631", Paris: "\u0628\u0627\u0631\u064A\u0633", Barcelona: "\u0628\u0631\u0634\u0644\u0648\u0646\u0629", Lisbon: "\u0644\u0634\u0628\u0648\u0646\u0629", Rome: "\u0631\u0648\u0645\u0627", Amsterdam: "\u0623\u0645\u0633\u062A\u0631\u062F\u0627\u0645", Edinburgh: "\u0625\u062F\u0646\u0628\u0631\u0629", "New York": "\u0646\u064A\u0648\u064A\u0648\u0631\u0643", Singapore: "\u0633\u0646\u063A\u0627\u0641\u0648\u0631\u0629", "Kuala Lumpur": "\u0643\u0648\u0627\u0644\u0627\u0644\u0645\u0628\u0648\u0631", Sydney: "\u0633\u064A\u062F\u0646\u064A", Bali: "\u0628\u0627\u0644\u064A", Goa: "\u063A\u0648\u0627", Delhi: "\u062F\u0644\u0647\u064A", Mumbai: "\u0645\u0648\u0645\u0628\u0627\u064A", Bengaluru: "\u0628\u0646\u063A\u0627\u0644\u0648\u0631\u0648", Penang: "\u0628\u064A\u0646\u0627\u0646\u063A", Langkawi: "\u0644\u0646\u0643\u0627\u0648\u064A", Harrow: "\u0647\u0627\u0631\u0648", Milan: "\u0645\u064A\u0644\u0627\u0646\u0648", Madrid: "\u0645\u062F\u0631\u064A\u062F", Berlin: "\u0628\u0631\u0644\u064A\u0646", Cairo: "\u0627\u0644\u0642\u0627\u0647\u0631\u0629", Riyadh: "\u0627\u0644\u0631\u064A\u0627\u0636", Doha: "\u0627\u0644\u062F\u0648\u062D\u0629" };
+  var c = (s) => CITY[s] || WORLD[s] || s;
   var MON = { Jan: "\u064A\u0646\u0627\u064A\u0631", Feb: "\u0641\u0628\u0631\u0627\u064A\u0631", Mar: "\u0645\u0627\u0631\u0633", Apr: "\u0623\u0628\u0631\u064A\u0644", May: "\u0645\u0627\u064A\u0648", Jun: "\u064A\u0648\u0646\u064A\u0648", Jul: "\u064A\u0648\u0644\u064A\u0648", Aug: "\u0623\u063A\u0633\u0637\u0633", Sep: "\u0633\u0628\u062A\u0645\u0628\u0631", Oct: "\u0623\u0643\u062A\u0648\u0628\u0631", Nov: "\u0646\u0648\u0641\u0645\u0628\u0631", Dec: "\u062F\u064A\u0633\u0645\u0628\u0631" };
   var DAY = { Mon: "\u0627\u0644\u0627\u062B\u0646\u064A\u0646", Tue: "\u0627\u0644\u062B\u0644\u0627\u062B\u0627\u0621", Wed: "\u0627\u0644\u0623\u0631\u0628\u0639\u0627\u0621", Thu: "\u0627\u0644\u062E\u0645\u064A\u0633", Fri: "\u0627\u0644\u062C\u0645\u0639\u0629", Sat: "\u0627\u0644\u0633\u0628\u062A", Sun: "\u0627\u0644\u0623\u062D\u062F" };
   var d = (s) => s.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/g, (x) => DAY[x]).replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/g, (x) => MON[x]);
@@ -10593,6 +10839,58 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var LAB = { restaurants: ["\u0645\u0637\u0639\u0645 \u0648\u0627\u062D\u062F", "\u0645\u0637\u0639\u0645\u064A\u0646", "\u0645\u0637\u0627\u0639\u0645", "\u0645\u0637\u0639\u0645\u064B\u0627"], "places to stay": ["\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629 \u0648\u0627\u062D\u062F", "\u0645\u0643\u0627\u0646\u064E\u064A \u0625\u0642\u0627\u0645\u0629", "\u0623\u0645\u0627\u0643\u0646 \u0625\u0642\u0627\u0645\u0629", "\u0645\u0643\u0627\u0646 \u0625\u0642\u0627\u0645\u0629"], "things to do": ["\u0646\u0634\u0627\u0637 \u0648\u0627\u062D\u062F", "\u0646\u0634\u0627\u0637\u064A\u0646", "\u0623\u0646\u0634\u0637\u0629", "\u0646\u0634\u0627\u0637\u064B\u0627"], products: ["\u0645\u0646\u062A\u062C \u0648\u0627\u062D\u062F", "\u0645\u0646\u062A\u062C\u064A\u0646", "\u0645\u0646\u062A\u062C\u0627\u062A", "\u0645\u0646\u062A\u062C\u064B\u0627"], "gift cards": ["\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0628\u0637\u0627\u0642\u062A\u064E\u064A \u0647\u062F\u064A\u0629", "\u0628\u0637\u0627\u0642\u0627\u062A \u0647\u062F\u0627\u064A\u0627", "\u0628\u0637\u0627\u0642\u0629 \u0647\u062F\u064A\u0629"], subscriptions: ["\u0627\u0634\u062A\u0631\u0627\u0643 \u0648\u0627\u062D\u062F", "\u0627\u0634\u062A\u0631\u0627\u0643\u064A\u0646", "\u0627\u0634\u062A\u0631\u0627\u0643\u0627\u062A", "\u0627\u0634\u062A\u0631\u0627\u0643\u064B\u0627"], events: ["\u0641\u0639\u0627\u0644\u064A\u0629 \u0648\u0627\u062D\u062F\u0629", "\u0641\u0639\u0627\u0644\u064A\u062A\u064A\u0646", "\u0641\u0639\u0627\u0644\u064A\u0627\u062A", "\u0641\u0639\u0627\u0644\u064A\u0629"], "airport services": ["\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631 \u0648\u0627\u062D\u062F\u0629", "\u062E\u062F\u0645\u062A\u064E\u064A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0627\u062A \u0645\u0637\u0627\u0631", "\u062E\u062F\u0645\u0629 \u0645\u0637\u0627\u0631"], "ways to get there": ["\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644 \u0648\u0627\u062D\u062F\u0629", "\u0648\u0633\u064A\u0644\u062A\u064E\u064A \u062A\u0646\u0642\u0644", "\u0648\u0633\u0627\u0626\u0644 \u062A\u0646\u0642\u0644", "\u0648\u0633\u064A\u0644\u0629 \u062A\u0646\u0642\u0644"] };
   var D = {
     /* chat cards */
+    /* listings */
+    "Sort": "\u062A\u0631\u062A\u064A\u0628",
+    "Economy": "\u0627\u0644\u062F\u0631\u062C\u0629 \u0627\u0644\u0633\u064A\u0627\u062D\u064A\u0629",
+    "Price: low to high": "\u0627\u0644\u0633\u0639\u0631: \u0645\u0646 \u0627\u0644\u0623\u0642\u0644 \u0625\u0644\u0649 \u0627\u0644\u0623\u0639\u0644\u0649",
+    "Star rating": "\u062A\u0635\u0646\u064A\u0641 \u0627\u0644\u0646\u062C\u0648\u0645",
+    "Price breakup": "\u062A\u0641\u0627\u0635\u064A\u0644 \u0627\u0644\u0633\u0639\u0631",
+    "Base fare": "\u0627\u0644\u0633\u0639\u0631 \u0627\u0644\u0623\u0633\u0627\u0633\u064A",
+    "Taxes and airport fees": "\u0627\u0644\u0636\u0631\u0627\u0626\u0628 \u0648\u0631\u0633\u0648\u0645 \u0627\u0644\u0645\u0637\u0627\u0631",
+    "Booking fee": "\u0631\u0633\u0648\u0645 \u0627\u0644\u062D\u062C\u0632",
+    "None": "\u0644\u0627 \u0634\u064A\u0621",
+    "Total": "\u0627\u0644\u0625\u062C\u0645\u0627\u0644\u064A",
+    "Change planes": "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u0637\u0627\u0626\u0631\u0629",
+    "Long layover": "\u062A\u0648\u0642\u0641 \u0637\u0648\u064A\u0644",
+    "Same airport; your bag goes through": "\u0627\u0644\u0645\u0637\u0627\u0631 \u0646\u0641\u0633\u0647\u061B \u062D\u0642\u064A\u0628\u062A\u0643 \u062A\u0646\u062A\u0642\u0644 \u062A\u0644\u0642\u0627\u0626\u064A\u064B\u0627",
+    "Free date change": "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u062A\u0627\u0631\u064A\u062E \u0645\u062C\u0627\u0646\u064B\u0627",
+    "Nothing matches": "\u0644\u0627 \u0646\u062A\u0627\u0626\u062C \u0645\u0637\u0627\u0628\u0642\u0629",
+    "Clear a filter to see more places.": "\u0623\u0632\u0644 \u0623\u062D\u062F \u0627\u0644\u0645\u0631\u0634\u062D\u0627\u062A \u0644\u0631\u0624\u064A\u0629 \u0627\u0644\u0645\u0632\u064A\u062F.",
+    "Connecting airport": "\u0645\u0637\u0627\u0631 \u0627\u0644\u0631\u0628\u0637",
+    "Small bag under the seat": "\u062D\u0642\u064A\u0628\u0629 \u0635\u063A\u064A\u0631\u0629 \u062A\u062D\u062A \u0627\u0644\u0645\u0642\u0639\u062F",
+    "Seat given at check-in": "\u064A\u064F\u062D\u062F\u062F \u0627\u0644\u0645\u0642\u0639\u062F \u0639\u0646\u062F \u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u0648\u0635\u0648\u0644",
+    "No date changes": "\u0644\u0627 \u062A\u063A\u064A\u064A\u0631 \u0644\u0644\u062A\u0627\u0631\u064A\u062E",
+    "No refund": "\u0644\u0627 \u0627\u0633\u062A\u0631\u062F\u0627\u062F",
+    "Small bag and 10 kg cabin bag": "\u062D\u0642\u064A\u0628\u0629 \u0635\u063A\u064A\u0631\u0629 \u0648\u062D\u0642\u064A\u0628\u0629 \u0645\u0642\u0635\u0648\u0631\u0629 10 \u0643\u063A",
+    "Choose a standard seat": "\u0627\u062E\u062A\u0631 \u0645\u0642\u0639\u062F\u064B\u0627 \u0639\u0627\u062F\u064A\u064B\u0627",
+    "Date change free": "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u062A\u0627\u0631\u064A\u062E \u0645\u062C\u0627\u0646\u064B\u0627",
+    "Cabin bag and 23 kg checked bag": "\u062D\u0642\u064A\u0628\u0629 \u0645\u0642\u0635\u0648\u0631\u0629 \u0648\u062D\u0642\u064A\u0628\u0629 \u0645\u0633\u062C\u0644\u0629 23 \u0643\u063A",
+    "Any seat, extra legroom": "\u0623\u064A \u0645\u0642\u0639\u062F\u060C \u0645\u0633\u0627\u062D\u0629 \u0623\u0631\u062C\u0644 \u0625\u0636\u0627\u0641\u064A\u0629",
+    "Full refund up to 24 hours before": "\u0627\u0633\u062A\u0631\u062F\u0627\u062F \u0643\u0627\u0645\u0644 \u062D\u062A\u0649 24 \u0633\u0627\u0639\u0629 \u0642\u0628\u0644 \u0627\u0644\u0645\u0648\u0639\u062F",
+    "3 stars": "3 \u0646\u062C\u0648\u0645",
+    "4 stars": "4 \u0646\u062C\u0648\u0645",
+    "5 stars": "5 \u0646\u062C\u0648\u0645",
+    "Exceptional": "\u0627\u0633\u062A\u062B\u0646\u0627\u0626\u064A",
+    "Excellent": "\u0645\u0645\u062A\u0627\u0632",
+    "Very good": "\u062C\u064A\u062F \u062C\u062F\u064B\u0627",
+    "Good": "\u062C\u064A\u062F",
+    "Pleasant": "\u0645\u0642\u0628\u0648\u0644",
+    "Includes taxes and fees": "\u0634\u0627\u0645\u0644 \u0627\u0644\u0636\u0631\u0627\u0626\u0628 \u0648\u0627\u0644\u0631\u0633\u0648\u0645",
+    "Breakfast included": "\u0627\u0644\u0625\u0641\u0637\u0627\u0631 \u0645\u0634\u0645\u0648\u0644",
+    "Free cancellation": "\u0625\u0644\u063A\u0627\u0621 \u0645\u062C\u0627\u0646\u064A",
+    "Likely to sell out": "\u0642\u062F \u062A\u0646\u0641\u062F \u0642\u0631\u064A\u0628\u064B\u0627",
+    "Selling fast": "\u062A\u064F\u0628\u0627\u0639 \u0628\u0633\u0631\u0639\u0629",
+    "From": "\u0627\u0628\u062A\u062F\u0627\u0621\u064B \u0645\u0646",
+    "5 seats \xB7 2 bags \xB7 Automatic \xB7 Air con": "5 \u0645\u0642\u0627\u0639\u062F \xB7 \u062D\u0642\u064A\u0628\u062A\u0627\u0646 \xB7 \u0623\u0648\u062A\u0648\u0645\u0627\u062A\u064A\u0643 \xB7 \u062A\u0643\u064A\u064A\u0641",
+    "E-ticket on your phone": "\u062A\u0630\u0643\u0631\u0629 \u0625\u0644\u0643\u062A\u0631\u0648\u0646\u064A\u0629 \u0639\u0644\u0649 \u0647\u0627\u062A\u0641\u0643",
+    "Free returns within 30 days": "\u0625\u0631\u062C\u0627\u0639 \u0645\u062C\u0627\u0646\u064A \u062E\u0644\u0627\u0644 30 \u064A\u0648\u0645\u064B\u0627",
+    "Free to cancel until the driver arrives": "\u0625\u0644\u063A\u0627\u0621 \u0645\u062C\u0627\u0646\u064A \u062D\u062A\u0649 \u0648\u0635\u0648\u0644 \u0627\u0644\u0633\u0627\u0626\u0642",
+    "Best": "\u0627\u0644\u0623\u0641\u0636\u0644",
+    "Cheapest": "\u0627\u0644\u0623\u0631\u062E\u0635",
+    "Fastest": "\u0627\u0644\u0623\u0633\u0631\u0639",
+    "Earliest": "\u0627\u0644\u0623\u0628\u0643\u0631",
+    "Small bag only": "\u062D\u0642\u064A\u0628\u0629 \u0635\u063A\u064A\u0631\u0629 \u0641\u0642\u0637",
+    "Unlimited miles \xB7 Full-to-full fuel": "\u0643\u064A\u0644\u0648\u0645\u062A\u0631\u0627\u062A \u063A\u064A\u0631 \u0645\u062D\u062F\u0648\u062F\u0629 \xB7 \u062E\u0632\u0627\u0646 \u0645\u0645\u062A\u0644\u0626 \u0639\u0646\u062F \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645 \u0648\u0627\u0644\u0625\u0639\u0627\u062F\u0629",
     /* partner services: change, extras, the night itself */
     "Free cancellation up to 48 hours before": "\u0625\u0644\u063A\u0627\u0621 \u0645\u062C\u0627\u0646\u064A \u062D\u062A\u0649 48 \u0633\u0627\u0639\u0629 \u0642\u0628\u0644 \u0627\u0644\u0645\u0648\u0639\u062F",
     "Pay the service fee with points, card, or both.": "\u0627\u062F\u0641\u0639 \u0631\u0633\u0648\u0645 \u0627\u0644\u062E\u062F\u0645\u0629 \u0628\u0627\u0644\u0646\u0642\u0627\u0637 \u0623\u0648 \u0627\u0644\u0628\u0637\u0627\u0642\u0629 \u0623\u0648 \u0643\u0644\u064A\u0647\u0645\u0627.",
@@ -13372,6 +13670,42 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   var P3 = [
     /* chat cards */
     /* partner services */
+    [/^(\d+) flights? · one way$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0631\u062D\u0644\u0629" : "\u0631\u062D\u0644\u0627\u062A"} \xB7 \u0630\u0647\u0627\u0628 \u0641\u0642\u0637`],
+    [/^(\d+) rooms?$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u063A\u0631\u0641\u0629" : "\u063A\u0631\u0641"}`],
+    [/^(\d+) guests?$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0636\u064A\u0641" : "\u0636\u064A\u0648\u0641"}`],
+    [/^(\d+) of (\d+) places to stay$/, (m) => `${m[1]} \u0645\u0646 ${m[2]} \u0623\u0645\u0627\u0643\u0646 \u0625\u0642\u0627\u0645\u0629`],
+    [/^(.+?), (\d\d:\d\d) to (\d\d:\d\d), (Direct|1 stop · [A-Z]{3})$/, (m) => `${tr1(m[1]) || m[1]}\u060C ${m[2]} \u0625\u0644\u0649 ${m[3]}\u060C ${m[4] === "Direct" ? "\u0645\u0628\u0627\u0634\u0631\u0629" : `\u062A\u0648\u0642\u0641 \u0648\u0627\u062D\u062F \xB7 ${m[4].slice(-3)}`}`],
+    [/^(each, )?for (\d+) travell?ers?$/, (m) => `${m[1] ? "\u0644\u0644\u0634\u062E\u0635\u060C " : ""}\u0644\u0640 ${m[2]} ${+m[2] === 1 ? "\u0645\u0633\u0627\u0641\u0631" : "\u0645\u0633\u0627\u0641\u0631\u064A\u0646"}`],
+    [/^([A-Z]{3}) to ([A-Z]{3}) · (.+)$/, (m) => `${m[1]} \u0625\u0644\u0649 ${m[2]} \xB7 ${d(m[3])}`],
+    [/^([A-Z]{3}) · Terminal (\w+)$/, (m) => `${m[1]} \xB7 \u0645\u0628\u0646\u0649 ${m[2]}`],
+    [/^(.+?) · ([A-Z]{2} \d+)$/, (m) => {
+      const a = { "Northway Air": "\u0646\u0648\u0631\u062B\u0648\u0627\u064A \u0625\u064A\u0631", Coastline: "\u0643\u0648\u0633\u062A\u0644\u0627\u064A\u0646", "Aurora Air": "\u0623\u0648\u0631\u0648\u0631\u0627 \u0625\u064A\u0631" }[m[1]];
+      return a ? `${a} \xB7 ${m[2]}` : null;
+    }],
+    [/^(.+) Airport$/, (m) => /^[A-Z]/.test(m[1]) && !/ /.test(m[1].replace(/^(Doha Hamad|Milan Malpensa|Taipei Taoyuan|Kuala Lumpur)$/, "X")) ? `\u0645\u0637\u0627\u0631 ${tr1(m[1]) || m[1]}` : null],
+    [/^Cancellation fee (.+)$/, (m) => `\u0631\u0633\u0648\u0645 \u0627\u0644\u0625\u0644\u063A\u0627\u0621 ${m[1]}`],
+    [/^Refund less (.+)$/, (m) => `\u0627\u0633\u062A\u0631\u062F\u0627\u062F \u0628\u0639\u062F \u062E\u0635\u0645 ${m[1]}`],
+    [/^\+(.+)$/, (m) => isMoney(m[1]) ? `+${m[1]}` : null],
+    [/^(.+?) or (\d[\d,]*) (points|نقطة)$/, (m) => isMoney(m[1]) ? `${m[1]} \u0623\u0648 ${m[2]} \u0646\u0642\u0637\u0629` : null],
+    [/^(\d[\d,]*) reviews$/, (m) => `${m[1]} \u062A\u0642\u064A\u064A\u0645`],
+    [/^(.+?) · (\d[\d,]*) reviews$/, (m) => {
+      const w = { Exceptional: "\u0627\u0633\u062A\u062B\u0646\u0627\u0626\u064A", Excellent: "\u0645\u0645\u062A\u0627\u0632", "Very good": "\u062C\u064A\u062F \u062C\u062F\u064B\u0627", Good: "\u062C\u064A\u062F", Pleasant: "\u0645\u0642\u0628\u0648\u0644" }[m[1]];
+      return w ? `${w} \xB7 ${m[2]} \u062A\u0642\u064A\u064A\u0645` : null;
+    }],
+    [/^([\d.]+) km from centre$/, (m) => `${m[1]} \u0643\u0645 \u0645\u0646 \u0627\u0644\u0645\u0631\u0643\u0632`],
+    [/^(Double|Twin|Suite) room( · (.+))?$/, (m) => `\u063A\u0631\u0641\u0629 ${{ Double: "\u0645\u0632\u062F\u0648\u062C\u0629", Twin: "\u0628\u0633\u0631\u064A\u0631\u064A\u0646", Suite: "\u062C\u0646\u0627\u062D" }[m[1]]}${m[2] ? " \xB7 " + m[3].split(" \xB7 ").map((x) => ({ Pool: "\u0645\u0633\u0628\u062D", "Rooftop bar": "\u0628\u0627\u0631 \u0639\u0644\u0649 \u0627\u0644\u0633\u0637\u062D", Gym: "\u0646\u0627\u062F\u064D \u0631\u064A\u0627\u0636\u064A", Spa: "\u0633\u0628\u0627" })[x] || x).join(" \xB7 ") : ""}`],
+    [/^Only (\d+) rooms left at this price$/, (m) => `\u0628\u0642\u064A\u062A ${m[1]} \u063A\u0631\u0641 \u0641\u0642\u0637 \u0628\u0647\u0630\u0627 \u0627\u0644\u0633\u0639\u0631`],
+    [/^(\d+) nights?, (\d+) adults?(, (\d+) rooms)?$/, (m) => `${m[1]} ${+m[1] === 1 ? "\u0644\u064A\u0644\u0629" : "\u0644\u064A\u0627\u0644\u064D"}\u060C ${m[2]} ${+m[2] === 1 ? "\u0628\u0627\u0644\u063A" : "\u0628\u0627\u0644\u063A\u064A\u0646"}${m[3] ? `\u060C ${m[4]} \u063A\u0631\u0641` : ""}`],
+    [/^Tables at (.+)$/, (m) => `\u0637\u0627\u0648\u0644\u0627\u062A \u0627\u0644\u0633\u0627\u0639\u0629 ${m[1].replace(/, /g, "\u060C ")}`],
+    [/^Booked (\d+) times today$/, (m) => `\u062D\u064F\u062C\u0632 ${m[1]} \u0645\u0631\u0629 \u0627\u0644\u064A\u0648\u0645`],
+    [/^Departs (.+)$/, (m) => `\u064A\u063A\u0627\u062F\u0631 ${m[1].replace(/, /g, "\u060C ")}`],
+    [/^Delivery by (.+)$/, (m) => `\u0627\u0644\u062A\u0648\u0635\u064A\u0644 \u0628\u062D\u0644\u0648\u0644 ${d(m[1])}`],
+    [/^Direct$/, () => "\u0645\u0628\u0627\u0634\u0631\u0629"],
+    [/^1 stop · ([A-Z]{3})$/, (m) => `\u062A\u0648\u0642\u0641 \u0648\u0627\u062D\u062F \xB7 ${m[1]}`],
+    [/^(\d+) seats left at this price$/, (m) => `\u0628\u0642\u064A\u062A ${m[1]} \u0645\u0642\u0627\u0639\u062F \u0628\u0647\u0630\u0627 \u0627\u0644\u0633\u0639\u0631`],
+    [/^(.+), or similar$/, (m) => `${tr1(m[1].charAt(0).toUpperCase() + m[1].slice(1)) || m[1].replace(/^Compact automatic$/, "\u0633\u064A\u0627\u0631\u0629 \u0645\u062F\u0645\u062C\u0629 \u0623\u0648\u062A\u0648\u0645\u0627\u062A\u064A\u0643")} \u0623\u0648 \u0645\u0627 \u064A\u0645\u0627\u062B\u0644\u0647\u0627`],
+    [/^(.+?) · (\d+h(?: \d+m)?)$/, (m) => isMoney(m[1]) ? `${m[1]} \xB7 ${m[2].replace("h", " \u0633").replace("m", " \u062F")}` : null],
+    [/^([A-Z]{3})–([A-Z]{3})$/, (m) => `${m[1]}\u2013${m[2]}`],
     [/^(\d+GB|Unlimited) for (\d+) days$/, (m) => `${m[1] === "Unlimited" ? "\u063A\u064A\u0631 \u0645\u062D\u062F\u0648\u062F" : m[1]} \u0644\u0645\u062F\u0629 ${m[2]} ${+m[2] <= 10 ? "\u0623\u064A\u0627\u0645" : "\u064A\u0648\u0645\u064B\u0627"}`],
     [/^(.+) · (Seated, lower|Seated, upper|Standing)$/, (m) => `${m[1]} \xB7 ${{ "Seated, lower": "\u0627\u0644\u0645\u0642\u0627\u0639\u062F \u0627\u0644\u0633\u0641\u0644\u064A\u0629", "Seated, upper": "\u0627\u0644\u0645\u0642\u0627\u0639\u062F \u0627\u0644\u0639\u0644\u0648\u064A\u0629", Standing: "\u0627\u0644\u0648\u0642\u0648\u0641" }[m[2]]}`],
     [/^The insurer approved your claim \((.+?)\)\. (.+?) is paid to your card\.$/, (m) => `\u0648\u0627\u0641\u0642\u062A \u0634\u0631\u0643\u0629 \u0627\u0644\u062A\u0623\u0645\u064A\u0646 \u0639\u0644\u0649 \u0645\u0637\u0627\u0644\u0628\u062A\u0643 (${{ "trip cancelled": "\u0623\u064F\u0644\u063A\u064A\u062A \u0627\u0644\u0631\u062D\u0644\u0629", "flight delayed over 6 hours": "\u062A\u0623\u062E\u0631\u062A \u0627\u0644\u0631\u062D\u0644\u0629 \u0623\u0643\u062B\u0631 \u0645\u0646 6 \u0633\u0627\u0639\u0627\u062A", "bag lost or delayed": "\u062D\u0642\u064A\u0628\u0629 \u0645\u0641\u0642\u0648\u062F\u0629 \u0623\u0648 \u0645\u062A\u0623\u062E\u0631\u0629", "medical costs abroad": "\u062A\u0643\u0627\u0644\u064A\u0641 \u0637\u0628\u064A\u0629 \u0641\u064A \u0627\u0644\u062E\u0627\u0631\u062C" }[m[1]] || m[1]}). \u062F\u064F\u0641\u0639 ${m[2]} \u0625\u0644\u0649 \u0628\u0637\u0627\u0642\u062A\u0643.`],
@@ -17326,7 +17660,7 @@ Message to check: ${JSON.stringify(text.slice(0, 600))}`, { modelTier: "quick", 
         var _a;
         return (_a = document.querySelector(".gr-ask input")) == null ? void 0 : _a.focus();
       }, 60);
-    } }), /* @__PURE__ */ React.createElement(ConfirmHost, null)));
+    } }), /* @__PURE__ */ React.createElement(ConfirmHost, null), /* @__PURE__ */ React.createElement(InfoHost, null)));
   }
   W7.ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));
   var reAR = arabic(document.getElementById("root"));

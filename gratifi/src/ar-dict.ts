@@ -3,7 +3,9 @@
 
 const CITY: Record<string, string> = { Dubai: 'دبي', Muscat: 'مسقط', London: 'لندن', Istanbul: 'إسطنبول', 'Malé': 'ماليه', Bangkok: 'بانكوك' }
 const COUNTRY: Record<string, string> = { Oman: 'عُمان', UK: 'المملكة المتحدة', 'Türkiye': 'تركيا', Maldives: 'جزر المالديف', Thailand: 'تايلاند', UAE: 'الإمارات' }
-const c = (s: string) => CITY[s] || s
+/** Places people type that the app can't book yet, so the reply still reads in Arabic. */
+const WORLD: Record<string, string> = { Tokyo: 'طوكيو', Japan: 'اليابان', Reykjavik: 'ريكيافيك', Peru: 'بيرو', Manchester: 'مانشستر', Paris: 'باريس', Barcelona: 'برشلونة', Lisbon: 'لشبونة', Rome: 'روما', Amsterdam: 'أمستردام', Edinburgh: 'إدنبرة', 'New York': 'نيويورك', Singapore: 'سنغافورة', 'Kuala Lumpur': 'كوالالمبور', Sydney: 'سيدني', Bali: 'بالي', Goa: 'غوا', Delhi: 'دلهي', Mumbai: 'مومباي', Bengaluru: 'بنغالورو', Penang: 'بينانغ', Langkawi: 'لنكاوي', Harrow: 'هارو', Milan: 'ميلانو', Madrid: 'مدريد', Berlin: 'برلين', Cairo: 'القاهرة', Riyadh: 'الرياض', Doha: 'الدوحة' }
+const c = (s: string) => CITY[s] || WORLD[s] || s
 const MON: Record<string, string> = { Jan: 'يناير', Feb: 'فبراير', Mar: 'مارس', Apr: 'أبريل', May: 'مايو', Jun: 'يونيو', Jul: 'يوليو', Aug: 'أغسطس', Sep: 'سبتمبر', Oct: 'أكتوبر', Nov: 'نوفمبر', Dec: 'ديسمبر' }
 const DAY: Record<string, string> = { Mon: 'الاثنين', Tue: 'الثلاثاء', Wed: 'الأربعاء', Thu: 'الخميس', Fri: 'الجمعة', Sat: 'السبت', Sun: 'الأحد' }
 const d = (s: string) => s.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/g, x => DAY[x]).replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/g, x => MON[x])
@@ -29,6 +31,12 @@ const LAB: Record<string, string[]> = { restaurants: ['مطعم واحد', 'مط
 
 export const D: Record<string, string> = {
   /* chat cards */
+  /* listings */
+  "Sort": "ترتيب", "Economy": "الدرجة السياحية", "Price: low to high": "السعر: من الأقل إلى الأعلى", "Star rating": "تصنيف النجوم", "Price breakup": "تفاصيل السعر", "Base fare": "السعر الأساسي", "Taxes and airport fees": "الضرائب ورسوم المطار", "Booking fee": "رسوم الحجز", "None": "لا شيء", "Total": "الإجمالي",
+  "Change planes": "تغيير الطائرة", "Long layover": "توقف طويل", "Same airport; your bag goes through": "المطار نفسه؛ حقيبتك تنتقل تلقائيًا", "Free date change": "تغيير التاريخ مجانًا", "Nothing matches": "لا نتائج مطابقة", "Clear a filter to see more places.": "أزل أحد المرشحات لرؤية المزيد.", "Connecting airport": "مطار الربط",
+  "Small bag under the seat": "حقيبة صغيرة تحت المقعد", "Seat given at check-in": "يُحدد المقعد عند تسجيل الوصول", "No date changes": "لا تغيير للتاريخ", "No refund": "لا استرداد", "Small bag and 10 kg cabin bag": "حقيبة صغيرة وحقيبة مقصورة 10 كغ", "Choose a standard seat": "اختر مقعدًا عاديًا", "Date change free": "تغيير التاريخ مجانًا", "Cabin bag and 23 kg checked bag": "حقيبة مقصورة وحقيبة مسجلة 23 كغ", "Any seat, extra legroom": "أي مقعد، مساحة أرجل إضافية", "Full refund up to 24 hours before": "استرداد كامل حتى 24 ساعة قبل الموعد", "3 stars": "3 نجوم", "4 stars": "4 نجوم", "5 stars": "5 نجوم", "Exceptional": "استثنائي", "Excellent": "ممتاز", "Very good": "جيد جدًا", "Good": "جيد", "Pleasant": "مقبول", "Includes taxes and fees": "شامل الضرائب والرسوم", "Breakfast included": "الإفطار مشمول", "Free cancellation": "إلغاء مجاني", "Likely to sell out": "قد تنفد قريبًا", "Selling fast": "تُباع بسرعة",
+  "From": "ابتداءً من", "5 seats · 2 bags · Automatic · Air con": "5 مقاعد · حقيبتان · أوتوماتيك · تكييف", "E-ticket on your phone": "تذكرة إلكترونية على هاتفك", "Free returns within 30 days": "إرجاع مجاني خلال 30 يومًا", "Free to cancel until the driver arrives": "إلغاء مجاني حتى وصول السائق",
+  "Best": "الأفضل", "Cheapest": "الأرخص", "Fastest": "الأسرع", "Earliest": "الأبكر", "Small bag only": "حقيبة صغيرة فقط", "Unlimited miles · Full-to-full fuel": "كيلومترات غير محدودة · خزان ممتلئ عند الاستلام والإعادة",
   /* partner services: change, extras, the night itself */
   "Free cancellation up to 48 hours before": "إلغاء مجاني حتى 48 ساعة قبل الموعد", "Pay the service fee with points, card, or both.": "ادفع رسوم الخدمة بالنقاط أو البطاقة أو كليهما.", "Refunded if nothing is needed for your passport": "تُسترد إن لم يحتج جوازك إلى شيء",
   "No refunds unless the event is cancelled or moved. Resell at face value through the official resale.": "لا استرداد إلا إذا أُلغيت الفعالية أو أُجّلت. يمكن إعادة البيع بسعرها الأصلي عبر منصة إعادة البيع الرسمية.", "No refunds unless the event is cancelled or moved. Resell at face value through the official resale": "لا استرداد إلا إذا أُلغيت الفعالية أو أُجّلت. يمكن إعادة البيع بسعرها الأصلي عبر منصة إعادة البيع الرسمية",
@@ -1711,6 +1719,33 @@ const alertAr = (w: string): string => w.replace(/^(?:when|if) (?:the )?(?:fares
 export const P: [RegExp, (m: RegExpMatchArray) => string | null][] = [
   /* chat cards */
   /* partner services */
+  [/^(\d+) flights? · one way$/, m => `${m[1]} ${+m[1] === 1 ? 'رحلة' : 'رحلات'} · ذهاب فقط`],
+  [/^(\d+) rooms?$/, m => `${m[1]} ${+m[1] === 1 ? 'غرفة' : 'غرف'}`], [/^(\d+) guests?$/, m => `${m[1]} ${+m[1] === 1 ? 'ضيف' : 'ضيوف'}`],
+  [/^(\d+) of (\d+) places to stay$/, m => `${m[1]} من ${m[2]} أماكن إقامة`],
+  [/^(.+?), (\d\d:\d\d) to (\d\d:\d\d), (Direct|1 stop · [A-Z]{3})$/, m => `${tr1(m[1]) || m[1]}، ${m[2]} إلى ${m[3]}، ${m[4] === 'Direct' ? 'مباشرة' : `توقف واحد · ${m[4].slice(-3)}`}`],
+  [/^(each, )?for (\d+) travell?ers?$/, m => `${m[1] ? 'للشخص، ' : ''}لـ ${m[2]} ${+m[2] === 1 ? 'مسافر' : 'مسافرين'}`],
+  [/^([A-Z]{3}) to ([A-Z]{3}) · (.+)$/, m => `${m[1]} إلى ${m[2]} · ${d(m[3])}`],
+  [/^([A-Z]{3}) · Terminal (\w+)$/, m => `${m[1]} · مبنى ${m[2]}`],
+  [/^(.+?) · ([A-Z]{2} \d+)$/, m => { const a = ({ 'Northway Air': 'نورثواي إير', Coastline: 'كوستلاين', 'Aurora Air': 'أورورا إير' } as any)[m[1]]; return a ? `${a} · ${m[2]}` : null }],
+  [/^(.+) Airport$/, m => /^[A-Z]/.test(m[1]) && !/ /.test(m[1].replace(/^(Doha Hamad|Milan Malpensa|Taipei Taoyuan|Kuala Lumpur)$/, 'X')) ? `مطار ${tr1(m[1]) || m[1]}` : null],
+  [/^Cancellation fee (.+)$/, m => `رسوم الإلغاء ${m[1]}`], [/^Refund less (.+)$/, m => `استرداد بعد خصم ${m[1]}`],
+  [/^\+(.+)$/, m => isMoney(m[1]) ? `+${m[1]}` : null],
+  [/^(.+?) or (\d[\d,]*) (points|نقطة)$/, m => isMoney(m[1]) ? `${m[1]} أو ${m[2]} نقطة` : null],
+  [/^(\d[\d,]*) reviews$/, m => `${m[1]} تقييم`],
+  [/^(.+?) · (\d[\d,]*) reviews$/, m => { const w = ({ Exceptional: 'استثنائي', Excellent: 'ممتاز', 'Very good': 'جيد جدًا', Good: 'جيد', Pleasant: 'مقبول' } as any)[m[1]]; return w ? `${w} · ${m[2]} تقييم` : null }],
+  [/^([\d.]+) km from centre$/, m => `${m[1]} كم من المركز`],
+  [/^(Double|Twin|Suite) room( · (.+))?$/, m => `غرفة ${({ Double: 'مزدوجة', Twin: 'بسريرين', Suite: 'جناح' } as any)[m[1]]}${m[2] ? ' · ' + m[3].split(' · ').map(x => ({ Pool: 'مسبح', 'Rooftop bar': 'بار على السطح', Gym: 'نادٍ رياضي', Spa: 'سبا' } as any)[x] || x).join(' · ') : ''}`],
+  [/^Only (\d+) rooms left at this price$/, m => `بقيت ${m[1]} غرف فقط بهذا السعر`],
+  [/^(\d+) nights?, (\d+) adults?(, (\d+) rooms)?$/, m => `${m[1]} ${+m[1] === 1 ? 'ليلة' : 'ليالٍ'}، ${m[2]} ${+m[2] === 1 ? 'بالغ' : 'بالغين'}${m[3] ? `، ${m[4]} غرف` : ''}`],
+  [/^Tables at (.+)$/, m => `طاولات الساعة ${m[1].replace(/, /g, '، ')}`],
+  [/^Booked (\d+) times today$/, m => `حُجز ${m[1]} مرة اليوم`],
+  [/^Departs (.+)$/, m => `يغادر ${m[1].replace(/, /g, '، ')}`],
+  [/^Delivery by (.+)$/, m => `التوصيل بحلول ${d(m[1])}`],
+  [/^Direct$/, () => 'مباشرة'], [/^1 stop · ([A-Z]{3})$/, m => `توقف واحد · ${m[1]}`],
+  [/^(\d+) seats left at this price$/, m => `بقيت ${m[1]} مقاعد بهذا السعر`],
+  [/^(.+), or similar$/, m => `${tr1(m[1].charAt(0).toUpperCase() + m[1].slice(1)) || m[1].replace(/^Compact automatic$/, 'سيارة مدمجة أوتوماتيك')} أو ما يماثلها`],
+  [/^(.+?) · (\d+h(?: \d+m)?)$/, m => isMoney(m[1]) ? `${m[1]} · ${m[2].replace('h', ' س').replace('m', ' د')}` : null],
+  [/^([A-Z]{3})–([A-Z]{3})$/, m => `${m[1]}–${m[2]}`],
   [/^(\d+GB|Unlimited) for (\d+) days$/, m => `${m[1] === 'Unlimited' ? 'غير محدود' : m[1]} لمدة ${m[2]} ${+m[2] <= 10 ? 'أيام' : 'يومًا'}`],
   [/^(.+) · (Seated, lower|Seated, upper|Standing)$/, m => `${m[1]} · ${({ 'Seated, lower': 'المقاعد السفلية', 'Seated, upper': 'المقاعد العلوية', Standing: 'الوقوف' } as any)[m[2]]}`],
   [/^The insurer approved your claim \((.+?)\)\. (.+?) is paid to your card\.$/, m => `وافقت شركة التأمين على مطالبتك (${({ 'trip cancelled': 'أُلغيت الرحلة', 'flight delayed over 6 hours': 'تأخرت الرحلة أكثر من 6 ساعات', 'bag lost or delayed': 'حقيبة مفقودة أو متأخرة', 'medical costs abroad': 'تكاليف طبية في الخارج' } as any)[m[1]] || m[1]}). دُفع ${m[2]} إلى بطاقتك.`],
