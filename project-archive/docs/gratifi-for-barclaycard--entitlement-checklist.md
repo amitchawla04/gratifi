@@ -1,0 +1,79 @@
+# Entitlement checklist
+
+Every item Barclaycard provides, which of the nine cards it applies to, and how the app handles it: 71 items, checked against Barclaycard's pages on 28 Sep 2026. The full terms and every source are in `bcard/src/benefits.ts`.
+
+**In the app:** "Working screen" means the member can act on it in the concept. "Terms, plus hand-off to live app" means the terms are shown and the last step would open a Barclaycard or partner service. "Terms and source" means it is shown for reference.
+
+| Group | Entitlement | Avios Plus | Avios | Rewards | Amazon | Platinum | Forward | Premium Plus | Select Cashback | Select Charge | In the app | Source |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Rewards | 0.25% cashback |  |  | ✓ |  |  |  |  |  |  | Working screen: Cashback | [Barclaycard Rewards](https://www.barclaycard.co.uk/personal/credit-cards/barclaycard-rewards) (includes an independent source) |
+| Rewards | Amazon rewards |  |  |  | ✓ |  |  |  |  |  | Working screen: Amazon rewards | [Amazon earn rates](https://www.barclaycard.co.uk/personal/help/credit-cards/amazon-earn-rates) |
+| Rewards | Turn rewards into Amazon credit |  |  |  | ✓ |  |  |  |  |  | Working screen: Amazon rewards | [Amazon rewards not showing](https://www.barclaycard.co.uk/personal/help/credit-cards/amazon-rewards-not-showing) (includes an independent source) |
+| Rewards | £20 Amazon gift card |  |  |  | ✓ |  |  |  |  |  | Terms and source | [Amazon Barclaycard welcome gift](https://www.barclaycard.co.uk/personal/help/credit-cards/amazon-barclaycard-welcome-gift) |
+| Rewards | Avios on every purchase | ✓ | ✓ |  |  |  |  |  |  |  | Working screen: Your Avios | [Barclaycard Avios Plus](https://www.barclaycard.co.uk/personal/credit-cards/avios-plus) (includes an independent source) |
+| Rewards | Avios sent to British Airways monthly | ✓ | ✓ |  |  |  |  |  |  |  | Working screen: Your Avios | [Head for Points: Barclaycard Avios changes](https://www.headforpoints.com/2026/06/05/barclaycard-avios-bonus-rule-changes/) (independent source) |
+| Rewards | Welcome bonus |  | ✓ |  |  |  |  |  |  |  | Working screen: Welcome bonus | [Barclaycard Avios](https://www.barclaycard.co.uk/personal/credit-cards/avios) (includes an independent source) |
+| Rewards | Cabin upgrade voucher | ✓ | ✓ |  |  |  |  |  |  |  | Working screen: Voucher | [British Airways cabin upgrade terms](https://www.britishairways.com/content/the-british-airways-club/avios/collecting-avios/personal-banking/cabin-upgrade-terms) |
+| Rewards | Airport lounges from £18.50 | ✓ |  |  |  |  |  |  |  |  | Working screen: Airport lounges | [Barclaycard Avios Plus](https://www.barclaycard.co.uk/personal/credit-cards/avios-plus) |
+| Rewards | Barclays Avios Rewards | ✓ |  |  |  |  |  |  |  |  | Working screen: Airport lounges | [Barclays Avios Rewards](https://www.barclays.co.uk/premier-banking/barclays-avios-rewards/) |
+| Rewards | Ways to spend Avios | ✓ | ✓ |  |  |  |  |  |  |  | Working screen: Your Avios | [British Airways: spending Avios](https://www.britishairways.com/content/the-british-airways-club/avios/spending-avios/reward-flights) |
+| Rewards | 0.5% cashback |  |  |  |  |  |  | ✓ |  |  | Terms and source | [Premium Plus cashback terms](https://www.barclaycard.co.uk/content/dam/barclaycard/documents/business/cards-for-business/Credit-Cashback-terms-and-condtions.pdf) |
+| Rewards | 1% cashback, uncapped |  |  |  |  |  |  |  | ✓ |  | Working screen: Cashback (monthly) | [Select Cashback](https://www.barclaycard.co.uk/business/cards/credit-cards/select-cashback) (includes an independent source) |
+| Offers and entertainment | Barclaycard Entertainment | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working screen: Entertainment | [Barclaycard Entertainment](https://www.barclaycard.co.uk/personal/credit-cards/barclaycard-entertainment) |
+| Offers and entertainment | Barclays Cashback Rewards |  |  | ✓ |  | ✓ | ✓ |  |  |  | Working screen: Cashback Rewards | [Barclays Cashback Rewards](https://www.barclaycard.co.uk/personal/customer/barclaycard-cashback-rewards) |
+| Offers and entertainment | Weekly competitions | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Barclaycard benefits](https://www.barclaycard.co.uk/personal/credit-cards/benefits) |
+| Offers and entertainment | Business Rewards |  |  |  |  |  |  | ✓ | ✓ | ✓ | Working screen: Business Rewards | [Business Rewards](https://www.barclaycard.co.uk/business/cards/rewards) (includes an independent source) |
+| Offers and entertainment | FreshBooks accounting |  |  |  |  |  |  | ✓ | ✓ | ✓ | Terms, plus hand-off to live app | [Premium Plus](https://www.barclaycard.co.uk/business/cards/credit-cards/premium-plus) |
+| Offers and entertainment | Mastercard Strive |  |  |  |  |  |  | ✓ | ✓ | ✓ | Terms, plus hand-off to live app | [Business card customer home](https://www.barclaycard.co.uk/business/cards/business-card-customer-home) |
+| Protection | Section 75 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working: Spending tab | [Section 75 claim](https://www.barclaycard.co.uk/personal/help/spending-transactions/section-75-claim) |
+| Protection | Chargeback | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working: Spending tab | [Know your rights](https://www.barclaycard.co.uk/personal/help-and-support/know-your-rights) |
+| Protection | Fraud refund and 24/7 monitoring | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Security | [How we protect you](https://www.barclaycard.co.uk/personal/customer/how-we-protect-you) |
+| Protection | Fraud protection |  |  |  |  |  |  | ✓ | ✓ | ✓ | Working screen: Security | [Business insurance](https://www.barclaycard.co.uk/business/cards/insurance) |
+| Protection | Purchase protection |  |  |  |  |  |  | ✓ | ✓ | ✓ | Terms and source | [Business insurance](https://www.barclaycard.co.uk/business/cards/insurance) |
+| Protection | Cardholder misuse insurance |  |  |  |  |  |  | ✓ | ✓ | ✓ | Terms and source | [Business insurance](https://www.barclaycard.co.uk/business/cards/insurance) |
+| Protection | Business travel insurance |  |  |  |  |  |  | ✓ |  |  | Working screen: Travel insurance | [Business insurance](https://www.barclaycard.co.uk/business/cards/insurance) |
+| Travel | Using your card abroad | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working screen: Going abroad | [Spending abroad](https://www.barclaycard.co.uk/personal/help-and-support/spending-abroad) |
+| Travel | Emergency help abroad | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Going abroad | [Emergency card replacement](https://www.barclaycard.co.uk/personal/customer/emergency-card-replacement) |
+| Travel | Cash abroad | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Cash withdrawal fee](https://www.barclaycard.co.uk/personal/help/credit-cards/cash-withdrawal-fee) |
+| Credit and payments | Up to 56 days interest-free | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  | Terms and source | [Promotional and standard rates](https://www.barclaycard.co.uk/personal/help/spending-transactions/promotional-standard-rate) |
+| Credit and payments | Pay in full each month |  |  |  |  |  |  |  |  | ✓ | Terms and source | [Select Charge](https://www.barclaycard.co.uk/business/cards/charge-cards/select) |
+| Credit and payments | Minimum payment | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  | Working screen: Repayment calculator | [What is a minimum payment](https://www.barclaycard.co.uk/personal/help/paying-bill/what-is-min-payment) (includes an independent source) |
+| Credit and payments | How payments are used | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Promotional and standard rates](https://www.barclaycard.co.uk/personal/help/spending-transactions/promotional-standard-rate) |
+| Credit and payments | Direct Debit | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working screen: Direct Debit | [Pay my bill](https://www.barclaycard.co.uk/personal/help/paying-bill/pay-my-bill) |
+| Credit and payments | Ways to pay | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Make a payment | [Pay my bill](https://www.barclaycard.co.uk/personal/help/paying-bill/pay-my-bill) |
+| Credit and payments | Change your payment date | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Payment date | [Statement date](https://www.barclaycard.co.uk/personal/help/statements/statement-date) |
+| Credit and payments | Refund of a credit balance | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Credit balance refunds](https://www.barclaycard.co.uk/personal/customer/credit-balance-refunds) |
+| Credit and payments | Balance transfers | ✓ | ✓ | ✓ |  | ✓ | ✓ |  |  |  | Working screen: Transfers | [What is a balance transfer](https://www.barclaycard.co.uk/personal/credit-cards/what-is-a-balance-transfer) |
+| Credit and payments | Money transfers | ✓ | ✓ | ✓ |  | ✓ | ✓ |  |  |  | Working screen: Transfers | [Barclaycard customer hub](https://www.barclaycard.co.uk/personal/customer) |
+| Credit and payments | Instalment Plans | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Instalment Plans | [Instalment Plan](https://www.barclaycard.co.uk/personal/customer/instalment-plan) |
+| Credit and payments | Credit limit changes | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Credit limit | [Change credit limit](https://www.barclaycard.co.uk/personal/customer/change-credit-limit) |
+| Credit and payments | Fees and charges | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Card fees](https://www.barclaycard.co.uk/personal/credit-cards/card-fees) |
+| Credit and payments | Price Promise |  |  |  |  |  | ✓ |  |  |  | Working screen: Price Promise | [Barclaycard Forward](https://www.barclaycard.co.uk/personal/credit-cards/forward) |
+| Credit and payments | Credit-building limit |  |  |  |  |  | ✓ |  |  |  | Terms and source | [Credit-building cards](https://www.barclaycard.co.uk/personal/credit-cards/credit-building-cards) |
+| Credit and payments | Your 0% offers |  |  |  | ✓ | ✓ |  | ✓ |  |  | Terms and source | [All credit cards](https://www.barclaycard.co.uk/personal/credit-cards) |
+| Credit and payments | Help if you’re paying mostly interest | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Persistent debt](https://www.barclaycard.co.uk/personal/customer/persistent-debt) |
+| Credit and payments | Repayment calculator | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  | Working screen: Repayment calculator | [Repayment calculator](https://www.barclaycard.co.uk/personal/customer/repayment-calculator-tool) |
+| Credit and payments | Free Experian Credit Score | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Credit score | [Experian Credit Score terms](https://www.barclaycard.co.uk/content/dam/barclaycard/documents/personal/standalone/barclaycards-free-experian-credit-score-terms-and-conditions-srp.pdf) |
+| Card and security | Card details in the app | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working: Card tab | [View my card details](https://help.barclaycard.co.uk/brochure/credit_cards/how-safe-is-view-my-card-details) (includes an independent source) |
+| Card and security | Your PIN | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working: Card tab | [Forgotten PIN](https://www.barclaycard.co.uk/personal/help/account-servicing/forgotten-pin) |
+| Card and security | Freeze your card | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working: Card tab | [Amazon Barclaycard lost or stolen](https://www.barclaycard.co.uk/personal/help/credit-cards/amazon-barclaycard-lost-stolen) (includes an independent source) |
+| Card and security | Lost, stolen or damaged card | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working screen: Lost or stolen | [Lost or stolen](https://www.barclaycard.co.uk/personal/help/fraud-security/lost-or-stolen) |
+| Card and security | Pay with your phone | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Terms, plus hand-off to live app | [Apple Pay](https://www.barclaycard.co.uk/personal/apple-pay) (includes an independent source) |
+| Card and security | Approve online payments | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working screen: Security | [Fraud and security](https://www.barclaycard.co.uk/personal/customer/fraud) |
+| Card and security | How to check it’s really Barclaycard | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Security | [How to check it’s us](https://www.barclaycard.co.uk/personal/customer/how-to-check-it-is-us) |
+| Card and security | Additional cardholders | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Cardholders | [Additional cardholder](https://www.barclaycard.co.uk/personal/customer/additional-cardholder) |
+| Card and security | Change to a different card | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms, plus hand-off to live app | [Change card](https://www.barclaycard.co.uk/personal/help/credit-cards/change-card) |
+| Card and security | Replacement before your card expires | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Expiring card replacement](https://www.barclaycard.co.uk/personal/help/credit-cards/expiring-card-replacement) |
+| Alerts and statements | Six free alerts | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Alerts | [Alerts](https://www.barclaycard.co.uk/personal/customer/alerts) |
+| Alerts and statements | Statements | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Statements | [Statement preferences](https://www.barclaycard.co.uk/personal/help/statements/statement-preference) |
+| Alerts and statements | Everything in the app | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [GB News, April 2026](https://www.gbnews.com/money/barclaycard-to-shut-down-website-for-customers) (independent source) |
+| Alerts and statements | Statements and exports |  |  |  |  |  |  | ✓ | ✓ | ✓ | Working screen: Statements | [Business help](https://www.barclaycard.co.uk/business/help-and-support/credit-and-charge-card) (includes an independent source) |
+| Business tools | MyControls |  |  |  |  |  |  | ✓ | ✓ | ✓ | Working screen: MyControls | [Online servicing](https://www.barclaycard.co.uk/business/cards/online-servicing) |
+| Business tools | Employee cards |  |  |  |  |  |  | ✓ | ✓ | ✓ | Working screen: Cardholders | [Premium Plus](https://www.barclaycard.co.uk/business/cards/credit-cards/premium-plus) |
+| Business tools | Barclaycard for Business app |  |  |  |  |  |  | ✓ | ✓ | ✓ | Terms and source | [App Store listing](https://apps.apple.com/gb/app/barclaycard-for-business/id1538982647) (independent source) |
+| Business tools | Accounting |  |  |  |  |  |  | ✓ | ✓ | ✓ | Terms and source | [Premium Plus](https://www.barclaycard.co.uk/business/cards/credit-cards/premium-plus) (includes an independent source) |
+| Help and support | Chat, message or call | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Working screen: Help | [Contact us](https://www.barclaycard.co.uk/personal/contact-us) |
+| Help and support | Money worries | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Working screen: Help | [Money worries](https://www.barclaycard.co.uk/personal/customer/money-worries) |
+| Help and support | Accessibility | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | Terms and source | [Sight services](https://www.barclaycard.co.uk/personal/accessibility/sight-services) |
+| Help and support | Power of Attorney and bereavement | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Power of Attorney](https://www.barclaycard.co.uk/personal/help/account-servicing/account-power-of-attorney) |
+| Help and support | Complaints | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |  |  |  | Terms and source | [Complaints](https://www.barclaycard.co.uk/personal/help-and-support/complaints) |

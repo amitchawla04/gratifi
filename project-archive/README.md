@@ -1,16 +1,16 @@
 # Gratifi project archive
 
-Everything behind the Gratifi build, from the first idea (27 Sep 2026) to the live app with Claude (2 Oct 2026). The app code itself sits in the folders above (`gratifi/`, `kit/`, `pwa/`, `api/`, `site/`).
+Everything behind the Gratifi build, from the first idea (27 Sep 2026) to the live app with Claude (3 Oct 2026). The app code itself sits in the folders above (`gratifi/`, `kit/`, `pwa/`, `api/`, `site/`).
 
 | Folder | What's in it |
 | --- | --- |
-| `full-conversation.md` | The whole working conversation with Claude in one file, all 321 turns. Amit's messages are word for word. Claude's replies are word for word, with each run of tool work shortened to one line. |
+| `full-conversation.md` | The whole working conversation with Claude in one file, all 366 turns. Amit's messages are word for word. Claude's replies are word for word, with each run of tool work shortened to one line. |
 | `conversation/` | The same conversation split into blocks of five turns. |
 | `research/` | Working notes and briefs: the commerce-in-chat use-case doc, the system map notes, the design-system brief, the review briefs, copy scans and review scores, and the use-case spreadsheets with the scripts that built them. |
 | `design-references/` | The approved design originals from 27 Sep (`approved-originals-27-sep/`), Amit's reference screenshots (`ref-01` to `ref-09`), the screens used in the handover doc, and the design-system tokens. |
-| `artifacts/` | Pages published along the way: the Gratifi system map, the pitch deck source, and the chat components sheet for sign-off (2 Oct). |
+| `artifacts/` | Pages published along the way: the Gratifi system map, the pitch deck source, the chat components sheet for sign-off (2 Oct), and the listing sign-off page with English and Arabic screens per service (3 Oct). |
 | `review/` | The test and review scripts from each review round, with their text reports. Screenshots are left out to keep the repo small. |
-| `docs/` | Reserved for the Markdown exports of the Claude Docs listed below. |
+| `docs/` | Markdown exports (3 Oct) of the Claude Docs listed below, one file per tab: product doc, team handoff, Barclaycard build and handover, and every service, every flow. Charts and images are left out. |
 
 ## The live documents
 
