@@ -112,7 +112,7 @@ export function searchFlights(m: string, city: City, date: string, back = false)
 }
 
 /* ---------- generic items for every other category ---------- */
-export type Item = { id: string; cat: string; title: string; sub?: string; img?: string; icon?: string; gbp: number; unit?: string; rating?: number; meta?: string[]; city?: string; tags?: string[]; opts?: { kind: 'slots' | 'variants' | 'dates' | 'qty' | 'plans'; label: string; values: string[] }; policy?: string; mode?: 'order' | 'link' | 'request' | 'info'; live?: boolean; brand?: string; earn?: string; included?: boolean; desc?: string }
+export type Item = { id: string; cat: string; title: string; sub?: string; img?: string; icon?: string; gbp: number; unit?: string; rating?: number; meta?: string[]; city?: string; tags?: string[]; opts?: { kind: 'slots' | 'variants' | 'dates' | 'qty' | 'plans'; label: string; values: string[] }; policy?: string; mode?: 'order' | 'link' | 'request' | 'info'; live?: boolean; brand?: string; earn?: string; included?: boolean; desc?: string; soldOut?: string[] }
 
 const W1 = ['Harbour', 'Garden', 'Riverside', 'Palm', 'Courtyard', 'Lantern', 'Cedar', 'Tidewater']
 const W2 = ['House', 'Hotel', 'Suites', 'Residence', 'Rooms']
@@ -182,7 +182,7 @@ export const SUBS: Item[] = [
 export function events(m: string): Item[] {
   const c = home(m).city
   return [
-    { id: 'ET-1', tags: ['concert', 'music', 'gig', 'live'], cat: 'tickets', title: 'Arlo Grey live', sub: `Arena, ${c} · Sat 24 Oct`, img: 'do:concert', gbp: 65, unit: 'per ticket', meta: ['Presale for cardholders'], opts: { kind: 'variants', label: 'Area', values: ['Standing', 'Seated, upper', 'Seated, lower (+£30)'] }, policy: 'No refunds unless the event is cancelled or moved', mode: 'order' },
+    { id: 'ET-1', tags: ['concert', 'music', 'gig', 'live'], cat: 'tickets', title: 'Arlo Grey live', sub: `Arena, ${c} · Sat 24 Oct`, img: 'do:concert', gbp: 65, unit: 'per ticket', meta: ['Presale for cardholders'], opts: { kind: 'variants', label: 'Area', values: ['Standing', 'Seated, upper', 'Seated, lower (+£30)'] }, policy: 'No refunds unless the event is cancelled or moved. Resell at face value through the official resale.', mode: 'order', soldOut: ['Seated, lower'] },
     { id: 'ET-2', tags: ['football', 'sport', 'match', 'derby'], cat: 'tickets', title: 'City derby', sub: `National Stadium, ${c} · Sun 1 Nov`, img: 'stadium', gbp: 48, unit: 'per ticket', opts: { kind: 'variants', label: 'Stand', values: ['North', 'South', 'West (+£20)'] }, policy: 'Tickets are named; no resale', mode: 'order' },
     { id: 'ET-3', tags: ['theatre', 'play', 'show'], cat: 'tickets', title: 'The Glass Garden (theatre)', sub: `Royal Playhouse, ${c} · evenings`, img: 'do:theatre', gbp: 42, unit: 'per ticket', opts: { kind: 'slots', label: 'Date', values: ['Thu 22 Oct', 'Fri 23 Oct', 'Sat 24 Oct'] }, policy: 'Exchange up to 48 hours before', mode: 'order' },
     { id: 'ET-4', tags: ['cinema', 'film', 'movie'], cat: 'tickets', title: 'Cinema: 2 for 1 this week', sub: `Reel House, ${c}`, img: 'cinema', gbp: 12, unit: 'for two', meta: ['Card offer'], opts: { kind: 'slots', label: 'Showing', values: ['17:40', '19:15', '20:50'] }, policy: 'Refund up to 1 hour before', mode: 'order' },

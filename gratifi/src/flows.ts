@@ -25,7 +25,7 @@ export const legroomFee = () => P(28 * (EXTRAS[base()] ?? 1))
 export const bagUnit = () => P(32 * (EXTRAS[base()] ?? 1))
 export const stayDefault = () => { const f = iso(nextFriday()); return f < addDays(iso(new Date()), 4) ? addDays(f, 7) : f }
 export const groceryFee = () => (base() === 'IN' ? 29 : P(1.99 * local('quick')))
-export const IP = (i: { gbp: number; cat: string }) => P(i.gbp * local(i.cat))
+export const IP = (i: { gbp: number; cat: string; id?: string }) => P(i.gbp * local(i.cat) * ((i.id && (St.get().seen.itemDrop || {})[i.id]) || 1))
 export const giftAmounts = () => ({ IN: ['500', '1000', '2000', '5000'], AE: ['50', '100', '250', '500'], AR: ['50', '100', '250', '500'], MY: ['50', '100', '200', '500'] } as any)[mk()] || ['25', '50', '100', '200']
 export const ptsOf = (price: number) => Math.max(0, Math.round(price / St.rate()))
 const pts = ptsOf
@@ -593,6 +593,7 @@ export function tripDates(city?: string) {
 const whenWho = (text: string) => { const d = parseDates(text), px = parsePax(text), t = text.toLowerCase(); return { date: d.explicit && !d.bad ? d.out : undefined, pax: px > 1 ? Math.min(8, px) : undefined, time: /\bmorning\b/.test(t) ? '06:00' : /\bafternoon\b/.test(t) ? '12:00' : /\bevening\b|\btonight\b/.test(t) ? '17:00' : undefined } }
 export const billUnits = (i: Cat.Item, n: number) => i.unit === 'for two' ? Math.ceil(n / 2) : n
 export function startCheckout(a: { id: string; option?: string; qty?: number; date?: string; to?: string; email?: string; nights?: number; dest?: string; pickup?: string; at?: string; rooms?: number; addr?: string; ship?: string }): R {
+  { const i0 = findItem(a.id); if (i0?.soldOut && a.option && i0.soldOut.includes(a.option.replace(/ \(\+.*\)/, '')) && !St.get().seen['released:' + i0.id]) return soldOutR(i0, a.option) }
   const r = startCheckout0(a), i = findItem(a.id)
   if (!r.blocks.some((b: any) => b.kind === 'checkout' || b.kind === 'freeconfirm')) return r
   const dup = i && !['giftcards', 'quick', 'shopping', 'subs', 'charity'].includes(i.cat) && St.get().bookings.find(b => b.itemId === i.id && !dead(b) && (!a.date || b.extra?.date === a.date))
@@ -767,7 +768,7 @@ export function confirmPay(a: { draft: string; choice: PayChoice }): R {
   if (d.extra?.loungeFree) St.set(s => ({ loungeLeft: Math.max(0, s.loungeLeft - d.extra.loungeFree) }))
   if (d.extra?.addonFor) {
     const pid = d.extra.addonFor
-    St.set(st => ({ bookings: st.bookings.filter(x => x.id !== b.id).map(x => (x.id === pid ? { ...x, extra: { ...x.extra, ...d.extra.patch }, sub: d.extra.newSub || x.sub, detail: [...(x.detail || []), ...(d.extra.rows || [])], total: x.total + d.total, pts: x.pts + b.pts, card: x.card + b.card, earned: (x.earned || 0) + (b.earned || 0), chl: Object.fromEntries([...new Set([...Object.keys(x.chl || {}), ...Object.keys(b.chl || {})])].map(k => [k, ((x.chl || {})[k] || 0) + ((b.chl || {})[k] || 0)])) } : x)) }))
+    St.set(st => ({ bookings: st.bookings.filter(x => x.id !== b.id).map(x => (x.id === pid ? { ...x, extra: { ...x.extra, ...d.extra.patch }, sub: d.extra.newSub || x.sub, when: d.extra.newWhen || x.when, detail: [...(d.extra.newDetail || x.detail || []), ...(d.extra.rows || [])], total: x.total + d.total, pts: x.pts + b.pts, card: x.card + b.card, earned: (x.earned || 0) + (b.earned || 0), chl: Object.fromEntries([...new Set([...Object.keys(x.chl || {}), ...Object.keys(b.chl || {})])].map(k => [k, ((x.chl || {})[k] || 0) + ((b.chl || {})[k] || 0)])) } : x)) }))
     return { say: d.extra.doneSay || 'Done.', blocks: [{ kind: 'booking', id: pid }] }
   }
   if (d.extra?.changeFor) {
@@ -855,6 +856,27 @@ export function manage(a: { id: string; action: string; ok?: boolean }): R {
   const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
   const act = a.action.toLowerCase()
   if (b.cat === 'flights' && b.extra?.disrupted && !dead(b)) { if (/cancel|refund/.test(act)) return { say: 'The airline cancelled this flight, so you get everything back the way you paid.', blocks: [{ kind: 'confirmcancel', id: b.id, fraction: 1 }] }; return { say: 'The airline cancelled this flight, so there\'s no pass or seat to change. Pick another flight or a full refund.', blocks: [{ kind: 'disruption', id: b.id }] } }
+  if (!dead(b) && !b.extra?.addonFor) {
+    if (b.cat === 'stays' && /change|dates?|extend|another night|shorten|move/.test(act)) return stayChange({ id: b.id })
+    if (b.cat === 'stays' && /extras?|early|late checkout|breakfast/.test(act)) return stayExtras({ id: b.id })
+    if (b.cat === 'dining' && /running late|late/.test(act)) return runningLate({ id: b.id })
+    if (b.cat === 'dining' && /change|time|guests|move/.test(act)) return tableChange({ id: b.id })
+    if (b.cat === 'experiences' && /change|date|move/.test(act)) return tourChange({ id: b.id })
+    if (['stays', 'dining', 'experiences'].includes(b.cat) && /message|tell|note/.test(act)) return msgPlace({ id: b.id })
+    if (b.cat === 'tickets' && /send|transfer|give/.test(act)) return ticketSend({ id: b.id })
+    if (b.cat === 'tickets' && /sell|resell|resale/.test(act)) return ticketSell({ id: b.id })
+    if (b.cat === 'tickets' && /change|showing|move/.test(act)) return showChange({ id: b.id })
+    if (b.cat === 'tickets' && /get there|directions|ride/.test(act)) { const v = findItem(b.itemId || '')?.sub?.split(' · ')[0] || b.title; return route('', `a ride to ${v}`) }
+    if (b.cat === 'giftcards' && /problem|not work|doesn.t work|invalid|declined/.test(act)) return giftProblem({ id: b.id })
+    if (b.cat === 'rides' && /^Ride|transfer|chauffeur/i.test(b.title) && /problem|wrong|issue/.test(act)) return rideProblem({ id: b.id })
+    if (b.cat === 'rides' && /^Car hire/.test(b.title) && /extend|more days|keep/.test(act)) return hireExtend({ id: b.id })
+    if (b.cat === 'rides' && /^Car hire/.test(b.title) && /pick.?up|collect|bring/.test(act)) return hirePickup({ id: b.id })
+    if (b.cat === 'rides' && /^Train/.test(b.title) && /change|another|next/.test(act)) return trainChange({ id: b.id })
+    if (b.cat === 'airport' && /problem|wrong|issue/.test(act)) return airportProblem({ id: b.id })
+    if (b.cat === 'docs' && /^eSIM/.test(b.title) && /install|set ?up/.test(act)) return esimInstall({ id: b.id })
+    if (b.cat === 'docs' && /^eSIM/.test(b.title) && /top ?up|more data/.test(act)) return esimTopUp({ id: b.id })
+    if (b.cat === 'docs' && b.sub === 'Travel insurance' && /claim/.test(act)) return insClaim({ id: b.id })
+  }
   if (b.cat === 'flights' && !b.extra?.addonFor) {
     if (/check.?in/.test(act)) return checkIn({ id: b.id })
     if (/status|today|gate|delay/.test(act)) return flightStatus({ id: b.id })
@@ -1098,7 +1120,7 @@ export function bank(a: { topic: string }): R {
     const onWay = s.bookings.find(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')
     const stolen = /stolen/.test(t), atm = /atm card/.test(t), damaged = /damaged/.test(t) && !stolen && !atm
     if (onWay) return { say: `${was ? 'Your card is already frozen' : 'I\'ve frozen your card'}, and a new card with a new number is already on its way (${onWay.ref}). The old card can't be used again.${stolen ? ' If you see payments you don\'t recognise, tell me and I\'ll bring in the fraud team.' : ''}`, blocks: [{ kind: 'tracker', id: onWay.id }], suggest: stolen ? ['Payments I don\'t recognise'] : [] }
-    const acts = [{ label: 'Send a replacement', act: { f: 'replaceCard', a: {} } }, ...(stolen ? [{ label: 'Payments I don\'t recognise', act: { f: 'bank', a: { topic: 'fraud' } } }] : atm || damaged ? [] : [{ label: 'Found it', act: { f: 'unfreezeAsk', a: {} } }])]
+    const acts = [{ label: 'Send a replacement', act: { f: 'replaceCard', a: {} } }, ...(stolen ? [{ label: 'Payments I don\'t recognise', act: { f: 'fraudStart', a: {} } }] : atm || damaged ? [] : [{ label: 'Found it', act: { f: 'unfreezeAsk', a: {} } }])]
     return { say: stolen ? `${was ? 'Your card is frozen' : 'I\'ve frozen your card'} so nobody can use it. A stolen card is cancelled for good; the new one has a new number. Direct debits and refunds carry on.` : atm ? `${was ? 'Your card is frozen' : 'I\'ve frozen your card'}. A card kept by a cash machine is destroyed by the machine's owner, so it can't be handed back. I can send you a new one.` : damaged ? 'I\'ve frozen your card. I can send a new one with a new number to your home address.' : `${was ? 'Your card is frozen' : 'I\'ve frozen your card'} so nobody can use it. If it turns up, you can unfreeze it; if not, I can send a replacement to your home address.`, blocks: [{ kind: 'controls' }, { kind: 'state', state: 'done', title: 'Card frozen', body: 'Direct debits and refunds still work.', actions: acts }] }
   }
   if (/fraud|scam|didn.t make|don.t recognise|unknown|wasn.t me/.test(t)) { const was = s.card.frozen; St.set(st => ({ card: { ...st.card, frozen: true } })); return { say: `${was ? 'Your card is already frozen, so nothing more can go through.' : 'I\'ve frozen your card.'} I'm bringing in the fraud team now; they'll check ${/payment|charge|transaction|spent|took|taken|bought|debit/.test(t) ? 'the payment' : 'your account'} and can send you a new card with a new number. If anyone contacts you about it, don't share a code or move money.`, blocks: [{ kind: 'handoff', reason: 'Possible fraud: card frozen', team: 'fraud' }], suggest: s.bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered') ? [] : ['Send a replacement card'] } }
@@ -1110,7 +1132,7 @@ export function bank(a: { topic: string }): R {
   return { say: `Your card balance is ${M().money(s.card.balance, 2)}, with ${M().money(Math.max(0, s.card.limit - s.card.balance), 2)} available.`, blocks: [{ kind: 'balance' }] }
 }
 export function pointsBalance(): R { const s = St.get(); return { say: `You have ${M().pts(s.balance)}, worth about ${M().money(s.balance * St.rate())}.${s.expiring ? ` ${M().pts(s.expiring)} expire on 31 Oct.` : ''}`, blocks: [{ kind: 'points' }] } }
-export function unfreezeAsk(_: any): R { if (!St.get().card.frozen) return { say: 'Your card isn\'t frozen.', blocks: [{ kind: 'controls' }] }; return { say: 'Confirm it\'s you to unfreeze.', blocks: [], confirm: { kind: 'action', title: 'Unfreeze card', summary: `Card ending ${St.get().card.last4}`, act: { f: 'unfreeze', a: {} } } } }
+export function unfreezeAsk(_: any): R { if (!St.get().card.frozen) return { say: 'Your card isn\'t frozen.', blocks: [{ kind: 'controls' }] }; { const rep = Mod.apiOn('cards.replace') ? Bk.openCase('replacement').find(b => b.extra?.newNumber) : undefined; if (rep) return { say: 'This card was cancelled when it was reported, so it can\'t be unfrozen. Your new card is on its way; activate it when it arrives and everything moves across.', blocks: [{ kind: 'tracker', id: rep.id }] } } return { say: 'Confirm it\'s you to unfreeze.', blocks: [], confirm: { kind: 'action', title: 'Unfreeze card', summary: `Card ending ${St.get().card.last4}`, act: { f: 'unfreeze', a: {} } } } }
 export function declined(t: string): R {
   const s = St.get(), c = s.card, avail = Math.round((c.limit - c.balance) * 100) / 100
   const online = /online|website|internet|app\b|amazon/.test(t), abroad = /abroad|overseas|holiday|spain|france|lisbon|dubai|usa|america|europe|foreign|another country|travel/.test(t), atm = /atm|cash ?machine|cashpoint|withdraw/.test(t), tap = /contactless|tap/.test(t)
@@ -1442,16 +1464,16 @@ export function safety(t0: string): R | null {
   if (CONTACT.test(t) && SCAM_CALL.test(t) && DEMAND.test(t) && !/(my|our) (booking|order|flight|hotel|table)/.test(t)) return scamR('call')
   if (/(safe|secure) account|move (all )?my (savings|money) (to|into)/.test(t)) return scamR('call')
   // payments the customer didn't make
-  if (/without (my )?(permission|consent|knowing|asking|authori[sz]ation)|cloned|skimmed|compromised|data breach|(card )?details (were|have been|got) (stolen|leaked|hacked)|(payment|transaction|charge)s? (on my card )?(i|that i) (didn.?t|did not|never) (make|do|authori[sz]e|recogni[sz]e)|(don.?t|do not) recogni[sz]e (a |this |that |the )?(payment|transaction|charge)|unknown (payment|transaction|charge)|someone.?s? (is )?using my card|someone (has )?used my card/.test(t)) return bank({ topic: 'fraud' })
+  if (/without (my )?(permission|consent|knowing|asking|authori[sz]ation)|cloned|skimmed|compromised|data breach|(card )?details (were|have been|got) (stolen|leaked|hacked)|(payment|transaction|charge)s? (on my card )?(i|that i) (didn.?t|did not|never) (make|do|authori[sz]e|recogni[sz]e)|(don.?t|do not) recogni[sz]e (a |this |that |the )?(payment|transaction|charge)|unknown (payment|transaction|charge)|someone.?s? (is )?using my card|someone (has )?used my card/.test(t)) return /scam|tricked|sent money|transferred|gave (them|him|her)/.test(t) ? bank({ topic: 'fraud' }) : unrec()
   // money trouble, illness and bereavement
   if (/\bbet (too much|all|everything|my wages|my rent)|lost (a lot|everything|all my money|my wages) (on )?(betting|gambling)|win (my|the|it) money back|chas(e|ing) (my )?loss(es)?|gamble to (win|pay|get)|(can.?t|cannot|can not) stop (gambling|betting)|keep (betting|gambling)|gambl\w* (every|each) (night|day)|(betting|gambling) (too much|every day|all my money)|gambling (problem|addiction)|addicted to (gambling|betting)|problem with (gambling|betting)/.test(t)) return { say: `Thank you for telling me. You can block gambling payments on your card now; it works straight away and takes 48 hours to lift. A specialist from the bank can also talk it through with you.${base() === 'UK' ? ' The National Gambling Helpline is free on 0808 8020 133, any time.' : ''}`, blocks: [...((St.get().card as any).gambling ? [] : [{ kind: 'state', state: 'empty', title: 'Gambling block', body: 'Blocks betting sites, casinos and lotteries.', actions: [{ label: 'Block gambling payments', act: { f: 'gamblingOn', a: {} } }] }]), { kind: 'handoff', reason: 'Gambling support', team: 'care' }] }
   if (/\b(don'?t|do not|never) feel safe (at home|in my (own )?(house|flat|home)|with (him|her|my (husband|wife|partner|boyfriend|girlfriend)))\b|\b(not safe|unsafe|scared|afraid|frightened) (at home|to go home|of (my )?(husband|wife|partner|boyfriend|girlfriend|ex|him|her))\b|\bdomestic (abuse|violence)\b|\b(he|she|my (husband|wife|partner|boyfriend|girlfriend)) (controls|won.?t let me (have|see|use)) (all )?(my|the) (money|card|account|finances)\b/.test(t)) return { say: `I'm sorry. You don't have to go through this alone. If you're in danger now, call ${POLICE[base()]}. A specialist from the bank's care team can talk with you when it's safe for you and help keep your money under your control; they can see this conversation. I won't change anything on your card unless you ask.`, blocks: [{ kind: 'handoff', reason: 'Customer may not be safe at home', team: 'care' }], suggest: ['Freeze my card'] }
   if (/\b(i.?m|i am|i.?ve been|i have been) (in|going into|staying in) hospital\b/.test(t)) return { say: 'I\'m sorry you\'re in hospital. A specialist from the bank\'s care team can help with payments and anything linked to your card while you recover; they can see this conversation.', blocks: [{ kind: 'handoff', reason: 'Customer in hospital', team: 'care' }] }
   if (/\b(i have|i've got|i.?ve been diagnosed with|diagnosed with|i.?m having|going through) (cancer|a serious illness|a terminal|leukaemia|a brain tumour|chemo\w*)|\bchemotherapy\b|serious(ly)? ill\b(?! in the family)|long.term (illness|sick)/.test(t)) return { say: 'I\'m sorry you\'re going through this. A specialist from the bank\'s care team can talk through options, such as a break from payments, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Customer with a serious illness', team: 'care' }] }
-  if (/(stressed|worried|anxious|panicking|scared) (about|over) (money|paying|my bills|bills|debt|my card|the bill)|money (is|has been) (stressing|worrying) me/.test(t)) return { say: 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] }
+  if (/(stressed|worried|anxious|panicking|scared) (about|over) (money|paying|my bills|bills|debt|my card|the bill)|money (is|has been) (stressing|worrying) me/.test(t)) return careR(t)
   if (/dementia|alzheimer|manage (her|his|their|my (mum|mom|dad|mother|father|nan|gran)'?s?) (money|finances|card|account)|power of attorney|lasting power/.test(t)) return { say: 'A specialist from the bank\'s care team can help you manage a card for someone else, including with a power of attorney. They can see our conversation.', blocks: [{ kind: 'handoff', reason: 'Managing a card for someone else', team: 'care' }] }
-  if (/\b(lost my job(?! (interview|application|offer|notes|search))|made redundant|been laid off|got laid off|out of work|on (sick leave|furlough)|lost my income)\b|can.?t make (the|my) (card )?(payments?|repayments?)|hard time (with )?(money|financially|paying)|tough time (with money|financially)|(will|going to|gonna|might|may) miss (my|a|the|this month.?s) (payment|repayment|bill)|won.?t be able to (pay|make)|can.?t (pay|afford) (my|the|this)( card| credit card)? (bill|payment|repayment|balance|minimum)|(no|not enough) money (to pay|for (my|the) (bill|payment))|(struggling|struggle) (with|to) (money|pay|bills|debt)|money (is )?(really )?tight|^(i.?m |i am )?(so |completely )?(skint|broke)\W*$|payment (holiday|break|plan)|(going to|gonna|will) be late (with|on|paying) (my |the |this month.?s )?(payment|repayment|bill)|behind (on|with) (my )?(rent|bills|mortgage|payments|card|council tax)|late (with|on) (my )?(payment|repayment|bill)|can.?t pay (this|next) month|can.?t make (this|next) month.?s payment|bailiff|debt collector|loan shark|payday loan|borrow\w* (money )?to pay (this|my|the) (card|bill)|(reduce|lower|cut) (my )?(monthly |minimum )?(payment|repayment)s?|evict\w*|homeless|(no|not enough) money (for|to buy) (food|nappies|the kids|rent)|can.?t afford (food|to eat|groceries|nappies)|(hungry|starving) and (i )?(have )?no money/.test(t)) return { say: /homeless|evict|food|eat|hungry|starving|nappies|groceries/.test(t) ? 'Thank you for telling me. A specialist from the bank can look at options such as a payment plan or a break from interest, and can point you to local support for food and housing. Nothing changes without your agreement.' : 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.' + (/loan shark|payday/.test(t) ? ' Please don\'t borrow more to pay this card; the specialist can help with that first.' : ''), blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] }
-  if (false) return { say: 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] }
+  if (/\b(lost my job(?! (interview|application|offer|notes|search))|made redundant|been laid off|got laid off|out of work|on (sick leave|furlough)|lost my income)\b|can.?t make (the|my) (card )?(payments?|repayments?)|hard time (with )?(money|financially|paying)|tough time (with money|financially)|(will|going to|gonna|might|may) miss (my|a|the|this month.?s) (payment|repayment|bill)|won.?t be able to (pay|make)|can.?t (pay|afford) (my|the|this)( card| credit card)? (bill|payment|repayment|balance|minimum)|(no|not enough) money (to pay|for (my|the) (bill|payment))|(struggling|struggle) (with|to) (money|pay|bills|debt)|money (is )?(really )?tight|^(i.?m |i am )?(so |completely )?(skint|broke)\W*$|payment (holiday|break|plan)|(going to|gonna|will) be late (with|on|paying) (my |the |this month.?s )?(payment|repayment|bill)|behind (on|with) (my )?(rent|bills|mortgage|payments|card|council tax)|late (with|on) (my )?(payment|repayment|bill)|can.?t pay (this|next) month|can.?t make (this|next) month.?s payment|bailiff|debt collector|loan shark|payday loan|borrow\w* (money )?to pay (this|my|the) (card|bill)|(reduce|lower|cut) (my )?(monthly |minimum )?(payment|repayment)s?|evict\w*|homeless|(no|not enough) money (for|to buy) (food|nappies|the kids|rent)|can.?t afford (food|to eat|groceries|nappies)|(hungry|starving) and (i )?(have )?no money/.test(t)) return !/homeless|evict|food|eat|hungry|starving|nappies|groceries|bailiff|court|enforcement|repossess/.test(t) && Mod.apiOn('cards.care') ? hardshipStart() : { say: /homeless|evict|food|eat|hungry|starving|nappies|groceries/.test(t) ? 'Thank you for telling me. A specialist from the bank can look at options such as a payment plan or a break from interest, and can point you to local support for food and housing. Nothing changes without your agreement.' : 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.' + (/loan shark|payday/.test(t) ? ' Please don\'t borrow more to pay this card; the specialist can help with that first.' : ''), blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] }
+  if (false) return careR(t)
   if (/terminally ill|palliative|hospice|end of life care/.test(t)) return { say: 'I\'m so sorry. A specialist from the bank\'s care team can help with anything to do with the card, such as someone helping to manage it. Nothing needs doing today.', blocks: [{ kind: 'handoff', reason: 'Serious illness in the family', team: 'care' }] }
   if (/(passed away|(\b(mum|mom|mother|dad|father|husband|wife|partner|son|daughter|brother|sister|grandad|grandpa|grandma|granny|grandmother|grandfather|nan|nana|uncle|aunt|auntie|friend|child|baby|fiancee?|boyfriend|girlfriend)|\bhe|\bshe|\bthey) (has |had |just |recently |sadly )?(died|passed)\b(?! (her|his|their|the|a|an|my|our) )|death (of|in) (my|the) (family|mum|mom|mother|dad|father|husband|wife|partner|son|daughter|brother|sister|grandad|grandpa|grandma|granny|grandmother|grandfather|nan|nana|uncle|aunt|auntie|friend|child|baby|fiancee?|boyfriend|girlfriend)|lost my (mum|mom|mother|dad|father|husband|wife|partner|son|daughter|brother|sister|grandad|grandpa|grandma|granny|grandmother|grandfather|nan|nana|uncle|aunt|auntie|friend|child|baby|fiancee?|boyfriend|girlfriend)\b(?! ?'?s? (card|wallet|phone|bag|keys|ring))|bereave|funeral|\bgriev|\bmourning|widow)/.test(t) && !/(flight|trip|booking).*(cancel)/.test(t)) {
     if (/\band (my|the) card\b|\blost (my|the) (wallet|purse|card)\b|\bcard\b.*\b(lost|missing|gone|stolen)\b/.test(t) && !/\b(his|her|their) card\b/.test(t)) { const r = route('', 'I lost my card'); return { ...r, say: `I'm so sorry for your loss. ${r.say || ''}`.trim() } }
@@ -1470,6 +1492,35 @@ export function route(cat: string, text: string): R {
   const t = (cat + ' ' + text).toLowerCase().trim(), m = mk()
   { const sf = safety(text); if (sf) { if (mixedCrisis(text)) { const cl = text.split(/[,.;!?]|\s+(?:and|but|so|then)\s+/i).map(x => x.trim()).filter(x => x && TASK.test(x) && !CRISIS.test(x.toLowerCase()) && !CRISIS2.test(x.toLowerCase())); const task = (cl.join(', ') || '').replace(/^[\s,.;:]+|[\s,.;:]+$/g, '').replace(/^(?:(?:can|could|would|will) you (?:please )?|please )/i, ''); const c = crisis(text.toLowerCase()); return task.length > 4 && !/\b(all|every|everything)\b|\bclose (my )?(card|account)\b|\bdelete (my )?account\b/i.test(task) ? { ...c, suggest: [task.charAt(0).toUpperCase() + task.slice(1)] } : c } return sf } }
   if (!CRISIS.test(detitle(t))) { const ctlR = controlsRoute(t); if (ctlR) return ctlR }
+  if (/\b(talk|speak|chat) (to|with) (the |a )?(fraud team|fraud specialist|person about (this|the) fraud)\b/.test(t)) return handoff({ reason: 'Payments the customer didn\'t make', team: 'fraud' })
+  if (/\b(move|change|push back|pick) (my |the )?(payment )?due date\b|\bdue date (change|move)\b/.test(t) && Mod.apiOn('cards.care')) return { say: 'Which day of the month suits you? Many people pick a few days after payday.', blocks: [{ kind: 'dueday' }] }
+  if (/\b(bill|payment) reminders?\b|\bremind me (before|when) (my )?(bill|payment)/.test(t) && /\b(off|stop|no more)\b/.test(t)) return Bk.remSet({ bill: 0 })
+  { const rm = t.match(/\bremind me (\d+|one|two|three|five|seven) days? before (my |the )?(bill|payment)/); if (rm) return Bk.remSet({ bill: ({ one: 1, two: 2, three: 3, five: 5, seven: 7 } as any)[rm[1]] || +rm[1] }) }
+  { const live = (c: string) => St.get().bookings.filter(b => b.cat === c && !dead(b) && !b.extra?.addonFor)[0]
+    const st = live('stays'), dn = live('dining'), ex = live('experiences')
+    if (st && /\b(change|move|extend|shorten)\b.{0,25}\b(my |the )?(hotel|stay|room|booking dates|check.?in date)\b|\b(another|extra|one more) night\b|\bstay (a night|an extra night|longer)\b/.test(t)) return stayChange({ id: st.id, plus: /another|extra|one more|longer/.test(t) })
+    if (st && /\b(early check.?in|late check.?out|breakfast (to|for) my (stay|room|hotel))\b/.test(t)) return stayExtras({ id: st.id })
+    if (st && /\b(message|tell|ask) the hotel\b/.test(t)) return msgPlace({ id: st.id })
+    if (dn && /\b(running|i.?m|we.?re|be) (a bit |about )?(\d+ (minutes|mins) )?late\b.{0,30}\b(restaurant|table|dinner|reservation)?/.test(t) && /restaurant|table|dinner|reservation|late for/.test(t)) return runningLate({ id: dn.id, mins: +(t.match(/(\d+) (minutes|mins)/)?.[1] || 15) })
+    if (dn && /\b(change|move)\b.{0,25}\b(my |the )?(table|reservation|dinner booking)\b|\b(add|one more|extra) (a )?(guest|person|people) (to|for) (my |the )?(table|reservation|booking)\b/.test(t)) return tableChange({ id: dn.id })
+    if (ex && /\b(change|move)\b.{0,25}\b(my |the )?(tour|experience|activity)\b/.test(t)) return tourChange({ id: ex.id }) }
+  { const tk = St.get().bookings.filter(b => b.cat === 'tickets' && !dead(b))[0]
+    if (tk && /\b(send|transfer|give|pass)\b.{0,20}\b(my |the )?tickets?\b.{0,20}\b(to|for)\b/.test(t)) return ticketSend({ id: tk.id })
+    if (tk && /\b(sell|resell)\b.{0,15}\b(my |the )?tickets?\b|\bcan.?t go\b.{0,30}\b(gig|concert|match|show|event)\b/.test(t)) return ticketSell({ id: tk.id })
+    if (tk && /\b(change|move|swap)\b.{0,20}\b(my |the )?(showing|cinema|film|theatre|show) (time|tickets?|date)\b/.test(t)) return showChange({ id: tk.id }) }
+  { const last = (f: (b: St.Booking) => boolean) => St.get().bookings.filter(b => !dead(b) && !b.extra?.addonFor && f(b))[0]
+    const ride = last(b => b.cat === 'rides' && /^Ride|transfer|chauffeur/i.test(b.title)), hire = last(b => /^Car hire/.test(b.title)), train = last(b => /^Train/.test(b.title)), es = last(b => /^eSIM/.test(b.title))
+    if (ride && /\b(driver|taxi|ride|cab)\b.{0,30}\b(didn.?t (turn up|show|come|arrive)|no.?show|never (came|arrived))\b|\b(overcharged|charged (me )?too much)\b.{0,30}\b(ride|taxi|driver)\b|\bleft (my |something )?.{0,20}\b(in|on) the (car|taxi|cab)\b/.test(t)) return rideProblem({ id: ride.id, what: /turn up|show|come|arrive|never/.test(t) ? RIDE_PROBLEMS[0] : /charged/.test(t) ? RIDE_PROBLEMS[1] : RIDE_PROBLEMS[2] })
+    if (hire && /\b(extend|keep)\b.{0,25}\b(the |my )?(hire car|rental|car hire|car)\b|\bcar for (another|more|an extra) day/.test(t)) return hireExtend({ id: hire.id })
+    if (hire && /\b(pick.?up|collect)(ing)?\b.{0,20}\b(the |my )?(hire car|rental|car)\b|what do i need (to|for) (pick|collect)/.test(t)) return hirePickup({ id: hire.id })
+    if (train && /\b(change|move|swap)\b.{0,20}\b(my |the )?train\b|\b(later|earlier|another) train\b/.test(t)) return trainChange({ id: train.id })
+    if (es && /\b(install|set ?up|activate)\b.{0,15}\b(my |the )?esim\b/.test(t)) return esimInstall({ id: es.id })
+    { const ap = last(b => b.cat === 'airport'); if (ap && /\b(lounge|fast ?track|meet and greet)\b.{0,40}\b(wouldn.?t let me in|refused|turned me away|full|closed|nobody (met|was there)|didn.?t (meet|show))\b/.test(t)) return airportProblem({ id: ap.id, what: /full/.test(t) ? 'It was full' : /closed/.test(t) ? 'The lane was closed' : /nobody|didn.?t (meet|show)/.test(t) ? 'Nobody met me' : 'They wouldn\'t let me in' }) }
+    if (es && /\b(top ?up|more data|add data)\b/.test(t)) return esimTopUp({ id: es.id })
+    if (/\b(claim|make a claim)\b.{0,30}\b(travel insurance|travel cover|insurance)\b|\binsurance claim\b/.test(t) && !/purchase protection|warranty/.test(t)) return insClaim({})
+    { const vm = t.match(/\b(apply|application|help)\b.{0,25}\bvisa\b.{0,20}(?:for|to) ([a-z][a-z ]+)$/); if (vm) { const c = Cat.findCity(mk(), vm[2]) || Cat.dests(mk()).find(x => x.country.toLowerCase() === vm[2].trim()); if (c) return visaHelp({ city: c.name }) } } }
+  { const gc = St.get().bookings.filter(b => b.cat === 'giftcards' && !dead(b))[0]; if (gc && /\bgift ?card\b.{0,30}\b(code )?(isn.?t|not|doesn.?t|won.?t) (work|accepted|valid)|\b(code|voucher) (isn.?t|not|doesn.?t|won.?t) work/.test(t)) return giftProblem({ id: gc.id }) }
+  if (/\b(watch|track|monitor|keep an eye on|tell me when|alert me when)\b.{0,40}\b(price|cheaper|drops?|goes down|on sale)\b/.test(t) && !/\b(flights?|fares?|fly)\b/.test(t)) { const it = itemsFor('shopping').find(x => x.title.toLowerCase().split(/[ ,]+/).filter(w => w.length > 3).some(w => t.includes(w)) || (x.tags || []).some(g => t.includes(g))); if (it) return itemWatch({ id: it.id }) }
   { const sv = servicing(t); if (sv) return sv }
   if (/\b(taken|kept|swallowed|eaten|retained|stuck|grabbed|held) (by|in) (the |a )?(cash ?point|cash machine|atm|machine|hole in the wall)\b/.test(t) && !/\bstuck in the atm\b/.test(t)) return route('', 'the atm kept my card')
   if (/\b(turn|switch|put) (my )?card (back )?on\b|\b(turn|switch) (it|my card) back on\b|\bcard back on\b|\b(reactivate|re-?enable) (my )?card\b/.test(t) && !/\b(online|abroad|contactless|cash|atm|gambling)\b/.test(t)) return route('', 'unfreeze my card')
@@ -1515,7 +1566,7 @@ export function route(cat: string, text: string): R {
   if (/\b(cinema|film|movie)s?\b/.test(t) && !/\b(festival|premiere|camera|photo|gift ?card)\b/.test(t) && !/\b(cancel|refund|change|move|my booking)\b/.test(t)) { const dd = parseDates(text), today = iso(new Date()), end = addDays(today, 6), px = parsePax(text); if (/\byesterday\b|\blast (night|week|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/.test(t) || (dd.explicit && dd.out < today)) return { say: 'That showing has already passed. The cinema offer covers any day from today until ' + M().date(end) + '.', blocks: [{ kind: 'detail', id: 'ET-4' }] }; if (dd.explicit && dd.out > end) return { say: `The cinema offer runs this week only, until ${M().date(end)}. For a showing after that, the concierge team can book it.`, blocks: [{ kind: 'detail', id: 'ET-4' }], suggest: ['Ask the concierge'] }; return { say: 'Films are booked through the cinema offer: 2 tickets for the price of 1 at Reel House, any film this week. Pick a day and showing on the card.', blocks: [{ kind: 'detail', id: 'ET-4', ...(px > 1 ? { pax: px } : {}), ...(dd.explicit && dd.out >= today ? { date: dd.out } : {}) }] } }
   if (/\b(die|kill) for (a|some)\b|\bdead tired\b|\bstarving\b/.test(t)) { const t2 = t.replace(/\bi'?d (die|kill) for\b/, 'book').replace(/\b(i'?m )?dead tired,?\s*/, '').replace(/\b(i'?m )?starving,?\s*/, ''); if (t2 !== t && t2.trim().length > 4) return route(cat, t2.trim()) }
   if (/\b(caf[eé]s?|coffee shops?|somewhere for (a )?coffee)\b/.test(t) && !/\bbeans?\b|gift ?card/.test(t)) { const r = search({ cat: 'dining', query: '', city: Cat.findCity(m, text)?.name }); return { ...r, say: `Cafés aren't booked here, as they don't take tables. Here are restaurants that do. ${r.say}` } }
-  { const lastGr = [...St.get().chat].reverse().find((x: any) => x.role === 'gr' && x.text); if (lastGr && /^Did you just try to pay/.test(lastGr.text || '')) { if (/^(no\b|nope|it wasn'?t me|that wasn'?t me|not me|i didn'?t|never|no,)/.test(t) || /\b(wasn'?t me|not me|didn'?t (do|make|try) (it|that))\b/.test(t)) return bank({ topic: 'fraud' }); if (/^(yes\b|yeah|yep|it was me|that was me|i did|it'?s fine|all good)/.test(t)) return unfreezeAsk({}) } }
+  { const lastGr = [...St.get().chat].reverse().find((x: any) => x.role === 'gr' && x.text); if (lastGr && /^Did you just try to pay/.test(lastGr.text || '')) { if (/^(no\b|nope|it wasn'?t me|that wasn'?t me|not me|i didn'?t|never|no,)/.test(t) || /\b(wasn'?t me|not me|didn'?t (do|make|try) (it|that))\b/.test(t)) return unrec(); if (/^(yes\b|yeah|yep|it was me|that was me|i did|it'?s fine|all good)/.test(t)) return unfreezeAsk({}) } }
   if (/\b(show|list|see|view|what are|what) (me )?(all )?(my |the )?alerts\b|^(my )?alerts\??$/.test(t)) { const keys = Object.keys(St.get().seen).filter(k => k.startsWith('alert:') && St.get().seen[k]); return keys.length ? { say: `You have ${keys.length} alert${keys.length > 1 ? 's' : ''}. Remove any you don't need.`, blocks: keys.map(k => ({ kind: 'alertcard', k })) } : { say: 'You don\'t have any alerts set. Say "remind me when…" to add one.', blocks: [] } }
   if (/\bwhat did i (just )?(spend|buy|pay)\b|\b(my )?last (card )?(payment|purchase|transaction)\b|\bspen[dt] (last|this) week\b|\bwhat have i spent this week\b/.test(t) && !/\b(spen[dt]|spending) on (dining|restaurants?|eating out|food|groceries|travel|flights?|hotels?|shopping|entertainment|subscriptions|transport|rides|taxis|events|tickets)\b/.test(t)) { const tx = St.get().txns.filter(x => !x.refund).sort((a, b) => b.at - a.at); if (/\bjust\b|\blast (card )?(payment|purchase|transaction)\b/.test(t)) { const x = tx[0]; return x ? { say: `Your last card payment was ${M().money(x.amount, 2)} at ${x.merchant}, on ${M().date(iso(new Date(x.at)))}.`, blocks: [{ kind: 'txns' }] } : { say: 'There are no card payments yet.', blocks: [] } } const wk = tx.filter(x => Date.now() - x.at < 7 * 864e5), sum = Math.round(wk.reduce((a, x) => a + x.amount, 0) * 100) / 100; return { say: wk.length ? `In the last 7 days you spent ${M().money(sum, 2)} on your card, across ${wk.length} payment${wk.length > 1 ? 's' : ''}.` : 'You haven\'t spent anything on your card in the last 7 days.', blocks: [{ kind: 'txns' }] } }
   { const sm = t.match(/\b(?:cancel|kill|stop|end|get rid of)\s+(?:my |the )?(?:subscription|membership)\s+(?:to|for|with|at)\s+([a-z][a-z0-9 +&]{1,25}?)\s*$/); if (sm && !Cat.SUBS.some(x => x.title.toLowerCase().startsWith(sm[1].split(' ')[0]))) { const nm = sm[1].replace(/\b\w/g, c => c.toUpperCase()); return { say: `${nm} isn't billed through Gratifi, so cancel it in your ${nm} account. It still shows on your card statement until then. If they won't stop charging you, the bank can help.`, blocks: [], suggest: ['My subscriptions', 'Talk to a person'] } } }
@@ -1578,13 +1629,14 @@ export function route(cat: string, text: string): R {
   if (/boarding pass|where (is|are) my (pass|passes|ticket|tickets)|my e-?ticket/.test(t)) { const bs = St.get().bookings.filter(b => !dead(b) && (b.cat === 'flights' || b.kind === 'ticket' || b.cat === 'airport' || (b.cat === 'rides' && /^Train/.test(b.title)))); const fl = bs.filter(b => b.cat === 'flights' && !b.extra?.disrupted); const pick = /boarding/.test(t) ? fl : bs; return pick.length ? { say: /boarding/.test(t) ? passNote(pick[0]) : '', blocks: pick.slice(0, 3).map(b => ({ kind: 'pass', id: b.id })) } : { say: /boarding/.test(t) ? 'You don\'t have a flight booked.' : 'You don\'t have any passes yet.', blocks: [] } }
   if (/(change|correct|fix|update|wrong|misspel\w*|spelling of) (the |my )?(passenger |traveller )?name|name (change|on (my|the) (ticket|booking|flight))/.test(t)) return nameFixStart({})
   if (/\bsell\b.*(gold|fund|investment)/.test(t)) { const inv = St.get().bookings.find(b => b.kind === 'investment' && !dead(b)); return inv ? manage({ id: inv.id, action: 'sell' }) : { say: 'You don\'t hold any investments through Gratifi yet.', blocks: [], suggest: ['Put points into gold'] } }
-  if (/(no longer|can.?t|cannot|unable to|struggling to) (afford|keep up with|make|meet|manage) (my |the )?(repayments?|payments?|bills?|minimum)|behind (on|with) (my )?(payments|repayments|bills)|missed (a |my )?(payment|repayment)|(a lot of|so much|in|drowning in|serious) debt|can.?t cope with (money|bills|debt)|money (problems|trouble)/.test(t)) return { say: 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Financial difficulty' }] }
+  if (/(no longer|can.?t|cannot|unable to|struggling to) (afford|keep up with|make|meet|manage) (my |the )?(repayments?|payments?|bills?|minimum)|behind (on|with) (my )?(payments|repayments|bills)|missed (a |my )?(payment|repayment)|(a lot of|so much|in|drowning in|serious) debt|can.?t cope with (money|bills|debt)|money (problems|trouble)/.test(t)) return careR(t)
   if (/lost my job(?!\s+(interview|application|notes|offer|description|title))|redundan|unemploy|can.?t make (the |my )?payment/.test(t)) return { say: 'Thank you for telling me. A specialist can go through options such as a payment plan, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: text }] }
+  if (/struggl\w* to pay|can.?t (afford|pay) (my |the )?(card|bill|credit card|payments?|minimum)|financial (difficult|hardship)|money worries|in debt|debt help|behind (on|with) (my )?(payments|card|bills)|miss(ed)? (a |my )?payment/.test(t) && !/died|passed away|bereave|funeral|close my|power of attorney/.test(t) && Mod.apiOn('cards.care')) return hardshipStart()
   if (/struggl\w* to pay|can.?t (afford|pay)|financial (difficult|hardship)|money worries|in debt|debt help|bereave|passed away|(mum|mom|dad|mother|father|husband|wife|partner|son|daughter|brother|sister|he|she|they) (has |just |recently )?died|death in|funeral|close my account|close (my )?card|cancel my (credit )?card|power of attorney|\bcarer\b|vulnerab/.test(t)) return { say: /died|passed away|bereave|death|funeral/.test(t) ? 'I\'m sorry. A specialist from the bank\'s bereavement team will help with the card and anything linked to it. Nothing needs doing today.' : /struggl|afford|debt|hardship|money worries/.test(t) ? 'Thank you for telling me. A specialist can go through options such as a payment plan, and nothing changes without your agreement.' : 'A person from the bank handles this. They can see our conversation.', blocks: [{ kind: 'handoff', reason: text }] }
   if (/(called|rang|phoned|texted|messaged|emailed|whatsapp\w*) (me )?(from|saying|claiming|pretending)|pretend\w* to be (from )?(the |my )?bank|(a |got a |received a )?(text|sms|message|email|call|voicemail)\w*\b.*\b(asking|asked|wants?|wanted|told|telling) (me )?(to )?(confirm|verify|share|give|send|read|move|transfer|click|approve)|(asking|asked|wants?) (me )?for (my )?(pin|code|password|otp|one.time code|card details|card number)|is (this|that|it) (text|sms|email|message|call) (from you|real|genuine|legit)|(text|sms|email|message)\b.*\b(click|link)\b|(someone|a man|a woman|they) from (the |my )?bank (called|rang|phoned|texted)|asked me to (move|transfer|send)|safe account|move my (money|savings)|police asked me|hmrc called/.test(t)) { return { say: 'Stop there. The bank will never ask you to move money, share a code or click a link to unblock your card. Don\'t click, reply or move anything. I can freeze your card now if you\'d like, and I\'m bringing in the fraud team; they can see this conversation.', blocks: [{ kind: 'handoff', reason: 'Possible scam call: asked to move money', team: 'fraud' }], suggest: ['Freeze my card'] } }
   if (/\bpin\b/.test(t) && !/wi-?fi|lounge|door|locker|gate/.test(t)) return Mod.on('card.pin') && !/\b(change|reset|new|forgot|forgotten|locked|blocked|wrong)\b/.test(t) ? { say: 'You can see your PIN on My card after you confirm it\'s you. Nobody from the bank will ever ask you for it.', blocks: [{ kind: 'state', state: 'empty', title: 'Your PIN', body: 'Shown for 10 seconds.', actions: [{ label: 'Show my PIN', act: { f: 'open', a: { to: 'pin' } } }] }] } : { say: 'PINs are changed at a cash machine, not here. A person can help if you\'re locked out.', blocks: [], suggest: ['Talk to a person', 'Freeze my card'] }
   if (CRISIS.test(detitle(t))) return crisis(t)
-  if (/someone.?s using my card|someone (is )?using my card|card (has been|was) (used|cloned)|didn.t (make|authori[sz]e)|recognis|recogniz|took money|scam|fraud|hacked/.test(t)) return bank({ topic: 'fraud' })
+  if (/someone.?s using my card|someone (is )?using my card|card (has been|was) (used|cloned)|didn.t (make|authori[sz]e)|recognis|recogniz|took money|scam|fraud|hacked/.test(t)) return /scam|tricked|hacked|sent money|transferred/.test(t) && !/recognis|recogniz|didn.t (make|authori)|using my card|cloned/.test(t) ? bank({ topic: 'fraud' }) : unrec()
   { const pg = Cat.PROGRAMMES.find(p => t.includes(p.name.toLowerCase().split(' ')[0])); const pn = t.match(/\b(?:transfer|move|send|convert)\s+(\d[\d,]*)\b/); if (pg && pn && !/£|\$|€|₹|aed|rm|money|cash/.test(t)) return programmes({ pts: +pn[1].replace(/,/g, '') }) }
   if (/\b(hotel|room|restaurant|meal|food|flight|ride|driver|tour|class|seat|lounge)\b.*\b(was|were|is|had)\b.*\b(dirty|filthy|awful|terrible|horrible|rude|broken|cold|disgusting|not as described|unsafe|noisy|smelly|mouldy)\b|\b(dirty|filthy|awful|terrible|rude|disgusting)\b.*\b(hotel|room|restaurant|meal|flight|ride|driver|tour)\b.*\b(money back|refund|compensation|complain)/.test(t)) return { say: 'I\'m sorry it wasn\'t right. A person from the bank will take this up with the supplier and look at a refund; they can see our conversation. A photo helps if you have one.', blocks: [{ kind: 'handoff', reason: 'Complaint about a booking' }] }
   if (!/points|miles|bill|my card|balance|gift ?card|voucher/.test(t) && /send (money|£|\$|€|₹|rm|aed|\d)|pay (my )?(mum|mom|dad|friend|someone)|(transfer|send|move|wire) (money|cash|funds|£|\$|€|₹|rm|aed|s\$|\d)|to my (friend|mum|mom|dad|brother|sister|son|daughter|partner|wife|husband)\b|bank transfer/.test(t)) return { say: 'Sending money to people isn\'t something Gratifi does; your bank\'s app handles payments to people. I can help with your card, points and anything you buy with them.', blocks: [], suggest: ['What do I owe?', 'Transfer points to miles'] }
@@ -1612,7 +1664,8 @@ export function route(cat: string, text: string): R {
   if (/points (do i|will i) (get|earn)|earn rate|points per|how many points (for|per|on) (every|each|a)/.test(t)) { const per = 0.01 / St.rate(); return { say: `${per >= 1 ? `You earn ${M().num(Math.round(per))} point${Math.round(per) === 1 ? '' : 's'} for every ${M().money(1)}` : `You earn 1 point for every ${M().money(Math.round(1 / per))}`} you spend on the card. Partners pay more, shown on each as 3× or 10×, and card offers add bonus points.`, blocks: [], suggest: ['Show me card offers', 'Ways to earn more'] } }
   if (/(do|will) (my )?points expire|points expir\w* (when|date)|when do (my )?points expire/.test(t)) { const e = St.get().expiring; return { say: `${e ? `${M().pts(e)} expire on 31 Oct. ` : ''}Points last 36 months from when you earn them (demo rule; the bank's terms set the real one).`, blocks: e ? [{ kind: 'items', cat: 'giftcards', ids: Cat.GIFTCARDS.slice(0, 3).map(g => g.id) }] : [], suggest: ['Use my expiring points on a gift card'] } }
   if (/\b(want to|like to|wanna|would love to|need to) (go|fly|travel|get) to\b|\btake me to\b/.test(t) && !/airport|station|hotel|restaurant/.test(t)) return flightSearch({ text })
-  if (/struggling (financially|with (money|bills|debt))|financial(ly)? (struggl|difficult|trouble|hardship)|can.?t make ends meet|money is (really )?tight|money worries/.test(t)) return { say: 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] }
+  if (/struggling (financially|with (money|bills|debt))|financial(ly)? (struggl|difficult|trouble|hardship)|can.?t make ends meet|money is (really )?tight|money worries/.test(t) && Mod.apiOn('cards.care')) return hardshipStart()
+  if (/struggling (financially|with (money|bills|debt))|financial(ly)? (struggl|difficult|trouble|hardship)|can.?t make ends meet|money is (really )?tight|money worries/.test(t)) return careR(t)
   if (/(text|sms|message|email|call)\w*\b.*\b(parcel|delivery|package|customs|courier|toll|tax refund|fine)\b|\b(parcel|delivery|package)\b.*\b(fee|payment|pay)\b.*\b(real|legit|genuine|scam|from you)|is (this|it) (a )?scam|is (this|it) (real|legit|genuine)\??$/.test(t) && !/i (already )?paid|entered my card|gave (them )?my (card|details)/.test(t)) return { say: 'That\'s very likely a scam. Delivery firms, government bodies and the bank don\'t ask for small payments through a text link. Don\'t click it or reply. If you\'ve already paid or typed in your card details, tell me and I\'ll freeze your card and bring in the fraud team.', blocks: [], suggest: ['I already paid', 'Freeze my card'] }
   if (/^i (already )?paid( it)?$|i (entered|typed|gave) (in )?my card( details)?|i clicked (the|a) link/.test(t)) return bank({ topic: 'fraud' })
   if (/\bpoints?\b.*\b(protected|insured|covered|guaranteed|at risk|lose them|lost if)\b|what happens to my points if/.test(t)) return { say: 'Points are a reward from the bank, not money, so deposit protection schemes don\'t cover them. They stay on your card account while it\'s open and last 36 months from when you earn them. A lost or stolen card doesn\'t affect them: they move to the new card. If you close the card, use them first.', blocks: [], suggest: ['What can I do with my points?', 'When do my points expire?'] }
@@ -1703,7 +1756,7 @@ export function route(cat: string, text: string): R {
   if (/what.?s included|included with my card|come with my card|comes with my card/.test(t)) return /subscription|stream|music/.test(t) ? search({ cat: 'subs', query: '' }) : benefits({})
   if (/earn extra points shopping|extra points (when )?shopping|shop.*earn|their own site|affiliate/.test(t)) return search({ cat: 'shopping', query: '', links: true })
   if (/expiring points|points expir/.test(t)) return search({ cat: 'giftcards', query: '' })
-  if (/recognis|recogniz|didn.t make|took money|scam|fraud|hacked/.test(t)) return bank({ topic: 'fraud' })
+  if (/recognis|recogniz|didn.t make|took money|scam|fraud|hacked/.test(t)) return /scam|hacked|tricked|sent money/.test(t) ? bank({ topic: 'fraud' }) : unrec()
   if (/\bstatement\b/.test(t)) return bank({ topic: 'statement' })
   if (/where.*money|spent|spending|transactions|breakdown/.test(t)) return bank({ topic: 'spending ' + t })
   if (/\bunfreeze\b/.test(t)) return unfreezeAsk({})
@@ -1764,7 +1817,7 @@ export function route(cat: string, text: string): R {
   if (hit.length === 1) return showItem({ id: hit[0].id })
   if (hit.length > 1 && hit.length <= 6) return { say: `${hit.length} matches.`, blocks: [{ kind: 'items', cat: 'mixed', ids: hit.map(i => i.id) }] }
   if (/\b(scam|fraud|suspicious|phishing)\b/.test(t)) return bank({ topic: 'fraud' })
-  if (/\b(debt|afford|struggl\w*|arrears|bailiff|overdrawn)\b/.test(t)) return { say: 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] }
+  if (/\b(debt|afford|struggl\w*|arrears|bailiff|overdrawn)\b/.test(t)) return careR(t)
   if (/^(hi|hello|hey|hiya|yo|help|what can you do|menu|start)( there| gratifi)?\b[\s!?.,]*$/.test(t) || !t) return { say: 'I can help with anything on your card: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself. What would you like to do?', blocks: [{ kind: 'cats' }], suggest: ['Book a flight', 'A table tonight', 'Groceries now', 'Freeze my card'] }
   { const gm = t.match(/^(?:can you |could you |please |i want to |i'?d like to )?(?:get|buy|order|find)(?: me)? (?:a |an |some |new |a new )?([a-z][a-z -]{2,30})\??$/); if (gm && !/\b(flight|hotel|table|ride|cab|taxi|ticket|lounge|card|points|money|refund)\b/.test(gm[1])) { const r = search({ cat: 'shopping', query: gm[1] }); return { ...r, say: `I can't find ${gm[1].trim()} here. These are the closest things I can offer, or the concierge team can look for it.`, suggest: ['Find a special gift'] } } }
   return { say: 'I can\'t do that one. Here\'s what I can help with: travel, dining, shopping, gift cards, subscriptions, events, points, giving and your card itself.', blocks: [{ kind: 'cats' }], suggest: ['Book a flight', 'A table tonight', 'Groceries now', 'Talk to a person'] }
@@ -1799,4 +1852,293 @@ export function controlsRoute(t: string): R | null {
   }
   if (/\b(card controls?|all (my )?controls|control my card|manage my card controls)\b/.test(t)) return { say: 'Everything you can switch on and off, and every limit. Changes work straight away.', blocks: [{ kind: 'controls' }] }
   return null
+}
+
+/* ---------- care ---------- */
+export function fraudStart(_: any = {}): R {
+  const was = St.get().card.frozen; St.set(st => ({ card: { ...st.card, frozen: true } }))
+  return { say: `${was ? 'Your card is already frozen' : 'I\'ve frozen your card'}, so nothing more can go through. Tick the payments you didn't make. They're credited back today while the fraud team checks, and you get a new card with a new number.`, blocks: [{ kind: 'fraudpick' }], suggest: ['Talk to the fraud team'] }
+}
+export function hardshipStart(): R {
+  return { say: 'Thank you for telling me. These can help straight away, and nothing changes without your agreement. A specialist is there if you\'d rather talk it through.', blocks: [{ kind: 'hardship' }] }
+}
+
+const careHandoff = (): R => ({ say: 'Thank you for telling me. A specialist can go through options such as a payment plan or a break from interest, and nothing changes without your agreement.', blocks: [{ kind: 'handoff', reason: 'Financial difficulty', team: 'care' }] })
+const careR = (t = ''): R => Mod.apiOn('cards.care') && !/bailiff|evict|court|repossess|homeless|enforcement/.test(t) ? hardshipStart() : careHandoff()
+const unrec = (): R => Mod.apiOn('disputes') ? fraudStart({}) : bank({ topic: 'fraud' })
+
+/* ---------- partner services: change a stay, a table or a tour; extras during the stay; the night itself ---------- */
+export const guestsOf = (b: St.Booking) => b.qty || +((b.detail || []).find(r => r[0] === 'Guests')?.[1] || 0) || 1
+const dTitle = (b: St.Booking) => b.title.replace(/^(Dinner at|Table at) /, '')
+/** Part of a booking's price back, split the way it was paid (points first back as points). The booking stays live. */
+function partRefund(b: St.Booking, amount: number) {
+  const f = Math.min(1, amount / (b.total || 1)), pts = Math.round(b.pts * f), card = Math.round(b.card * f * 100) / 100, now = Date.now()
+  St.set(s => ({ balance: s.balance + pts, ledger: pts ? [{ id: St.uidx(), at: now, label: `Refund: ${b.title}`, pts }, ...s.ledger] : s.ledger, txns: card ? [{ id: St.uidx(), at: now, merchant: `Refund: ${b.title}`, cat: 'Travel', amount: card, points: 0, refund: true }, ...s.txns] : s.txns, card: card ? { ...s.card, balance: Math.round((s.card.balance - card) * 100) / 100 } : s.card, bookings: s.bookings.map(x => x.id === b.id ? { ...x, total: Math.round((x.total - amount) * 100) / 100, pts: x.pts - pts, card: Math.round((x.card - card) * 100) / 100 } : x) }))
+  return { pts, card }
+}
+const backLine = (r: { pts: number; card: number }) => [r.pts ? M().pts(r.pts) : '', r.card ? M().money(r.card, 2) + ' to your card' : ''].filter(Boolean).join(' and ')
+const setRows = (rows: [string, string][] | undefined, k: string, v: string) => { const out = [...(rows || [])]; const i = out.findIndex(r => r[0] === k); if (i >= 0) out[i] = [k, v]; else out.push([k, v]); return out }
+export function stayChange(a: { id: string; plus?: boolean }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'stays') return { say: 'I can\'t find that stay.', blocks: [] }
+  if (dead(b)) return { say: 'That stay is cancelled.', blocks: [{ kind: 'booking', id: b.id }] }
+  return { say: `Pick new dates for ${b.title}. Moving the dates is free; extra nights are charged at the same rate, and fewer nights are refunded.`, blocks: [{ kind: 'staychange', id: b.id, plus: a.plus }] }
+}
+export function stayChangeDo(a: { id: string; date: string; nights: number }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that stay.', blocks: [] }
+  const i = findItem(b.itemId || ''), opt = b.extra?.option || '', oldN = b.extra?.nights || 2, n = Math.max(1, Math.min(14, Math.round(a.nights)))
+  if (a.date < iso(new Date())) return { say: 'That date has passed. Pick another.', blocks: [{ kind: 'staychange', id: b.id }] }
+  const per = i ? stayPrice(i, opt, oldN) : b.total, rooms = per ? Math.max(1, Math.round(b.total / per)) : 1
+  const nt = i ? Math.round(stayPrice(i, opt, n) * rooms * 100) / 100 : b.total, diff = Math.round((nt - b.total) * 100) / 100
+  const when = `${M().date(a.date)} to ${M().date(addDays(a.date, n))}`, detail = setRows(setRows(b.detail, 'Dates', when), 'Nights', String(n))
+  if (a.date === (b.extra?.date || stayDefault()) && n === oldN) return { say: 'Those are the dates you already have.', blocks: [{ kind: 'booking', id: b.id }] }
+  if (diff > 0.5) {
+    const d = St.draft({ cat: 'stays', title: `${n - oldN} extra night${n - oldN > 1 ? 's' : ''}: ${b.title}`, sub: when, when, qty: 1, unit: diff, total: diff, img: b.img, icon: 'hotel', kind: 'booking', refundable: b.refundable, policy: b.policy, detail: [['New dates', when], ['Nights', `${oldN} to ${n}`]], extra: { addonFor: b.id, patch: { date: a.date, nights: n }, newWhen: when, newDetail: detail, rows: [], doneSay: `Changed. You're now staying ${when}, ${n} night${n > 1 ? 's' : ''}. ${b.title} has the new dates.` } })
+    return { say: `${n - oldN} more night${n - oldN > 1 ? 's' : ''} at the same rate. Pay with points, card, or both.`, blocks: [{ kind: 'checkout', draft: d }] }
+  }
+  St.updateBooking(b.id, { when, detail, extra: { ...b.extra, date: a.date, nights: n } })
+  if (diff < -0.5) { const r = partRefund(bk(b.id)!, -diff); return { say: `Changed. You're now staying ${when}, ${n} night${n > 1 ? 's' : ''}. ${backLine(r)} ${r.pts && r.card ? 'are' : 'is'} back for the nights you dropped.`, blocks: [{ kind: 'booking', id: b.id }] } }
+  return { say: `Changed, at no cost. You're now staying ${when}. ${b.title} has the new dates.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+/** Early check-in and late checkout, paid like anything else. */
+export const STAY_EXTRAS = () => [{ k: 'early', name: 'Early check-in', sub: 'From 10:00, room ready on arrival', price: Cat.px(25, mk()) }, { k: 'late', name: 'Late checkout', sub: 'Until 14:00 on your last day', price: Cat.px(30, mk()) }, { k: 'breakfast', name: 'Breakfast', sub: 'Every morning, for everyone in the room', price: Cat.px(18, mk()) }]
+export function stayExtras(a: { id: string }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'stays' || dead(b)) return { say: 'I can\'t find that stay.', blocks: [] }
+  return { say: `What would make the stay at ${b.title} easier?`, blocks: [{ kind: 'stayextras', id: b.id }] }
+}
+export function stayExtrasDo(a: { id: string; ks: string[] }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that stay.', blocks: [] }
+  const have = (b.extra?.extras || []) as string[], pick = STAY_EXTRAS().filter(x => a.ks.includes(x.k) && !have.includes(x.k)); if (!pick.length) return { say: 'You already have those.', blocks: [{ kind: 'booking', id: b.id }] }
+  const n = b.extra?.nights || 2, cost = (x: any) => x.k === 'breakfast' ? x.price * n * guestsOf(b) : x.price, tot = Math.round(pick.reduce((s0, x) => s0 + cost(x), 0) * 100) / 100
+  const d = St.draft({ cat: 'stays', title: pick.map(x => x.name).join(', '), sub: b.title, when: b.when, qty: 1, unit: tot, total: tot, img: b.img, icon: 'hotel', kind: 'order', refundable: true, policy: 'Refunded if the stay is cancelled', detail: pick.map(x => [x.name, M().money(cost(x), 2)] as [string, string]), extra: { addonFor: b.id, patch: { extras: [...have, ...pick.map(x => x.k)] }, rows: pick.map(x => [`Added: ${x.name}`, M().money(cost(x), 2)] as [string, string]), doneSay: `Added ${pick.map(x => x.name.toLowerCase()).join(' and ')}. ${b.title} has been told.` } })
+  return { say: 'Pay with points, card, or both.', blocks: [{ kind: 'checkout', draft: d }] }
+}
+export function msgPlace(a: { id: string; text?: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find that booking.', blocks: [] }
+  if (!a.text) return { say: `What would you like to tell ${dTitle(b)}?`, blocks: [{ kind: 'msgplace', id: b.id }] }
+  St.updateBooking(b.id, { extra: { ...b.extra, notes: [...(b.extra?.notes || []), a.text] } })
+  return { say: `Sent to ${dTitle(b)} with your booking (${b.ref}). Their reply comes here.`, blocks: [] }
+}
+export function tableChange(a: { id: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find that table.', blocks: [] }
+  return { say: `Pick a new time or number of guests for ${dTitle(b)}. Changes are free.`, blocks: [{ kind: 'tablechange', id: b.id }] }
+}
+export function tableChangeDo(a: { id: string; at: string; qty: number; date?: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that table.', blocks: [] }
+  const day = a.date || b.extra?.date || iso(new Date()), q = Math.max(1, Math.min(12, Math.round(a.qty))), when = `${M().date(day)}, ${M().clock(a.at)}`
+  const q0 = b.qty || +((b.detail || []).find(r => r[0] === 'Guests')?.[1] || 0) || 2
+  if (a.at === (b.extra?.at || b.extra?.option) && q === q0 && day === b.extra?.date) return { say: 'That\'s the booking you already have.', blocks: [{ kind: 'booking', id: b.id }] }
+  St.updateBooking(b.id, { when, qty: q, detail: setRows(setRows(b.detail, 'When', when), 'Guests', String(q)), extra: { ...b.extra, at: a.at, option: a.at, date: day } })
+  return { say: `Changed, at no cost: ${dTitle(b)}, ${when}, for ${q}.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+export function runningLate(a: { id: string; mins?: number }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find that table.', blocks: [] }
+  const at = String(b.extra?.at || b.extra?.option || '19:00'), m = Math.min(30, a.mins || 15), t = +at.slice(0, 2) * 60 + +at.slice(3, 5) + m, hold = `${String(Math.floor(t / 60) % 24).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`
+  St.updateBooking(b.id, { extra: { ...b.extra, late: m } })
+  return { say: `I've told ${dTitle(b)} you're running about ${m} minutes late. They'll hold your table until ${M().clock(hold)}.`, blocks: [] }
+}
+export function tourChange(a: { id: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find that booking.', blocks: [] }
+  return { say: `Pick a new day for ${b.title}. It's free to move up to 24 hours before.`, blocks: [{ kind: 'tourchange', id: b.id }] }
+}
+export function tourChangeDo(a: { id: string; date: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
+  const at = String(b.extra?.at || b.extra?.option || '10:00').slice(0, 5), when = `${M().date(a.date)}, ${M().clock(at)}`
+  St.updateBooking(b.id, { when, detail: setRows(b.detail, 'When', when), extra: { ...b.extra, date: a.date } })
+  return { say: `Moved, at no cost. ${b.title} is now ${when}. Your pass is updated.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+/** When the operator calls it off: everything back, and something similar offered. */
+export function operatorCancels(): R {
+  const b = St.get().bookings.find(x => ['experiences', 'stays', 'dining', 'tickets'].includes(x.cat) && !dead(x) && !x.extra?.addonFor)
+  if (!b) return { say: 'Book a tour, a stay, a table or tickets first, then I can show you what happens if it\'s called off.', blocks: [] }
+  const r = St.refund(b.id, 1, 'Refund'), who = b.cat === 'stays' ? 'The hotel' : b.cat === 'dining' ? 'The restaurant' : b.cat === 'tickets' ? 'The organiser' : 'The operator'
+  const alt = itemsFor(b.cat, findItem(b.itemId || '')?.city).filter(x => x.id !== b.itemId).slice(0, 3)
+  return { say: `${who} has cancelled ${b.title}. ${r ? `Everything you paid is back: ${backLine({ pts: r.pts, card: r.card }) || 'nothing was charged'}.` : ''} ${alt.length ? 'Here are similar ones you can book instead.' : ''}`.trim(), blocks: alt.length ? [{ kind: 'items', ids: alt.map(x => x.id), cat: b.cat }] : [{ kind: 'booking', id: b.id }] }
+}
+
+/* ---------- events and cinema: sold out and the waitlist, sending or reselling a ticket, changing a showing, getting there ---------- */
+export function soldOutR(i: Cat.Item, opt: string): R {
+  const others = (i.opts?.values || []).filter(v => !(i.soldOut || []).includes(v.replace(/ \(\+.*\)/, '')))
+  const on = !!St.get().seen['wait:' + i.id]
+  opt = opt.replace(/ \(\+.*\)/, '')
+  return { say: `${opt} for ${i.title} is sold out. ${on ? 'You\'re on the waitlist; I\'ll message you the moment tickets come back.' : 'Join the waitlist and I\'ll message you the moment tickets come back, or pick another area.'}`, blocks: [{ kind: 'state', state: 'empty', title: 'Sold out', body: `${i.title} · ${opt}`, actions: [...(on ? [] : [{ label: 'Join the waitlist', act: { f: 'waitJoin', a: { id: i.id, option: opt } } }]), ...others.slice(0, 2).map(v => ({ label: v.replace(/ \(\+.*\)/, ''), act: { f: 'startCheckout', a: { id: i.id, option: v, qty: 2 } } }))] }] }
+}
+export function waitJoin(a: { id: string; option: string }): R {
+  const i = findItem(a.id); if (!i) return { say: 'I can\'t find that event.', blocks: [] }
+  St.set(s => ({ seen: { ...s.seen, ['wait:' + i.id]: a.option } }))
+  return { say: `You're on the waitlist for ${a.option} at ${i.title}. When tickets come back, I'll message you first and hold them for 10 minutes.`, blocks: [] }
+}
+/** What the demo's "tickets come back" control does. */
+export function ticketsBack(): R {
+  const k = Object.keys(St.get().seen).find(x => x.startsWith('wait:') && St.get().seen[x]); if (!k) return { say: 'You\'re not on any waitlist. Try the lower seats for Arlo Grey live.', blocks: [] }
+  const id = k.slice(5), opt = St.get().seen[k], i = findItem(id)!
+  St.set(s => ({ seen: { ...s.seen, [k]: false, ['released:' + id]: true } }))
+  return { say: `${opt} tickets for ${i.title} just came back, and they're held for you for 10 minutes.`, blocks: [{ kind: 'detail', id }] }
+}
+const named = (b: St.Booking) => /named|no resale/i.test(b.policy || findItem(b.itemId || '')?.policy || '')
+export function ticketSend(a: { id: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find those tickets.', blocks: [] }
+  if (named(b)) return { say: `Tickets for ${b.title} are named to you, so they can't be passed on. If you can't go, the box office can sometimes change the name for a fee.`, blocks: [] }
+  if (b.extra?.sentTo) return { say: `These were already sent to ${b.extra.sentTo}.`, blocks: [] }
+  return { say: `Who should get the tickets for ${b.title}? They'll get them by email and in their own app.`, blocks: [{ kind: 'ticketsend', id: b.id }] }
+}
+export function ticketSendDo(a: { id: string; name: string; email: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find those tickets.', blocks: [] }
+  if (!/^\S+@\S+\.\S+$/.test(a.email)) return { say: 'That email address doesn\'t look right. Check it and try again.', blocks: [{ kind: 'ticketsend', id: b.id }] }
+  St.updateBooking(b.id, { extra: { ...b.extra, sentTo: a.name }, detail: [...(b.detail || []), ['Sent to', `${a.name} (${a.email})`] as [string, string]] })
+  return { say: `Sent. ${a.name} has the tickets for ${b.title} by email. They no longer show in your Wallet as yours to use.`, blocks: [] }
+}
+export function ticketSell(a: { id: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find those tickets.', blocks: [] }
+  if (named(b)) return { say: `Tickets for ${b.title} are named, so they can't be resold.`, blocks: [] }
+  if (b.extra?.listed) return { say: 'These are already listed on the official resale. I\'ll tell you when they sell.', blocks: [] }
+  const back = Math.round(b.total * 0.9 * 100) / 100
+  return { say: 'Check this, then confirm.', blocks: [], confirm: { kind: 'action', title: `Resell tickets for ${b.title}`, summary: 'Official resale, at the price you paid', lines: [['Listed at', M().money(b.total, 2)], ['Resale fee', '10%'], ['You get back if they sell', M().money(back, 2)]], total: ['Until they sell', 'They stay yours'], cta: 'List them', act: { f: 'ticketSellDo', a: { id: b.id } } } }
+}
+export function ticketSellDo(a: { id: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find those tickets.', blocks: [] }
+  St.updateBooking(b.id, { extra: { ...b.extra, listed: true } })
+  return { say: `Listed on the official resale. If they sell, ${M().money(Math.round(b.total * 0.9 * 100) / 100, 2)} comes back the way you paid. Until then they're still yours.`, blocks: [] }
+}
+/** What the demo's "listed tickets sell" control does. */
+export function resaleSells(): R {
+  const b = St.get().bookings.find(x => x.extra?.listed && !dead(x)); if (!b) return { say: 'You haven\'t listed any tickets for resale.', blocks: [] }
+  const r = St.refund(b.id, 0.9, 'Resale'); St.updateBooking(b.id, { extra: { ...b.extra, listed: false, sold: true } })
+  return { say: `Your tickets for ${b.title} sold on the resale.${r && (r.pts || r.card) ? ` ${backLine({ pts: r.pts, card: r.card })} came back the way you paid.` : ''}`, blocks: [] }
+}
+export function showChange(a: { id: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find those tickets.', blocks: [] }
+  const i = findItem(b.itemId || ''); if (i?.opts?.kind !== 'slots') return { say: `${b.title} can't be moved. ${b.policy || ''}`.trim(), blocks: [] }
+  return { say: `Pick another ${i.opts.label.toLowerCase()} for ${b.title}. It's free.`, blocks: [{ kind: 'showchange', id: b.id }] }
+}
+export function showChangeDo(a: { id: string; slot: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find those tickets.', blocks: [] }
+  const when = /^\d\d:\d\d/.test(a.slot) ? `${b.extra?.date && b.extra.date !== iso(new Date()) ? M().date(b.extra.date) : 'Today'}, ${M().clock(a.slot)}` : a.slot
+  St.updateBooking(b.id, { when, detail: setRows(b.detail, 'When', when), extra: { ...b.extra, option: a.slot, at: /^\d\d:\d\d/.test(a.slot) ? a.slot : b.extra?.at } })
+  return { say: `Changed, at no cost. ${b.title} is now ${when}. Your tickets are updated.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+/* ---------- products: watch a price ---------- */
+export function itemWatch(a: { id: string }): R {
+  const i = findItem(a.id); if (!i) return { say: 'I can\'t find that.', blocks: [] }
+  const ws = ((St.get().seen.itemWatch || []) as any[]).filter(w => w.id !== i.id), now = IP(i)
+  St.set(s => ({ seen: { ...s.seen, itemWatch: [...ws, { id: i.id, price: now }] } }))
+  return { say: `I'm watching ${i.title}. It's ${M().money(now, 2)} now; I'll message you as soon as the price drops.`, blocks: [{ kind: 'state', state: 'empty', title: `Watching ${i.title}`, body: `${M().money(now, 2)} now`, actions: [{ label: 'Stop watching', act: { f: 'itemUnwatch', a: { id: i.id } } }] }] }
+}
+export function itemUnwatch(a: { id: string }): R {
+  const i = findItem(a.id); St.set(s => ({ seen: { ...s.seen, itemWatch: ((s.seen.itemWatch || []) as any[]).filter(w => w.id !== a.id) } }))
+  return { say: `Stopped watching ${i?.title || 'that'}.`, blocks: [] }
+}
+/** The demo's price-drop control: a watched product first, then a watched fare. */
+export function pricesDrop(): R {
+  const w = ((St.get().seen.itemWatch || []) as any[])[0]
+  if (!w) return fareDrops()
+  St.set(s => ({ seen: { ...s.seen, itemDrop: { ...(s.seen.itemDrop || {}), [w.id]: 0.85 }, itemWatch: ((s.seen.itemWatch || []) as any[]).filter(x => x.id !== w.id) } }))
+  const i = findItem(w.id)!
+  return { say: `${i.title} just dropped to ${M().money(IP(i), 2)}, from ${M().money(w.price, 2)}.`, blocks: [{ kind: 'detail', id: i.id }] }
+}
+/* ---------- gift cards: a code that won't work ---------- */
+export function giftProblem(a: { id: string }): R {
+  const b = bk(a.id); if (!b || b.cat !== 'giftcards') return { say: 'I can\'t find that gift card.', blocks: [] }
+  if (b.extra?.reissued) return { say: 'This code was already replaced once. A person will look into it.', blocks: [{ kind: 'handoff', reason: `Gift card code not working: ${b.title}` }] }
+  St.updateBooking(b.id, { extra: { ...b.extra, reissued: true, code: undefined } })
+  return { say: `I've cancelled the old code and issued a new one for ${b.title}, with the full balance on it. The old code no longer works.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+/* ---------- subscriptions: the renewal reminder ---------- */
+export function renewalSoon(): R {
+  const sb = St.get().bookings.find(b => b.kind === 'sub' && b.status === 'active' && (b.card || b.pts))
+  if (!sb) return { say: 'You don\'t have a paid subscription that renews. Start one, then I can show you the reminder.', blocks: [] }
+  return { say: `${sb.title} renews in 3 days for ${M().money(sb.card || sb.unit || 0, 2)}. Keep it, pause it, or cancel before then and you won't be charged.`, blocks: [{ kind: 'booking', id: sb.id }] }
+}
+
+/* ---------- getting around: a ride that went wrong, car hire extended or collected, a train changed or cancelled, an airport service that failed ---------- */
+export const RIDE_PROBLEMS = ['The driver didn\'t turn up', 'I was charged too much', 'I left something in the car', 'Something else']
+export function rideProblem(a: { id: string; what?: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that ride.', blocks: [] }
+  if (!a.what) return { say: `What went wrong with the ${b.title.toLowerCase()}?`, blocks: [{ kind: 'pickone', id: b.id, f: 'rideProblem', title: 'What went wrong?', items: RIDE_PROBLEMS }] }
+  if (/turn up/.test(a.what)) { const r = St.refund(b.id, 1, 'Refund'); return { say: `Sorry about that. You've got everything back${r ? `: ${backLine({ pts: r.pts, card: r.card })}` : ''}. Want me to book another ride now?`, blocks: [], suggest: ['A ride now'] } }
+  if (/charged too much/.test(a.what)) { const over = Math.round(b.total * 0.2 * 100) / 100, r = partRefund(b, over); return { say: `The fare was fixed when you booked, so anything above it comes back. ${backLine(r)} ${r.pts && r.card ? 'are' : 'is'} back, and the driver's company has been told.`, blocks: [] } }
+  if (/left something/.test(a.what)) { St.updateBooking(b.id, { extra: { ...b.extra, lostItem: true } }); return { say: 'I\'ve passed your number to the driver through the ride company, so they can call you to arrange its return. If you\'d rather not share your number, tell me and a person will handle it.', blocks: [] } }
+  return { say: 'A person will look at it. They can see this conversation.', blocks: [{ kind: 'handoff', reason: `Problem with ${b.title}` }] }
+}
+export function hireExtend(a: { id: string; days?: number }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find that car.', blocks: [] }
+  const per = findItem(b.itemId || '') ? IP(findItem(b.itemId || '')!) : b.total
+  if (!a.days) return { say: 'How many more days do you need the car?', blocks: [{ kind: 'pickone', id: b.id, f: 'hireExtend', title: 'Extra days', items: ['1', '2', '3', '5'], note: `${M().money(per, 2)} a day, same car` }] }
+  const n = Math.max(1, Math.min(14, Math.round(+a.days))), tot = Math.round(per * n * 100) / 100, had = +(b.extra?.option || 1)
+  const d = St.draft({ cat: 'rides', title: `${n} more day${n > 1 ? 's' : ''}: ${b.title}`, sub: b.title, when: b.when, qty: n, unit: per, total: tot, img: b.img, icon: 'car', kind: 'order', refundable: true, policy: b.policy, detail: [['Extra days', String(n)]], extra: { addonFor: b.id, patch: { option: String(had + n) }, newWhen: b.extra?.date ? `${M().date(b.extra.date)} to ${M().date(addDays(b.extra.date, had + n))}` : undefined, rows: [[`Extended by ${n} day${n > 1 ? 's' : ''}`, M().money(tot, 2)]], doneSay: `Extended. You now have the car for ${had + n} days. Return it full of fuel, as before.` } })
+  return { say: 'Pay with points, card, or both.', blocks: [{ kind: 'checkout', draft: d }] }
+}
+export function hirePickup(a: { id: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that car.', blocks: [] }
+  return { say: `At the desk for your ${b.title.replace(/^Car hire: /, '')}, have these ready. The desk is in the arrivals hall; follow the car hire signs.`, blocks: [{ kind: 'state', state: 'empty', title: 'Bring with you', body: 'Your driving licence · The card you paid with, in the driver\'s name · Your booking reference ' + b.ref + ' · A deposit is held on the card and released when the car comes back full', actions: [] }] }
+}
+export function trainChange(a: { id: string; at?: string }): R {
+  const b = bk(a.id); if (!b || dead(b)) return { say: 'I can\'t find that train.', blocks: [] }
+  const i = findItem(b.itemId || ''), slots = (i?.opts?.kind === 'slots' ? i.opts.values : ['07:30', '09:00', '12:00', '15:30', '18:00']).filter(x => /^\d\d:\d\d/.test(x) && x !== (b.extra?.at || b.extra?.option))
+  if (!a.at) return { say: `Pick another departure for the ${b.title.toLowerCase()}. Changing is free on the same day's tickets.`, blocks: [{ kind: 'pickone', id: b.id, f: 'trainChange', title: 'New departure', items: slots }] }
+  const day = b.extra?.date || addDays(iso(new Date()), 1), when = `${M().date(day)}, ${M().clock(a.at)}`
+  St.updateBooking(b.id, { when, detail: setRows(b.detail, 'When', when), extra: { ...b.extra, at: a.at, option: a.at } })
+  return { say: `Changed, at no cost. You're on the ${M().clock(a.at)} now. Your ticket is updated.`, blocks: [{ kind: 'booking', id: b.id }] }
+}
+/** What the demo's "train cancelled" control does. */
+export function trainCancelled(): R {
+  const b = St.get().bookings.find(x => x.cat === 'rides' && /^Train/.test(x.title) && !dead(x)); if (!b) return { say: 'Book a train first, then I can show you what happens when it\'s cancelled.', blocks: [] }
+  St.updateBooking(b.id, { extra: { ...b.extra, disrupted: true } })
+  return { say: `Your ${b.title.toLowerCase()} has been cancelled by the rail company. Take the next one at no cost, or get a full refund.`, blocks: [{ kind: 'state', state: 'error', title: 'Train cancelled', body: b.when || b.title, actions: [{ label: 'Next train', act: { f: 'trainChange', a: { id: b.id } } }, { label: 'Full refund', act: { f: 'refundFull', a: { id: b.id } } }] }] }
+}
+export function refundFull(a: { id: string }): R { const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }; const r = St.refund(b.id, 1, 'Refund'); return { say: r ? `Refunded in full: ${backLine({ pts: r.pts, card: r.card })}.` : 'That one is already refunded.', blocks: [] } }
+export function airportProblem(a: { id: string; what?: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that booking.', blocks: [] }
+  const items = /lounge/i.test(b.title) ? ['They wouldn\'t let me in', 'It was full', 'Something else'] : ['The lane was closed', 'Nobody met me', 'Something else']
+  if (!a.what) return { say: `What happened with ${b.title}?`, blocks: [{ kind: 'pickone', id: b.id, f: 'airportProblem', title: 'What happened?', items }] }
+  if (/Something else/.test(a.what)) return { say: 'A person will look at it. They can see this conversation.', blocks: [{ kind: 'handoff', reason: `Problem with ${b.title}` }] }
+  const r = St.refund(b.id, 1, 'Refund')
+  return { say: `Sorry it went wrong. You've got everything back${r && (r.pts || r.card) ? `: ${backLine({ pts: r.pts, card: r.card })}` : r?.lounge ? ': the free visit is back on your card' : ''}, and the provider has been told.`, blocks: [] }
+}
+/* ---------- travel essentials: an eSIM to install or top up, help with a visa, a travel insurance claim ---------- */
+export function esimInstall(a: { id: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that eSIM.', blocks: [] }
+  St.updateBooking(b.id, { extra: { ...b.extra, installed: true }, refundable: false, policy: 'Installed' })
+  return { say: 'Install it before you leave, while you\'re on Wi-Fi. On iPhone: Settings, Mobile Service, Add eSIM, then scan the code. On Android: Settings, Network, SIMs, Add eSIM, then scan. Turn it on for data when you land.', blocks: [{ kind: 'booking', id: b.id }] }
+}
+export function esimTopUp(a: { id: string; plan?: string }): R {
+  const b = bk(a.id); if (!b) return { say: 'I can\'t find that eSIM.', blocks: [] }
+  if (!a.plan) return { say: 'How much more data?', blocks: [{ kind: 'pickone', id: b.id, f: 'esimTopUp', title: 'Top up', items: Cat.ESIM.map(e => e.title) }] }
+  const e = Cat.ESIM.find(x => x.title === a.plan) || Cat.ESIM[0], price = P(e.gbp * local('docs'))
+  const d = St.draft({ cat: 'docs', title: `Top up: ${e.title}`, sub: b.title, qty: 1, unit: price, total: price, icon: 'wifi', img: 'money:esim', kind: 'order', refundable: false, policy: 'Added straight away', detail: [['Adds', e.title]], extra: { addonFor: b.id, patch: { topUp: e.title }, rows: [[`Topped up: ${e.title}`, M().money(price, 2)]], doneSay: `Topped up with ${e.title}. It's on the same eSIM, so there's nothing to install.` } })
+  return { say: 'Pay with points, card, or both.', blocks: [{ kind: 'checkout', draft: d }] }
+}
+export function visaHelp(a: { city: string }): R {
+  const c = Cat.dests(mk()).find(x => x.name === a.city); if (!c) return { say: 'Which country are you going to?', blocks: [] }
+  return { say: `A visa service checks exactly what your passport needs for ${c.country} and, if you need a visa or travel authorisation, applies for you. You pay the service fee here; any government fee is shown before anything is sent.`, blocks: [{ kind: 'visaform', city: c.name }] }
+}
+export function visaApply(a: { city: string; nationality: string; from: string; expiry: string }): R {
+  const c = Cat.dests(mk()).find(x => x.name === a.city)!, fee = P(19 * local('docs'))
+  if (a.expiry && a.from && a.expiry < addDays(a.from, 183)) return { say: `Your passport expires within 6 months of your trip. Many countries won't let you in on it, so renew it first. ${c.country} rules are on the government's site.`, blocks: [] }
+  const d = St.draft({ cat: 'docs', title: `Visa check and application: ${c.country}`, sub: `${a.nationality} passport`, qty: 1, unit: fee, total: fee, icon: 'doc', img: 'money:visa', kind: 'request', refundable: true, policy: 'Refunded if nothing is needed for your passport', detail: [['Destination', c.country], ['Passport', a.nationality], ['Travelling', M().date(a.from)]], tracker: { steps: ['Sent to the visa service', 'Checking your passport', 'Decision'], current: 0, eta: 'Within 3 working days' }, extra: { case: 'visa', country: c.country } })
+  return { say: 'Pay the service fee with points, card, or both.', blocks: [{ kind: 'checkout', draft: d }] }
+}
+export const CLAIM_WHY = ['Trip cancelled', 'Flight delayed over 6 hours', 'Bag lost or delayed', 'Medical costs abroad']
+export function insClaim(a: { id?: string }): R {
+  const pol = (a.id ? bk(a.id) : undefined) || St.get().bookings.find(b => b.cat === 'docs' && b.sub === 'Travel insurance' && !dead(b))
+  return { say: pol ? `A claim on your ${pol.title} cover. Tell me what happened; the insurer usually decides within 10 working days.` : 'A claim on the travel cover that comes with your card, when the trip was paid with the card. Tell me what happened.', blocks: [{ kind: 'insclaim', id: pol?.id }] }
+}
+export function insClaimDo(a: { id?: string; why: string; amount: number }): R {
+  const pol = a.id ? bk(a.id) : undefined, name = pol ? pol.title : 'Card travel cover'
+  if (!(a.amount > 0)) return { say: 'How much are you claiming?', blocks: [{ kind: 'insclaim', id: a.id }] }
+  St.pay({ id: 'x', cat: 'docs', title: `Insurance claim: ${a.why}`, sub: name, qty: 1, unit: 0, total: 0, kind: 'claim', extra: { case: 'insclaim', amount: a.amount, why: a.why, policy: name }, tracker: { steps: ['Sent to the insurer', 'Reviewing', 'Decision'], current: 1, eta: 'Within 10 working days' } } as any, 0, 0)
+  return { say: `Claim sent to the insurer for ${M().money(a.amount, 2)}. Keep your receipts; they may ask for them. You'll see the decision here and in Wallet.`, blocks: [] }
+}
+
+/** What the demo's "visa and claims decided" control does. */
+export function decideTravelCases(): R {
+  const open = St.get().bookings.filter(b => ['visa', 'insclaim'].includes(b.extra?.case) && !b.extra?.closed && !dead(b))
+  if (!open.length) return { say: 'There are no visa applications or insurance claims waiting.', blocks: [] }
+  const lines: string[] = []
+  open.forEach(b => {
+    St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, closed: true }, tracker: b.tracker ? { ...b.tracker, current: b.tracker.steps.length - 1, eta: b.extra.case === 'visa' ? 'Approved' : 'Paid' } : b.tracker })
+    if (b.extra.case === 'visa') lines.push(`Your travel authorisation for ${b.extra.country} is approved. It's linked to your passport, and a copy is in Wallet.`)
+    else { const amt = b.extra.amount; St.set(x => ({ card: { ...x.card, balance: Math.round((x.card.balance - amt) * 100) / 100 }, txns: [{ id: St.uidx(), at: Date.now(), merchant: `Insurance claim paid: ${b.extra.why}`, cat: 'Travel', amount: amt, points: 0, refund: true }, ...x.txns] })); lines.push(`The insurer approved your claim (${b.extra.why.toLowerCase()}). ${M().money(amt, 2)} is paid to your card.`) }
+  })
+  lines.slice(0, -1).forEach(l => St.pushMsg({ role: 'gr', text: l }))
+  return { say: lines[lines.length - 1], blocks: [] }
 }

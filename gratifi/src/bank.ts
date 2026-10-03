@@ -67,7 +67,7 @@ export function setLimit(a: { cat: string; amount: number | null }): R {
 }
 
 /* ---------- lost, stolen, damaged, and the new card ---------- */
-export type CaseKind = 'replacement' | 'dispute' | 'limit'
+export type CaseKind = 'replacement' | 'dispute' | 'limit' | 'fraud' | 'hardship'
 export function openCase(kind: CaseKind) { return St.get().bookings.filter(b => (b.extra?.case === kind || (kind === 'replacement' && b.title === 'Replacement card' && b.status !== 'delivered')) && !['cancelled', 'refunded', 'done'].includes(b.status) && !(b.extra?.closed)) }
 export function replaceAsk(a: { why: 'lost' | 'stolen' | 'damaged' | 'missing'; to: string }): R {
   need('cards.replace'); const c = St.get().card
@@ -311,7 +311,7 @@ export const BLOCKS: { k: string; name: string; sub: string }[] = [
 export type Ctl = { txn?: number; month?: number; daily: Record<Where, Record<Ch, number>>; blocks: Record<string, boolean>; alerts: { every: boolean; over?: number; declined: boolean } }
 export function ctl(): Ctl {
   need('cards.controls'); const c = (St.get().seen.ctl || {}) as Partial<Ctl>, d = { ...DEF[mkt()] || DEF.UK }
-  return { txn: c.txn, month: c.month, daily: { home: { ...d, ...(c.daily?.home || {}) }, abroad: { ...d, ...(c.daily?.abroad || {}) } }, blocks: { ...(c.blocks || {}) }, alerts: { every: false, declined: true, ...(c.alerts || {}) } }
+  return { txn: c.txn, month: c.month, daily: { home: { ...d, ...(c.daily?.home || {}) }, abroad: { ...d, ...(c.daily?.abroad || {}) } }, blocks: { ...(c.blocks || {}) }, alerts: { declined: true, ...(c.alerts || {}), every: !!St.get().alerts?.spend } }
 }
 const ctlPut = (f: (c: Ctl) => Ctl) => St.set(s => ({ seen: { ...s.seen, ctl: f(ctl()) } }))
 export const domesticOn = () => (St.get().card as any).domestic !== false
@@ -349,7 +349,79 @@ export function blockDo(a: { k: string; on: boolean }): R {
 }
 export function alertsSet(a: { every?: boolean; over?: number | null; declined?: boolean }): R {
   need('cards.controls')
-  ctlPut(c => ({ ...c, alerts: { ...c.alerts, ...(a.every != null ? { every: a.every } : {}), ...(a.declined != null ? { declined: a.declined } : {}), ...(a.over !== undefined ? { over: a.over ?? undefined } : {}) } }))
+  if (a.every != null) St.set(s => ({ alerts: { ...s.alerts, spend: !!a.every } }))
+  ctlPut(c => ({ ...c, alerts: { ...c.alerts, ...(a.declined != null ? { declined: a.declined } : {}), ...(a.over !== undefined ? { over: a.over ?? undefined } : {}) } }))
   const al = ctl().alerts
   return { say: a.every != null ? (a.every ? 'I\'ll message you about every card payment.' : 'No more messages for every payment.') : a.declined != null ? (a.declined ? 'I\'ll tell you when a payment is declined, and why.' : 'No more messages for declined payments.') : al.over ? `I'll message you about any payment over ${M().money(al.over)}.` : 'No more messages for large payments.', blocks: [{ kind: 'controls' }] }
+}
+
+/* ---------- care: payments the customer doesn't recognise, help when money is tight, the due date, reminders ---------- */
+/** Card payments from the last 30 days the customer can report as not theirs. */
+export function fraudCandidates() { need('transactions.read'); const since = Date.now() - 30 * 864e5; return St.get().txns.filter(t => t.at >= since && !t.refund && t.cat !== 'Payment' && !/^Temporary credit|^Paid with points/.test(t.merchant)).slice(0, 8) }
+export function fraudAsk(a: { ids: string[] }): R {
+  need('disputes'); const ts = St.get().txns.filter(t => a.ids.includes(t.id)); if (!ts.length) return { say: 'Pick the payments you don\'t recognise.', blocks: [{ kind: 'fraudpick' }] }
+  const tot = Math.round(ts.reduce((s, t) => s + t.amount, 0) * 100) / 100, c = St.get().card
+  return { say: 'Check this, then confirm it\'s you.', blocks: [], confirm: { kind: 'action', title: 'Report payments you didn\'t make', summary: `Card ending ${c.last4}`, lines: [[`${ts.length} payment${ts.length > 1 ? 's' : ''}`, M().money(tot, 2)], ['Credited back', 'Today, while the bank checks'], [`Card ending ${c.last4}`, 'Cancelled now'], ['New card', 'New number, 3 to 5 working days']], total: ['Decision', 'Within 10 working days'], cta: 'Report and replace my card', act: { f: 'fraudDo', a } } }
+}
+export function fraudDo(a: { ids: string[] }): R {
+  need('disputes'); const ts = St.get().txns.filter(t => a.ids.includes(t.id)); if (!ts.length) return { say: 'Those payments are no longer on your card.', blocks: [] }
+  if (St.get().bookings.some(b => b.extra?.case === 'fraud' && !b.extra?.closed)) return { say: 'You already have a fraud report open. The fraud team is on it.', blocks: [] }
+  const tot = Math.round(ts.reduce((s, t) => s + t.amount, 0) * 100) / 100
+  St.set(s => ({ card: { ...s.card, frozen: true, balance: Math.round((s.card.balance - tot) * 100) / 100 }, txns: [...ts.map(t => ({ id: St.uidx(), at: Date.now(), merchant: `Temporary credit: ${t.merchant}`, cat: t.cat, amount: t.amount, points: 0, refund: true })), ...s.txns] }))
+  St.pay({ id: 'x', cat: 'bank', title: 'Payments you didn\'t make', sub: ts.map(t => t.merchant).join(', '), qty: 1, unit: 0, total: 0, kind: 'claim', extra: { case: 'fraud', ids: a.ids, amount: tot }, tracker: { steps: ['Reported', 'Credited for now', 'Fraud team checking', 'Decision'], current: 2, eta: 'Within 10 working days' } } as any, 0, 0)
+  if (Mod.apiOn('cards.replace') && !openCase('replacement').length) St.pay({ id: 'x', cat: 'bank', title: 'Replacement card', sub: `To ${St.get().addresses[0].label}`, qty: 1, unit: 0, total: 0, kind: 'order', extra: { case: 'replacement', why: 'stolen', newNumber: true }, tracker: { steps: ['Ordered', 'Printed', 'Posted', 'Delivered'], current: 1, eta: '3 to 5 days' } } as any, 0, 0)
+  return { say: `Reported. ${M().money(tot, 2)} is credited back while the fraud team checks, your card ending ${St.get().card.last4} is cancelled, and a new card with a new number is on its way. Direct debits move across by themselves. If anyone calls about this, don't share a code or move money.`, blocks: [] }
+}
+/** Help when money is tight: a lower monthly payment for a while, with interest frozen. The bank's care team decides. */
+export const PLAN_MONTHS = [3, 6, 12]
+export function hardshipAsk(a: { months: number; pay: number }): R {
+  need('cards.care'); const c = St.get().card
+  if (openCase('hardship').length) return { say: 'You already have a request with the care team. They\'ll be in touch within 2 working days.', blocks: [] }
+  if (!(a.pay >= 0)) return { say: 'How much could you pay each month?', blocks: [{ kind: 'hardship' }] }
+  return { say: 'Check this, then confirm it\'s you.', blocks: [], confirm: { kind: 'action', title: 'Ask for a payment plan', summary: `Card ending ${c.last4}`, lines: [['You could pay', `${M().money(a.pay)} a month`], ['For', `${a.months} months`], ['Interest', 'Frozen while the plan runs, if agreed'], ['Until they reply', 'No late fees']], total: ['Reply', 'Within 2 working days'], cta: 'Send to the care team', act: { f: 'hardshipDo', a } } }
+}
+export function hardshipDo(a: { months: number; pay: number }): R {
+  need('cards.care'); if (openCase('hardship').length) return { say: 'You already have a request with the care team.', blocks: [] }
+  St.pay({ id: 'x', cat: 'bank', title: 'Payment plan', sub: `${M().money(a.pay)} a month for ${a.months} months`, qty: 1, unit: 0, total: 0, kind: 'request', extra: { case: 'hardship', months: a.months, pay: a.pay }, tracker: { steps: ['Sent', 'With the care team', 'Decision'], current: 1, eta: 'Within 2 working days' } } as any, 0, 0)
+  St.set(s => ({ seen: { ...s.seen, feeHold: true } }))
+  return { say: 'Sent to the bank\'s care team. No late fees will be added while they look at it, and nothing changes without your agreement. You\'ll hear back within 2 working days.', blocks: [] }
+}
+/** Move the payment due date to a day that suits, for example just after payday. */
+export function dueDayAsk(a: { day: number }): R {
+  need('cards.care'); const c = St.get().card, d = Math.round(a.day)
+  if (!(d >= 1 && d <= 28)) return { say: 'Pick a day between the 1st and the 28th.', blocks: [{ kind: 'dueday' }] }
+  return { say: 'Confirm it\'s you to move your due date.', blocks: [], confirm: { kind: 'action', title: 'Move your payment due date', summary: `Card ending ${c.last4}`, lines: [['Now', `${new Date(c.dueDate).getDate()}${ord(new Date(c.dueDate).getDate())} of the month`], ['New', `${d}${ord(d)} of the month`]], total: ['Starts', 'From your next statement'], cta: 'Confirm', act: { f: 'dueDayDo', a: { day: d } } } }
+}
+export function dueDayDo(a: { day: number }): R {
+  need('cards.care'); St.set(s => ({ seen: { ...s.seen, dueDay: a.day } }))
+  return { say: `Done. From your next statement, your payment is due on the ${a.day}${ord(a.day)} of each month. This month's date stays the same.`, blocks: [] }
+}
+export const ord = (n: number) => (n % 100 >= 11 && n % 100 <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' } as any)[n % 10] || 'th'
+/** Reminders the bank sends first: the bill, the statement. */
+export type Rem = { bill: number; statement: boolean }
+export function reminders(): Rem { return { bill: 3, statement: true, ...((St.get().seen.rem || {}) as Partial<Rem>) } }
+export function remSet(a: Partial<Rem>): R {
+  St.set(s => ({ seen: { ...s.seen, rem: { ...reminders(), ...a } } })); const r = reminders()
+  return { say: a.bill != null ? (r.bill ? `I'll remind you ${r.bill} day${r.bill > 1 ? 's' : ''} before your bill is due.` : 'No more bill reminders.') : r.statement ? 'I\'ll tell you when each statement is ready.' : 'No more statement messages.', blocks: [] }
+}
+/** What a card payment attempt would meet: the first control that stops it, or null if it goes through. */
+export function check(p: { amount: number; abroad?: boolean; ch: Ch; cat?: string; block?: string }): string | null {
+  const c = St.get().card as any, ct = Mod.apiOn('cards.controls') ? ctl() : null, w: Where = p.abroad ? 'abroad' : 'home'
+  if (c.frozen && openCase('replacement').some(b => b.extra?.newNumber)) return 'cancelled'
+  if (c.frozen) return 'frozen'
+  if (p.abroad && !c.abroad) return 'abroad'
+  if (!p.abroad && c.domestic === false) return 'domestic'
+  if (p.ch === 'online' && !c.online) return 'online'
+  if (p.ch === 'instore' && c.instore === false) return 'instore'
+  if (p.ch === 'contactless' && !c.contactless) return 'contactless'
+  if (p.ch === 'atm' && !c.atm) return 'atm'
+  if (ct) {
+    if (p.block && ct.blocks[p.block]) return 'block:' + p.block
+    if (ct.txn && p.amount > ct.txn) return 'txn'
+    if (ct.daily[w][p.ch] != null && p.amount > ct.daily[w][p.ch]) return 'daily'
+    if (ct.month && spentMonth() + p.amount > ct.month) return 'month'
+  }
+  if (p.cat && Mod.apiOn('cards.limits')) { const l = limits()[p.cat]; if (l && spentThisMonth(p.cat) + p.amount > l) return 'cat' }
+  if (p.amount > c.limit - c.balance) return 'credit'
+  return null
 }

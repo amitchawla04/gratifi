@@ -78,6 +78,95 @@ module.exports = {
     await ask('card controls'); await full('chat-controls')
     await ask('my card was declined in a shop'); await full('chat-declined')
   },
+  async care(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
+    await nav(3); await ask("I'm struggling to pay my card bill"); await full('hardship')
+    if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').nth(0).click(); await A().locator('.c2-in input').fill('50'); await cta(); await confirm(); await full('plan-sent') } else errs.push('NO HARDSHIP CARD')
+    await ask('move my due date'); await full('dueday')
+    if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').nth(5).click(); await cta(); await confirm(); await full('due-moved') } else errs.push('NO DUE DATE CARD')
+    await ask('alert me for every payment'); await full('alerts-on')
+    await nav(5); await click('A card payment'); await nav(3); await full('payment-alert')
+    { const b = A().locator('.gr-state .gr-btn'); if (await b.count()) { await b.first().click(); await p.waitForTimeout(500); await full('fraud-pick') } else errs.push('NO PAYMENT ALERT') }
+    if (await A().locator('.c2-prow').count()) { await A().locator('.c2-prow').first().click(); await cta(); await confirm(); await full('fraud-sent') } else errs.push('NO FRAUD PICKER')
+    await nav(5); await click('Bill due soon'); await full('bill-due')
+    await nav(5); await click('Statement ready'); await full('statement')
+    await nav(5); await click('Bank decides cases'); await full('cases')
+    await nav(3); await ask('turn off international payments'); await nav(5); await click('A card payment'); await nav(3); await full('declined')
+    { const b = A().locator('.gr-state .gr-btn'); if (await b.count()) { await b.first().click(); await p.waitForTimeout(400); await confirm(); await full('fixed') } else errs.push('NO DECLINE MESSAGE') }
+  },
+  async partners1(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
+    const pay = async (tag) => { if (await A().locator('.ds-pay, .ds-pay-ch').count() || await p.getByRole('button', { name: /^Pay / }).count()) { await click(/^Pay /); await confirm(); await full(tag) } }
+    await nav(3); await buyFirst(h, `A hotel in ${CITY[mk()]} with a pool`, 'stay')
+    await ask('add another night to my stay'); await full('stay-change')
+    if (await A().locator('.c2-slot').count()) { await cta(); await pay('stay-extended'); if (!/extra night|Changed|تم التغيير|ليلة إضافية/.test(await p.locator('.gr-answer').last().innerText())) errs.push('STAY NOT EXTENDED') } else errs.push('NO STAY CHANGE CARD')
+    await ask('can I get a late checkout'); await full('stay-extras')
+    if (await A().locator('.c2-prow').count()) { await A().locator('.c2-prow').nth(1).click(); await cta(); await pay('late-checkout') } else errs.push('NO STAY EXTRAS')
+    await ask('message the hotel'); await full('msg-hotel'); { const i = A().locator('.c2-in input'); if (await i.count()) { await i.fill('We arrive around 23:00'); await cta(); await full('msg-sent') } else errs.push('NO MESSAGE CARD') }
+    await buyFirst(h, 'A table tonight for two', 'dine', 0, async () => { await A().locator('.gr-slot').nth(2).click() })
+    await ask('change my table'); await full('table-change')
+    if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').nth(1).click(); await cta(); await full('table-changed') } else errs.push('NO TABLE CHANGE')
+    await ask("we're running 15 minutes late for the restaurant"); await full('late')
+    await buyFirst(h, `Things to do in ${CITY[mk()]}`, 'tour')
+    await ask('move my tour'); await full('tour-change')
+    if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').nth(2).click(); await cta(); await full('tour-moved') } else errs.push('NO TOUR CHANGE')
+    await nav(5); await click('Booking called off'); await full('called-off')
+  },
+  async partners2(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
+    const stateBtn = async (tag) => { const b = A().locator('.gr-state .gr-btn'); if (await b.count()) { await b.first().click(); await p.waitForTimeout(450); await full(tag) } else errs.push('NO STATE BUTTON ' + tag) }
+    const act = async (label, tag) => { const b = A().getByRole('button', { name: await p.evaluate(t => window.__tr ? window.__tr(t) : t, label) }); if (await b.count()) { await b.first().click(); await p.waitForTimeout(450); await full(tag) } else errs.push('NO ACTION ' + label) }
+    await nav(3); await ask('Concerts this month'); await full('tix-list')
+    await A().locator('.ds-best-ph, .ds-irow, .gr-itemrow, .ds-orow-b, .ds-rtile').first().click(); await p.waitForTimeout(400)
+    { const ch = A().locator('.gr-chip'); if (await ch.count() > 2) { await ch.nth(2).click(); await p.waitForTimeout(150) } }
+    await A().locator('.gr-detail .gr-btn').last().click(); await p.waitForTimeout(450); await full('sold-out')
+    await stateBtn('waitlist')
+    await nav(5); await click('Tickets come back'); await full('tix-back')
+    await buyFirst(h, 'Concerts this month', 'tix')
+    await ask('I can\'t go to the concert, sell my tickets'); await full('resell-ask'); await confirm(); await full('listed')
+    await nav(5); await click('Listed tickets sell'); await full('resold')
+    await nav(3); await buyFirst(h, 'Concerts this month', 'tix2')
+    await ask('send my tickets to my friend'); await full('send-ask')
+    { const ins = A().locator('.c2-in input'); if (await ins.count() > 1) { await ins.nth(0).fill('Sam Taylor'); await ins.nth(1).fill('sam@example.com'); await cta(); await full('sent') } else errs.push('NO SEND FORM') }
+    await ask('Cinema tonight'); await full('cin-detail'); { const b = A().locator('.gr-detail .gr-btn').last(); await b.scrollIntoViewIfNeeded(); await b.click(); await p.waitForTimeout(450); await full('cin-checkout'); await payOrFree(h, 'cin') }
+    await ask('change my cinema time'); await full('show-change')
+    if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').first().click(); await cta(); await full('show-changed') } else errs.push('NO SHOWING CHANGE')
+    await ask('tell me when the noise-cancelling headphones get cheaper'); await full('watch-item')
+    if (!(await A().locator('.gr-state').count())) errs.push('NO ITEM WATCH')
+    await nav(5); await click('Prices drop'); await full('item-dropped')
+    await nav(3); await buyFirst(h, 'A gift card for a friend', 'gift', 0, async () => { await p.locator('.app-in').nth(0).fill('Sam'); await p.locator('.app-in').nth(1).fill('sam@example.com') })
+    await ask("my gift card code isn't working"); await full('gift-fixed')
+    await nav(5); await click('Subscription renews soon'); await full('renews')
+  },
+  async partners3(h) {
+    const { ask, click, full, confirm, nav, p, errs } = h
+    const A = () => p.locator('.gr-answer').last()
+    const cta = async () => { await A().locator('.ds-btn48').last().click(); await p.waitForTimeout(450) }
+    const pick = async (n, tag) => { const sl = A().locator('.c2-slot'); if (await sl.count()) { await sl.nth(n).click(); await cta(); await full(tag) } else errs.push('NO PICK ' + tag) }
+    const pay = async (tag) => { if (await A().locator('.ds-pay-ch, .ds-pay').count()) { await click(/^Pay /); await confirm(); await full(tag) } else errs.push('NO PAY ' + tag) }
+    await nav(3); await buyFirst(h, 'A ride now', 'ride', 0, async () => { await p.locator('.gr-answer').last().locator('.gr-detail .gr-slot').last().click() })
+    await ask("the driver didn't turn up"); await full('ride-refund')
+    await buyFirst(h, 'Hire a car at the airport', 'hire')
+    await ask('extend my car hire'); await full('hire-extend'); await pick(1, 'hire-days'); await pay('hire-extended')
+    await ask('what do I need to pick up the car'); await full('hire-pickup')
+    await buyFirst(h, 'Book a lounge', 'lounge')
+    await ask("the lounge wouldn't let me in"); await full('lounge-refund')
+    await ask('eSIM for data abroad'); await full('esim')
+    { const b = A().getByRole('button', { name: await p.evaluate(t => window.__tr ? window.__tr(t) : t, 'Buy') }); if (await b.count()) { await b.first().click(); await p.waitForTimeout(500); await pay('esim-bought') } else errs.push('NO ESIM BUY') }
+    await ask('install my esim'); await full('esim-install')
+    await ask('top up my esim'); await full('esim-topup'); await pick(0, 'esim-plan'); await pay('esim-topped')
+    await ask(`help with a visa for ${CITY[mk()]}`); await full('visa')
+    { const ins = A().locator('.c2-in input'); if (await ins.count() > 2) { await ins.nth(0).fill('United Kingdom'); await ins.nth(1).fill('2026-11-20'); await ins.nth(2).fill('2030-05-01'); await cta(); await pay('visa-sent') } else errs.push('NO VISA FORM') }
+    await ask('make a claim on my travel insurance'); await full('claim')
+    if (await A().locator('.c2-slot').count()) { await A().locator('.c2-slot').nth(2).click(); await A().locator('.c2-in input').fill('120'); await cta(); await full('claim-sent') } else errs.push('NO CLAIM FORM')
+    await nav(5); await click('Visa and claims decided'); await full('decided')
+  },
   async fares(h) {
     const { ask, click, full, nav, p, errs } = h
     const A = () => p.locator('.gr-answer').last()
@@ -85,7 +174,7 @@ module.exports = {
     await nav(3); await ask(`Flights to ${CITY[mk()]} next Friday`); await full('search')
     await click('Watch price'); await full('watching')
     if (!(await A().locator('.gr-state').count())) errs.push('NO WATCH CARD')
-    await nav(5); await click('Fare drops'); await full('dropped')
+    await nav(5); await click('Prices drop'); await full('dropped')
     if (!(await A().locator('.ds-fl').count())) errs.push('NO FLIGHTS AFTER DROP')
     await ask(`Flights to ${CITY[mk()]} next Friday back from ${BACK[mk()]} on Monday`); await full('openjaw')
     if (!(await A().locator('.ds-fl').count())) errs.push('NO OPEN-JAW FLIGHTS')

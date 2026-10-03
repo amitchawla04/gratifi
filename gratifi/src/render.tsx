@@ -41,6 +41,10 @@ export const FLOWS: Record<string, (a: any) => F.R> = {
   reopen: (a: any) => { const d = St.get().drafts[a.draft]; if (!d) return { say: 'That checkout has already been paid.', blocks: [] }; return { say: '', blocks: [{ kind: 'checkout', draft: a.draft, method: a.method, fresh: true }] } },
   affiliateBuy: F.affiliateBuy,
   ctlLimitStart: (a: any) => ({ say: `What should the ${Bk.limName(a).toLowerCase()} be?`, blocks: [{ kind: 'ctllimit', lim: { key: a.key, ch: a.ch, where: a.where } }] }),
+  rideProblem: F.rideProblem, hireExtend: F.hireExtend, trainChange: F.trainChange, airportProblem: F.airportProblem, esimTopUp: F.esimTopUp, refundFull: F.refundFull, visaApply: F.visaApply, visaHelp: F.visaHelp, insClaimDo: F.insClaimDo,
+  waitJoin: F.waitJoin, ticketSendDo: F.ticketSendDo, ticketSellDo: F.ticketSellDo, showChangeDo: F.showChangeDo, itemWatch: F.itemWatch, itemUnwatch: F.itemUnwatch,
+  stayChangeDo: F.stayChangeDo, stayExtrasDo: F.stayExtrasDo, msgPlace: F.msgPlace, tableChangeDo: F.tableChangeDo, tourChangeDo: F.tourChangeDo, operatorCancels: F.operatorCancels,
+  fraudStart: F.fraudStart, hardshipStart: F.hardshipStart, dueDayStart: () => ({ say: 'Which day of the month suits you? Many people pick a few days after payday.', blocks: [{ kind: 'dueday' }] }),
   disputeStart: F.disputeStart, planStart: F.planStart, btStart: F.btStart, holderStart: F.holderStart, ptsPayStart: F.ptsPayStart, sendPtsStart: F.sendPtsStart, missingPtsStart: F.missingPtsStart, protectStart: F.protectStart, cardSwitchStart: F.cardSwitchStart, holderRemoveStart: F.holderRemoveStart, nameFixStart: F.nameFixStart, nameFixDo: F.nameFixDo, lostBagStart: F.lostBagStart, lostBagDo: F.lostBagDo, priceWatch: F.priceWatch, priceUnwatch: F.priceUnwatch,
   extrasDone: F.extrasDone, checkIn: F.checkIn, autoCheckin: F.autoCheckin, checkInDo: F.checkInDo, flightStatus: F.flightStatus, upgradeOffer: F.upgradeOffer, upgradeDo: F.upgradeDo, addBags: F.addBags, addBagsDo: F.addBagsDo,
   settlePending: F.settlePending,
@@ -51,7 +55,7 @@ export const FLOWS: Record<string, (a: any) => F.R> = {
   replaceCard: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; return { say: 'Confirm it\'s you to order the new card.', blocks: [], confirm: { kind: 'action', title: 'Order a replacement card', summary: St.get().card.frozen ? `To your home address · card ending ${St.get().card.last4} stays frozen and is cancelled` : `To your home address · card ending ${St.get().card.last4} works until you activate the new one`, lines: [['New card', St.get().card.frozen ? 'New number, 3 to 5 working days' : 'Same number, 3 to 5 working days']], total: ['To pay', 'Free'], act: { f: 'replaceCardDo', a: {} } } } },
   replaceCardDo: () => { if (St.get().bookings.some(b => b.title === 'Replacement card' && !dead(b) && b.status !== 'delivered')) return { say: 'A replacement is already on its way.', blocks: [] }; const r = St.pay({ id: 'x', cat: 'bank', title: 'Replacement card', sub: 'To your home address', qty: 1, unit: 0, total: 0, kind: 'order', extra: { case: 'replacement', newNumber: St.get().card.frozen }, tracker: { steps: ['Ordered', 'Printed', 'Posted', 'Delivered'], current: 1, eta: '3 to 5 days' } } as any, 0, 0); return { say: St.get().card.frozen ? 'A new card with a new number is on its way to your home address. Your old card stays frozen, so nobody can use it.' : 'A new card with the same number is on its way to your home address. Your current card works until you activate the new one.', blocks: r.ok ? [{ kind: 'tracker', id: r.booking.id }] : [] } },
   /* Card servicing through the bank connection layer. A missing API answers plainly instead of failing. */
-  ...Object.fromEntries((['limAsk', 'limDo', 'blockSet', 'blockDo', 'alertsSet', 'replaceAsk', 'replaceDo', 'activate', 'disputeAsk', 'disputeDo', 'limitRequestAsk', 'limitRequestDo', 'walletAsk', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin', 'planAsk', 'planDo', 'btAsk', 'btDo', 'holderAsk', 'holderDo', 'ptsPayAsk', 'ptsPayDo', 'sendPtsAsk', 'sendPtsDo', 'missingPtsDo', 'protectAsk', 'protectDo', 'upgradeCardAsk', 'upgradeCardDo', 'holderRemoveAsk', 'holderRemoveDo'] as const).map(k => [k, (a: any) => bankCall(() => (Bk as any)[k](a))])),
+  ...Object.fromEntries((['fraudAsk', 'fraudDo', 'hardshipAsk', 'hardshipDo', 'dueDayAsk', 'dueDayDo', 'remSet', 'limAsk', 'limDo', 'blockSet', 'blockDo', 'alertsSet', 'replaceAsk', 'replaceDo', 'activate', 'disputeAsk', 'disputeDo', 'limitRequestAsk', 'limitRequestDo', 'walletAsk', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin', 'planAsk', 'planDo', 'btAsk', 'btDo', 'holderAsk', 'holderDo', 'ptsPayAsk', 'ptsPayDo', 'sendPtsAsk', 'sendPtsDo', 'missingPtsDo', 'protectAsk', 'protectDo', 'upgradeCardAsk', 'upgradeCardDo', 'holderRemoveAsk', 'holderRemoveDo'] as const).map(k => [k, (a: any) => bankCall(() => (Bk as any)[k](a))])),
   open: (a: any) => { W.__go?.('cardx', a.to); return { say: '', blocks: [] } },
 }
 function bankCall(f: () => F.R): F.R { try { return f() } catch (e: any) { if (e?.code === 'unavailable') { const m = Mod.MODULES.find(x => x.apis.includes(e.api)); return { say: `${m ? Mod.unavailable(m.id) : 'That isn\'t available in this app'}. Your bank's app or a person at the bank can help with it.`, blocks: [], suggest: ['Talk to a person'] } } throw e } }
@@ -63,7 +67,7 @@ export function run(act: { f: string; a?: any }, label?: string) {
   if (!(onScreen() && STAY.includes(act.f) && !r.confirm)) goChat()
 }
 /* Actions started from a settings or card screen finish there; the answer still goes into the chat as a record. */
-export const STAY = ['limDo', 'blockDo', 'gamblingOn', 'gamblingKeep', 'gamblingLift', 'ddSet', 'ddOff', 'cardSet', 'limitSet', 'unfreeze', 'payBill', 'replaceCardDo', 'replaceDo', 'activate', 'disputeDo', 'limitRequestDo', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin']
+export const STAY = ['limDo', 'blockDo', 'dueDayDo', 'gamblingOn', 'gamblingKeep', 'gamblingLift', 'ddSet', 'ddOff', 'cardSet', 'limitSet', 'unfreeze', 'payBill', 'replaceCardDo', 'replaceDo', 'activate', 'disputeDo', 'limitRequestDo', 'walletDo', 'walletRemove', 'setLimit', 'noticeAdd', 'revealDetails', 'revealPin']
 const onScreen = () => ['me', 'card', 'cardx'].includes(W.__tab)
 let goChatFn = () => { }
 export const setGoChat = (f: () => void) => { goChatFn = f }
@@ -252,6 +256,12 @@ const BLOCKS: Record<string, (p: any) => any> = {
       {open === 'limits' && ct && <><D.Row title="Monthly spending" value={ct.month ? M.money(ct.month) : 'No limit'} chev onClick={() => lim({ key: 'month' })} /><D.Row title="Each payment" value={ct.txn ? M.money(ct.txn) : 'No limit'} chev onClick={() => lim({ key: 'txn' })} />{Bk.CHS.map(ch => <D.Row key={ch} title={Bk.CH_NAME[ch]} value={`${M.money(ct.daily.home[ch])}${ch === 'contactless' ? ' a payment' : ' a day'}`} chev onClick={() => lim({ key: 'daily', ch, where: 'home' })} />)}</>}
     </D.List>{Mod.on('card.gambling') && open !== 'limits' && <GamblingRow />}{ct && <div className="ds-btnrow"><D.Pill onClick={() => W.__go?.('cardx', 'controls')}>All card controls</D.Pill></div>}</> },
   ctllimit: (p: any) => <CtlLimitBlock {...p} />,
+  fraudpick: (p: any) => <FraudPickBlock {...p} />,
+  pickone: (p: any) => <PickOneBlock {...p} />, visaform: (p: any) => <VisaFormBlock {...p} />, insclaim: (p: any) => <InsClaimBlock {...p} />,
+  ticketsend: (p: any) => <TicketSendBlock {...p} />, showchange: (p: any) => <ShowChangeBlock {...p} />,
+  staychange: (p: any) => <StayChangeBlock {...p} />, stayextras: (p: any) => <StayExtrasBlock {...p} />, msgplace: (p: any) => <MsgPlaceBlock {...p} />, tablechange: (p: any) => <TableChangeBlock {...p} />, tourchange: (p: any) => <TourChangeBlock {...p} />,
+  hardship: (p: any) => <HardshipBlock {...p} />,
+  dueday: (p: any) => <DueDayBlock {...p} />,
   statement: () => { const c = St.useS(s => s.card); const M = useMarket(); const st = Mod.on('card.statements') ? Bk.statements()[0] : null; return <><D.KV rows={[{ label: 'Statement balance', value: M.money(c.due, 2) }, { label: 'Minimum payment', value: M.money(c.min, 2) }, { label: 'Payment due', value: M.date(c.dueDate, 'day') }, ...(st ? [{ label: 'Purchases this statement', value: M.money(st.purchases, 2) }] : [])]} />{st && <div className="ds-btnrow"><D.Pill onClick={() => W.__go?.('cardx', 'statement:' + st.id)}>Open statement</D.Pill></div>}</> },
   spend: () => { const all = St.useS(s => s.txns); const M = useMarket(); const since = Date.now() - 30 * 864e5, by: Record<string, number> = {}; all.filter(t => t.at >= since && t.cat !== 'Payment').forEach(t => { by[t.cat] = (by[t.cat] || 0) + (t.refund ? -t.amount : t.amount) }); const items = Object.entries(by).filter(([, v]) => v >= 0.5).sort((a, b) => b[1] - a[1]); const tot = items.reduce((s, [, v]) => s + v, 0); return <><D.SpendBars period="Last 30 days" items={items.slice(0, 5).map(([label, amount]) => ({ label, amount }))} total={tot} format={(n: number) => M.money(n, n % 1 ? 2 : 0)} />{Mod.on('card.transactions') && <div className="ds-btnrow"><D.Pill onClick={() => W.__go?.('cardx', 'txns')}>See every payment</D.Pill></div>}</> },
   txns: ({ cat }: any) => { const tx = St.useS(s => s.txns.filter(t => !cat || t.cat === cat).slice(0, 5)); const M = useMarket(); return <D.List>{tx.map(t => <D.Txn key={t.id} cat={t.cat} name={t.merchant} meta={`${t.cat} · ${M.date(new Date(t.at), 'day')}`} amount={t.amount} points={t.points || undefined} refund={t.refund} format={(n: number) => M.money(n, 2)} onClick={Mod.on('card.transactions') ? () => W.__go?.('cardx', 'txn:' + t.id) : undefined} />)}</D.List> },
@@ -304,7 +314,7 @@ function StateWrap({ state, title, body, was, now, actions = [], bk }: any) {
 }
 function VisaBlock({ city }: { city: string }) {
   const M = useMarket(); const c = Cat.dests(M.id).find(x => x.name === city)!; const dom = c.country === Cat.home(M.id).country; const [set, setSet] = useState(false)
-  return <C.Detail art={Cat.img('money:visa')} title={dom ? `${c.name}: no visa needed` : `${c.country}: check before you book`} checks={dom ? ['It\'s a domestic trip', 'Carry the photo ID your airline accepts'] : ['Most visitors need a passport valid for at least 6 months', 'Some passports need an e-visa or travel authorisation before flying']} note={dom ? undefined : { title: 'Check before you fly', body: 'Rules change. Confirm on the government\'s own site for your passport before you book.' }} cta="Remind me about my passport" done={set ? 'Reminder set' : undefined} disabled={set} onCta={() => { setSet(true); run({ f: 'alertSet', a: { what: 'if your passport needs renewing, 60 days before any trip' } }) }} />
+  return <C.Detail art={Cat.img('money:visa')} title={dom ? `${c.name}: no visa needed` : `${c.country}: check before you book`} checks={dom ? ['It\'s a domestic trip', 'Carry the photo ID your airline accepts'] : ['Most visitors need a passport valid for at least 6 months', 'Some passports need an e-visa or travel authorisation before flying']} note={dom ? undefined : { title: 'Check before you fly', body: 'Rules change. Confirm on the government\'s own site for your passport before you book.' }} cta="Remind me about my passport" done={set ? 'Reminder set' : undefined} disabled={set} onCta={() => { setSet(true); run({ f: 'alertSet', a: { what: 'if your passport needs renewing, 60 days before any trip' } }) }} >{!dom && <div className="ds-btnrow"><D.Pill onClick={() => run({ f: 'visaHelp', a: { city } }, 'Get help applying')}>Get help applying</D.Pill></div>}</C.Detail>
 }
 function Programmes({ pts }: { pts?: number }) {
   const bal = St.useS(s => s.balance); const M = useMarket()
@@ -434,6 +444,149 @@ function CtlLimitBlock({ bk, lim }: any) {
     <div className="c2-head"><p className="c2-t">{Bk.limName(lk)}</p><p className="c2-s">{now != null ? `Now ${M.money(now)}` : 'No limit now'}{lk.ch === 'contactless' ? ` · up to ${M.money(Bk.chMax('contactless'))}` : ''}</p></div>
     <div className="c2-form"><label className="c2-in"><span>New limit</span><input inputMode="decimal" value={amt} onChange={(e: any) => setAmt(e.target.value.replace(/[^\d.]/g, ''))} /></label></div>
     <button className="ds-btn48 gr-btn" disabled={!(a > 0)} onClick={() => { setDone(true); run({ f: 'limAsk', a: { ...lk, amount: a } }, `Set it to ${M.money(a)}`) }}>Continue</button>
+  </div>
+}
+function FraudPickBlock({ bk }: any) {
+  const M = useMarket(); St.useS(s => s.txns.length); const txns = useBk(() => Bk.fraudCandidates(), [] as St.Txn[]); const [ids, setIds] = usePS<string[]>(bk, 'ids', []); const [done, setDone] = useDone(bk)
+  if (done) return <D.AssistantNote>Payments picked.</D.AssistantNote>
+  if (!txns.length) return <D.AssistantNote>There are no card payments in the last 30 days.</D.AssistantNote>
+  const tot = txns.filter(t => ids.includes(t.id)).reduce((a, t) => a + t.amount, 0), flip = (id: string) => setIds(ids.includes(id) ? ids.filter(x => x !== id) : [...ids, id])
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Which payments weren't you?</p><p className="c2-s">Last 30 days · tick all that apply</p></div>
+    <div className="c2-list">{txns.map(t => <button key={t.id} className="c2-prow" role="checkbox" aria-checked={ids.includes(t.id)} onClick={() => flip(t.id)}><span className="c2-ph sm"><Icon name={icOf(t.cat)} size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">{nm(t.merchant)}</span><span className="ds-row-s">{`${M.date(F.iso(new Date(t.at)))} · ${t.cat}`}</span></span><b className="c2-amt">{M.money(t.amount, 2)}</b><C2Tick on={ids.includes(t.id)} /></button>)}</div>
+    <button className="ds-btn48 gr-btn" disabled={!ids.length} onClick={() => { setDone(true); run({ f: 'fraudAsk', a: { ids } }, ids.length > 1 ? `${ids.length} payments, ${M.money(tot, 2)}` : `${nm(txns.find(t => t.id === ids[0])!.merchant)}, ${M.money(tot, 2)}`) }}>Continue</button>
+  </div>
+}
+const ADVICE: Record<string, string> = { UK: 'MoneyHelper or StepChange', EU: 'MABS', SG: 'Credit Counselling Singapore', MY: 'AKPK' }
+function HardshipBlock({ bk }: any) {
+  const M = useMarket(); const c = St.useS(s => s.card); const [months, setMonths] = usePS<number>(bk, 'months', 6); const [pay, setPay] = useState(''); const [done, setDone] = useDone(bk)
+  if (done) return <D.AssistantNote>Sent.</D.AssistantNote>
+  const p = +pay, adv = ADVICE[M.id === 'AR' ? 'AE' : M.id]
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Help with your payments</p><p className="c2-s">{c.due > 0 ? `${M.money(c.due, 2)} due ${M.date(c.dueDate, 'day')} · minimum ${M.money(c.min, 2)}` : 'Nothing due right now'}</p></div>
+    <div className="c2-list">
+      {c.due > 0 && <button className="c2-prow" onClick={() => sendText('Pay the minimum')}><span className="c2-ph sm"><Icon name="card" size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">Pay just the minimum this month</span><span className="ds-row-s">Keeps the account up to date</span></span><Icon name="chev" size={16} stroke={2.2} /></button>}
+      <button className="c2-prow" onClick={() => run({ f: 'dueDayStart', a: {} }, 'Move my due date')}><span className="c2-ph sm"><Icon name="cal" size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">Move my due date</span><span className="ds-row-s">To a few days after payday</span></span><Icon name="chev" size={16} stroke={2.2} /></button>
+      <button className="c2-prow" onClick={() => run({ f: 'handoff', a: { reason: 'Financial difficulty', team: 'care' } }, 'Talk to a specialist')}><span className="c2-ph sm"><Icon name="headset" size={18} stroke={2} /></span><span className="c2-b"><span className="ds-row-t">Talk to a specialist</span><span className="ds-row-s">They can see this conversation</span></span><Icon name="chev" size={16} stroke={2.2} /></button>
+    </div>
+    <C.Opt label="Or ask for a payment plan"><div className="c2-slots" role="radiogroup" aria-label="How long">{Bk.PLAN_MONTHS.map(n => <button key={n} className="c2-slot" role="radio" aria-checked={months === n} onClick={() => setMonths(n)}>{`${n} months`}</button>)}</div></C.Opt>
+    <label className="c2-in"><span>What you could pay each month</span><input inputMode="decimal" value={pay} onChange={(e: any) => setPay(e.target.value.replace(/[^\d.]/g, ''))} /></label>
+    <p className="ds-row-s">{`Interest is frozen while the plan runs, if the bank agrees.${adv ? ` Free, independent advice: ${adv}.` : ''}`}</p>
+    <button className="ds-btn48 gr-btn" disabled={!(p > 0)} onClick={() => { setDone(true); run({ f: 'hardshipAsk', a: { months, pay: p } }, `${M.money(p)} a month for ${months} months`) }}>Ask for this plan</button>
+  </div>
+}
+function DueDayBlock({ bk }: any) {
+  const M = useMarket(); const c = St.useS(s => s.card); const [day, setDay] = usePS<number>(bk, 'day', 0); const [done, setDone] = useDone(bk)
+  if (done) return <D.AssistantNote>Day chosen.</D.AssistantNote>
+  const days = [1, 5, 10, 15, 20, 25, 28]
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Move your due date</p><p className="c2-s">{`Now the ${new Date(c.dueDate).getDate()}${Bk.ord(new Date(c.dueDate).getDate())} of each month`}</p></div>
+    <div className="c2-slots" role="radiogroup" aria-label="New due date">{days.map(n => <button key={n} className="c2-slot" role="radio" aria-checked={day === n} onClick={() => setDay(n)}>{`${n}${Bk.ord(n)}`}</button>)}</div>
+    <button className="ds-btn48 gr-btn" disabled={!day} onClick={() => { setDone(true); run({ f: 'dueDayAsk', a: { day } }, `The ${day}${Bk.ord(day)}`) }}>Continue</button>
+  </div>
+}
+/** One choice from a short list, then the flow named by f carries on with it. */
+function PickOneBlock({ id, f, title, items, note, bk, ...rest }: any) {
+  const M = useMarket(); const [v, setV] = usePS<string>(bk, 'v', ''); const [done, setDone] = useDone(bk); const k = rest.field || (f === 'hireExtend' ? 'days' : f === 'trainChange' ? 'at' : f === 'esimTopUp' ? 'plan' : 'what')
+  if (done) return <D.AssistantNote>Chosen.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{title}</p>{note && <p className="c2-s">{note}</p>}</div>
+    <div className="c2-slots" role="radiogroup" aria-label={title}>{items.map((x: string) => <button key={x} className="c2-slot" role="radio" aria-checked={v === x} onClick={() => setV(x)}>{/^\d\d:\d\d$/.test(x) ? M.clock(x) : x}</button>)}</div>
+    <button className="ds-btn48 gr-btn" disabled={!v} onClick={() => { setDone(true); run({ f, a: { id, [k]: v } }, /^\d\d:\d\d$/.test(v) ? M.clock(v) : v) }}>Continue</button>
+  </div>
+}
+function VisaFormBlock({ city, bk }: any) {
+  const [nat, setNat] = useState(''); const [from, setFrom] = useState(''); const [exp, setExp] = useState(''); const [done, setDone] = useDone(bk)
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Visa check and application</p><p className="c2-s">{city}</p></div>
+    <div className="c2-form"><label className="c2-in"><span>Passport issued by</span><input value={nat} placeholder="United Kingdom" onChange={(e: any) => setNat(e.target.value)} /></label>
+      <div className="c2-grid2"><label className="c2-in"><span>Travelling on</span><input type="date" value={from} onChange={(e: any) => setFrom(e.target.value)} /></label><label className="c2-in"><span>Passport expires</span><input type="date" value={exp} onChange={(e: any) => setExp(e.target.value)} /></label></div></div>
+    <p className="ds-row-s">No passport number is needed here. The visa service asks for it securely if you need an application.</p>
+    <button className="ds-btn48 gr-btn" disabled={!nat.trim() || !from || !exp} onClick={() => { setDone(true); run({ f: 'visaApply', a: { city, nationality: nat.trim(), from, expiry: exp } }, `${nat.trim()} passport`) }}>Continue</button>
+  </div>
+}
+function InsClaimBlock({ id, bk }: any) {
+  const [why, setWhy] = usePS<string>(bk, 'why', ''); const [amt, setAmt] = useState(''); const [done, setDone] = useDone(bk); const M = useMarket()
+  if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Make a claim</p><p className="c2-s">Travel insurance</p></div>
+    <C.Opt label="What happened?"><div className="c2-slots" role="radiogroup" aria-label="What happened?">{F.CLAIM_WHY.map(r => <button key={r} className="c2-slot" role="radio" aria-checked={why === r} onClick={() => setWhy(r)}>{r}</button>)}</div></C.Opt>
+    <label className="c2-in"><span>How much it cost you</span><input inputMode="decimal" value={amt} onChange={(e: any) => setAmt(e.target.value.replace(/[^\d.]/g, ''))} /></label>
+    <button className="ds-btn48 gr-btn" disabled={!why || !(+amt > 0)} onClick={() => { setDone(true); run({ f: 'insClaimDo', a: { id, why, amount: +amt } }, `${why}, ${M.money(+amt, 2)}`) }}>Send the claim</button>
+  </div>
+}
+function TicketSendBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const [name, setName] = useState(''); const [email, setEmail] = useState(''); const [done, setDone] = useDone(bk)
+  if (!b) return null; if (done) return <D.AssistantNote>Details added.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">Send the tickets</p><p className="c2-s">{`${b.title} · ${b.when || ''}`}</p></div>
+    <div className="c2-form"><label className="c2-in"><span>Their name</span><input value={name} onChange={(e: any) => setName(e.target.value)} /></label><label className="c2-in"><span>Their email</span><input type="email" inputMode="email" value={email} onChange={(e: any) => setEmail(e.target.value)} /></label></div>
+    <button className="ds-btn48 gr-btn" disabled={!name.trim() || !email.trim()} onClick={() => { setDone(true); run({ f: 'ticketSendDo', a: { id, name: name.trim(), email: email.trim() } }, `Send to ${name.trim()}`) }}>Send the tickets</button>
+  </div>
+}
+function ShowChangeBlock({ id, bk }: any) {
+  const M = useMarket(); const b = St.useS(s => s.bookings.find(x => x.id === id)); const it = b ? F.findItem(b.itemId || '') : undefined; const [v, setV] = usePS<string>(bk, 'v', ''); const [done, setDone] = useDone(bk)
+  if (!b || !it?.opts) return null; if (done) return <D.AssistantNote>Changed.</D.AssistantNote>
+  const vals = it.opts.values.filter(x => x !== b.extra?.option)
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{b.title}</p><p className="c2-s">{`Now ${b.when}`}</p></div>
+    <div className="c2-slots" role="radiogroup" aria-label={it.opts.label}>{vals.map(x => <button key={x} className="c2-slot" role="radio" aria-checked={v === x} onClick={() => setV(x)}>{/^\d\d:\d\d/.test(x) ? M.clock(x) : x}</button>)}</div>
+    <button className="ds-btn48 gr-btn" disabled={!v} onClick={() => { setDone(true); run({ f: 'showChangeDo', a: { id, slot: v } }, /^\d\d:\d\d/.test(v) ? M.clock(v) : v) }}>Change</button>
+  </div>
+}
+const nextDays = (from: string, n: number) => Array.from({ length: n }, (_, k) => F.addDays(from, k))
+function StayChangeBlock({ id, bk, plus }: any) {
+  const M = useMarket(); const b = St.useS(s => s.bookings.find(x => x.id === id)); const start = b?.extra?.date || F.stayDefault()
+  const [date, setDate] = usePS<string>(bk, 'date', start); const [n, setN] = usePS<number>(bk, 'n', (b?.extra?.nights || 2) + (plus ? 1 : 0)); const [done, setDone] = useDone(bk)
+  if (!b) return null; if (done) return <D.AssistantNote>Dates chosen.</D.AssistantNote>
+  const today = F.iso(new Date()), from = F.addDays(start, -3) < today ? today : F.addDays(start, -3)
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{b.title}</p><p className="c2-s">{`Now ${b.when}`}</p></div>
+    <C.Opt label="Check in"><div className="c2-slots" role="radiogroup" aria-label="Check in">{nextDays(from, 8).map(d0 => <button key={d0} className="c2-slot" role="radio" aria-checked={date === d0} onClick={() => setDate(d0)}>{M.date(d0, 'day')}</button>)}</div></C.Opt>
+    <C.Opt label="Nights"><div className="c2-slots" role="radiogroup" aria-label="Nights">{[1, 2, 3, 4, 5, 7].map(k => <button key={k} className="c2-slot" role="radio" aria-checked={n === k} onClick={() => setN(k)}>{String(k)}</button>)}</div></C.Opt>
+    <p className="ds-row-s">{`${M.date(date)} to ${M.date(F.addDays(date, n))}`}</p>
+    <button className="ds-btn48 gr-btn" onClick={() => { setDone(true); run({ f: 'stayChangeDo', a: { id, date, nights: n } }, `${M.date(date)}, ${n} night${n > 1 ? 's' : ''}`) }}>Change the dates</button>
+  </div>
+}
+function StayExtrasBlock({ id, bk }: any) {
+  const M = useMarket(); const b = St.useS(s => s.bookings.find(x => x.id === id)); const [ks, setKs] = usePS<string[]>(bk, 'ks', []); const [done, setDone] = useDone(bk)
+  if (!b) return null; if (done) return <D.AssistantNote>Extras chosen.</D.AssistantNote>
+  const have = (b.extra?.extras || []) as string[], n = b.extra?.nights || 2, flip = (k: string) => setKs(ks.includes(k) ? ks.filter(x => x !== k) : [...ks, k])
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">During your stay</p><p className="c2-s">{b.title}</p></div>
+    <div className="c2-list">{F.STAY_EXTRAS().map(x => { const own = have.includes(x.k), price = x.k === 'breakfast' ? x.price * n * F.guestsOf(b) : x.price; return <button key={x.k} className="c2-prow" role="checkbox" aria-checked={own || ks.includes(x.k)} disabled={own} onClick={() => flip(x.k)}><span className="c2-b"><span className="ds-row-t">{x.name}</span><span className="ds-row-s">{own ? 'Added' : x.sub}</span></span><b className="c2-amt">{M.money(price, 2)}</b><C2Tick on={own || ks.includes(x.k)} /></button> })}</div>
+    <button className="ds-btn48 gr-btn" disabled={!ks.length} onClick={() => { setDone(true); run({ f: 'stayExtrasDo', a: { id, ks } }, F.STAY_EXTRAS().filter(x => ks.includes(x.k)).map(x => x.name).join(', ')) }}>Continue</button>
+  </div>
+}
+function MsgPlaceBlock({ id, bk }: any) {
+  const b = St.useS(s => s.bookings.find(x => x.id === id)); const [text, setText] = useState(''); const [done, setDone] = useDone(bk)
+  if (!b) return null; if (done) return <D.AssistantNote>Message written.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{`Message ${b.title.replace(/^(Dinner at|Table at) /, '')}`}</p><p className="c2-s">{`Sent with your booking, ${b.ref}`}</p></div>
+    <div className="c2-form"><label className="c2-in"><span>Your message</span><input value={text} placeholder={b.cat === 'dining' ? 'It\'s a birthday, and one of us is vegetarian' : 'We arrive late, around 23:00'} onChange={(e: any) => setText(e.target.value)} /></label></div>
+    <button className="ds-btn48 gr-btn" disabled={!text.trim()} onClick={() => { setDone(true); run({ f: 'msgPlace', a: { id, text: text.trim() } }, text.trim()) }}>Send</button>
+  </div>
+}
+function TableChangeBlock({ id, bk }: any) {
+  const M = useMarket(); const b = St.useS(s => s.bookings.find(x => x.id === id)); const it = b ? F.findItem(b.itemId || '') : undefined
+  const slots = (it?.opts?.kind === 'slots' ? it.opts.values : ['18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00']).filter((x: string) => /^\d\d:\d\d/.test(x))
+  const [at, setAt] = usePS<string>(bk, 'at', String(b?.extra?.at || b?.extra?.option || slots[2] || '19:00')); const q0 = (b && (b.qty || +((b.detail || []).find((r: any) => r[0] === 'Guests')?.[1] || 0))) || 2; const [q, setQ] = usePS<number>(bk, 'q', q0); const [done, setDone] = useDone(bk)
+  if (!b) return null; if (done) return <D.AssistantNote>Change chosen.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{b.title}</p><p className="c2-s">{`Now ${b.when}, for ${q0}`}</p></div>
+    <C.Opt label="Time"><div className="c2-slots" role="radiogroup" aria-label="Time">{slots.map((x: string) => <button key={x} className="c2-slot" role="radio" aria-checked={at === x} onClick={() => setAt(x)}>{M.clock(x)}</button>)}</div></C.Opt>
+    <C.Opt label="Guests"><div className="c2-slots" role="radiogroup" aria-label="Guests">{[1, 2, 3, 4, 5, 6, 8].map(k => <button key={k} className="c2-slot" role="radio" aria-checked={q === k} onClick={() => setQ(k)}>{String(k)}</button>)}</div></C.Opt>
+    <button className="ds-btn48 gr-btn" onClick={() => { setDone(true); run({ f: 'tableChangeDo', a: { id, at, qty: q } }, `${M.clock(at)}, ${q} ${q > 1 ? 'guests' : 'guest'}`) }}>Change the table</button>
+  </div>
+}
+function TourChangeBlock({ id, bk }: any) {
+  const M = useMarket(); const b = St.useS(s => s.bookings.find(x => x.id === id)); const [d0, setD] = usePS<string>(bk, 'd', ''); const [done, setDone] = useDone(bk)
+  if (!b) return null; if (done) return <D.AssistantNote>Day chosen.</D.AssistantNote>
+  return <div className="c2-card">
+    <div className="c2-head"><p className="c2-t">{b.title}</p><p className="c2-s">{`Now ${b.when}`}</p></div>
+    <div className="c2-slots" role="radiogroup" aria-label="New day">{nextDays(F.addDays(F.iso(new Date()), 1), 8).filter(x => x !== b.extra?.date).slice(0, 7).map(x => <button key={x} className="c2-slot" role="radio" aria-checked={d0 === x} onClick={() => setD(x)}>{M.date(x, 'day')}</button>)}</div>
+    <button className="ds-btn48 gr-btn" disabled={!d0} onClick={() => { setDone(true); run({ f: 'tourChangeDo', a: { id, date: d0 } }, M.date(d0, 'day')) }}>Move it</button>
   </div>
 }
 function BTFormBlock({ bk }: any) {
@@ -807,11 +960,22 @@ function actionsFor(b: St.Booking): string[] {
   if (b.kind === 'investment') return ['Sell']
   if (b.kind === 'donation') return []
   if (b.kind === 'request' || b.kind === 'claim' || b.kind === 'transfer') return ['Track']
-  if (b.cat === 'giftcards') return ['Show code']
+  if (b.cat === 'giftcards') return ['Show code', 'Code not working']
+  if (b.cat === 'docs' && /^eSIM/.test(b.title)) return [...(b.extra?.installed ? [] : ['Install']), 'Top up', ...(b.extra?.installed || !b.refundable ? [] : ['Cancel'])]
+  if (b.cat === 'docs' && b.sub === 'Travel insurance') return ['Make a claim', ...(b.refundable ? ['Cancel'] : [])]
   if (b.cat === 'flights' && b.extra?.disrupted) return ['See options', 'Full refund']
   if (b.cat === 'flights') return [...(b.extra?.checkedIn ? ['Boarding pass'] : ['Check in', 'Boarding pass']), 'Flight status', ...(b.extra?.fare === 'light' ? [] : ['Change date', 'Change seats']), ...(b.extra?.checkedIn ? [] : ['Add bags']), ...(b.extra?.fare === 'light' || b.extra?.cabin === 'business' ? [] : ['Upgrade']), ...(b.refundable ? ['Cancel'] : [])]
-  if (b.kind === 'ticket' || b.cat === 'airport' || b.cat === 'experiences' || (b.cat === 'rides' && /^Train/.test(b.title))) return ['Show pass', ...(b.refundable ? ['Cancel'] : [])]
+  if (b.cat === 'tickets' && b.extra?.sentTo) return []
+  if (b.cat === 'tickets') { const it = F.findItem(b.itemId || ''), nm = /named|no resale/i.test(b.policy || it?.policy || ''); return ['Show pass', ...(it?.opts?.kind === 'slots' && !/no refunds/i.test(b.policy || '') ? [/^\d\d:\d\d/.test(it.opts.values[0]) ? 'Change showing' : 'Change date'] : []), 'Get there', ...(nm ? [] : ['Send to a friend', ...(!b.refundable ? ['Resell'] : [])]), ...(b.refundable ? ['Cancel'] : [])] }
+  if (b.kind === 'ticket' || b.cat === 'airport' || b.cat === 'experiences' || (b.cat === 'rides' && /^Train/.test(b.title))) return ['Show pass', ...(b.cat === 'experiences' ? ['Change date'] : []), ...(b.refundable ? ['Cancel'] : [])]
+  if (b.cat === 'rides' && /^Car hire/.test(b.title)) return ['Pick-up guide', 'Extend', ...(b.refundable !== false ? ['Cancel'] : [])]
+  if (b.cat === 'rides' && /^Train/.test(b.title)) return ['Show pass', 'Change train', ...(b.refundable ? ['Cancel'] : [])]
+  if (b.cat === 'rides') return [...(b.tracker && b.tracker.current < b.tracker.steps.length - 1 ? ['Track'] : []), 'Report a problem', ...(b.refundable !== false && b.status !== 'done' ? ['Cancel'] : [])]
+  if (b.cat === 'airport') return ['Show pass', 'Report a problem', ...(b.refundable ? ['Cancel'] : [])]
   if (b.kind === 'order') return b.extra?.returning ? ['Track'] : b.status === 'delivered' ? ['Return', 'Report a problem'] : b.cat === 'bank' ? ['Track'] : ['Track', 'Cancel']
+  if (b.extra?.addonFor) return []
+  if (b.cat === 'stays') return ['Change dates', 'Add extras', 'Message the hotel', ...(b.refundable !== false ? ['Cancel'] : []), 'Report a problem']
+  if (b.cat === 'dining') return ['Change', 'Running late', 'Message the restaurant', 'Cancel']
   if (b.status === 'done') return ['Report a problem']
   return ['Cancel', 'Report a problem']
 }

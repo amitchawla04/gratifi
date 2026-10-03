@@ -321,7 +321,10 @@ export function Me({ nav, theme, setTheme }: { nav: Nav; theme: string; setTheme
       <div className="gr-actions"><K.Button size="sm" onClick={() => { St.addPoints(5000, 'Points adjustment (demo)'); St.pushMsg({ role: 'gr', text: `Demo: ${M.pts(5000)} came in from the bank. Your balance is now ${M.pts(St.get().balance)}.` }) }}>Points come in (+{M.num(5000)})</K.Button><K.Button size="sm" variant="secondary" onClick={() => cardPayment(M)}>A card payment</K.Button></div>
       {([['priceRise', 'Price rises at the next checkout'], ['supplierDown', 'Supplier is down'], ['decline', 'Card is declined']] as [keyof St.State['sim'], string][]).map(([k, l]) => <div key={k} className="gr-row" style={{ justifyContent: 'space-between' }}><span style={{ fontSize: '0.875rem', fontWeight: 600 }}>{l}</span><K.Toggle label={l} on={s.sim[k]} onChange={(v: boolean) => sim(k, v)} /></div>)}
       <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('cancel')}>Cancel my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('late')}>Delay my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('deliver')}>Deliver my order</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.settlePending()); (window as any).__go?.('chat') }}>Return window ends</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('fraud')}>Suspicious payment</K.Button></div>
-      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('checkin')}>Check-in opens</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('delay')}>Delay my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.fareDrops()); (window as any).__go?.('chat') }}>Fare drops</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('card')}>New card arrives</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('cases')}>Bank decides cases</K.Button></div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('checkin')}>Check-in opens</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('delay')}>Delay my next flight</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.pricesDrop()); (window as any).__go?.('chat') }}>Prices drop</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('card')}>New card arrives</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('cases')}>Bank decides cases</K.Button></div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => simulate('billdue')}>Bill due soon</K.Button><K.Button size="sm" variant="secondary" onClick={() => simulate('stmt')}>Statement ready</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.operatorCancels()); (window as any).__go?.('chat') }}>Booking called off</K.Button></div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => { respond(F.ticketsBack()); (window as any).__go?.('chat') }}>Tickets come back</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.resaleSells()); (window as any).__go?.('chat') }}>Listed tickets sell</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.renewalSoon()); (window as any).__go?.('chat') }}>Subscription renews soon</K.Button></div>
+      <div className="gr-actions"><K.Button size="sm" variant="secondary" onClick={() => { respond(F.trainCancelled()); (window as any).__go?.('chat') }}>Train cancelled</K.Button><K.Button size="sm" variant="secondary" onClick={() => { respond(F.decideTravelCases()); (window as any).__go?.('chat') }}>Visa and claims decided</K.Button></div>
       <Connections />
       <ResetButton /></div>
   </div>
@@ -345,13 +348,25 @@ function Connections() {
   </div>
 }
 function cardPayment(M: any) {
-  const s = St.get(), amt = Cat.px(42, s.market)
-  if (s.card.frozen) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined because your card is frozen. Nothing was charged.` }); return }
-  if (s.sim.decline) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined by the bank. Nothing was charged.` }); return }
-  { const cap = Mod.on('card.limits') ? (s.seen.catLimits || {}).Dining : 0; if (cap && Bk.spentThisMonth('Dining') + amt > cap) { St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(amt, 2)} at Café Lune was declined because it would take dining over your monthly limit of ${M.money(cap)}. Nothing was charged. You can change the limit on My card.` }); return } }
-  const ep = Math.round(amt / St.rate() * 0.01)
-  St.set(x => ({ txns: [{ id: St.uidx(), at: Date.now(), merchant: 'Café Lune', cat: 'Dining', amount: amt, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + amt }, balance: x.balance + ep, ledger: [{ id: St.uidx(), at: Date.now(), label: 'Points on card spend: Café Lune', pts: ep }, ...x.ledger] })); St.recordSpend('Dining', amt)
-  St.pushMsg({ role: 'gr', text: St.get().alerts.spend ? `Card used at Café Lune for ${M.money(amt, 2)}. You earned ${M.num(ep)} points.` : `Demo: a card payment of ${M.money(amt, 2)} at Café Lune came in and earned ${M.num(ep)} points. Turn on Every card payment under Your assistant in your settings to get a note each time.` })
+  const s = St.get(), c = s.card as any, ct = Mod.apiOn('cards.controls') ? Bk.ctl() : null, d0 = Cat.dests(s.market)[0]
+  /* the payment picked shows whatever the customer has just switched: a café at home, a hotel abroad, a crypto exchange */
+  const sc = c.domestic === false ? { merchant: 'Corner Café', amount: Cat.px(6.4, s.market), ch: 'contactless' as Bk.Ch, abroad: false, cat: 'Dining' }
+    : !c.abroad ? { merchant: `Hotel in ${d0.name}`, amount: Cat.px(186, s.market), ch: 'instore' as Bk.Ch, abroad: true, cat: 'Travel' }
+    : ct?.blocks.crypto ? { merchant: 'Coin exchange', amount: Cat.px(250, s.market), ch: 'online' as Bk.Ch, abroad: false, cat: 'Shopping', block: 'crypto' }
+    : { merchant: 'Café Lune', amount: Cat.px(42, s.market), ch: 'contactless' as Bk.Ch, abroad: false, cat: 'Dining' }
+  const why = s.sim.decline ? 'bank' : Bk.check(sc)
+  if (why) {
+    const W: Record<string, [string, string]> = { bank: ['the bank declined it', 'Why was my card declined?'], cancelled: ['this card was cancelled and your new one is on its way', 'Where is my new card?'], frozen: ['your card is frozen', 'Unfreeze my card'], abroad: ['international payments are off', 'Turn on international payments'], domestic: ['domestic payments are off', 'Turn on domestic payments'], online: ['online payments are off', 'Turn on online payments'], instore: ['in-store payments are off', 'Turn on in-store payments'], contactless: ['contactless is off', 'Turn on contactless'], atm: ['cash withdrawals are off', 'Turn on cash withdrawals'], 'block:crypto': ['you\'ve blocked crypto', 'Unblock crypto'], txn: [`it's over your limit of ${M.money(ct?.txn || 0)} for each payment`, 'Change my payment limit'], daily: ['it\'s over your daily limit for this kind of payment', 'Card controls'], month: [`it would take you over your monthly limit of ${M.money(ct?.month || 0)}`, 'Change my monthly limit'], cat: [`it would take ${sc.cat.toLowerCase()} over your monthly limit of ${M.money((Bk.limits() as any)[sc.cat] || 0)}`, 'Set spending limits'], credit: ['there isn\'t enough credit left', 'Pay my bill'] }
+    const [r, fix] = W[why] || ['the bank declined it', 'Card controls']
+    if (!ct || ct.alerts.declined) St.pushMsg({ role: 'gr', text: `A payment of ${M.money(sc.amount, 2)} at ${sc.merchant} was just declined because ${r}. Nothing was charged. If it was you, change it here and try again.`, blocks: [{ kind: 'state', state: 'error', title: 'Payment declined', body: `${sc.merchant} · ${M.money(sc.amount, 2)}`, actions: [{ label: fix, act: { f: 'route', a: { text: fix } } }] }] })
+    else St.pushMsg({ role: 'gr', text: 'Demo: a payment was declined. Declined-payment messages are off, so in the live app you wouldn\'t hear about it here.' })
+    return
+  }
+  const ep = Math.round(sc.amount / St.rate() * 0.01)
+  St.set(x => ({ txns: [{ id: St.uidx(), at: Date.now(), merchant: sc.merchant, cat: sc.cat, amount: sc.amount, points: ep }, ...x.txns], card: { ...x.card, balance: x.card.balance + sc.amount }, balance: x.balance + ep, ledger: [{ id: St.uidx(), at: Date.now(), label: `Points on card spend: ${sc.merchant}`, pts: ep }, ...x.ledger] })); St.recordSpend(sc.cat, sc.amount)
+  const big = !!ct?.alerts.over && sc.amount > ct.alerts.over
+  if (St.get().alerts.spend || big) St.pushMsg({ role: 'gr', text: `${big ? 'Large payment: ' : ''}${M.money(sc.amount, 2)} at ${sc.merchant} on your card ending ${c.last4}. You earned ${M.pts(ep)}. Not you? Tell me and I'll freeze the card.`, blocks: [{ kind: 'state', state: 'done', title: sc.merchant, body: M.money(sc.amount, 2), actions: [{ label: 'That wasn\'t me', act: { f: 'fraudStart', a: {} } }] }] })
+  else St.pushMsg({ role: 'gr', text: `Demo: a card payment of ${M.money(sc.amount, 2)} at ${sc.merchant} came in and earned ${M.num(ep)} points. Turn on Every payment under Card controls to get a note each time.` })
 }
 
 /* Subcategories: a way into each category. Each runs a fixed action, so it works the same in every market and mode. */
@@ -465,8 +480,20 @@ function simulate(k: string) {
     St.updateBooking(o.id, { status: 'delivered', extra: { ...o.extra, case: 'replacement' }, tracker: { ...o.tracker!, current: o.tracker!.steps.length - 1, tone: undefined, eta: 'Delivered' } })
     St.pushMsg({ role: 'gr', text: 'Your new card has been delivered. Activate it on My card to start using it.' }); (window as any).__go?.('cardx', 'activate'); return
   }
+  if (k === 'billdue') {
+    const r = Bk.reminders(), c = s.card
+    if (!r.bill) St.pushMsg({ role: 'gr', text: 'Bill reminders are off. Turn them on under Card controls, in Payment alerts.' })
+    else if (c.due <= 0) St.pushMsg({ role: 'gr', text: 'There\'s nothing to pay this month, so there\'s no reminder to send.' })
+    else St.pushMsg({ role: 'gr', text: `Your card bill of ${M.money(c.due, 2)} is due in ${r.bill} day${r.bill > 1 ? 's' : ''}, on ${M.date(c.dueDate, 'day')}. The minimum is ${M.money(c.min, 2)}.${c.autopay ? ' Your Direct Debit will pay it, so there\'s nothing to do.' : ''}`, blocks: c.autopay ? [] : [{ kind: 'paybill' }] })
+    ;(window as any).__go?.('chat'); return
+  }
+  if (k === 'stmt') {
+    if (!Bk.reminders().statement) St.pushMsg({ role: 'gr', text: 'Statement messages are off. Turn them on under Card controls, in Payment alerts.' })
+    else St.pushMsg({ role: 'gr', text: 'Your new statement is ready.', blocks: [{ kind: 'statement' }] })
+    ;(window as any).__go?.('chat'); return
+  }
   if (k === 'cases') {
-    const open = s.bookings.filter(b => ['dispute', 'limit', 'bt', 'holder', 'points', 'cardswitch', 'protect'].includes(b.extra?.case) && !b.extra?.closed)
+    const open = s.bookings.filter(b => ['dispute', 'limit', 'bt', 'holder', 'points', 'cardswitch', 'protect', 'fraud', 'hardship'].includes(b.extra?.case) && !b.extra?.closed)
     if (!open.length) { St.pushMsg({ role: 'gr', text: 'There are no disputes or requests waiting. Start one from My card or in the chat.' }); (window as any).__go?.('chat'); return }
     open.forEach(b => {
       const fin = (outcome: string) => St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, closed: true, outcome }, tracker: { ...b.tracker!, current: b.tracker!.steps.length - 1, eta: outcome } })
@@ -475,6 +502,8 @@ function simulate(k: string) {
       if (b.extra.case === 'cardswitch') { fin('Approved'); St.pushMsg({ role: 'gr', text: 'The bank approved your move to Gratifi Card Plus. The new card is on its way with the same number, and your points have moved across.' }); return }
       if (b.extra.case === 'protect') { const amt = b.extra.amount; St.set(x => ({ card: { ...x.card, balance: Math.round((x.card.balance - amt) * 100) / 100 }, txns: [{ id: St.uidx(), at: Date.now(), merchant: `Insurance claim paid: ${b.extra.what}`, cat: 'Shopping', amount: amt, points: 0, refund: true }, ...x.txns] })); fin('Paid'); St.pushMsg({ role: 'gr', text: `Your claim for the ${b.extra.what.toLowerCase()} was approved. ${M.money(amt, 2)} is back on your card.` }); return }
       if (b.extra.case === 'points') { St.addPoints?.(b.extra.due, `Missing points added: ${b.title.replace(/^Missing points: /, '')}`); fin('Added'); St.pushMsg({ role: 'gr', text: `The bank added the missing ${M.pts(b.extra.due)} for ${b.title.replace(/^Missing points: /, '')}.` }); return }
+      if (b.extra.case === 'fraud') { fin('Refund confirmed'); St.pushMsg({ role: 'gr', text: `The fraud team confirmed those payments weren't you. The ${M.money(b.extra.amount, 2)} credited back is yours to keep.` }); return }
+      if (b.extra.case === 'hardship') { fin('Plan agreed'); St.set(x => ({ card: { ...x.card, min: b.extra.pay }, seen: { ...x.seen, plan: { pay: b.extra.pay, months: b.extra.months } } })); St.pushMsg({ role: 'gr', text: `The care team agreed your plan: ${M.money(b.extra.pay)} a month for ${b.extra.months} months, with interest frozen while it runs. That's now your monthly minimum.` }); return }
       if (b.extra.case === 'dispute') { St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, closed: true, outcome: 'Decided in your favour' }, tracker: { ...b.tracker!, current: b.tracker!.steps.length - 1, eta: 'Decided in your favour' } }); St.pushMsg({ role: 'gr', text: `Good news: the bank decided the ${b.title.replace(/^Dispute: /, '')} dispute in your favour. The ${M.money(b.extra.amount, 2)} credited back to your card is yours to keep.` }) }
       else { St.set(x => ({ card: { ...x.card, limit: b.extra.to } })); St.updateBooking(b.id, { status: 'done', extra: { ...b.extra, closed: true, outcome: 'Approved' }, tracker: { ...b.tracker!, current: b.tracker!.steps.length - 1, eta: 'Approved' } }); St.pushMsg({ role: 'gr', text: `The bank approved your new credit limit of ${M.money(b.extra.to)}. It applies straight away.` }) }
     })
@@ -482,7 +511,7 @@ function simulate(k: string) {
   }
   if (k === 'fraud') {
     St.set(x => ({ card: { ...x.card, frozen: true } }))
-    St.pushMsg({ role: 'gr', text: `Did you just try to pay ${M.money(Cat.px(649, s.market), 2)} to an online electronics shop abroad? It didn't look like you, so I've frozen your card and blocked the payment.`, blocks: [{ kind: 'state', state: 'error', title: 'Payment blocked', body: 'Nothing left your account.', actions: [{ label: 'It was me', act: { f: 'unfreezeAsk', a: {} } }, { label: 'It wasn\'t me', act: { f: 'bank', a: { topic: 'fraud' } } }] }] })
+    St.pushMsg({ role: 'gr', text: `Did you just try to pay ${M.money(Cat.px(649, s.market), 2)} to an online electronics shop abroad? It didn't look like you, so I've frozen your card and blocked the payment.`, blocks: [{ kind: 'state', state: 'error', title: 'Payment blocked', body: 'Nothing left your account.', actions: [{ label: 'It was me', act: { f: 'unfreezeAsk', a: {} } }, { label: 'It wasn\'t me', act: { f: 'fraudStart', a: {} } }] }] })
   }
   (window as any).__go?.('chat')
 }

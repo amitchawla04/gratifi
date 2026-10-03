@@ -180,7 +180,7 @@ function Pin({ nav }: { nav: Nav }) {
 /* ---------- Card controls: one place for every switch, limit, block and alert on the card ---------- */
 function Controls({ nav }: { nav: Nav }) {
   const c = St.useS(s => s.card) as any; St.useS(s => s.seen.ctl); St.useS(s => s.txns); const M = useMarket(); const on = Mod.useOn()
-  const ct = Bk.ctl(), country = Cat.HOME[M.id === 'AR' ? 'AE' : M.id]?.country || 'your country'
+  St.useS(s => s.seen.rem); const rem = Bk.reminders(); const ct = Bk.ctl(), country = Cat.HOME[M.id === 'AR' ? 'AE' : M.id]?.country || 'your country'
   const [where, setWhere] = useState<'At home' | 'Abroad'>('At home'); const w: Bk.Where = where === 'Abroad' ? 'abroad' : 'home'
   const [edit, setEdit] = useState<(Bk.LimKey & { alert?: boolean }) | null>(null); const [v, setV] = useState('')
   const sw = (k: string, val: boolean) => { if (k === 'frozen') { if (val) { St.set(x => ({ card: { ...x.card, frozen: true } })); D.toast('Card frozen. New payments are blocked.') } else here(F.unfreezeAsk({})); return } here(F.cardControl({ control: k, on: val })) }
@@ -229,7 +229,10 @@ function Controls({ nav }: { nav: Nav }) {
       <D.Row icon="bell" title="Large payments" value={ct.alerts.over ? `Over ${M.money(ct.alerts.over)}` : 'Off'} chev onClick={() => open({ key: 'txn', alert: true }, ct.alerts.over)} />
       {editor({ key: 'txn', alert: true }, ct.alerts.over)}
       <D.ToggleRow title="Declined payments" sub="With the reason, so you can fix it" on={ct.alerts.declined} onChange={(x: boolean) => here(Bk.alertsSet({ declined: x }))} />
+      <D.ToggleRow title="Statement ready" on={rem.statement} onChange={(x: boolean) => here(Bk.remSet({ statement: x }))} />
     </D.List>
+    <D.Label>Bill reminder, before the due date</D.Label>
+    <D.Seg items={['Off', '1 day', '3 days', '7 days']} value={rem.bill ? `${rem.bill} day${rem.bill > 1 ? 's' : ''}` : 'Off'} onChange={(x: string) => here(Bk.remSet({ bill: x === 'Off' ? 0 : parseInt(x) }))} />
   </>
 }
 
